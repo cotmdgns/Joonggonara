@@ -6,12 +6,32 @@ CREATE TABLE JGUser_info(
   user_img varchar(255) , /*사용자 이미지*/
   user_name varchar(20) not null, /*사용자 이름*/
   user_create datetime default CURRENT_TIMESTAMP, /*생성 날짜*/
-  user_update date , /*변경 날짜*/
-  user_delete date , /*삭제 날짜*/
-  user_yn boolean default false, /*사용유무*/
+  user_update datetime , /*변경 날짜*/
+  user_delete datetime default null, /*삭제 날짜*/	
+  user_yn boolean default true, /*사용유무*/
   user_stop_yn boolean default false, /*사용자 신고 유무*/
   user_stop_date date , /*사용자 신고 누적 시 날짜 적용*/
-  user_total_pointer integer /*사요앚 총 포인트*/
+  user_total_pointer integer, /*사요앚 총 포인트*/
+  user_address varchar(10), /* 사용자 주소 */
+  user_address_detail varchar(10) /* 사용자 주소 (상세) */ 
+);
+drop table JGUser_info;
+
+
+select * from JGUser_info;
+
+insert into JGUser_info (user_id, user_pwd, user_img, user_name, user_update, user_total_pointer, user_address, user_address_detail)
+value ("te2222222st","1234","default2","홍길동",NOW(),0,"경기도","태전동");
+
+
+CREATE TABLE Address_Info(
+	address_code integer auto_increment primary key, /* 주소 코드 */
+    address_name varchar(10) /* 주소 정보 */	
+);
+
+CREATE TABLE Address_Info_detail(
+	address_detail_code integer auto_increment primary key, /* 주소 디테일 코드 */
+    address_detail_name varchar(10) /* 주소 디테일 정보 */
 );
 
 /*사용자 포인트*/
@@ -37,9 +57,11 @@ CREATE TABLE JGNotice(
   JGNotice_text varchar(255) not null, /*게시글 내용*/ 
   uesr_code integer not null, /*사용자 정보 [외래키로 사용]*/ 
   JGNotice_create datetime default CURRENT_TIMESTAMP, /*게시글 생성날짜*/ 
-  JGNotice_update date, /*게시글 수정날짜*/ 
-  JGNotice_delect date /*게시글 삭제날짜*/ 
+  JGNotice_update datetime, /*게시글 수정날짜*/ 
+  JGNotice_delect datetime /*게시글 삭제날짜*/ 
 );
+
+
 
 /* 게시글 구독 or 좋아요 */
 CREATE TABLE JGNotice_subcribe(
@@ -67,8 +89,9 @@ CREATE TABLE JGNotice_comment(
   JGNotice_create datetime default CURRENT_TIMESTAMP /*댓글 생성날짜*/ 
 );
 
+
 /*어드민 전용 관리 페이지*/ 
-CREATE TABLE meun_option_A(
+CREATE TABLE Meun_option_A(
   meun_option_code integer auto_increment primary key, /*메뉴판 코드 관리*/ 
   meun_option_name varchar(30), /*메뉴판 이름*/ 
   meun_option_create datetime default CURRENT_TIMESTAMP, /*메뉴판 관리 생성날짜*/ 
@@ -77,7 +100,7 @@ CREATE TABLE meun_option_A(
 );
 
 /*사용자 신고 누적*/ 
-CREATE TABLE user_declaration_A(
+CREATE TABLE User_declaration_A(
   user_declaration_code integer auto_increment primary key, /*사용자 신고 누적 코드*/ 
   user_code integer, /*사용자 코드 [ 외래키 ]*/ 
   user_declaration_option varchar(25), /*신고 사유*/ 

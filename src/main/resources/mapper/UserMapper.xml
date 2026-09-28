@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.Joonggonara.mapper.UserMapper">
+    <select id="userIdCreate" resultType="com.project.Joonggonara.model.vo.JGUserInfo">
+<!--        insert into JGUser_info (user_id, user_pwd, user_img, user_name, user_update, user_total_pointer, user_address, user_address_detail)-->
+<!--        value ("te2222222st","1234","default2","홍길동",NOW(),0,"경기도","태전동");-->
+
+        insert into JGUser_info (user_id, user_pwd, user_img, user_name, user_update, user_total_pointer, user_address, user_address_detail)
+        value (#user_id#,#user_pwd#,#user_img#,#user_name#,NOW(),#user_total_pointer#,#user_address#,#user_address_detail#);
+
+    </select>
+</mapper>
