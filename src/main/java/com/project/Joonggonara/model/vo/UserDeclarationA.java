@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class userDeclarationA {
+public class UserDeclarationA {
 
     private int userDeclarationCode; /*사용자 신고 누적 코드*/
     private int userCode; /*사용자 코드 [ 외래키 ]*/

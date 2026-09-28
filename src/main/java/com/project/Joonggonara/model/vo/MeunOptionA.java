@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class meunOptionA {
+public class MeunOptionA {
 
     private int meunOptionCode;/*메뉴판 코드 관리*/
     private String meunOptionName; /*메뉴판 이름*/

@@ -1,6 +1,6 @@
 package com.project.Joonggonara.service;
 
-import com.project.Joonggonara.mapper.UserMapper;
+import mapper.UserMapper;
 import com.project.Joonggonara.model.vo.JGUserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,9 +11,9 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
-    public String UserIdCreate(JGUserInfo jgUserInfo){
-        userMapper.userIdCreate(jgUserInfo);
-        return null;
+    // 사용자 계정 생성
+    public int UserIdCreate(JGUserInfo jgUserInfo){
+        return userMapper.userIdCreate(jgUserInfo);
     }
 
 }

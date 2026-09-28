@@ -23,13 +23,17 @@ public class UserController {
 
         // 사용자 이미지 칼럼에 랜덤값인 이미지 넣기
         int number = (int) (Math.random() * 5) + 1;
-        jgUserInfo.setUser_img("../resources/img/profile/default" + number);
+        jgUserInfo.setUserImg("../resources/img/profile/default" + number);
 
-        String result = userService.UserIdCreate(jgUserInfo);
+        int result = userService.UserIdCreate(jgUserInfo);
 
-        if(result != null){
+        System.out.println("데이터 확인하기 : " + result);
+        System.out.println("데이터 확인하기 : " + jgUserInfo);
+
+        if(result > 0 ){
             return true;
         }
+
         return false;
     }
 
