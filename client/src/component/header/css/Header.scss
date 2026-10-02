@@ -1,0 +1,131 @@
+// 헤더
+#headerBox{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 30px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgb(186, 184, 184);
+    // 로고쪽 css
+    #headerBoxL{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        #headerLogo{
+            width: 50px;
+            height: 50px;
+        }
+        #headerLogoText{
+            font-size: 30px;
+            font-weight: bold;
+        }
+    }
+    #headerBoxC{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgb(236, 236, 236);
+        padding: 2px;
+        border-radius: 7px;
+        #gobun{
+            color: gray;
+            font-size: 12px;
+        }
+        #headerSearch{
+            color: gray;
+            padding: 5px;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            #headerSearchText{
+                font-size: 13px;
+                width: 80px;
+                font-weight: bold;
+            }
+            #headerSearchData{
+                min-width: 70px;
+                width: 100%;
+                font-size: 12px;
+                text-align: right;
+            }
+            #headerSearchInput{
+                border: none;
+                height: 20px;
+                background-color: rgb(236, 236, 236);
+                padding: 15px;
+                font-size: 12px;
+            }
+        }
+        #headerSearchBox{
+            font-size: 12px;
+            background-color: rgb(66, 164, 250);
+            padding: 10px;
+            border-radius: 7px;
+            cursor: pointer;
+            color: white;
+        }
+        #headerSearchBox:hover{
+            background-color: rgb(24, 112, 189);
+        }
+    }
+
+    #headerBoxR{
+        #headerInfoBox{
+            display: flex;
+            justify-content: center;
+            align-items: center;  
+            #headerInfo{
+                cursor: pointer;
+                display: flex;
+                padding: 5px;
+                align-items: center;
+                flex-direction: column;
+                justify-content: center;
+                margin-left: 10px;
+                font-weight: bold;
+                #headerFont{
+                    font-size: 20px;
+                }
+                #headerText{
+                    font-size: 13px;
+                }
+            }
+        }
+    }
+}
+
+// 위치 모달창
+#addressModal{
+    background-color: rgb(235, 235, 235);
+    position: fixed;
+    width: 400px;
+    height: 200px;
+    top: 60px;
+    left: 370px;
+
+    border-radius: 5px;
+    padding: 10px;
+}
+
+// 가격 모달창
+#PriceModal{
+    background-color: rgb(235, 235, 235);
+    position: fixed;
+    width: 400px;
+    height: 200px;
+    top: 60px;
+    left: 533px;
+}
+
+
+// 카테고리 모달창
+#categoryModal{
+    background-color: rgb(235, 235, 235);
+    position: fixed;
+    width: 400px;
+    height: 200px;
+    top: 60px;
+    left: 698px;
+}
