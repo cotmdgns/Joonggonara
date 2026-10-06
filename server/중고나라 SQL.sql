@@ -27,18 +27,27 @@ CREATE TABLE JGUserInfo(
   userAddressDetail varchar(10) /* 사용자 주소 (상세) */ 
 );
 
-
+/* 주소 정보 */
 CREATE TABLE Address_Info(
 	addressCode integer auto_increment primary key, /* 주소 코드 */
     addressName varchar(10) /* 주소 정보 */	
 );
 
+/* 주소 정보 디테일 */
 CREATE TABLE Address_Info_detail(
 	addressDetailCode integer auto_increment primary key, /* 주소 디테일 코드 */
     addressCode integer, /* Address_Info의 addressCode 참조 */
     addressDetailName varchar(10) /* 주소 디테일 정보 */
 );
 
+/* 배너 관리 */
+CREATE TABLE MainBannerInfo(
+	mainBannerInfo integer auto_increment primary key, /* 배너 코드 */
+    mainBannerTitle varchar(20) not null, /* 배너 제목 */
+    mainBannerLinkText varchar(20) not null, /* 배너 제목 링크 */
+    mainBannerText varchar(255) not null /* 배너 내용 */
+);
+drop table MainBannerInfo;
 
 /*사용자 포인트*/
 CREATE TABLE JGUserInfoPointer(

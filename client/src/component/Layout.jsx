@@ -1,16 +1,12 @@
 import { Outlet } from "react-router-dom"
 import Headerr from "./header/Headerr";
 import Footer from "./footer/Footer";
-import LeftAside from "./LeftAside/LeftAside";
-
-
 
 const Layout = ({ children }) => {
     return (
         <>
-            <Headerr />
-            <LeftAside/>
-            <main>{children}</main>
+            <Headerr /> {/* 헤더 */}
+                <main>{children}</main>
             <Footer />
         </>
     );

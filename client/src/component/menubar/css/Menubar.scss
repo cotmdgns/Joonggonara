@@ -1,0 +1,107 @@
+// 헤더 아래 메뉴css
+#MenubarBox{
+    display: flex;
+    align-items: center;
+    padding: 0px 200px 5px 200px;
+    font-size: 15px;
+    border-bottom: 1px solid rgb(186, 184, 184);
+    #MenubarFirst{
+        background-color: black;
+        border-radius: 10px;
+        color: white;
+        font-weight: bold;
+        padding: 15px;
+        margin-right: 10px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        #MenubarIcon{
+            padding-right: 10px;
+        }
+    }
+    #Menubar{
+        padding: 15px;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+    #Menubar:hover{
+        background-color: rgb(214, 212, 212);
+        border-radius: 10px;
+        cursor: pointer;
+    }
+}
+
+
+// 카테고리 모달창
+#CategoryModal{
+    margin-top: 10px;
+    background-color: white;
+    position: absolute;
+    left: 200px;
+    width: 700px;
+    height: 500px;
+    z-index: 9999;
+    border-radius: 5px;
+    display: flex;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+
+    #CategoryModalLeft{
+        width: 200px ;
+        background-color: rgb(236, 233, 233);   
+        overflow: auto;
+            cursor: pointer;
+        div{
+            padding: 15px;
+            background-color: rgb(236, 233, 233);
+            transition: background-color 0.1s ease, color 0.1s ease;
+        }
+        #categoryTrue{
+            background-color: white;
+            transition: background-color 0.1s ease, color 0.1s ease;
+        }
+    }
+    /* 스크롤바 전체 기본 꾸미기 */
+    #CategoryModalLeft::-webkit-scrollbar {
+    width: 5px;  /* 세로축 스크롤바 폭 너비 */
+    }
+
+    /* 스크롤바 막대 꾸미기 */
+    #CategoryModalLeft::-webkit-scrollbar-thumb {
+        background: #757575; /* 스크롤바 막대 색상 */
+        border-radius: 12px 12px 12px 12px;
+    }
+
+    /* 스크롤바 트랙 꾸미기 */
+    #CategoryModalLeft::-webkit-scrollbar-track {
+       
+    }
+}
+
+// 카테고리 디테일 css
+#categoryDetailModal{
+    display: flex;
+    flex-wrap: wrap; /* 자식 div들이 너비를 초과하면 자동으로 다음 줄로 내려감 */
+    gap: 10px;
+    width: 100%;
+    padding: 20px;
+    overflow: auto;
+    .category{
+        width: 161px;
+        min-height: 150px;
+        .categoryName{
+            font-size: 20px;
+            font-weight: bold;
+        }
+    }
+    #categoryDetailBox{
+        padding: 5px;
+        font-size: 12px;
+        .categoryDetail{
+            padding: 5px 2px;
+        }
+    }
+}
+
+#categoryDetailModal::-webkit-scrollbar{
+    width: 1px;
+}

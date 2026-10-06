@@ -1,0 +1,47 @@
+
+// 배너 박스
+#headerBoxBanner{
+    padding: 10px 200px;
+    width: 100%;
+    display: flex;
+    #Bannerswiper{
+        padding-bottom: 40px;
+    }
+    #MainBannerBox{
+        width: 100%;
+        margin: 5px;
+        height: 100%;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+        color: white;
+        position: relative;
+        #MainBannerImg{
+            width: 100%;
+            border-radius: 15px;
+        }
+        #MainBannerInfo{
+            position: absolute;
+            #MainBannerTitle{
+                font-size: 20px;
+                font-weight: bold;
+                width: 300px;
+                padding: 0px 0px 0px 15px; 
+            }
+            #MainBannerLink{
+                display: flex;
+                padding: 15px;
+                font-size: 15px;
+                font-weight: bold;
+                #LinkText{
+                    font-size: 11px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: end;
+                    padding-left: 10px;
+                }
+            }
+        }
+    }
+}

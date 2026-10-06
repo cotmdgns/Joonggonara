@@ -45,7 +45,7 @@ export const HeaderResuser = (state,action) =>{
         case "categoryButtonClose":
             return{
                 ...state,
-                categoryToggle : true
+                categoryToggle : false
             }    
         case "categoryButtonOpen":
             return{

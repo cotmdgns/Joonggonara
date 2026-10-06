@@ -1,9 +1,11 @@
 import imgLogo from "../../img/LogImg.png";
 
-// 모달창
-import AddressModal from "./AddressModal";
-import CategoryModal from "./CategoryModal";
-import PriceeModal from "./PriceeModal";
+
+// jsx import
+import AddressModal from "./modal/AddressModal";
+import CategoryModal from "./modal/CategoryModal";
+import PriceeModal from "./modal/PriceeModal";
+import Menubar from "../menubar/Menubar";
 
 // css
 import "./css/Header.scss"
@@ -104,6 +106,9 @@ const Headerr = () =>{
     const searchAPIButton = () =>{
 
     }
+    // 안심 거래 캠페인 네비
+
+    // 이웃나라에서 알려주는 사기 예방 Tip
     return (
         <>
             <div id="headerBox">
@@ -113,34 +118,10 @@ const Headerr = () =>{
                 </div>
 
                 <div id="headerBoxC">
-                    <div id="headerSearch" onClick={addresButton}>
-                        <div id="headerSearchText">위치</div>
-                        <div id="headerSearchData"><GoChevronDown/></div>   
-                    </div>
-                    {addressToggle ? <AddressModal/>: null }
-                    
-                    <div id="gobun">|</div>
-                    <div id="headerSearch" onClick={priceButton}>
-                        <div id="headerSearchText">가격</div>
-                        <div id="headerSearchData">-</div>   
-                    </div>
-                    {priceToggle ? <PriceeModal/>: null } 
-                    
-                    <div id="gobun">|</div>
-                    <div id="headerSearch" onClick={categoryButton}>
-                        <div id="headerSearchText">카테고리</div>
-                        <div id="headerSearchData"><GoChevronDown/></div>
-                    </div>
-                    {categoryToggle ? <CategoryModal/>: null }
-
-                    <div id="gobun">|</div>
                     <div id="headerSearch" onClick={searchButton}>
-                        <div id="headerSearchText">검색란</div>
+                        <FaSearch/>
                         <input type="text" id="headerSearchInput" placeholder="상세 검색.."/>
                     </div>
-
-                    <div id="headerSearchBox" onClick={searchAPIButton}>Search</div>
-                    {/* <input type="button" value="Search"></input> */}
                 </div>
                 <div id="headerBoxR">
                     {loginBoo ? 
@@ -171,6 +152,9 @@ const Headerr = () =>{
                     </div>
                     }
                 </div>
+            </div>
+            <div>
+                <Menubar/>
             </div>
         </>
     )
