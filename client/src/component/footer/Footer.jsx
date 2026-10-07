@@ -4,6 +4,7 @@ import "../footer/css/Footer.scss"
 const Footer = () =>{
     return (
         <>
+        <div id="footerBack">
             <div id="footerBox">
                 <div id="footerInfo">
                     <div id="footerH1">프로젝트</div>
@@ -18,13 +19,18 @@ const Footer = () =>{
                 <div id="footerInfo">
                     <div id="footerH1">개발 일정(프론트)</div>
                     <div id="footerInfoBox">
-                    <div>1. 메인페이지 <span id="success">(2026-09-28 ~ 2026-10-07)</span></div>
-                    <div>2. 로그인페이지</div>
-                    <div>3. 상세페이지</div>
-                    <div>4. 관리자페이지</div>
-                    <div>5. 내정보페이지</div>
-                    <div>6. 프로젝트 소개</div>
-                    <div>7. 팝업창(모달)</div>
+                        <div>1. 메인페이지 <span id="success">(2026-09-28 ~ 2026-10-07)</span></div>
+                        <div>2. 로그인페이지</div>
+                        <div>3. 상세페이지</div>
+                        <div>4. 관리자페이지</div>
+                        <div>5. 내정보페이지</div>
+                        <div>6. 프로젝트 소개</div>
+                        <div>7. 팝업창(모달)</div>
+                        <div>8. 이벤트</div>
+                        <div>9. 신고누적조회</div>
+                        <div>10. 내 관심</div>
+                        <div>11. 상품 올리기</div>
+                        <div>12. 공지사항</div>
                     </div>
                 </div>
                 <div id="footerInfo">
@@ -48,6 +54,8 @@ const Footer = () =>{
                     </div>
                 </div>
             </div>
+        </div>
+           
         </>
     )
 }

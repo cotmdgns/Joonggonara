@@ -107,14 +107,15 @@ const Headerr = () =>{
 
     }
     // 안심 거래 캠페인 네비
+    const nav = (code) =>{
 
-    // 이웃나라에서 알려주는 사기 예방 Tip
+    }
     return (
         <>
             <div id="headerBox">
                 <div id="headerBoxL">
                     <img id="headerLogo" src={imgLogo} onClick={logoBuuton}/>
-                    <div id="headerLogoText" onClick={logoBuuton}>이웃상품</div>
+                    <div id="headerLogoText" onClick={logoBuuton}>이웃 상품</div>
                 </div>
 
                 <div id="headerBoxC">

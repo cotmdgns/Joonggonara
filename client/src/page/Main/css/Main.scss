@@ -1,0 +1,26 @@
+#mainBox{
+    margin: 0px 200px;
+    padding: 10px;
+    height: 100%;
+    #mainNoticeInfo{
+        background-color: red;
+        width: 100%;
+        #mainNoticeH1{
+            font-size: 25px;
+            font-weight: bold;
+        }   
+        #mainNoticeBox{
+            display: flex;
+        }
+        #noticeDetailLink{
+            display: flex;
+            justify-content: center;
+            border: 1px solid rgb(189, 187, 187);
+            padding: 10px;
+            margin: 10px 400px 0px 400px;
+            background-color: white;
+            font-size: 13px;
+            cursor: pointer;
+        }
+    }
+}
