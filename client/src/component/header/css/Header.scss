@@ -31,6 +31,7 @@
         background-color: rgb(236, 236, 236);
         padding: 2px;
         border-radius: 7px;
+        width: 400px;
         #gobun{
             color: gray;
             font-size: 12px;
@@ -78,7 +79,7 @@
     }
 
     #headerBoxR{
-        width: 200px;
+        width: 300px;
         display: flex;
         justify-content: end;
         align-items: center;
@@ -105,40 +106,3 @@
         }
     }
 }
-
-// 위치 모달창
-#addressModal{
-    background-color: rgb(235, 235, 235);
-    position: fixed;
-    width: 400px;
-    height: 200px;
-    top: 60px;
-    left: 370px;
-
-    border-radius: 5px;
-    padding: 10px;
-}
-
-// 가격 모달창
-#PriceModal{
-    background-color: rgb(235, 235, 235);
-    position: fixed;
-    width: 400px;
-    height: 200px;
-    top: 60px;
-    left: 533px;
-}
-
-
-// 카테고리 모달창
-#categoryModal{
-    background-color: rgb(235, 235, 235);
-    position: fixed;
-    width: 400px;
-    height: 200px;
-    top: 60px;
-    left: 698px;
-}
-
-
-// 배너 모달창

@@ -8,7 +8,7 @@ import CategoryDetailModal from "./CategoryDetailModal";
 // 상태값은 리듀서로 관리하기
 import { useReducer, useState } from "react";
 
-
+import "../css/Menubar.scss"
 
 const CategoryModal = () =>{
     const arrStr = ["노트북/PC","반려동물","게임","취미","도서/음반/문구","가전제품","패션의류","도서/음반/문구","가전제품","패션의류","도서/음반/문구","가전제품","패션의류"]

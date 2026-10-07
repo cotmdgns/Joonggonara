@@ -18,35 +18,39 @@ import { FaUserPlus } from "react-icons/fa";
 import { FaUserCog } from "react-icons/fa";
 import { FaSearch } from "react-icons/fa"; // 검색아이콘
 import { GoChevronDown } from "react-icons/go";
+import { RiAdminFill } from "react-icons/ri";
 
 // api
 import { addressApi,addressDetailApi } from "./api/HeaderApi";
 
 // 리액트
 import { useReducer,useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 // 전역관리 리듀서
 import { HeaderResuser, initiaHeaderReduser } from "./reduser/HeaderReduser";
 
 /* 데이터는 전역관리로 사용할 예정 */
 const Headerr = () =>{
-    // 임시방편 로그인 조건 [ 로그인이 되어야하느 ㄴ조건임 ]
-    const loginBoo = true;
+
+    const navigate = useNavigate();
+
     // 헤더 전역관리 리듀서
     const [state,dispatch] = useReducer(HeaderResuser,initiaHeaderReduser)
     const {
         addressToggle,
         priceToggle,
-        categoryToggle
+        categoryToggle,
+        loginBoo
     } = state;
 
-    // 로그 버튼 ( 메인페이지 )
+    // 로고 버튼 ( 메인페이지 )
     const logoBuuton=()=>{
-        alert("메인페이지")
+        navigate("/")
     }
     // 로그인 버튼
     const loginButton = () =>{
-        alert("로그인")
+        navigate("/login")
     }
     // 로그아웃 버튼
     const logoutButton = () =>{
@@ -68,35 +72,11 @@ const Headerr = () =>{
     const alram = () =>{
         alert("알람")
     }
-
-    // 위치
-    const addresButton = () =>{
-        if(addressToggle){
-            dispatch({type:"addresButtonClose"})
-        }else{
-            dispatch({type:"addresButtonOpen"})
-        }
+    // 관리자
+    const admin = () =>{
+        alert("알람")
     }
 
-    // 가격
-    const priceButton = () =>{
-        if(priceToggle){
-            dispatch({type:"priceButtonClose"})
-        }else{
-            dispatch({type:"priceButtonOpen"})  
-        }
-        
-    }
-
-    // 카테고리
-    const categoryButton = () =>{
-        if(categoryToggle){
-            dispatch({type:"categoryButtonClose"})
-        }else{
-            dispatch({type:"categoryButtonOpen"})
-        }
-
-    }
     // 상세 검색
     const searchButton = () =>{
 
@@ -125,7 +105,7 @@ const Headerr = () =>{
                     </div>
                 </div>
                 <div id="headerBoxR">
-                    {loginBoo ? 
+                    {!loginBoo ? 
                     <div id="headerInfoBox">
                         <div id="headerInfo" onClick={loginButton}>
                             <div id="headerFont"><CiLogin /></div>
@@ -149,6 +129,10 @@ const Headerr = () =>{
                         <div id="headerInfo" onClick={alram}>
                             <div id="headerFont"><CiAlarmOn/></div>
                             <div id="headerText">알림</div>
+                        </div>
+                        <div id="headerInfo" onClick={admin}>
+                            <div id="headerFont"><RiAdminFill/></div>
+                            <div id="headerText">관리자</div>
                         </div>
                     </div>
                     }

@@ -1,3 +1,5 @@
+import "../css/Menubar.scss"
+
 const CategoryDetailModal = () =>{
     const arrStr1 = ["노트북/PC","반려동물","게임","취미","도서/음반/문구","가전제품","노트북/PC","반려동물","게임","취미","도서/음반/문구","가전제품"]
     const arrStr2 = ["노트북/PC","반려동물","게임"]

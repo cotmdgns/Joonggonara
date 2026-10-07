@@ -1,12 +1,13 @@
 // 헤더 아래 메뉴css
 #MenubarBack{
     border-bottom: 1px solid rgb(186, 184, 184);
+    padding-bottom: 5px;
     #MenubarBox{
         display: flex;
         align-items: center;
         width: 900px;
         margin: auto;
-        font-size: 15px;
+        font-size: 13px;
         #MenubarFirst{
             background-color: black;
             border-radius: 10px;
@@ -41,21 +42,22 @@
 #CategoryModal{
     background-color: rgb(255, 255, 255);
     position: absolute;
-    left: 200px;
-    width: 700px;
+    top: 94px;
+    left: 307px;
+    width: 550px;
     height: 500px;
     z-index: 2;
     border-radius: 5px;
     display: flex;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
-    top: 117px;
     color: black;
+    font-size: 12px;
     #CategoryModalLeft{
         width: 200px ;
         background-color: rgb(236, 233, 233);   
         overflow: auto;
-            cursor: pointer;
         div{
+        
             padding: 15px;
             background-color: rgb(236, 233, 233);
             transition: background-color 0.1s ease, color 0.1s ease;
@@ -90,20 +92,30 @@
     width: 100%;
     padding: 20px;
     overflow: auto;
+    font-size: 112px;
+    cursor: auto;
     .category{
         width: 161px;
-        min-height: 150px;
+        min-height: 120px;
+        cursor: pointer;
         .categoryName{
-            font-size: 20px;
+            font-size: 17px;
             font-weight: bold;
+        }
+        .categoryName:hover{
+            background-color: #b6b6b6;
         }
     }
     #categoryDetailBox{
         padding: 5px;
-        font-size: 12px;
-        font-weight: 500px;
+        font-size: 11px;
+        font-weight: 200px;
+             cursor: pointer;
         .categoryDetail{
             padding: 5px 2px;
+        }
+        .categoryDetail:hover{
+            background-color: #ecebeb;
         }
     }
 }
