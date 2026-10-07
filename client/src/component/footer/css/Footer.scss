@@ -7,7 +7,8 @@
         height: 100%;
         display: flex;
         font-size: 12px;
-        #footerInfo{
+
+        #footerInfo,#footerInfoFirst,#footerInfoBack,#footerInfoFront{
             height: 100%;
             width: 100%;
             margin: 10px;
@@ -21,6 +22,7 @@
             #footerInfoBox{
                 padding-left: 10px;
                 height: 100%;
+                font-size: 11px;
                 #success{
                     font-weight: bold;
                 }
@@ -29,6 +31,8 @@
                 }
             }
         }
-
+        #footerInfoFirst{
+            width: 500px;
+        }
     }   
 }

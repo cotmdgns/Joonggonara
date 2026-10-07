@@ -58,11 +58,11 @@ const Headerr = () =>{
     }
     // 회원가입
     const signUpButton = () =>{
-        alert("회원가입")
+        navigate("/signUp")
     }
     // 내 정보
     const userInfoPage = () => {
-        alert("내 정보")
+        navigate("/myPage")
     }
     // 통합 검색
     const searchBox = () =>{

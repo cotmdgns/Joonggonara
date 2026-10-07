@@ -6,7 +6,7 @@ const Footer = () =>{
         <>
         <div id="footerBack">
             <div id="footerBox">
-                <div id="footerInfo">
+                <div id="footerInfoFirst">
                     <div id="footerH1">프로젝트</div>
                     <div id="footerInfoBox">
                         <div>시작 : 2026-09-28</div>
@@ -16,34 +16,35 @@ const Footer = () =>{
                     </div>
 
                 </div>
-                <div id="footerInfo">
+                <div id="footerInfoFront">
                     <div id="footerH1">개발 일정(프론트)</div>
                     <div id="footerInfoBox">
-                        <div>1. 메인페이지 <span id="success">(2026-09-28 ~ 2026-10-07)</span></div>
-                        <div>2. 로그인 및 회원가입페이지 <span id="success">(2026-10-07 ~ 2026-10-07)</span></div>
-                        <div>3. 상세페이지</div>
-                        <div>4. 관리자페이지</div>
-                        <div>5. 내정보페이지</div>
-                        <div>6. 프로젝트 소개</div>
-                        <div>7. 팝업창(모달)</div>
-                        <div>8. 신고누적조회</div>
-                        <div>9. 내 관심</div>
-                        <div>10. 상품 올리기</div>
-                        <div>11. 공지사항</div>
+                        <div>메인페이지 <span id="success">(2026-09-28 ~ 10-07)</span></div>
+                        <div>회원가입페이지 <span id="success">(2026-10-07 ~ 10-07)</span></div>
+                        <div>로그인 페이지 <span id="success">(2026-10-07 ~ 10-07)</span></div>
+                        <div>상세페이지</div>
+                        <div>관리자페이지</div>
+                        <div>내정보페이지</div>
+                        <div>프로젝트 소개</div>
+                        <div>팝업창(모달)</div>
+                        <div>신고누적조회</div>
+                        <div>내 관심</div>
+                        <div>상품 올리기</div>
+                        <div>공지사항</div>
                     </div>
                 </div>
-                <div id="footerInfo">
+                <div id="footerInfoBack">
                     <div id="footerH1">개발 일정(백)</div>
                     <div id="footerInfoBox">
-                        <div>1. 회원가입</div>
-                        <div>2. 로그인</div>
-                        <div>3. 게시글 CRUD</div>
-                        <div>4. 게시글 좋아요</div>
-                        <div>5. 게시글 찜</div>
-                        <div>6. 댓글 CRUD</div>
-                        <div>7. 사용자 경기 및 정지</div>
-                        <div>8. 팝업기능</div>
-                        <div>9. 페이지관리</div>
+                        <div>회원가입</div>
+                        <div>로그인</div>
+                        <div>게시글 CRUD</div>
+                        <div>게시글 좋아요</div>
+                        <div>게시글 찜</div>
+                        <div>댓글 CRUD</div>
+                        <div>사용자 경기 및 정지</div>
+                        <div>팝업기능</div>
+                        <div>페이지관리</div>
                     </div>
                 </div>
                 <div id="footerInfo">
