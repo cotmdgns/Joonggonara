@@ -105,7 +105,7 @@ const Headerr = () =>{
                     </div>
                 </div>
                 <div id="headerBoxR">
-                    {!loginBoo ? 
+                    {loginBoo ? 
                     <div id="headerInfoBox">
                         <div id="headerInfo" onClick={loginButton}>
                             <div id="headerFont"><CiLogin /></div>

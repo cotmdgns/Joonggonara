@@ -20,8 +20,8 @@ const Footer = () =>{
                     <div id="footerH1">개발 일정(프론트)</div>
                     <div id="footerInfoBox">
                         <div>메인페이지 <span id="success">(2026-09-28 ~ 10-07)</span></div>
-                        <div>회원가입페이지 <span id="success">(2026-10-07 ~ 10-07)</span></div>
-                        <div>로그인 페이지 <span id="success">(2026-10-07 ~ 10-07)</span></div>
+                        <div>회원가입페이지 <span id="success">(2026-10-07 ~ 10-08)</span></div>
+                        <div>로그인 페이지 <span id="success">(2026-10-07 ~ 10-08)</span></div>
                         <div>상세페이지</div>
                         <div>관리자페이지</div>
                         <div>내정보페이지</div>

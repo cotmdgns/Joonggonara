@@ -8,9 +8,13 @@ import { FaRegHeart } from "react-icons/fa"; // 빈하트
 import { FaHeart } from "react-icons/fa";    // 하트
 
 const MainNotice = ({number}) => {
+
+    // 좋아요 누르기 버튼
     const noticeLike = () =>{
         alert(number);
     }
+
+    // 상품 디테일 페이지 이동
 
     return (
         <>

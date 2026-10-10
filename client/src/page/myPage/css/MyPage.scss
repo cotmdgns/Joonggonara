@@ -1,0 +1,24 @@
+#myPageBox{
+    width: 900px;
+    margin: auto;
+    background-color: red;
+    position: relative;
+    #myPageBoxBack{
+        background-color: rgb(130, 158, 236);
+        height: 100px;
+        #myPageUserInfo{
+            position: absolute;
+            width: 800px;
+            height: 150px;
+            background-color: antiquewhite;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 10px;
+        }
+    }
+    #myPageBoxInfo{
+        background-color: red;
+        height: 100px;
+    }
+}

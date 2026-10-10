@@ -1,19 +1,19 @@
-#signImgBox{
+#loginImgBox{
     width: 100%;
     height: 100vh;
     overflow: hidden;
     
 
-    #signImg{
+    #loginImg{
     width: 100%;
     height: 100%;
     filter: blur(5px);
     }   
-    #signBox{
+    #loginBox{
         position: fixed;
         padding: 30px;
-        width: 600px;
-        height: 500px;
+        width: 300px;
+        height: 400px;
         background-color: rgb(255, 255, 255);
         z-index: 100;
         border-radius: 10px;
@@ -24,52 +24,49 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        #signHeader{
+        #loginHeader{
             display: flex;
             justify-content: center;
             align-items: center;
-            #signHeaderText{
+            #loginHeaderText{
                 font-size: 30px;
                 font-weight: bold;
                 padding: 10px;
             }
 
         }   
-        #signCenter{
+        #loginCenter{
             width: 100%;
         }
-
-        // 주소 옵션
-        #addressBox{
-            width: 100%;
+        #socialBox{
             display: flex;
-            #address{
-                width: 100%;
-                padding: 10px;
-                border-radius: 5px;
-                border: 1px solid  rgb(168, 168, 168);
-                margin-bottom: 10px;
-            }
-            #addressSpace{
-                width: 10px ;
-            }
+            align-items: center; /* 글자와 선의 세로 정렬 */
+            text-align: center;
+            width: 100%; /* 원하는 너비 지정 */
+            color: #333;
+            font-weight: bold;
+            font-size: 11px;
+            margin: 10px 0px;
         }
-        #createButton{
-            width: 100%;
-            background-color: rgb(255, 188, 81);
-            padding: 10px;
-            margin: 5px;
+        #socialBox:before,#socialBox:after{
+            content: "";
+            flex: 1; /* 남아있는 공간을 선으로 채움 */
+            border-bottom: 1px solid #ccc; /* 선 두께와 색상 */
+        }
+        #loginFooter{
             display: flex;
             justify-content: center;
-            border-radius: 5px;
-            border: 1px solid gray;
-            font-size: 15px;
-            font-weight: bold;
-            color: white    ;
-        }
-        #createButton:hover{
-            background-color: rgb(202, 147, 57);
-
+            align-items: center;
+            width: 100%;
+            font-size: 30px;
+            color: white;
+            div{
+                padding: 10px;
+                background-color: #333;
+                margin: 10px;
+                border-radius: 10px;
+                cursor: pointer;
+            }
         }
     }
 
@@ -86,9 +83,9 @@
         color: white;
         font-weight: bold;
     }
-        #homeText{
+    #homeText{
         position: fixed;
-        top: 113%;
+        top: 115%;
         left: 50%;
         transform: translate(-50%, -50%);
         cursor: pointer;
