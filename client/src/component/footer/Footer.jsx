@@ -23,14 +23,10 @@ const Footer = () =>{
                         <div>회원가입페이지 <span id="success">(2026-10-07 ~ 10-08)</span></div>
                         <div>로그인 페이지 <span id="success">(2026-10-07 ~ 10-08)</span></div>
                         <div>상세페이지</div>
-                        <div>관리자페이지</div>
                         <div>내정보페이지</div>
-                        <div>프로젝트 소개</div>
-                        <div>팝업창(모달)</div>
                         <div>신고누적조회</div>
                         <div>내 관심</div>
                         <div>상품 올리기</div>
-                        <div>공지사항</div>
                     </div>
                 </div>
                 <div id="footerInfoBack">
@@ -44,7 +40,6 @@ const Footer = () =>{
                         <div>댓글 CRUD</div>
                         <div>사용자 경기 및 정지</div>
                         <div>팝업기능</div>
-                        <div>페이지관리</div>
                     </div>
                 </div>
                 <div id="footerInfo">

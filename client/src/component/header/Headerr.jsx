@@ -130,10 +130,6 @@ const Headerr = () =>{
                             <div id="headerFont"><CiAlarmOn/></div>
                             <div id="headerText">알림</div>
                         </div>
-                        <div id="headerInfo" onClick={admin}>
-                            <div id="headerFont"><RiAdminFill/></div>
-                            <div id="headerText">관리자</div>
-                        </div>
                     </div>
                     }
                 </div>
