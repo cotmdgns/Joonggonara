@@ -1,86 +1,201 @@
+//  background-color: rgb(247, 246, 246);
+
+
+
 #myPageBox{
     width: 900px;
     margin: auto;
-    background-color: red;
-    position: relative;
-    #myPageBoxBack{
-        background-color: rgb(130, 158, 236);
-        height: 100px;
-        #myPageUserInfo{
-            position: absolute;
-            width: 800px;
-            height: 150px;
-            background-color: antiquewhite;
-            top: 60%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+    padding: 20px;
+    #myPageHeader{
+        width: 100%;
+        font-size: 30px;
+        font-weight: bold;
+        padding-bottom: 20px;
+    }
+    #myPageInfo{
+        display: flex;
+        #myPageCategory{
+            background-color: rgb(170, 249, 222);
+            padding: 10px;
+            line-height: normal;
+            font-size: 16px;
+            margin-right: 10px;
             border-radius: 10px;
-            display: flex;
-            align-items: center;
-            padding: 30px;
-            // 프로필 구역
-            #myPageUserInfoProfile{
-                width: 160px;
-                padding-right: 20px;
-                img{
-                    width: 100%;
-                    border-radius: 50%;
-                }
+            div{
+                width: 140px;
+                padding: 5px;
             }
-            #myPageUserInfoName{
-                width: 100%;
-                height: 100%;
+        }
+        #myPageProfile{
+            width: 100%;
+            
+            #myPageProfileBox{
+                background-color: rgba(255, 127, 127, 0.028); 
+                border-radius: 10px;
                 display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: start;
-                padding: 10px;
-                border-right: 1px solid rgb(187, 184, 184);
-                div{
-                    padding: 5px;
-                }
-                #nickName{
-                    font-size: 13px;
-                    color: rgb(185, 182, 182);
-                    font-weight: bold;
-                }
-                #name{
-                    font-size: 20px;
-                }
-                #address{
-                    font-size: 13px;
-                }
-            }
-            #myPageUserInfoPoint{
-                width: 200px;
-                height: 100%;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
+                justify-content: space-between;
                 align-items: center;
                 padding: 10px;
-                div{
-                    padding: 5px;
-                }
-                #maner{
-                    font-size: 13px;
-                    color: rgb(185, 182, 182);
-                    font-weight: bold;
-                }
-                #ondo{
-                    font-size: 20px;
-                    #ondoReal{
+
+                #myPageProfileBoxInfo{
+                    #myPageProfileBoxInfo2{
+                        display: flex;
+                        align-items: center;
+                        #myPageProfileBoxImg{
+                            width: 100px;
+                            height: 100px;
+                            border-radius: 50%;
+                            margin: 10px;
+                            
+                        }
+                        #myPageProfileBoxInfo3{
+                            width: 100%;
+                            line-height: 30px;
+                            #myPageProfileBoxInfoName{
+                                font-weight: bold;
+                                font-size: 20px;
+                            }
+                            #myPageProfileBoxInfoAddress{
+                                font-size: 12px;
+                                color: rgb(83, 83, 83);
+                            }
+                            #myPageProfileBoxInfoPoint{
+                                font-size: 12px;
+                                background-color: rgb(191, 231, 249);
+                                border-radius: 5px;
+                                font-weight: bold;
+                                padding: 0px 10px;
+                                #icon{
+                                    color: rgb(255, 225, 2);
+                                }
+                            }
+                        }
+                    }
+                    #myPageProfileBoxUserInfo{
+                        padding: 0px 10px 10px 10px;
+                        font-size: 11px;
                         font-weight: bold;
                     }
                 }
-                #manerStar{
+                #myPageProfileUpdateButton{
+                    background-color: azure;
+                    padding: 10px;
+                    cursor:pointer;
+                    border-radius: 10px;
+                    font-weight: bold;
+                    border: 1px solid rgb(165, 158, 158);
+                    margin: 10px 10px 50px 10px;
+                    font-size: 12px;
+                }
+                #myPageProfileUpdateButton:hover{
+                    background-color: rgb(188, 199, 199);
                     
                 }
             }
+            // 센터
+            #myPageCenter{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                margin: 10px 0px;
+                font-size: 13px;
+                border-radius: 10px;
+                div{
+                    padding: 0px 45px ;
+                    font-weight: bold;
+                }
+                #myPageSale{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    cursor: pointer;
+                    position: relative;
+                    background-color: rgb(247, 246, 246);
+                    width: 100%;
+                    height: 35px;
+                    border-radius: 10px 0px 0px 10px;
+                    #homeIcon{
+                        position: absolute;
+                        left: 60px;
+                        background-color: orange;
+                        color: rgb(182, 123, 11);
+                        padding: 5px;
+                        margin-right: 5px;
+                        font-size: 15px;
+                        border-radius: 10px;
+                    }
+                }
+                #myPageSale:hover{
+                    background-color: rgb(228, 226, 226);  
+                }
+
+                #myPageSuccess{
+                    padding: 5px 30px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    cursor: pointer;
+                    width: 100%;
+                    height: 35px;
+                    background-color: rgb(247, 246, 246);
+                    position: relative;
+                   #SuccessIcon{
+                        position: absolute;
+                        left: 40px;
+                        background-color: rgb(115, 239, 115);
+                        color: rgb(36, 100, 36);
+                        padding: 5px;
+                        margin-right: 5px;
+                        font-size: 15px;
+                        border-radius: 10px;
+                    }
+                }
+                #myPageSuccess:hover{
+                    background-color: rgb(228, 226, 226);  
+                }
+                #myPageNanum{
+                    padding: 5px 30px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    cursor: pointer;
+                    width: 100%;
+                    height: 35px;
+                    border-radius: 0px 10px 10px 0px;
+                    background-color: rgb(247, 246, 246);
+                    position: relative;
+                    #NanumIcon  {
+                        position: absolute;
+                        left: 40px;
+                        background-color: orange;
+                        padding: 5px;
+                        margin-right: 5px;
+                        font-size: 15px;
+                        border-radius: 10px;
+                    }
+                }
+                #myPageNanum:hover{
+                    background-color: rgb(228, 226, 226);  
+                }
+
+            }
+            // 최근 등록 물건
+            #myPageRegistration{
+                padding: 10px;
+                background-color: red;
+                #myPageRegistrationHeader{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    #myPageRegistrationH1{
+                        font-size: 20px;
+                    }
+                    #myPageRegistrationButton{
+                        font-size: 10px;
+                    }
+                }
+            }
         }
-    }
-    #myPageBoxInfo{
-        background-color: red;
-        height: 100px;
     }
 }

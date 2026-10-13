@@ -3,6 +3,8 @@ import "./css/Menubar.scss"
 
 // 아이콘 
 import { TfiMenu } from "react-icons/tfi";
+import { FaPlusCircle } from "react-icons/fa";
+import { MdPolicy } from "react-icons/md";
 
 // 모달창 컴포넌트
 import CategoryModal from "./component/CategoryModal";
@@ -31,10 +33,8 @@ const Menubar = () => {
                     <div id="MenubarText">카테고리</div>
                     {categoryModalBoo && <CategoryModal />}
                 </div>
-                <div id="Menubar">이벤트</div>
-                <div id="Menubar">신고누적조회</div>
-                <div id="Menubar">공지사항</div>
-                <div id="Menubar">상품 올리기</div>
+                <div id="Menubar"><MdPolicy></MdPolicy>신고누적조회</div>
+                <div id="Menubar"><FaPlusCircle></FaPlusCircle>상품 올리기</div>
             </div>
         </div>
         </>
