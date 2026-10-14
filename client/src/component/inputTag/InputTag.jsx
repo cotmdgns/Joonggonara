@@ -1,3 +1,5 @@
+import { MdHeight } from "react-icons/md";
+
 const InputTag = ({TText,PHText,WText}) =>{
     const cssStyle ={
         //default ( 디폴트 값, 변경 안됨 )
@@ -18,7 +20,7 @@ const InputTag = ({TText,PHText,WText}) =>{
     
     return (
         <>
-            <div>
+            <div >
                 <input 
                     type={inputStyle.type} 
                     placeholder={inputStyle.placeholder}

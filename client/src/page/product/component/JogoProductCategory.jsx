@@ -1,7 +1,7 @@
-const JogoProductCategory = ({productImg,productText}) =>{
+const JogoProductCategory = ({productImg,productText,nextStep}) =>{
     return (
         <>
-            <div className="productCategoryBox">
+            <div className="productCategoryBox" onClick={nextStep}>
                 <div id="categoryImg">이미지</div>
                 <div id="categoryText">{productText}</div>
             </div>

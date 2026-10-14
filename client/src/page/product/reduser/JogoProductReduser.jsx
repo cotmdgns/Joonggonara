@@ -10,6 +10,11 @@ export const JogoProductReduser = (state, action) =>{
                 ...state,
                 stepState : state.stepState + 1
             }
+        case "prevCategory" : // step 뒤로가기
+            return{
+                ...state,
+                stepState : state.stepState - 1
+            }
         default:
             return state;
     }
