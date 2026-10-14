@@ -7,8 +7,9 @@ import NoticeDetail from "./page/noticeDetail/NoticeDetail";
 import MyPage from "./page/myPage/MyPage";
 import JogoProductDetail from "./page/product/JogoProductDetail";
 import JogoProduct from "./page/product/JogoProduct";
-import JogoProductCreate from "./page/product/JogoProductCreate";
 import AdminPage from "./page/admin/AdminPage";
+import LayoutAdmin from "./component/LayoutAdmin";
+
 
 const router = createBrowserRouter([
     {
@@ -35,10 +36,6 @@ const router = createBrowserRouter([
                 path:"jogoProduct", // 상품페이지 [ 코드 필요 ]
                 element: <JogoProduct/>,
             },
-            {
-                path:"jogoProductCreate",
-                element: <JogoProductCreate/>,
-            },
             // { 이렇게
             //     path: "login",
             //     element: <Login />,
@@ -54,8 +51,19 @@ const router = createBrowserRouter([
         element: <SignUp />,
     },
     {
-        path:"adminPage", // 어드민 페이지
-        element: <AdminPage/>,
+        path:"layoutAdmin/", // 관리자 페이지
+        element: <LayoutAdmin />,
+        children : [
+            // 페이지 안에는 
+            // 1. 기본적은 통계를 볼 수 있는 공간
+            // 2. 사용자 정지 또는 풀어줄 수 있는 공간
+            // 3. 생성된 사용자, 거래내역
+            // 4. 사용자 신고내역 확인
+            {
+                index: true,
+                element: <AdminPage />,
+            },
+        ]
     },
 ])
 

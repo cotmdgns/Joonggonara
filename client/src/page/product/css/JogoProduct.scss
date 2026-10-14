@@ -1,0 +1,83 @@
+// 상품 등록 css
+#jogoProductCreate {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4); 
+    z-index: 1002;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    #jogoProductBox {
+        width: 600px;
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+
+        // step 1 모달창 헤더
+        #jogoProductHeader{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: rgb(75, 159, 215);
+            border-radius: 12px 12px 0px 0px;
+            font-size: 20px;
+            color: white;    
+            #headerH1{
+                font-weight: bold;
+            }
+            #headerClose{
+                cursor: pointer;
+            }
+        }
+        // step 1 모달창 센터
+        #jogoProductCenter{
+            width: 100%;
+            height: 100%;
+            padding: 15px;
+            border-radius: 0px 0px 12px 12px;
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            flex-wrap: wrap; 
+            gap: 17px; /* 아이템 사이의 간격 (원하는 크기로 조정) */
+        }
+    }
+}
+
+
+// 상품 페이지 css
+
+// 상품 디테일 css
+
+
+// step 1 상품 컨포넌트
+.productCategoryBox{
+    width: 100px;
+    height: 100px;
+    background-color: rgb(156, 80, 80);
+    overflow: hidden;          /* 넘치는 부분 숨김 */
+    text-overflow: ellipsis;    /* 넘치는 부분 '...' 처리 */
+    word-break: break-all;     /* 긴 단어나 영문/숫자도 자연스럽게 줄바꿈 */
+    cursor: pointer;
+    border-radius: 10px;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    #categoryImg{
+        background-color: red;
+        width: 70px;
+        height: 7vw;
+    }
+    #categoryText{
+        width: 100%;
+        padding: 5px;
+        text-align: center;
+    }
+}
