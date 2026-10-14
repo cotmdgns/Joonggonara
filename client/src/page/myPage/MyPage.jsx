@@ -27,11 +27,10 @@ import { MyPageReduser, initiaMyPageReduser } from "./reduser/MyPageReduser";
 const MyPage = () => {
   //카테고리 상태값
   const [categoryState, setCategoryState] = useState(1);
-  // 프로필 수정 상태값
-  const [profileState, setProfileState] = useState(false);
 
   // 리듀서 [ 이걸로 변경할 예정 ]
-  const [state, dispatch] = useReducer(MyPageReduser, initiaMyPageReduser);
+  const [state, dispatch] = useReducer  (MyPageReduser, initiaMyPageReduser);
+  const {profileState} = state;
 
   // 카테고리 상태변경
   const categoryUpdate = (index) => {
@@ -40,12 +39,20 @@ const MyPage = () => {
 
   // 마이페이지 수정으로 변경
   const profileUpdate = () => {
-    setProfileState(!profileState);
+    dispatch({type:"myPageProfileState"})
+  };
+
+
+
+  //// 프로필변경 함수
+  // 취소버튼
+  const profileCloseButton = () => {
+    dispatch({type : "myPageState"})
   };
 
   return (
     <>
-      {!profileState ? (
+      {profileState ? (
         <div id="myPageBox">
           <div id="myPageInfo">
             <div id="myPageCategory">
@@ -150,7 +157,7 @@ const MyPage = () => {
                         채승훈님 (Chea Seung hun)
                       </div>
                       <div id="myPageProfileBoxInfoAddress">
-                        <FaLocationDot></FaLocationDot>경기도,태전동
+                        <FaLocationDot></FaLocationDot>경기도,태전동 <span>성현빌리지 2차 a동 201호</span>
                       </div>
                       <div id="myPageProfileBoxInfoPoint">
                         <span id="icon">
@@ -293,7 +300,7 @@ const MyPage = () => {
           </div>
         </div>
       ) : (
-        <MyPageProfile></MyPageProfile>
+        <MyPageProfile profileCloseButton={profileCloseButton}></MyPageProfile>
       )}
     </>
   );

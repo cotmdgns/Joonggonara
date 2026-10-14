@@ -1,20 +1,21 @@
 export const initiaMyPageReduser = {
-  pageState: "", //첫페이지는 메인으로 설정할꺼
   categoryState: "", //카테고리 상태값
-  profileState: "", // 프로필 수정 상태값
+  profileState: true, // 프로필 수정 상태값
 };
 
 export const MyPageReduser = (state, action) => {
-  switch (action) {
+  switch (action.type) {
     case "myPageState": // 마이페이지로
       return {
         ...state,
-        pageState: action.paylod,
+        profileState: true,
       };
     case "myPageProfileState": // 프로필 편집으로
       return {
         ...state,
-        pageState: action.paylod,
+        profileState: false,
       };
+    default:
+      return state; // 👈 이 부분이 반드시 있어야 합니다!
   }
 };

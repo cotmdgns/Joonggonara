@@ -39,13 +39,14 @@ const Headerr = () => {
 
   // 헤더 전역관리 리듀서
   const [state, dispatch] = useReducer(HeaderResuser, initiaHeaderReduser);
+  const { addressToggle, priceToggle, categoryToggle, loginBoo } = state;
+
   // 마이페이지 전역관리 리듀서
   const [stateMyPage, dispatchMyPage] = useReducer(
     MenubarReduser,
     initiaMenubarReduser,
   );
 
-  const { addressToggle, priceToggle, categoryToggle, loginBoo } = state;
 
   // 로고 버튼 ( 메인페이지 )
   const logoBuuton = () => {
@@ -63,7 +64,7 @@ const Headerr = () => {
   const signUpButton = () => {
     navigate("/signUp");
   };
-  // 내 정보
+  // 마이 페이지
   const userInfoPage = () => {
     navigate("/myPage");
   };
@@ -142,6 +143,12 @@ const Headerr = () => {
                   <CiAlarmOn />
                 </div>
                 <div id="headerText">알림</div>
+              </div>
+              <div id="headerInfo" onClick={admin}>
+                <div id="headerFont">
+                  <GoChevronDown />
+                </div>
+                <div id="headerText">관리자</div>
               </div>
             </div>
           )}
