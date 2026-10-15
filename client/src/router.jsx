@@ -9,7 +9,11 @@ import JogoProductDetail from "./page/product/JogoProductDetail";
 import JogoProduct from "./page/product/JogoProduct";
 import AdminPage from "./page/admin/AdminPage";
 import LayoutAdmin from "./component/LayoutAdmin";
-
+import AdminUserManagement from "./page/admin/AdminUserManagement";
+import AdminDeclarationManagement from "./page/admin/AdminDeclarationManagement";
+import AdminNoticeManagement from "./page/admin/AdminNoticeManagement";
+import AdminNotificationManagement from "./page/admin/AdminNotificationManagement";
+import AdminCategoryManagement from "./page/admin/AdminCategoryManagement";
 
 const router = createBrowserRouter([
     {
@@ -63,8 +67,29 @@ const router = createBrowserRouter([
                 index: true,
                 element: <AdminPage />,
             },
+            {
+                path : "adminUserManagement", // 사용자 관리
+                element :<AdminUserManagement/>
+            },
+            {
+                path : "adminDeclarationManagement", // 신고현황 관리
+                element :<AdminDeclarationManagement/>
+            },
+            {
+                path : "adminNoticeManagement", // 게시글 관리
+                element :<AdminNoticeManagement/>
+            },
+            {
+                path : "adminNotificationManagement", // 공지사항 관리
+                element :<AdminNotificationManagement/>
+            },
+            {
+                path : "adminCategoryManagement", // 카테고리 관리
+                element :<AdminCategoryManagement/>
+             },
         ]
     },
 ])
+
 
 export default router;

@@ -25,26 +25,33 @@ const AdminMenubar = () =>{
         setCategoryState(index)
         switch(index){
             case 1:
-                alert("메인페이지")
-                return;
+                // 메인페이지
+                navigate("/layoutAdmin")
+                break;
             case 2:
-                alert("사용자관리")
-                return;
+                //사용자관리
+                navigate("adminUserManagement")
+                break;
             case 3:
-                alert("공지사항관리")
-                return;
+                //공지사항관리
+                navigate("adminNotificationManagement")
+                break;
             case 4:
-                alert("신고현황관리")
-                return;
+                //신고현황관리
+                navigate("adminDeclarationManagement")
+                break;
             case 5:
-                alert("게시글관리")
-                return;
+                //게시글관리
+                navigate("adminNoticeManagement")
+                break;
             case 6:
-                alert("카테고리관리")
-                return;
+                // /카테고리관리
+                navigate("adminCategoryManagement")
+                break;
             case 7:
+                // 홈으로 이동
                 navigate("/")
-                return;
+                break;
         }
     }
     // 네비
