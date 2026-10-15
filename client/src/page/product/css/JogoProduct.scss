@@ -74,6 +74,18 @@
                             } 
                         }
                     }
+                    #selectBox{
+                        #select{
+                            display: flex;
+                            margin-bottom: 15px;
+                            select{
+                                width: 100%;
+                                padding: 8px 5px;
+                                border: 1px solid rgb(169, 164, 164);
+                                border-radius: 5px;
+                            }
+                        }
+                    }
                 }
             }
             // step 2 하단 버튼
@@ -87,6 +99,7 @@
                     background-color: rgb(184, 183, 183);
                     border-radius: 10px;
                     color: white;
+                    cursor: pointer;
                 }
                 #productCreate{
                     margin-left: 10px;
@@ -94,6 +107,7 @@
                     border-radius: 10px;
                     background-color: rgb(40, 82, 198);
                     color: white;
+                    cursor: pointer;
                 }
             }
             #htmlEditH1{
@@ -103,9 +117,10 @@
             }
             #htmlEdit{
                 width: 100%;
-                background-color: red;
                 height: 150px;
                 margin-top: 5px;
+                padding: 5px;
+                resize: none;
             }
         }
     }

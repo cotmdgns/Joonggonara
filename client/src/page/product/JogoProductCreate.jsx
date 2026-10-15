@@ -27,6 +27,8 @@ const JogoProductCreate = ({productCreateClose}) => {
         dispatch({type : "nextCategory"})
     }
     
+    const arr1 = ["서울","서울","서울","서울","서울","서울","서울","서울","서울"]
+    const arr2 = ["서울","서울","서울","서울","서울","서울","서울","서울","서울"]
     return (
         <>
             
@@ -56,9 +58,21 @@ const JogoProductCreate = ({productCreateClose}) => {
                                 <div id="centerRight">
                                     <div id="selectBox">
                                         <div id="name">하위 카테고리</div>
-                                        <div id="selectBox">
-                                            <select>하위요소1</select>
-                                            <select>하위요소1</select>
+                                        <div id="select">
+                                            <select>
+                                                {arr1.map((arr,index)=>(
+                                                    <option>{arr}</option>
+                                                ))}
+                                            </select>
+                                            <select>
+                                                {arr2 != null ? 
+                                                arr2.map((arr,index)=>(
+                                                    <option>{arr}</option>
+                                                ))
+                                                :
+                                                <option>------</option>
+                                                }
+                                            </select>
                                         </div>
                                     </div>
                                     <div id="productName">
@@ -82,7 +96,7 @@ const JogoProductCreate = ({productCreateClose}) => {
                                 </div>
                             </div>
                             <div id="htmlEditH1">설명란</div>
-                            <div id="htmlEdit">상품 설명하기 html 에디터 사용할 예정</div>
+                            <textarea id="htmlEdit"></textarea>
                         </div>
                         <div id="jogoProductCenterButton">
                             <div id="productBack" onClick={()=> {dispatch({type:"prevCategory"})}}>뒤로가기</div>

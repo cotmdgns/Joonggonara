@@ -78,7 +78,7 @@ const Headerr = () => {
   };
   // 관리자
   const admin = () => {
-    alert("알람");
+    navigate("/layoutAdmin")
   };
 
   // 상세 검색
@@ -109,7 +109,7 @@ const Headerr = () => {
           </div>
         </div>
         <div id="headerBoxR">
-          {!loginBoo ? (
+          {loginBoo ? (
             <div id="headerInfoBox">
               <div id="headerInfo" onClick={loginButton}>
                 <div id="headerFont">
@@ -146,7 +146,7 @@ const Headerr = () => {
               </div>
               <div id="headerInfo" onClick={admin}>
                 <div id="headerFont">
-                  <GoChevronDown />
+                  <RiAdminFill />
                 </div>
                 <div id="headerText">관리자</div>
               </div>

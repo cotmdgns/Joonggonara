@@ -51,7 +51,7 @@ const router = createBrowserRouter([
         element: <SignUp />,
     },
     {
-        path:"layoutAdmin/", // 관리자 페이지
+        path:"layoutAdmin", // 관리자 페이지
         element: <LayoutAdmin />,
         children : [
             // 페이지 안에는 
