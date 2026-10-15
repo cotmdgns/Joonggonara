@@ -3,18 +3,18 @@
 #adminMenubarBox{
     position: fixed;
     background-color: rgb(58, 62, 69);
-    width: 300px;
+    width: 250px;
     height: 100%;
     #adminMenubarBoxHeader{
-        padding: 30px;
+        padding: 20px;
         border-bottom: 1px solid rgb(161, 159, 159);
-        font-size: 25px;
+        font-size: 20px;
         font-weight: bold;
         color: white;
     }
     #adminMenubarBoxCategory{
         padding: 10px;
-        font-size: 18px;
+        font-size: 15px;
         div{
             padding: 15px;
             color: white;
@@ -37,10 +37,7 @@
 
 // 어드민 헤더
 #adminLayoutHeaderBox{
-    padding-left: 300px;
-    #adminLayoutHeader{
-        height: 85px;
-        background-color: rgb(58, 62, 69);
-        width: 100%;
-    }
+    padding: 20px 20px 20px 270px;
+    height: 100vh;
+    background-color: rgb(242, 248, 253);
 }

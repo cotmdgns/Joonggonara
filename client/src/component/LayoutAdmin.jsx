@@ -9,7 +9,6 @@ const LayoutAdmin = () => {
             <div>
                 <AdminMenubar></AdminMenubar>
                 <div id="adminLayoutHeaderBox">
-                    <div id="adminLayoutHeader"></div>
                     <Outlet></Outlet>
                 </div>
             </div>
