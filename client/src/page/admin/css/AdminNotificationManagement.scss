@@ -1,0 +1,114 @@
+// 공지사항 데이터
+#notification{
+    padding: 10px;
+    #notificationHeader{
+        font-size: 25px;
+        font-weight: bold;
+        padding: 10px;  
+        margin: 10px 5px;
+        border-radius: 10px;
+        cursor: pointer;    
+    }
+}
+
+
+// 공지사항 디테일
+#notificationDetailBox{
+    padding: 10px;
+    #notificationDetailBoxHeader{
+        font-size: 25px;
+        font-weight: bold;
+        margin: 10px 5px;
+        border-radius: 10px;
+        cursor: pointer;    
+        padding: 10px;
+    }
+    #notificationDetailBoxCenter{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        
+        input:nth-of-type(1){
+            padding: 10px;
+            border: none;
+            margin-bottom: 10px;
+            box-shadow: 0px 0px 1px 1px rgb(213, 212, 212);
+        }
+        input:nth-of-type(2){
+            padding: 10px;
+            height: 500px;
+            border: none;
+            margin-bottom: 10px;
+            box-shadow: 0px 0px 1px 1px rgb(213, 212, 212);
+        }
+    }
+    #bannerH1{
+        padding: 10px;
+        font-size: 20px;
+        font-weight: bold;
+    }
+    #notificationDetailBanner{
+        padding: 10px;
+        display: flex;
+        margin-bottom: 20px;
+        #bannerImg{
+            width: 280px;
+            height: 280px;
+            margin-right: 20px;
+            box-shadow: 0px 0px 1px 1px rgb(213, 212, 212);
+             background-color: white;
+        }
+        #bannerInfo{
+            #bannerTitleInfo{
+                font-size: 11px;
+                font-weight: bold;
+            }
+            #bannerTitle{
+                box-shadow: 0px 0px 1px 1px rgb(213, 212, 212);
+                border: none;
+                padding: 10px;
+                width: 400px;
+                margin-top: 5px;
+            }
+        }
+    }
+    #notificationDetailFooter{
+        display: flex;
+        justify-content: end;
+        align-items: center;
+        div{
+            cursor: pointer;
+            background-color: white;
+            border-radius: 10px;
+            padding: 10px;
+            margin-left: 10px;
+            font-size: 14px;
+            box-shadow: 0px 0px 1px 1px rgb(213, 212, 212);
+        }
+        #close:hover{
+            background-color: rgb(208, 208, 208);
+        }   
+        #create{
+            background-color: rgb(136, 154, 255);
+            color: white;
+        }
+        #create:hover{
+           background-color: rgb(90, 103, 178);
+        }
+        #buttonFalse{
+            color: white;
+            background-color: rgb(255, 136, 136);
+        }
+        #buttonFalse:hover{
+            background-color: rgb(178, 90, 90);
+        }
+        #buttonTrue{
+             color: white;
+            background-color: rgb(136, 154, 255);
+        }
+        #buttonTrue:hover{
+            background-color: rgb(90, 103, 178);
+        }
+    }
+}

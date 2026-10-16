@@ -40,10 +40,10 @@ const AdminMenubar = () =>{
                 //신고현황관리
                 navigate("adminDeclarationManagement")
                 break;
-            case 5:
-                //게시글관리
-                navigate("adminNoticeManagement")
-                break;
+            // case 5:
+            //     //게시글관리
+            //     navigate("adminNoticeManagement")
+            //     break;
             case 6:
                 // /카테고리관리
                 navigate("adminCategoryManagement")
@@ -67,7 +67,7 @@ const AdminMenubar = () =>{
                     <div onClick={()=>{categoryStateButton(2)}} id={categoryState == 2 && "categoyTrue"}><FaUserFriends></FaUserFriends>사용자 관리</div>
                     <div onClick={()=>{categoryStateButton(3)}} id={categoryState == 3 && "categoyTrue"}><AiOutlineNotification></AiOutlineNotification>공지사항 관리</div>
                     <div onClick={()=>{categoryStateButton(4)}} id={categoryState == 4 && "categoyTrue"}><GrUserPolice></GrUserPolice>신고현황 관리</div>
-                    <div onClick={()=>{categoryStateButton(5)}} id={categoryState == 5 && "categoyTrue"}><SiNotion></SiNotion>게시글 관리</div>
+                    {/* <div onClick={()=>{categoryStateButton(5)}} id={categoryState == 5 && "categoyTrue"}><SiNotion></SiNotion>게시글 관리</div> */}
                     <div onClick={()=>{categoryStateButton(6)}} id={categoryState == 6 && "categoyTrue"}><ImList></ImList>카테고리 관리</div>
                     <div onClick={()=>{categoryStateButton(7)}} id={categoryState == 7 && "categoyTrue"}><IoHomeOutline></IoHomeOutline>관리자페이지에서 나가기</div>
                 </div>

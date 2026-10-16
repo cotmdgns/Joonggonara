@@ -14,7 +14,7 @@ import AdminDeclarationManagement from "./page/admin/AdminDeclarationManagement"
 import AdminNoticeManagement from "./page/admin/AdminNoticeManagement";
 import AdminNotificationManagement from "./page/admin/AdminNotificationManagement";
 import AdminCategoryManagement from "./page/admin/AdminCategoryManagement";
-
+import AdminNotification from "./page/admin/component/AdminNotification";
 const router = createBrowserRouter([
     {
         path:"/",
@@ -58,11 +58,6 @@ const router = createBrowserRouter([
         path:"layoutAdmin", // 관리자 페이지
         element: <LayoutAdmin />,
         children : [
-            // 페이지 안에는 
-            // 1. 기본적은 통계를 볼 수 있는 공간
-            // 2. 사용자 정지 또는 풀어줄 수 있는 공간
-            // 3. 생성된 사용자, 거래내역
-            // 4. 사용자 신고내역 확인
             {
                 index: true,
                 element: <AdminPage />,
@@ -82,6 +77,16 @@ const router = createBrowserRouter([
             {
                 path : "adminNotificationManagement", // 공지사항 관리
                 element :<AdminNotificationManagement/>
+            },
+            {
+                // 공지사항 상세 페이지
+                path : "adminNotificationManagement/AdminNotification/:code", 
+                element :<AdminNotification/>
+            },
+            {
+                // 공지사항 생성 페이지
+                path : "adminNotificationManagement/AdminNotification/create", 
+                element :<AdminNotification/>
             },
             {
                 path : "adminCategoryManagement", // 카테고리 관리

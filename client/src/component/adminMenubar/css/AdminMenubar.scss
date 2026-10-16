@@ -38,6 +38,7 @@
 // 어드민 헤더
 #adminLayoutHeaderBox{
     padding: 20px 20px 20px 270px;
-    height: 100vh;
+    min-height: 100vh;
+    height: 100%;
     background-color: rgb(242, 248, 253);
 }
