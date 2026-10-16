@@ -55,12 +55,30 @@ const AdminDeclarationModal = ({modalClose}) =>{
                             <div id="declarationDivH1">관리자 조치 처리</div>
                             <div id="declarationDivInfo4">
                                 <div id="infoBox">
-                                    <div id="infoBoxH1">신고 사유</div>
-                                    <div>욕설 및 비방</div>
+                                    <div id="infoBoxH1">조치 결과 선택</div>
+                                    <div id="infoBox2">
+                                        <input type="checkbox"></input>
+                                        <div>대상 컨텐츠 삭제</div>
+                                    </div>
+                                    <div id="infoBox2">
+                                        <input type="checkbox"></input>
+                                        <div>작성자 이용 정지</div>
+                                        <select>
+                                            <option>1일</option>
+                                            <option>7일</option>
+                                            <option>15일</option>
+                                            <option>30일</option>
+                                            <option>영구정지</option>
+                                        </select>
+                                    </div>
+                                    <div id="infoBox2">
+                                        <input type="checkbox"></input>
+                                        <div>신고 반려</div>
+                                    </div>
                                 </div>
                                 <div id="infoBox">
-                                    <div id="infoBoxH1">신고자 상세 의견</div>
-                                    <div>다른 사용자에게 심한 욕설과 협박성 댓글을 달았습니다.</div>
+                                    <div id="infoBoxH1">처리 의견</div>
+                                    <textarea>1.컨텐츠 삭제랑 이용정지는 같이 사용가능 2. 신고반려랑은 같이 불가능</textarea>
                                 </div>
                             </div>
                         </div>

@@ -129,12 +129,26 @@
                         display: flex;
                         align-items: center;
                         font-size: 11px;
+                        padding: 5px;
                         #infoBoxH1{
                             font-size: 14px;
                             width: 120px;
                             font-weight: bold;
                         }
+                        #infoBox2{
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        margin-right:   20px;
+                          }
+                        textarea{
+                            width: 100%;
+                            resize: none;
+                            height: 100px;
+                            font-size: 12px;
+                        }
                     }
+
                 }
             }
         }
