@@ -15,11 +15,11 @@ const AdminNotificationManagement = () =>{
     // url 로케이션 전체?
     const location = useLocation()  
 
+
     // 공지사항 상세 디테일
     const notificationButton = (code) =>{
         navigate(`/layoutAdmin/adminNotificationManagement/AdminNotification/${code}`);
     }
-
     // 공지사항 생성 디테일
     const notificationCreateButton = () =>{
         navigate(`/layoutAdmin/adminNotificationManagement/AdminNotification/create`);

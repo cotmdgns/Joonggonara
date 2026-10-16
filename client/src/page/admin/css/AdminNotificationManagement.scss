@@ -29,13 +29,16 @@
         flex-direction: column;
         padding: 10px;
         
-        input:nth-of-type(1){
+        #title{
+            background-color: white;
             padding: 10px;
             border: none;
             margin-bottom: 10px;
             box-shadow: 0px 0px 1px 1px rgb(213, 212, 212);
         }
-        input:nth-of-type(2){
+        #textBox{
+            background-color: white;
+            width: 100%;
             padding: 10px;
             height: 500px;
             border: none;
@@ -59,6 +62,7 @@
             box-shadow: 0px 0px 1px 1px rgb(213, 212, 212);
              background-color: white;
         }
+        // 하단 배너 왼쪽 정보들
         #bannerInfo{
             #bannerTitleInfo{
                 font-size: 11px;
@@ -71,12 +75,24 @@
                 width: 400px;
                 margin-top: 5px;
             }
+            #bannerImgPush{
+                box-shadow: 0px 0px 1px 1px rgb(213, 212, 212);
+                border: none;
+                padding: 5px;
+                margin-top: 5px;
+                background-color: white;
+                cursor: pointer;
+                input{
+                    cursor: pointer;
+                }
+            }
         }
     }
     #notificationDetailFooter{
         display: flex;
         justify-content: end;
         align-items: center;
+        padding-right: 10px;
         div{
             cursor: pointer;
             background-color: white;
@@ -96,6 +112,12 @@
         #create:hover{
            background-color: rgb(90, 103, 178);
         }
+        #delete{
+            background-color: rgb(255, 255, 255);
+        }
+        #delete:hover{
+            background-color: rgb(189, 189, 189);
+        }
         #buttonFalse{
             color: white;
             background-color: rgb(255, 136, 136);
@@ -109,6 +131,18 @@
         }
         #buttonTrue:hover{
             background-color: rgb(90, 103, 178);
+        }
+
+
+        #buttonTrueReal{
+            cursor: default;
+            color: white;
+            background-color: rgb(90, 103, 176);
+        }
+        #buttonFalseRela{
+            cursor: default;
+            color: white;
+            background-color: rgb(170, 88, 88);
         }
     }
 }

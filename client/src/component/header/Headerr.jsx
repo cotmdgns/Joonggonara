@@ -1,9 +1,6 @@
 import imgLogo from "../../img/LogImg.png";
 
 // jsx import
-import AddressModal from "./modal/AddressModal";
-import CategoryModal from "./modal/CategoryModal";
-import PriceeModal from "./modal/PriceeModal";
 import Menubar from "../menubar/Menubar";
 
 // css

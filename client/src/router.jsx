@@ -89,6 +89,11 @@ const router = createBrowserRouter([
                 element :<AdminNotification/>
             },
             {
+                // 공지사항 생성 페이지
+                path : "adminNotificationManagement/AdminNotification/update/:code", 
+                element :<AdminNotification/>
+            },
+            {
                 path : "adminCategoryManagement", // 카테고리 관리
                 element :<AdminCategoryManagement/>
              },
