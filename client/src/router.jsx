@@ -3,7 +3,6 @@ import Layout from "./component/Layout";
 import Main from "./page/Main/Main";
 import Login from "./page/Login/Login";
 import SignUp from "./page/signUp/SignUp";
-import NoticeDetail from "./page/noticeDetail/NoticeDetail";
 import MyPage from "./page/myPage/MyPage";
 import JogoProductDetail from "./page/product/JogoProductDetail";
 import JogoProduct from "./page/product/JogoProduct";
@@ -15,30 +14,27 @@ import AdminNoticeManagement from "./page/admin/AdminNoticeManagement";
 import AdminNotificationManagement from "./page/admin/AdminNotificationManagement";
 import AdminCategoryManagement from "./page/admin/AdminCategoryManagement";
 import AdminNotification from "./page/admin/component/AdminNotification";
+
 const router = createBrowserRouter([
     {
         path:"/",
         element: <Layout />,
         children: [
             {
-                index: true,
+                index: true, // 메인
                 element: <Main />,
             },
             {
-                path:"noticeDetail",
-                element: <NoticeDetail/>,
-            },
-            {
-                path:"myPage",
+                path:"myPage",  // 내 정보
                 element: <MyPage/>,
             },
             {
-                path:"jogoProductDetail", // 디테일페이지 [ 코드 필요 ]
-                element: <JogoProductDetail/>,
+                path:"jogoProduct/:category", // 상품페이지 [ 코드 필요 ]
+                element: <JogoProduct/>,
             },
             {
-                path:"jogoProduct", // 상품페이지 [ 코드 필요 ]
-                element: <JogoProduct/>,
+                path:"jogoProductDetail/:category/:code", // 디테일페이지 [ 코드 필요 ]
+                element: <JogoProductDetail/>,
             },
             // { 이렇게
             //     path: "login",

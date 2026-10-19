@@ -1,7 +1,7 @@
 import "../css/AdminDeclarationManagement.scss"
 
 
-const AdminDeclarationModal = ({modalClose}) =>{
+const AdminDeclarationModal = ({adminModalClose}) =>{
     return (
         <>
             <div id="declarationModal">
@@ -85,7 +85,7 @@ const AdminDeclarationModal = ({modalClose}) =>{
                     </div>
                     <div id="declarationModalFooter">
                         <div id="button">처리완료</div>
-                        <div id="button" onClick={modalClose}>창 닫기</div>
+                        <div id="button" onClick={adminModalClose}>창 닫기</div>
                     </div>
                 </div>
             </div>
