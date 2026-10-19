@@ -29,11 +29,15 @@ const router = createBrowserRouter([
                 element: <MyPage/>,
             },
             {
-                path:"jogoProduct/:category", // 상품페이지 [ 코드 필요 ]
+                path:"jogoProduct/:category", // 상품페이지 [ 상위 카테고리가 하나뿐일 떄]
                 element: <JogoProduct/>,
             },
             {
-                path:"jogoProductDetail/:category/:code", // 디테일페이지 [ 코드 필요 ]
+                path:"jogoProduct/:category/:category2", // 상품페이지 [ 상위 밑에 하위 카테고리가 존재할 때 ]
+                element: <JogoProduct/>,
+            },
+            {
+                path:"jogoProductDetail/product/:code", // 디테일페이지
                 element: <JogoProductDetail/>,
             },
             // { 이렇게
