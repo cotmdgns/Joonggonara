@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AddressInfo {
 
-    private int addressCode;
-    private String addressName;
+    private int addressCode; // 주소코드
+    private String addressName; // 주소정보
 }

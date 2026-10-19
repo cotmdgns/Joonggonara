@@ -24,7 +24,10 @@ CREATE TABLE JGUserInfo(
   userStopDate date , /*사용자 신고 누적 시 날짜 적용*/
   userTotalPointer integer, /*사요앚 총 포인트*/
   userAddress varchar(10), /* 사용자 주소 */
-  userAddressDetail varchar(10) /* 사용자 주소 (상세) */ 
+  userAddressDetail varchar(10), /* 사용자 주소 (상세) */ 
+  
+  /*2026-10-19 이후로 추가 됨*/
+  userInfo varchar(255) default null /*사용자 자기소개*/
 );
 
 /* 주소 정보 */
@@ -40,15 +43,6 @@ CREATE TABLE Address_Info_detail(
     addressDetailName varchar(10) /* 주소 디테일 정보 */
 );
 
-/* 배너 관리 */
-CREATE TABLE MainBannerInfo(
-	mainBannerInfo integer auto_increment primary key, /* 배너 코드 */
-    mainBannerTitle varchar(20) not null, /* 배너 제목 */
-    mainBannerLinkText varchar(20) not null, /* 배너 제목 링크 */
-    mainBannerText varchar(255) not null /* 배너 내용 */
-);
-drop table MainBannerInfo;
-
 /*사용자 포인트*/
 CREATE TABLE JGUserInfoPointer(
   uesrCode integer, /*외래키*/ 
@@ -62,8 +56,12 @@ CREATE TABLE JGUserInfoBack(
   userPwd varchar(30) not null, /*사용자 비밀번호*/ 
   userImg varchar(255), /*사용자 이미지*/ 
   userName varchar(20), /*사용자 이름*/ 
-  userUpdate datetime default CURRENT_TIMESTAMP /*변경 날짜*/ 
+  userAddress varchar(10), /* 사용자 주소 */
+  userAddressDetail varchar(10), /* 사용자 주소 (상세) */ 
+  userUpdate datetime default CURRENT_TIMESTAMP, /*변경 날짜*/ 
+  userInfo varchar(255) default null
 );
+
 
 /* 게시글 정보 */
 CREATE TABLE JGNotice(

@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class AddressInfoDetail {
 
     private int addressDetailCode;
+    private int addressCode;
     private String addressDetailName;
-
 }

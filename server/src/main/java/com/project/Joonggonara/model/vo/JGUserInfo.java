@@ -23,7 +23,7 @@ public class JGUserInfo {
     private boolean userStopYn; /*사용자 신고 유무*/
     private String userStopDate; /*사용자 신고 누적 시 날짜 적용*/
     private int userTotalPointer; /*사용자 총 포인트*/
-    private String userAddress;
-    private String userAddressDetail;
-
+    private String userAddress;  // 사용자 주소
+    private String userAddressDetail; // 사용자 주소 ( 상세 )
+    private String userInfo; // 사용자 자기소개
 }

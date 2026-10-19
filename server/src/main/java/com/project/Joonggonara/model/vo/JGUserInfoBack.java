@@ -14,5 +14,7 @@ public class JGUserInfoBack {
     private String userImg; /*사용자 이미지*/
     private String userName; /*사용자 이름*/
     private String userUpdate; /*변경 날짜*/
-
+    private String userAddress; // 사용자 주소
+    private String userAddressDetail; // 사용자 주소 (상세)
+    private String userInfo; // 사요자 자기소개
 }
