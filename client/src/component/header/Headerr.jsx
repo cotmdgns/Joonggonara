@@ -17,7 +17,6 @@ import { GoChevronDown } from "react-icons/go";
 import { RiAdminFill } from "react-icons/ri";
 
 // api
-import { addressApi, addressDetailApi } from "./api/HeaderApi";
 
 // 리액트
 import { useReducer, useEffect } from "react";

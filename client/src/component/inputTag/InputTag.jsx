@@ -9,7 +9,7 @@ const InputTag = ({TText,PHText,WText}) =>{
         "borderRadius" : "5px",
 
         //correction possible ( 변경 가능 )
-        "width" : WText != null ? WText : "100%"
+        "width" : WText != null ? WText : "100%",
 
     }
     const inputStyle ={

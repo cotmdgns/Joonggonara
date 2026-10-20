@@ -6,7 +6,10 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface UserMapper {
-
+    // 회원가입 로직
     int userIdCreate(JGUserInfo jgUserInfo);
 
+    // 아이디 체크하기
+
+    // 로그인
 }

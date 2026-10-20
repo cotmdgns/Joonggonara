@@ -10,17 +10,29 @@ import { FaGoogle } from "react-icons/fa"; // 구글
 import { SiNaver } from "react-icons/si"; // 네이보
 
 //sign api
-import { addressApi,addressDetailApi } from "../../component/header/api/HeaderApi";
+import { addressAPI,addressDetailAPI } from "./api/SignUpAPI";
 
 // 리액트
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect ,useReducer} from "react";
 
 // 컴포넌트
 import InputTag from "../../component/inputTag/InputTag";
+import { initiaSignUpReduser, SignUpReduser } from "./reduser/SignUpReduser";
 
 const SignUp = () =>{
-    const navigate = useNavigate(   );
+    // 정규표현식
+    const idRegex = /^[a-zA-Z]{5,}$/;
+    const passwordRegex = /^.{8,}$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;          
+    
+    
+    
+    // 네이게이션
+    const navigate = useNavigate();
+    // 회원가입 전역관리 리듀서
+    const [state,dispatch] = useReducer(SignUpReduser,initiaSignUpReduser)
+    const {addressArr,addressDetailArr} = state;
     // 회원가입
     const loginPage = () =>{
         navigate("/login")
@@ -30,26 +42,29 @@ const SignUp = () =>{
         navigate("/")
     }
 
-    // 나중에 API 통해서 데이터 가져올 예정
-    const arr1 = ["서울","서울","서울","서울","서울","서울","서울","서울","서울"]
-    const arr2 = ["서울","서울","서울","서울","서울","서울","서울","서울","서울"]
-
-
-    // 테스트 진행하기
-    // DB 주소 info
+    // DB에 있는 주소 데이터 [ 정상작동중 ]
     const DBAddressInfo = async () =>{
-        const result = await addressApi()
-        console.log(result)
+        const result = await addressAPI()
+        dispatch({type:"addressArr", paylod:result.data})
+    }
+    // 옵션값 체인지 했을 떄 반응하기 [ 정상작동중 ]
+    const OptiononChange = async (code) =>{
+        const result = await addressDetailAPI(code)
+        if(code != 0){
+          dispatch({type:"addressDetailArr", paylod:result.data})
+        }else{
+          dispatch({type:"addressDetailArrDefault"})
+        }
+    }
+    const IdCheckButtonAPI = () =>{
+
     }
 
+    // 페이지 로딩 시작
     useEffect(()=>{
         DBAddressInfo()
     },[])
 
-    // 나중에@@@@@@@@@@@@@@@@
-    // 카카오 로그인
-    // 네이버 로그인
-    // 구글 로그인
     return (
         <>
             <div id="signImgBox">
@@ -59,24 +74,35 @@ const SignUp = () =>{
                             <div id="signHeaderText">회원 가입</div>
                         </div>
                         <div  id="signCenter">
-                            <div><InputTag TText="text" PHText="ID"/></div>
+                            <div id="idCheck">
+                                <InputTag WText="469px" TText="text" PHText="ID"/>
+                                <div id="idCheckButton">중복확인</div>
+                            </div>
                             <div><InputTag TText="password" PHText="Password"/></div>
                             <div><InputTag TText="text" PHText="Name"/></div>
                             <div><InputTag TText="text" PHText="Email"/></div>
                         <div id="addressBox">
-                            <select id="address">
-                                {arr1.map((arr,index)=>(
-                                    <option>{arr}</option>
+                            <select id="address" onChange={(e) => OptiononChange(e.target.value)}>
+                                <option value="0">전체</option>
+                                {addressArr.map((arr,index)=>(
+                                    <option value={arr.addressCode} key={index}>{arr.addressName}</option>
                                 ))}
                             </select>
                             <div id="addressSpace"></div>
                             <select id="address">
-                                {arr2 != null ? 
+                                {/* {arr2 != null ? 
                                 arr2.map((arr,index)=>(
-                                    <option>{arr}</option>
+                                    <option key={index}>{arr}</option>
                                 ))
                                 :
                                 <option>------</option>
+                                } */}
+                                {addressDetailArr.length > 0 ? 
+                                addressDetailArr.map((arr,index)=>(
+                                    <option value={arr.addressDetailCode} key={index}>{arr.addressDetailName}</option>
+                                ))
+                                :
+                                    <option>------</option>
                                 }
                             </select>
                         </div>

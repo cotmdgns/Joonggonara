@@ -13,4 +13,10 @@
     <select id="addressAPI" resultType="AddressInfo">
         select * from addressinfo;
     </select>
+
+    <!-- DB 주소 상세 API -->
+    <select id="addressDetailAPI" parameterType="int" resultType="AddressInfoDetail">
+        select * from addressinfodetail
+        where addressCode = #{code}
+    </select>
 </mapper>

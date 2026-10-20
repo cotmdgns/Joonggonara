@@ -37,12 +37,34 @@
         }   
         #signCenter{
             width: 100%;
+            #idCheck{
+                width: 100%;
+                display: flex;
+                #idCheckButton{
+                    background-color: rgb(105, 54, 233);
+                    margin-bottom: 15px;
+                    font-size: 11px;
+                    padding: 10px;
+                    border-radius: 10px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    color: white;
+                    font-weight: bold;
+                    margin-left: 10px;
+                    cursor: pointer;
+                }
+                #idCheckButton:hover{
+                    background-color: rgb(71, 32, 171);
+                }
+            }
         }
 
         // 주소 옵션
         #addressBox{
             width: 100%;
             display: flex;
+            align-items: flex-start;
             #address{
                 width: 100%;
                 padding: 10px;

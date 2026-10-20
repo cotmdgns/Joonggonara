@@ -11,6 +11,12 @@ export const addressAPI = async (data) => {
 };
 
 // 주소 상세 API
-export const addressDetailAPI = async (data) => {
-  return await instance.get("addressDetailAPI");
+export const addressDetailAPI = async (code) => {
+  return await instance.get(`/addressDetailAPI/${code}`);
 };
+
+
+// 아이디 체크 API
+export const IdCheckAPI = async (id) =>{
+  return await instance.post("IdCheckAPI",id)
+}

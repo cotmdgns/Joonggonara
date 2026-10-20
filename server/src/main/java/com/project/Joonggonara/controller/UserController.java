@@ -1,6 +1,7 @@
 package com.project.Joonggonara.controller;
 
 import com.project.Joonggonara.model.vo.AddressInfo;
+import com.project.Joonggonara.model.vo.AddressInfoDetail;
 import com.project.Joonggonara.model.vo.JGUserInfo;
 import com.project.Joonggonara.service.AddressService;
 import com.project.Joonggonara.service.UserService;
@@ -10,8 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
-@Controller
+@RestController
 @RequestMapping("/api/userInfo/*")
 @CrossOrigin(origins = {"*"}, maxAge = 6000)
 public class UserController {
@@ -28,7 +31,7 @@ public class UserController {
 
     /* 사용자 계정 만들기 */
     @ResponseBody
-    @PostMapping("/userIdCreate")
+    @PostMapping("userIdCreate")
     public boolean UserIdCreate(@RequestBody JGUserInfo jgUserInfo, Model model){
 
         // 사용자 이미지 칼럼에 랜덤값인 이미지 넣기
@@ -46,23 +49,32 @@ public class UserController {
     }
 
     /* 사용자 로그인화면 */
-    @PostMapping("/userLogin")
+    @PostMapping("userLogin")
     public String UserLogin(JGUserInfo jgUserInfo){
         return null;
     }
 
 
+    // 아이디 체크하기
+    @GetMapping("IdCheckAPI")
+    public void IdCheckAPI(@RequestBody String str){
 
+    }
 
 
     // 사용자 회원가입
 
     // DB 주소 정보 가져오기
-    @GetMapping("/addressAPI")
-    public AddressInfo addressAPI() {
-
-        return null;
+    @GetMapping("addressAPI")
+    public List<AddressInfo> addressAPI() {
+        List<AddressInfo> addressInfo =  addressService.addressAPI();
+        return addressInfo;
     }
 
     // DB 주소 상세 정보 가져오기
+    @GetMapping("addressDetailAPI/{code}")
+    public List<AddressInfoDetail> addressDetailAPI(@PathVariable int code) {
+        List<AddressInfoDetail> addressInfo =  addressService.addressDetailAPI(code);
+        return addressInfo;
+    }
 }
