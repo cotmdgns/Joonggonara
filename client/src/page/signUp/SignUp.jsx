@@ -9,9 +9,12 @@ import { RiKakaoTalkFill } from "react-icons/ri"; // 카카오
 import { FaGoogle } from "react-icons/fa"; // 구글
 import { SiNaver } from "react-icons/si"; // 네이보
 
+//sign api
+import { addressApi,addressDetailApi } from "../../component/header/api/HeaderApi";
 
 // 리액트
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 // 컴포넌트
 import InputTag from "../../component/inputTag/InputTag";
@@ -31,6 +34,19 @@ const SignUp = () =>{
     const arr1 = ["서울","서울","서울","서울","서울","서울","서울","서울","서울"]
     const arr2 = ["서울","서울","서울","서울","서울","서울","서울","서울","서울"]
 
+
+    // 테스트 진행하기
+    // DB 주소 info
+    const DBAddressInfo = async () =>{
+        const result = await addressApi()
+        console.log(result)
+    }
+
+    useEffect(()=>{
+        DBAddressInfo()
+    },[])
+
+    // 나중에@@@@@@@@@@@@@@@@
     // 카카오 로그인
     // 네이버 로그인
     // 구글 로그인
@@ -38,31 +54,33 @@ const SignUp = () =>{
         <>
             <div id="signImgBox">
                 <img src={loginImg} id="signImg"/>
-                <div id="signBox">
-                    <div id="signHeader">
-                        <div id="signHeaderText">회원 가입</div>
-                    </div>
-                    <div  id="signCenter">
-                        <div><InputTag TText="text" PHText="Email"/></div>
-                        <div><InputTag TText="password" PHText="Password"/></div>
-                        <div><InputTag TText="text" PHText="Name"/></div>
-                    </div>
-                    <div id="addressBox">
-                        <select id="address">
-                            {arr1.map((arr,index)=>(
-                                <option>{arr}</option>
-                            ))}
-                        </select>
-                        <div id="addressSpace"></div>
-                        <select id="address">
-                            {arr2 != null ? 
-                            arr2.map((arr,index)=>(
-                                <option>{arr}</option>
-                            ))
-                            :
-                            <option>------</option>
-                            }
-                        </select>
+                    <div id="signBox">
+                        <div id="signHeader">
+                            <div id="signHeaderText">회원 가입</div>
+                        </div>
+                        <div  id="signCenter">
+                            <div><InputTag TText="text" PHText="ID"/></div>
+                            <div><InputTag TText="password" PHText="Password"/></div>
+                            <div><InputTag TText="text" PHText="Name"/></div>
+                            <div><InputTag TText="text" PHText="Email"/></div>
+                        <div id="addressBox">
+                            <select id="address">
+                                {arr1.map((arr,index)=>(
+                                    <option>{arr}</option>
+                                ))}
+                            </select>
+                            <div id="addressSpace"></div>
+                            <select id="address">
+                                {arr2 != null ? 
+                                arr2.map((arr,index)=>(
+                                    <option>{arr}</option>
+                                ))
+                                :
+                                <option>------</option>
+                                }
+                            </select>
+                        </div>
+                        <div><InputTag TText="text" PHText="DetailAddress"/></div>
                     </div>
                     <div id="createButton">Create</div>   
                     <div id="signUpText" onClick={loginPage}>Login</div>
