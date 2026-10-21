@@ -7,7 +7,11 @@ insert into JGUserInfo (userId, userPwd, userImg, userName, userUpdate, userTota
 value ("test","1234","default2","홍길동",NOW(),0,"경기도","태전동");
 
 
+
 select * from addressinfo;
+
+select * from addressinfodetail
+where addressDetailName = 1;
 
 /*사용자 정보*/
 CREATE TABLE JGUserInfo(
@@ -19,16 +23,22 @@ CREATE TABLE JGUserInfo(
   userCreate datetime default CURRENT_TIMESTAMP, /*생성 날짜*/
   userUpdate datetime , /*변경 날짜*/
   userDelete datetime default null, /*삭제 날짜*/	
+  userManager int default 1, /*사용자 등급*/
   userYn boolean default true, /*사용유무*/
   userStopYn boolean default false, /*사용자 신고 유무*/
   userStopDate date , /*사용자 신고 누적 시 날짜 적용*/
   userTotalPointer integer, /*사요앚 총 포인트*/
-  userAddress varchar(10), /* 사용자 주소 */
+  addressData varchar(10), /* 사용자 주소 */
+  addressDetailData varchar(10), /* 사용자 주소 */
   userAddressDetail varchar(10), /* 사용자 주소 (상세) */ 
   
   /*2026-10-19 이후로 추가 됨*/
   userInfo varchar(255) default null /*사용자 자기소개*/
 );
+
+drop table JGUserInfo;
+select * from JGUserInfo;
+
 
 /* 주소 정보 */
 CREATE TABLE addressInfo(

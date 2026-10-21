@@ -12,12 +12,20 @@ import { SiNaver } from "react-icons/si"; // 네이보
 
 // 리액트
 import { useNavigate } from "react-router-dom";
+import { useReducer } from "react";
 
 // 컴포넌트
 import InputTag from "../../component/inputTag/InputTag";
+import { initiaLoginReduser, LoginReduser } from "./reduser/LoginReduser";
+import { userLoginAPI } from "./api/LoginAPI";
 
 const Login = () =>{
-    const navigate = useNavigate(   );
+    const navigate = useNavigate();
+
+    // 리듀서
+    const[state,dispatch] = useReducer(LoginReduser,initiaLoginReduser)
+    const {userId,userPwd} = state;
+    
     // 회원가입
     const signUpPage = () =>{
         navigate("/signUp")
@@ -25,6 +33,15 @@ const Login = () =>{
     // 홈
     const homePage = () =>{
         navigate("/")
+    }
+
+    // 로그인 버튼 
+    const logingButton = async () =>{
+        const data = {
+            "userId" : userId,
+            "userPwd" : userPwd
+        }
+        const result = await userLoginAPI(data)
     }
 
     // 카카오 로그인
@@ -40,9 +57,29 @@ const Login = () =>{
                         <div id="loginHeaderText">로그인</div>
                     </div>
                     <div  id="loginCenter">
-                        <div><InputTag TText="text" PHText="Email"/></div>
-                        <div><InputTag TText="password" PHText="Password"/></div>
+                        <div>
+                            <InputTag 
+                                TText="text"
+                                PHText="Email"
+                                val={userId}
+                                chage={(e)=>{
+                                    dispatch({type:"loginData",payload:e.target.value})
+                                }}
+                            />
+                        </div>
+                        <div>
+                            <InputTag 
+                                TText="password" 
+                                PHText="Password"
+                                val={userPwd}
+                                chage={(e)=>{
+                                    dispatch({type:"pwdData",payload:e.target.value})
+                                }}
+                            />
+                        </div>
                     </div>
+                    <div id="loginButton" onClick={logingButton}>Login</div>
+                    <div></div>
                     <div id="socialBox">Social Login</div>
                     <div  id="loginFooter">
                         <div><RiKakaoTalkFill/></div>

@@ -33,14 +33,25 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
 	runtimeOnly 'com.mysql:mysql-connector-j'
-
-//	testImplementation 'org.springframework.boot:spring-boot-starter-thymeleaf-test'
-//	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
-//	testImplementation 'org.springframework.boot:spring-boot-starter-websocket-test'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testCompileOnly 'org.projectlombok:lombok'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	testAnnotationProcessor 'org.projectlombok:lombok'
+
+	// 2026-10-21 추가함
+	// 개같은 시큐리티..
+	// 시큐리티
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.jetbrains:annotations:24.0.0'
+
+	// jwt 토큰발행
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+	// 파일
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'commons-fileupload:commons-fileupload:1.5' // 반드시 추가
 }
 
 tasks.named('test') {

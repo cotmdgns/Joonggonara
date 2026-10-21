@@ -14,6 +14,12 @@
         select * from addressinfo;
     </select>
 
+    <!-- 주소로 코드찾기 -->
+    <select id="addressCode" parameterType="String" resultType="int">
+        select addressCode from addressinfo
+        where addressName = #{str};
+    </select>
+
     <!-- DB 주소 상세 API -->
     <select id="addressDetailAPI" parameterType="int" resultType="AddressInfoDetail">
         select * from addressinfodetail

@@ -10,6 +10,6 @@ public interface UserMapper {
     int userIdCreate(JGUserInfo jgUserInfo);
 
     // 아이디 체크하기
-
+    JGUserInfo IdCheckAPI(String userId);
     // 로그인
 }

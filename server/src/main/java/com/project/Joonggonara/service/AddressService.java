@@ -20,6 +20,12 @@ public class AddressService {
         return addressMapper.addressAPI();
     }
 
+    // 주소 코드 찾가ㅣ
+    public int addressCode(String name){
+        return addressMapper.addressCode(name);
+    }
+
+    // DB 주소 디테일 찾기
     public List<AddressInfoDetail> addressDetailAPI(int code){
         return addressMapper.addressDetailAPI(code);
     }

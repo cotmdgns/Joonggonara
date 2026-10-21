@@ -11,6 +11,8 @@ public interface AddressMapper {
 
     // DB 주소 API
     List<AddressInfo> addressAPI();
+    // 주소 code 찾기
+    int addressCode(String name);
     // DB 주소 상세 API
     List<AddressInfoDetail> addressDetailAPI(int code);
 }

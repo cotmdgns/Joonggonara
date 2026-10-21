@@ -1,15 +1,17 @@
 import { MdHeight } from "react-icons/md";
 
-const InputTag = ({TText,PHText,WText}) =>{
+const InputTag = ({TText,PHText,WText,val,chage,col,bor}) =>{
     const cssStyle ={
         //default ( 디폴트 값, 변경 안됨 )
         "padding" : "10px",
         "marginBottom" : "15px",
-        "border" : "1px solid rgb(168, 168, 168)",
         "borderRadius" : "5px",
 
         //correction possible ( 변경 가능 )
         "width" : WText != null ? WText : "100%",
+        "color" : col != null ? col : "black",
+        // "border" : bor ? "1px solid rgb(39, 235, 82)" :"1px solid rgb(168, 168, 168)" ,
+        "border" : "1px solid rgb(168, 168, 168)" ,
 
     }
     const inputStyle ={
@@ -22,6 +24,8 @@ const InputTag = ({TText,PHText,WText}) =>{
         <>
             <div >
                 <input 
+                    onChange={chage}
+                    value={val}
                     type={inputStyle.type} 
                     placeholder={inputStyle.placeholder}
                     style={cssStyle}/>

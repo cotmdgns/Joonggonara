@@ -16,14 +16,17 @@ public class JGUserInfo {
     private String userPwd; /*사용자 비밀번호*/
     private String userImg; /*사용자 이미지*/
     private String userName; /*사용자 이름*/
+    private String userEmail; /*사용자 이름*/
     private String userCreate; /*생성 날짜*/
     private String userUpdate; /*변경 날짜*/
     private String userDelete; /*삭제 날짜*/
+    private int userManager; /* 사용자 등급 */
     private boolean userYn; /*사용유무*/
     private boolean userStopYn; /*사용자 신고 유무*/
     private String userStopDate; /*사용자 신고 누적 시 날짜 적용*/
     private int userTotalPointer; /*사용자 총 포인트*/
-    private String userAddress;  // 사용자 주소
-    private String userAddressDetail; // 사용자 주소 ( 상세 )
-    private String userInfo; // 사용자 자기소개
+    private String addressData;  // 사용자 주소                      [2026-10-21 추가됨]
+    private String addressDetailData; // 사용자 주소 상세             [2026-10-21 추가됨]
+    private String userAddressDetail; // 사용자 주소 정보
+    private String userInfo; // 사용자 자기소개                       [ 2026-10-19 이후로 추가 됨 ]
 }

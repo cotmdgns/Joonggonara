@@ -12,7 +12,7 @@
     #signBox{
         position: fixed;
         padding: 30px;
-        width: 600px;
+        width: 400px;
         height: 500px;
         background-color: rgb(255, 255, 255);
         z-index: 100;
@@ -40,6 +40,7 @@
             #idCheck{
                 width: 100%;
                 display: flex;
+                position: relative;
                 #idCheckButton{
                     background-color: rgb(105, 54, 233);
                     margin-bottom: 15px;
@@ -57,6 +58,48 @@
                 #idCheckButton:hover{
                     background-color: rgb(71, 32, 171);
                 }
+                #check{
+                    position: absolute;
+                    top: 38px;
+                    left: 10px;
+                    font-size: 8px;
+                }
+            }
+            #pwdCheck{
+                position: relative;
+                #check{
+                    position: absolute;
+                    top: 38px;
+                    left: 10px;
+                    font-size: 8px;
+                }
+            }
+            #nameCheck{
+                position: relative;
+                #check{
+                    position: absolute;
+                    top: 38px;
+                    left: 10px;
+                    font-size: 8px;
+                } 
+            }
+            #emailCheck{
+                position: relative;
+                #check{
+                    position: absolute;
+                    top: 38px;
+                    left: 10px;
+                    font-size: 8px;
+                } 
+            }
+            #addressCheck{
+                position: relative;
+                #check{
+                    position: absolute;
+                    top: 38px;
+                    left: 10px;
+                    font-size: 8px;
+                }   
             }
         }
 
@@ -87,7 +130,8 @@
             border: 1px solid gray;
             font-size: 15px;
             font-weight: bold;
-            color: white    ;
+            color: white;
+            cursor: pointer;
         }
         #createButton:hover{
             background-color: rgb(202, 147, 57);
