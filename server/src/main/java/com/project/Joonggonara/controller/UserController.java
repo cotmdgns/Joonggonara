@@ -85,7 +85,7 @@ public class UserController {
 
     // DB 주소 상세 정보 가져오기 [ 정상 작동함 ]
     @GetMapping("addressDetailAPI/{name}")
-    public List<AddressInfoDetail> addressDetailAPI(@PathVariable String name) {
+        public List<AddressInfoDetail> addressDetailAPI(@PathVariable String name) {
         int code = addressService.addressCode(name);
         List<AddressInfoDetail> addressInfo =  addressService.addressDetailAPI(code);
         return addressInfo;

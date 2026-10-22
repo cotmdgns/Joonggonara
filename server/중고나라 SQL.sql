@@ -144,6 +144,8 @@ CREATE TABLE categoryStateMajor(
     categoryStateMajorCreate datetime default CURRENT_TIMESTAMP	/* 카테고리 메이저 생성날짜 */
 );
 select * from categoryStateMajor;
+delete from categoryStateMajor
+where categoryStateMajorCode = 1;
 /* 반려동물, 게임, 취미, 도서/음반/문구, 가전제품, 패션의류, 노트북/PC */
 /* 카테고리 메이저 데이터 만들기 */
 insert into categoryStateMajor(categoryStateMajorText)
