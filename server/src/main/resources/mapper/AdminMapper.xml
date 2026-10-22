@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 어드민 전용 Mapper -->
+<mapper namespace="mapper.AdminMapper">
+    <!--  카테고리 메이저 select문  -->
+    <select id="selectCategoryMajor" resultType="CategoryStateMajor">
+        select categoryStateMajorCode,categoryStateMajorText
+        from categoryStateMajor
+    </select>
+
+    <!--  카테고리 마이너 select문  -->
+    <select id="selectCategoryMinor" parameterType="int" resultType="categoryStateMinor">
+        select categoryStateMinorCode,categoryStateMinorText
+        from categoryStateMinor
+        where categoryStateMajorCode = ${code}
+    </select>
+</mapper>

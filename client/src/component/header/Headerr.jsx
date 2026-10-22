@@ -35,7 +35,7 @@ const Headerr = () => {
 
   // 헤더 전역관리 리듀서
   const [state, dispatch] = useReducer(HeaderResuser, initiaHeaderReduser);
-  const { addressToggle, priceToggle, categoryToggle, loginBoo } = state;
+  const { addressToggle, priceToggle, categoryToggle,managerState, loginBoo } = state;
 
   // 마이페이지 전역관리 리듀서
   const [stateMyPage, dispatchMyPage] = useReducer(
@@ -54,7 +54,8 @@ const Headerr = () => {
   };
   // 로그아웃 버튼
   const logoutButton = () => {
-    alert("로그아웃");
+    dispatch({type:"logout"})
+    alert("정상적으로 로그아웃 되었습니다.");
   };
   // 회원가입
   const signUpButton = () => {
@@ -83,7 +84,28 @@ const Headerr = () => {
   // 검색 api 호출
   const searchAPIButton = () => {};
   // 안심 거래 캠페인 네비
-  const nav = (code) => {};
+  const nav = (code) => {
+
+  };
+
+  useEffect(()=>{
+    const token = sessionStorage.getItem("token");
+    const userManager = sessionStorage.getItem("userManager");
+    if(token != null){
+      dispatch({type:"loginBoo"})
+    }
+    if(userManager == 1){
+      dispatch({type:"managerState"})
+    }
+  },[])
+
+  // 사용자 매니저 코드
+  // 1 : 관리자
+  // 2 : 일반사용자
+  // 토큰 있냐 없냐 여부로 로그인 확인하기
+
+
+
   return (
     <>
       <div id="headerBox">
@@ -140,12 +162,15 @@ const Headerr = () => {
                 </div>
                 <div id="headerText">알림</div>
               </div>
-              <div id="headerInfo" onClick={admin}>
-                <div id="headerFont">
-                  <RiAdminFill />
-                </div>
-                <div id="headerText">관리자</div>
-              </div>
+              {managerState === "managerState" && 
+                <div id="headerInfo" onClick={admin}>
+                  <div id="headerFont">
+                    <RiAdminFill />
+                  </div>
+                  <div id="headerText">관리자</div>
+                </div>              
+              }
+
             </div>
           )}
         </div>

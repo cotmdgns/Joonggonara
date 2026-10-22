@@ -27,7 +27,10 @@ public class SecurityConfig {
                                 .requestMatchers(
                                         "/api/userInfo/addressAPI",
                                         "/api/userInfo/addressDetailAPI/{name}",
-                                        "/api/userInfo/idCheckAPI").permitAll()
+                                        "/api/userInfo/idCheckAPI",
+                                        "/api/userInfo/userIdCreate",
+                                        "/api/userInfo/userLogin"
+                                ).permitAll()
                                 .anyRequest().permitAll()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)

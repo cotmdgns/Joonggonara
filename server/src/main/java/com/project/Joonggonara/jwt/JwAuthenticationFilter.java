@@ -29,24 +29,27 @@ public class JwAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        // 클라이언트에서 보낸 토큰을 받아서 사용자 확인 후 인증 처리
-        String token = parseBearerToken(request);
+        try {
+            String token = parseBearerToken(request);
 
-        if(token!=null && !token.equalsIgnoreCase("null")) {
-            JGUserInfo member = tokenProvider.validate(token);
+            if(token != null && !token.equalsIgnoreCase("null")) {
+                JGUserInfo member = tokenProvider.validate(token);
 
-            // 추출된 인증 정보를 필터링에서 사용할 수 있도록 SecurityContext에 등록
-            AbstractAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(member, member.getUserPwd());
-            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                AbstractAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(member, member.getUserPwd());
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-            SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
-            securityContext.setAuthentication(authentication);
+                SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+                securityContext.setAuthentication(authentication);
 
-            SecurityContextHolder.setContext(securityContext);
-        } else {
-//            log.warn("토큰이 없거나 유효하지 않음");
+                SecurityContextHolder.setContext(securityContext);
+            }
+        } catch (Exception e) {
+            // 💡 토큰에 문제가 있어도 로그만 남기고, 인증 처리를 안 한 상태로 유지합니다.
+            log.warn("토큰 검증 실패 또는 유효하지 않은 토큰: {}", e.getMessage());
         }
 
+        // 🚀 [가장 중요] try가 끝나든, catch로 빠지든 상관없이
+        // 무조건 다음 필터나 컨트롤러로 요청을 전달해야 합니다! (try 밖으로 이동)
         filterChain.doFilter(request, response);
     }
 

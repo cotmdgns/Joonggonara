@@ -10,7 +10,9 @@ export const initiaHeaderReduser = {
 
 
     // 사용자 로그인 여부
-    loginBoo : false
+    loginBoo : false,
+    // 사용자 등급 상태
+    managerState : null
 }
 
 export const HeaderResuser = (state,action) =>{
@@ -41,7 +43,7 @@ export const HeaderResuser = (state,action) =>{
                 priceToggle : true,
                 categoryToggle : false
             }  
-        // 카테고리 열고 닫기 
+        /////// 카테고리 열고 닫기 
         case "categoryButtonClose":
             return{
                 ...state,
@@ -53,6 +55,27 @@ export const HeaderResuser = (state,action) =>{
                 addressToggle : false,
                 priceToggle : false,
                 categoryToggle : true
-            }              
+            }    
+        ///////    
+        case "loginBoo" :
+            return {
+                ...state,
+                loginBoo : true
+            }      
+        case "managerState" :
+            return {
+                ...state,
+                managerState : "managerState"
+            }  
+        case "logout" :
+            sessionStorage.removeItem("token")
+            sessionStorage.removeItem("userId")
+            sessionStorage.removeItem("userManager")
+            sessionStorage.removeItem("userCode")
+            return {
+                ...state,
+                loginBoo : false,
+                managerState : null,
+            }  
     }
 }

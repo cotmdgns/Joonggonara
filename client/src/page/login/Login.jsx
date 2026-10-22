@@ -18,6 +18,7 @@ import { useReducer } from "react";
 import InputTag from "../../component/inputTag/InputTag";
 import { initiaLoginReduser, LoginReduser } from "./reduser/LoginReduser";
 import { userLoginAPI } from "./api/LoginAPI";
+import { jwtDecode } from "jwt-decode";
 
 const Login = () =>{
     const navigate = useNavigate();
@@ -42,6 +43,18 @@ const Login = () =>{
             "userPwd" : userPwd
         }
         const result = await userLoginAPI(data)
+
+        if(result.data === false || result.data === "false"){
+            alert("아이디와 비밀번호가 틀립니다.")
+        }else{
+            sessionStorage.setItem("token" , result.data)
+            const token = sessionStorage.getItem("token");
+            const payloads = jwtDecode(token);
+            sessionStorage.setItem("userId" , payloads.userId)
+            sessionStorage.setItem("userManager" , payloads.userManager)
+            sessionStorage.setItem("userCode" , payloads.userCode)
+            navigate("/")
+        }
     }
 
     // 카카오 로그인

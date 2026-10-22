@@ -79,7 +79,7 @@ const SignUp = () =>{
         }
     }
 
-    // 아이디 중복체크
+    // 아이디 중복체크  [ 정상 작동 ]
     const IdCheckButtonAPI = async () =>{
         const result = await IdCheckAPI(userId);
         if(userIdBoo && !result.data){
@@ -91,7 +91,7 @@ const SignUp = () =>{
         }    
     }
 
-    // 회원가입하기
+    // 회원가입하기 [ 정상 작동 ]
     const createUser = async () =>{
         // 회원가입 로그인 관리
         const data ={

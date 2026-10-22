@@ -17,7 +17,7 @@ where addressDetailName = 1;
 CREATE TABLE JGUserInfo(
   uesrCode integer auto_increment primary key, /*사용자 코드*/
   userId varchar(20) not null unique, /*사용자 아이디*/
-  userPwd varchar(30) not null, /*사용자 비밀번호*/
+  userPwd varchar(150) not null, /*사용자 비밀번호*/
   userImg varchar(255) , /*사용자 이미지*/
   userName varchar(20) not null, /*사용자 이름*/
   userCreate datetime default CURRENT_TIMESTAMP, /*생성 날짜*/
@@ -137,10 +137,38 @@ CREATE TABLE UserDeclarationA(
   userDeclarationBoo boolean /*신고 접수?*/ 
 );
 
+/* 관리자 카테고리 관리 */
+CREATE TABLE categoryStateMajor(
+	categoryStateMajorCode integer auto_increment primary key,  /* 카테고리 메이저 코드 */
+    categoryStateMajorText varchar(20),							/* 카테고리 메이저 이름 */
+    categoryStateMajorCreate datetime default CURRENT_TIMESTAMP	/* 카테고리 메이저 생성날짜 */
+);
+select * from categoryStateMajor;
+/* 반려동물, 게임, 취미, 도서/음반/문구, 가전제품, 패션의류, 노트북/PC */
+/* 카테고리 메이저 데이터 만들기 */
+insert into categoryStateMajor(categoryStateMajorText)
+value("반려동물");
+insert into categoryStateMajor(categoryStateMajorText)
+value("게임");
+insert into categoryStateMajor(categoryStateMajorText)
+value("취미");
+insert into categoryStateMajor(categoryStateMajorText)
+value("도서/음반/문구");
+insert into categoryStateMajor(categoryStateMajorText)
+value("가전제품");
+insert into categoryStateMajor(categoryStateMajorText)
+value("패션의류");
+insert into categoryStateMajor(categoryStateMajorText)
+value("노트북/PC");
 
+CREATE TABLE categoryStateMinor(
+	categoryStateMinorCode integer auto_increment primary key,  /* 카테고리 마이너 코드 */
+    categoryStateMajorCode integer,								/* 카테고리 메이저 외래키 */
+    categoryStateMinorText varchar(20),							/* 카테고리 마이너 이름 */
+    categoryStateMinorCreate datetime default CURRENT_TIMESTAMP	/* 카테고리 마이너 생성날짜 */
+);
 
 /* 도, 시, 군 더미데이터 */
-
 /* 1. 광역시·도 데이터 입력 (17개) */
 INSERT INTO AddressInfo (addressName) VALUES 
 ('서울특별시'), ('부산광역시'), ('대구광역시'), ('인천광역시'),

@@ -11,7 +11,6 @@ public class PageController {
 
     @GetMapping("/")
     public String main(){
-
         return "page/main";
     }
 

@@ -1,5 +1,6 @@
 package com.project.Joonggonara.controller;
 
+import com.project.Joonggonara.jwt.JwtUtil;
 import com.project.Joonggonara.model.vo.AddressInfo;
 import com.project.Joonggonara.model.vo.AddressInfoDetail;
 import com.project.Joonggonara.model.vo.JGUserInfo;
@@ -7,6 +8,8 @@ import com.project.Joonggonara.service.AddressService;
 import com.project.Joonggonara.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,32 +31,38 @@ public class UserController {
     @Autowired
     private AddressService addressService;
 
+    // jwt 토큰
+    @Autowired
+    private JwtUtil jwtUtil;
+
 
     // 사용자 회원가입 [ 정상 작동 , 폴더생성 없는 찐빠있음 ]
     @ResponseBody
     @PostMapping("userIdCreate")
     public boolean UserIdCreate(@RequestBody JGUserInfo jgUserInfo){
-
-        // 사용자 이미지 칼럼에 랜덤값인 이미지 넣기
-        int number = (int) (Math.random() * 5) + 1;
-        jgUserInfo.setUserImg("../resources/static/img/default" + number +".jpg");
-
-        // 폴더 생성해야하는데.. 씁
-        int result = userService.UserIdCreate(jgUserInfo);
+        userService.UserIdCreate(jgUserInfo);
         return true;
     }
 
-    /* 사용자 로그인화면 */
+    /* 사용자 로그인화면 [ 정상작동, 암호화된 데이터 비교 확인 True, 토큰값 제대로 나옴 ]*/
     @PostMapping("userLogin")
-    public JGUserInfo UserLogin(@RequestBody JGUserInfo jgUserInfo){
-        JGUserInfo info = userService.IdSelectAPI(jgUserInfo.getUserId());
+    public String UserLogin(@RequestBody JGUserInfo jgUserInfo){
 
-        if(info.getUserPwd().equals(jgUserInfo.getUserPwd())){
-            // 성공하면 아이디랑 이름정도만 보내기
-            // 씁박 시큐리티 사용해서 관리해야겠다..
-            return info;
+        JGUserInfo info = userService.IdSelectAPI(jgUserInfo.getUserId());
+        // 데이터가 존재하지 않으며 null
+        if(info == null){
+            return "false";
         }
-        return null;
+
+        // 암호화 찾기
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if(passwordEncoder.matches(jgUserInfo.getUserPwd(),info.getUserPwd())){
+            String token = jwtUtil.createToken(info);
+            log.info("토큰값 데이터 확인하기 : " + token);
+            return token;
+        }else{
+            return "false";
+        }
     }
 
 
