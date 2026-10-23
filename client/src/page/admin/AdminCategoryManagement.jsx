@@ -1,7 +1,7 @@
 //
 import { useEffect } from "react";
 import { useReducer } from "react";
-import { categoryMajorDeleteAPI, categoryStateAPI } from "./api/AdminPageAPI";
+import { categoryMajorCreateAPI, categoryMajorDeleteAPI, categoryMinorDeleteAPI, categoryStateAPI } from "./api/AdminPageAPI";
 import "./css/AdminCategoryManagement.scss"
 import { AdminCategoryReduser, initiaAdminCategoryReduser } from "./reduser/AdminCategoryReduser";
 import AdminCategoryModal from "./component/AdminCategoryModal";
@@ -10,35 +10,37 @@ import AdminModalCreate from "./component/AdminModalCreate";
 // 관리자 페이지 [ 카테고리 관리 ]
 const AdminCategoryManagement = () => {
     const [state,dispatch] = useReducer(AdminCategoryReduser,initiaAdminCategoryReduser)
-    const {categoryStateData,modalState,modalCreateState} = state;
+    const {
+        categoryStateData,
+        modalState,
+        modalCreateState,
+    } = state;
 
 
-    // 모달창(생성) 열기
+    // 모달창(생성) 열기    [ 생성창은 끝 ]
     const modalCreateOpen = () =>{
-        console.log("gd")
         dispatch({type:"modalCreateOpen"})      
     }
-    // 모달창(생성) 닫기
+    // 모달창(생성) 닫기 [ 생성창은 끝 ]
     const modalCreateClose = () =>{
         dispatch({type:"modalCreateClose"})        
     }
 
     // 모달창(수정) 열기
-    const categoryModalUp = (code) =>{
-        console.log(code)
-        console.log("수정창")
-        dispatch({type:"categoryModalOpen"})
+    const categoryModalUp = (data) =>{
+        dispatch({type:"categoryModalOpen", payload:data})
     }
     // 모달창(수정) 닫기
     const categoryModalDown = () =>{
         dispatch({type:"categoryModalClose"})        
     }
 
-    // 카테고리 메이저 생성하기
-    const categoryMajorCreate = async () =>{
+    // 카테고리 메이저 생성하기 [ 정상 작동함 ]
+    const categoryMajorCreate = async (text) =>{
         if(window.confirm("생성하시겠습니다?")){
-            await categoryMajorDeleteAPI()
+            await categoryMajorCreateAPI(text)
             categoryState()
+            modalCreateClose()
         }
     }
     // 카테고리 마이너 생성하기
@@ -58,7 +60,7 @@ const AdminCategoryManagement = () => {
     // 카테고리 마이너 삭제하기 [  ]
     const categoryMinorDelete = async (code) =>{
         if(window.confirm("정말로 삭제하시겠습니다?")){
-            await categoryMajorDeleteAPI(code)
+            await categoryMinorDeleteAPI(code)
             categoryState()
         }
     }
@@ -80,10 +82,19 @@ const AdminCategoryManagement = () => {
                 <div id="categoryH1">카테고리 관리하기</div>
                 {/* ---------------- 모달창 영역 ---------------- */}
                 {modalState && (
-                    <AdminCategoryModal categoryModalDown={categoryModalDown}></AdminCategoryModal>
+                    <AdminCategoryModal 
+                        state={state} 
+                        dispatch={dispatch} 
+                        categoryModalDown={categoryModalDown}
+                        ></AdminCategoryModal>
                 )}
                 {modalCreateState && (
-                    <AdminModalCreate modalCreateClose={modalCreateClose} categoryMajorCreate={categoryMajorCreate}></AdminModalCreate>
+                    <AdminModalCreate 
+                        state={state} 
+                        dispatch={dispatch}
+                        modalCreateClose={modalCreateClose} 
+                        categoryMajorCreate={categoryMajorCreate}
+                    ></AdminModalCreate>
                 )}
 
                 {/* ------------------------------------------- */}
@@ -102,19 +113,11 @@ const AdminCategoryManagement = () => {
                         <div className="categoryUp">
                             <div>{category.categoryStateMajor.categoryStateMajorText}</div>
                             <div id="button-list">
-                                <div id="UpButton" onClick={() => categoryModalUp(category.categoryStateMajor.categoryStateMajorCode)}>✎</div>
+                                <div id="UpButton" onClick={() => categoryModalUp(category)}>✎</div>
                                 <div id="UpButton" onClick={() => {categoryMajorDelete(category.categoryStateMajor.categoryStateMajorCode)}}>X</div>
                             </div>
 
                         </div>
-                        {/* <div className="categoryDownBox">
-                            {category.categoryStateMinor.map((categoryMinor,index)=>(
-                                <div className="categoryDown"
-                                 key={index}
-                                //  onClick={() => {categoryMinorDelete(categoryMinor)}}
-                                 >하위 카테고리<div id="DownButton">X</div></div>
-                            ))}
-                        </div> */}
                     </div>
                 ))}
                 </div>

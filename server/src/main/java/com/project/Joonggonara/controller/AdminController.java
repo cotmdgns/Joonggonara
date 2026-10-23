@@ -20,7 +20,7 @@ public class AdminController {
     private AdminService adminService;
 
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@카테고리 관리 페이지 @@@@@@@@@@@@@@@@@@@@@@@/
-    // 카테고리 상태 보내기  [ 완성함 듯 ]
+    // 카테고리 상태 보내기  [ 정상작동 ]
     @GetMapping("CategoryState")
     public List<CategoryDTO> CategoryState(){
 //        이런식으로 제이슨 형태의 데이터를 보내야 내가 편할거 같음
@@ -34,7 +34,7 @@ public class AdminController {
 //        }
         List<CategoryDTO> categoryDTO = new ArrayList<>();
         List<CategoryStateMajor> categoryStateMajor = adminService.selectCategoryMajor();
-        log.info("데이터 확안하기 categoryStateMajor : " + categoryStateMajor);
+//        log.info("데이터 확안하기 categoryStateMajor : " + categoryStateMajor);
         for(CategoryStateMajor categoryMajor : categoryStateMajor){
             CategoryDTO dto = new CategoryDTO();
             dto.setCategoryStateMajor(categoryMajor);
@@ -42,17 +42,19 @@ public class AdminController {
             dto.setCategoryStateMinor(categoryStateMinor);
             categoryDTO.add(dto);
         }
-        log.info("데이터 확안하기 dto : " + categoryDTO);
-
+//        log.info("데이터 확안하기 dto : " + categoryDTO);
         return categoryDTO;
     }
+    //  <!-- 카테고리 메이저 수정 모달창 열 떄 사용할 데이터 -->
 
-    //    <!--  카테고리 메이저 생성하기  -->
+    //    <!--  카테고리 메이저 생성하기 [ 정상 작동함 ]  -->
     @PostMapping("CategoryMajorCreate")
-    public void CategoryMajorCreate(@RequestBody String text){
+    public void CategoryMajorCreate(@RequestBody CategoryStateMajor categoryStateMajor){
+        String text = categoryStateMajor.getCategoryStateMajorText();
         adminService.CategoryMajorCreate(text);
     };
-    //    <!--  카테고리 메이저 삭제하기  -->
+
+    //    <!--  카테고리 메이저 삭제하기 [ 정상작동함 ] -->
     @PostMapping("CategoryMajorDelete/{code}")
     public void CategoryMajorDelete(@PathVariable("code") int code){
         adminService.CategoryMajorDelete(code);

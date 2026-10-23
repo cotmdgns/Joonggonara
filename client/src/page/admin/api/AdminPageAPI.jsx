@@ -23,11 +23,11 @@ export const categoryStateAPI = async () =>{
     return await instance.get("/CategoryState")
 }
 
-// 카테고리 메이저 생성하기
-export const categoryMajorCreateAPI = async (data) =>{
-    return await instance.post("/CategoryMajorCreate",data)
+// 카테고리 메이저 생성하기 [ 정상 작동함 ]
+export const categoryMajorCreateAPI = async (text) =>{
+    return await instance.post("/CategoryMajorCreate", { categoryStateMajorText: text });
 }
-// 카테고리 메이저 삭제하기
+// 카테고리 메이저 삭제하기 [ 정상 작동 ]
 export const categoryMajorDeleteAPI = async (code) =>{
     return await instance.post(`/CategoryMajorDelete/${code}`)
 }

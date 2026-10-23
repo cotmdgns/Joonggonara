@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class JGNoticeImg {
 
-    private int JGNoticeImgCode; /*게시글 이미지 코드*/
-    private String JGNoticeImg; /*게시글 이미지*/
-    private int JGNoticeImgCreate; /*게시글 이미지 생살날짜*/
-    private int JGNoticeCode; /*게시글 코드 [ 외래키 ]*/
+    private int jGNoticeImgCode; /*게시글 이미지 코드*/
+    private String jGNoticeImg; /*게시글 이미지*/
+    private int jGNoticeImgCreate; /*게시글 이미지 생살날짜*/
+    private int jGNoticeCode; /*게시글 코드 [ 외래키 ]*/
 
 }

@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class JGNoticeComment {
 
-    private int JGNoticeCommentCode; /*게시글 댓글*/
-    private int usercode; /*사용자 코드 [ 외래키 ]*/
-    private int JGNoticeCode; /*게시글 코드 [ 외래키 ]*/
-    private String JGNoticeText; /*게시글 댓글*/
-    private int JGNoticeCreate; /*댓글 생성날짜*/
+    private int jGNoticeCommentCode; /*게시글 댓글*/
+    private int userCode; /*사용자 코드 [ 외래키 ]*/
+    private int jGNoticeCode; /*게시글 코드 [ 외래키 ]*/
+    private String jGNoticeText; /*게시글 댓글*/
+    private int jGNoticeCreate; /*댓글 생성날짜*/
 
 }

@@ -2,9 +2,9 @@ import { useReducer } from "react";
 import { AdminCategoryReduser, initiaAdminCategoryReduser } from "../reduser/AdminCategoryReduser";
 
 
-const AdminModalCreate = ({modalCreateClose,categoryMajorCreate}) =>{
-        const [state,dispatch] = useReducer(AdminCategoryReduser,initiaAdminCategoryReduser)
-        const {categoryMajorText} = state;
+const AdminModalCreate = ({modalCreateClose,categoryMajorCreate,state,dispatch}) =>{
+    const {categoryMajorText} = state;
+    
     return (
         <>
             <div className="modal-overlay">
@@ -29,7 +29,7 @@ const AdminModalCreate = ({modalCreateClose,categoryMajorCreate}) =>{
 
                     <div className="modal-footer">
                         <button className="btn-close" onClick={modalCreateClose}>닫기</button>
-                        <button className="btn-save" onClick={categoryMajorCreate}>저장</button>
+                        <button className="btn-save" onClick={() => {categoryMajorCreate(categoryMajorText)}}>저장</button>
                     </div>
                 </div>
             </div>

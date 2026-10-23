@@ -176,6 +176,14 @@
     font-size: 14px;
 }
 
+.minor-item input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
 /* 모달 내부 버튼들 */
 .modal-content button {
     cursor: pointer;

@@ -1,17 +1,33 @@
-import { useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import { AdminCategoryReduser, initiaAdminCategoryReduser } from "../reduser/AdminCategoryReduser";
 
-const AdminCategoryModal = ({categoryModalDown}) =>{
+const AdminCategoryModal = ({categoryModalDown,state,dispatch}) =>{
 
-        const [state,dispatch] = useReducer(AdminCategoryReduser,initiaAdminCategoryReduser)
-        const {categoryStateData,modalState} = state;
+    const {
+        categoryMajorCodeM,
+        categoryMajorTextM,
+        categoryMinorCodeM,
+        categoryMinorTextM,
+        minorCreateState,
+    } = state;
+
+    // 대분류 이름 수정
+    const categoryTextUpdate = () =>{
+        console.log("")
+    }
+
+    // 소분류 추가하기 Boo
+    const categoryMinorCreate = () =>{
+
+    }
+
 
     return (
         <>
         <div className="modal-overlay">
             <div className="modal-content">
                 <div className="modal-header">
-                    <h3>대분류 및 ㄴㄴㄴㄴ 관리</h3>
+                    <h3>대분류 및 소분류 관리</h3>
                     <button className="close-x-btn" onClick={categoryModalDown}>✕</button>
                 </div>
 
@@ -19,22 +35,47 @@ const AdminCategoryModal = ({categoryModalDown}) =>{
                     <div className="input-group">
                         <label>대분류 명칭</label>
                         <div className="flex-row">
-                            <input type="text"  />
+                            <input type="text" 
+                            value={categoryMajorTextM} 
+                            // onChange={}
+                            />
                             <button className="btn-edit">수정</button>
-                            <button className="btn-confirm">확인</button>
                         </div>
                     </div>
 
                     <div className="minor-section">
                         <div className="minor-header-row">
                             <label>하위 카테고리 목록</label>
-                            <button className="btn-add">소분류 추가</button>
+                            {!minorCreateState ? 
+                            <button className="btn-add" onClick={() => {
+                                dispatch({type:"minorCreateStateTrue"})
+                            }}>소분류 추가</button>
+                            :
+                            <button className="btn-add" onClick={() => {
+                                dispatch({type:"minorCreateStateFalse"})
+                            }}>소분류 닫기</button>
+                            }
+                            
+                            
                         </div>
 
                         <div className="minor-box-list">
+                            {minorCreateState && 
+                                <div className="minor-item">
+                                    <input type="text"  
+                                        onChange={(e)=>{dispatch({type:"categoryMajorText",payload :e.target.value})}}
+                                    />
+                                    <button className="btn-delete-icon">추가</button>
+                                </div>
+                            }
+
+                            {/* 이게 한 세트 */}
                             <div className="minor-item">
                                 <span>콘솔 게임기</span>
-                                <button className="btn-delete-icon">✎</button>
+                                <div>
+                                    <button className="btn-delete-icon">X</button>
+                                    <button className="btn-delete-icon">✎</button>
+                                </div>
                             </div>
                         </div>
                     </div>
