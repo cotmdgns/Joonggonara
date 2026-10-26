@@ -3,6 +3,8 @@ package com.project.Joonggonara.controller;
 import com.project.Joonggonara.model.dto.CategoryDTO;
 import com.project.Joonggonara.model.vo.CategoryStateMajor;
 import com.project.Joonggonara.model.vo.CategoryStateMinor;
+import com.project.Joonggonara.model.vo.JGNotice;
+import com.project.Joonggonara.model.vo.JGUserInfo;
 import com.project.Joonggonara.service.AdminService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,34 +20,25 @@ import java.util.List;
 public class AdminController {
     @Autowired
     private AdminService adminService;
+    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 메인 관리 페이지 @@@@@@@@@@@@@@@@@@@@@@@/
+    @GetMapping("mainSelectUseAll") /* <!-- 전체사용자 --> */
+    public int mainSelectUseAll(){
+        return adminService.mainSelectUseAll().size();
+    };
+
+    @GetMapping("mainSelectNoticeAll") /* <!-- 전체게시글 --> */
+    public int mainSelectNoticeAll(){
+        return adminService.mainSelectNoticeAll().size();
+    };
+
 
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@카테고리 관리 페이지 @@@@@@@@@@@@@@@@@@@@@@@/
     // 카테고리 상태 보내기  [ 정상작동 ]
     @GetMapping("CategoryState")
-    public List<CategoryDTO> CategoryState(){
-//        이런식으로 제이슨 형태의 데이터를 보내야 내가 편할거 같음
-//        {
-//            "categoryText": "게임",
-//            "categoryMinor": ["콜옵", "롤", "등등"]
-//        },
-//        {
-//            "categoryText": "가전제품",
-//            "categoryMinor": ["냉장고", "가스레인지", "전자렌지"]
-//        }
-        List<CategoryDTO> categoryDTO = new ArrayList<>();
+    public List<CategoryStateMajor> CategoryState(){
         List<CategoryStateMajor> categoryStateMajor = adminService.selectCategoryMajor();
-//        log.info("데이터 확안하기 categoryStateMajor : " + categoryStateMajor);
-        for(CategoryStateMajor categoryMajor : categoryStateMajor){
-            CategoryDTO dto = new CategoryDTO();
-            dto.setCategoryStateMajor(categoryMajor);
-            List<CategoryStateMinor> categoryStateMinor = adminService.selectCategoryMinor(categoryMajor.getCategoryStateMajorCode());
-            dto.setCategoryStateMinor(categoryStateMinor);
-            categoryDTO.add(dto);
-        }
-//        log.info("데이터 확안하기 dto : " + categoryDTO);
-        return categoryDTO;
+        return categoryStateMajor;
     }
-    //  <!-- 카테고리 메이저 수정 모달창 열 떄 사용할 데이터 -->
 
     //    <!--  카테고리 메이저 생성하기 [ 정상 작동함 ]  -->
     @PostMapping("CategoryMajorCreate")
@@ -59,14 +52,27 @@ public class AdminController {
     public void CategoryMajorDelete(@PathVariable("code") int code){
         adminService.CategoryMajorDelete(code);
     };
-    //    <!--  카테고리 마이너 생성하기  -->
+
+    //    <!--  카테고리 메이저 수정하기 [ 정상작동함 ] -->
+    @PostMapping("CategoryMajorUpdate")
+    public void CategoryMajorUpdate(@RequestBody CategoryStateMajor categoryStateMajor){
+        adminService.CategoryMajorUpdate(categoryStateMajor);
+    }
+//    //    <!--  카테고리 마이너 전체 리스트 -->
+    @PostMapping("CategoryMinorSelect/{code}")
+    public List<CategoryStateMinor> CategoryMinorSelect(@PathVariable("code") int code){
+        return adminService.SelectCategoryMinor(code);
+    };
+
+    //    <!--  카테고리 마이너 생성하기 [ 정상작동함 ]  -->
     @PostMapping("CategoryMinorCreate")
     public void CategoryMinorCreate(@RequestBody CategoryStateMinor categoryStateMinor){
         adminService.CategoryMinorCreate(categoryStateMinor);
     };
+
     //    <!--  카테고리 마이너 삭제하기  -->
-    @PostMapping("CategoryMinorDelete")
-    public void CategoryMinorDelete(@RequestBody int code){
+    @PostMapping("CategoryMinorDelete/{code}")
+    public void CategoryMinorDelete(@PathVariable("code") int code){
         adminService.CategoryMinorDelete(code);
     };
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@/

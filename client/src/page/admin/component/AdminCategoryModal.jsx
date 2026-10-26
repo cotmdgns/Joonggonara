@@ -1,26 +1,37 @@
 import { useEffect, useReducer } from "react";
 import { AdminCategoryReduser, initiaAdminCategoryReduser } from "../reduser/AdminCategoryReduser";
+import { 
+    categoryMinorCreateAPI,
+    CategoryMinorSelectAPI
+ } from "../api/AdminPageAPI";
 
-const AdminCategoryModal = ({categoryModalDown,state,dispatch}) =>{
+const AdminCategoryModal = ({
+    categoryMinorCreate, // 카테고리 마이너 생성
+    categoryMinorDelete, // 카테고리 마이너 삭제
+    categoryTextUpdate, // 카테고리 메이저 수정
+    categoryModalDown,  // 모달창 듣기
+    categoryState,      // 카테고리 상태값 ( 메이저, 마이너 정보)
+    state,
+    dispatch,
+    categoryMinorSelect,
+}) =>{
 
     const {
-        categoryMajorCodeM,
+        categoryMajorCodeM, // 여기에 메이저 코드 있음
         categoryMajorTextM,
         categoryMinorCodeM,
         categoryMinorTextM,
+        categoryMinorText,
         minorCreateState,
-    } = state;
+        categoryStateMinor,
+        categoryMinorArr,
+    } = state;  
 
-    // 대분류 이름 수정
-    const categoryTextUpdate = () =>{
-        console.log("")
-    }
 
-    // 소분류 추가하기 Boo
-    const categoryMinorCreate = () =>{
 
-    }
-
+    useEffect(()=>{
+        categoryMinorSelect()
+    },[])
 
     return (
         <>
@@ -37,9 +48,11 @@ const AdminCategoryModal = ({categoryModalDown,state,dispatch}) =>{
                         <div className="flex-row">
                             <input type="text" 
                             value={categoryMajorTextM} 
-                            // onChange={}
+                            onChange={(e) => {
+                                dispatch({type:"categoryMajorTextMUpdate",payload:e.target.value})
+                            }}
                             />
-                            <button className="btn-edit">수정</button>
+                            <button className="btn-edit" onClick={categoryTextUpdate}>수정</button>
                         </div>
                     </div>
 
@@ -63,27 +76,37 @@ const AdminCategoryModal = ({categoryModalDown,state,dispatch}) =>{
                             {minorCreateState && 
                                 <div className="minor-item">
                                     <input type="text"  
-                                        onChange={(e)=>{dispatch({type:"categoryMajorText",payload :e.target.value})}}
+                                        value={categoryMinorText}
+                                        onChange={(e)=>{
+                                            dispatch({type:"categoryMinorTextCreate",payload : e.target.value})
+                                        }}
                                     />
-                                    <button className="btn-delete-icon">추가</button>
+                                    <button className="btn-delete-icon"
+                                        onClick={categoryMinorCreate}
+                                    >추가</button>
                                 </div>
                             }
 
                             {/* 이게 한 세트 */}
-                            <div className="minor-item">
-                                <span>콘솔 게임기</span>
-                                <div>
-                                    <button className="btn-delete-icon">X</button>
-                                    <button className="btn-delete-icon">✎</button>
+                            {categoryMinorArr.map((data,index)=>{
+                                return (
+                                <div className="minor-item" key={index}>
+                                    <span>{data.categoryStateMinorText}</span>
+                                    <div>
+                                        <button className="btn-delete-icon" onClick={()=>{
+                                            categoryMinorDelete(data.categoryStateMinorCode)
+                                        }}>X</button>
+                                    </div>
                                 </div>
-                            </div>
+                                )
+                            })}
+
                         </div>
                     </div>
                 </div>
 
                 <div className="modal-footer">
-                    <button className="btn-close" onClick={categoryModalDown}>닫기</button>
-                    <button className="btn-save">변경사항 저장</button>
+                    <button className="btn-save" onClick={categoryModalDown}>닫기</button>
                 </div>
             </div>
         </div>

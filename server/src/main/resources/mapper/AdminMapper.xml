@@ -4,28 +4,55 @@
 
 <!-- 어드민 전용 Mapper -->
 <mapper namespace="mapper.AdminMapper">
+    <!-- @@@@@@@@@@@@@@@@@@@ 카테고리 메인 페이지 전용 @@@@@@@@@@@@@@@@@@@  -->
+    <!-- 전체사용자 -->
+    <select id="mainSelectUseAll" resultType="JGUserInfo">
+        select * from JGUserInfo
+        where userManager != 0
+    </select>
+    <!-- 전체게시글 -->
+    <select id="mainSelectNoticeAll" resultType="JGNotice">
+        select * from jgnotice
+    </select>
+    <!-- 신고현황 -->
+    <select id="mainSelectSingoAll">
+
+    </select>
+
+    <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  -->
+
     <!-- @@@@@@@@@@@@@@@@@@@ 카테고리 관리 페이지 전용 @@@@@@@@@@@@@@@@@@@  -->
-    <!--  카테고리 메이저 select문  -->
+    <!--  카테고리 메이저 select문 [ 정상 작동 ] -->
     <select id="selectCategoryMajor" resultType="CategoryStateMajor">
         select categoryStateMajorCode,categoryStateMajorText
         from categoryStateMajor
     </select>
-    <!--  카테고리 마이너 select문  -->
-    <select id="selectCategoryMinor" parameterType="int" resultType="CategoryStateMinor">
-        select categoryStateMinorCode,categoryStateMinorText
-        from categoryStateMinor
-        where categoryStateMajorCode = ${code}
-    </select>
-    <!--  카테고리 메이저 생성하기  -->
+
+    <!--  카테고리 메이저 생성하기 [ 정상 작동 ] -->
     <insert id="CategoryMajorCreate" parameterType="String">
         insert into categoryStateMajor(categoryStateMajorText)
         value(#{str});
     </insert>
-    <!--  카테고리 메이저 삭제하기  -->
+    <!--  카테고리 메이저 삭제하기 [ 정상 작동 ]  -->
     <delete id="CategoryMajorDelete" parameterType="int">
         delete from categoryStateMajor
         where categoryStateMajorCode = #{int};
     </delete>
+
+    <!--  카테고리 메이저 수정하기 [ 정상 작동 ] -->
+    <update id="CategoryMajorUpdate" parameterType="CategoryStateMajor">
+        update categoryStateMajor
+        set categoryStateMajorText = #{categoryStateMajorText}
+        where categoryStateMajorCode = #{categoryStateMajorCode};
+    </update>
+
+    <!--  카테고리 마이너 select문 [ 정상 작동 ] -->
+    <select id="SelectCategoryMinor" parameterType="int" resultType="CategoryStateMinor">
+        select categoryStateMinorCode,categoryStateMinorText
+        from categoryStateMinor
+        where categoryStateMajorCode = ${code}
+    </select>
+
     <!--  카테고리 마이너 생성하기  -->
     <insert id="CategoryMinorCreate" parameterType="CategoryStateMinor">
         insert into categoryStateMinor(categoryStateMajorCode,categoryStateMinorText)

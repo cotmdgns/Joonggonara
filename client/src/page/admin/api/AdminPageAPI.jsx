@@ -17,6 +17,19 @@ instance.interceptors.request.use(
   }
 );
 ////////////////////////////////////////////////
+///// 메인 관리자 페이지
+// 전체 이용자 
+export const mainSelectUseAllAPI = async () =>{
+    return await instance.get("/mainSelectUseAll")
+}
+
+// 전체 게시글
+export const mainSelectNoticeAllAPI = async () =>{
+    return await instance.get("/mainSelectNoticeAll")
+}
+////////////////////////////////////////////////
+
+////////////////////////////////////////////////
 //// 카테고리 관리자 페이지
 // 모든 카테고리 가져오기
 export const categoryStateAPI = async () =>{
@@ -31,7 +44,15 @@ export const categoryMajorCreateAPI = async (text) =>{
 export const categoryMajorDeleteAPI = async (code) =>{
     return await instance.post(`/CategoryMajorDelete/${code}`)
 }
+// 카테고리 메이저 수정하기 
+export const categoryMajorUpdateAPI = async (data) =>{
+    return await instance.post(`/CategoryMajorUpdate`,data)
+}
 
+// 카테고리 마이너 리스트
+export const CategoryMinorSelectAPI = async (data) =>{
+    return await instance.post(`/CategoryMinorSelect/${data}`)
+}
 
 // 카테고리 마이너 생성하기
 export const categoryMinorCreateAPI = async (data) =>{
@@ -39,7 +60,7 @@ export const categoryMinorCreateAPI = async (data) =>{
 }
 // 카테고리 마이너 삭제하기
 export const categoryMinorDeleteAPI = async (code) =>{
-    return await instance.post(`/CategoryMinorDelete${code}`)
+    return await instance.post(`/CategoryMinorDelete/${code}`)
 }
 ////////////////////////////////////////////////////
 

@@ -11,8 +11,10 @@ export const initiaAdminCategoryReduser = {
     // 메이저 수정 모달창에서 사용할 변수들
     "categoryMajorCodeM" : 0,     // 카테고리 메이저 코드 
     "categoryMajorTextM" : "",     // 카테고리 메이저 텍스트 
+    "categoryMinorArr" : [] ,       // 배열 데이터
     "categoryMinorCodeM" : 0,     // 카테고리 메이저 - 마이너 코드
     "categoryMinorTextM" : "",     // 카테고리 메이저 - 마이너 텍스트 
+
 }
 
 
@@ -27,17 +29,19 @@ export const AdminCategoryReduser = (state,action) =>{
             return {
                 ...state,
                 modalState : true,
-                categoryMajorCodeM : action.payload.categoryStateMajor.categoryStateMajorCode,    
-                categoryMajorTextM : action.payload.categoryStateMajor.categoryStateMajorText,       
-                categoryMinorCodeM : action.payload.categoryStateMinor.categoryStateMinorCode,       
-                categoryMinorTextM : action.payload.categoryStateMinor.categoryStateMinorText,   
+                categoryMajorCodeM : action.payload.categoryStateMajorCode,    
+                categoryMajorTextM : action.payload.categoryStateMajorText,
             }
         case "categoryModalClose" : // 카테고리 수정 모달 닫기
             return {
                 ...state,
-                modalState : false
+                modalState : false, 
             }
-
+        case "categoryMinorDataState" : /// 모달창 열때 데이터를 관리 안함.
+            return {
+                ...state,
+                categoryMinorArr : action.payload,
+            }
         case "modalCreateOpen" : // 카테고리 생성 모달 열기
 
             return {
@@ -62,9 +66,19 @@ export const AdminCategoryReduser = (state,action) =>{
         case "minorCreateStateFalse" :
             return{
                 ...state,
-                minorCreateState : false
+                minorCreateState : false,
+                categoryMinorText : ""
             }
-
+        case "categoryMajorTextMUpdate" : // 수정하기
+            return {
+                ...state,
+                categoryMajorTextM : action.payload,
+            }
+        case "categoryMinorTextCreate" :   // 카테고리 마이너 추가히기
+            return {
+                ...state,
+                categoryMinorText : action.payload,
+            }
         default: 
             return state;
     }

@@ -1,7 +1,7 @@
 //
 import { useEffect } from "react";
 import { useReducer } from "react";
-import { categoryMajorCreateAPI, categoryMajorDeleteAPI, categoryMinorDeleteAPI, categoryStateAPI } from "./api/AdminPageAPI";
+import { categoryMajorCreateAPI, categoryMajorDeleteAPI, categoryMajorUpdateAPI, categoryMinorCreateAPI, categoryMinorDeleteAPI, CategoryMinorSelectAPI, categoryStateAPI } from "./api/AdminPageAPI";
 import "./css/AdminCategoryManagement.scss"
 import { AdminCategoryReduser, initiaAdminCategoryReduser } from "./reduser/AdminCategoryReduser";
 import AdminCategoryModal from "./component/AdminCategoryModal";
@@ -14,6 +14,12 @@ const AdminCategoryManagement = () => {
         categoryStateData,
         modalState,
         modalCreateState,
+        categoryMajorCodeM,
+        categoryMajorTextM,
+        categoryMinorCodeM,
+        categoryMinorTextM,
+        categoryMinorText,
+        backUpData,
     } = state;
 
 
@@ -32,7 +38,8 @@ const AdminCategoryManagement = () => {
     }
     // 모달창(수정) 닫기
     const categoryModalDown = () =>{
-        dispatch({type:"categoryModalClose"})        
+        dispatch({type:"categoryModalClose"})       
+        dispatch({type:"minorCreateStateFalse"}) 
     }
 
     // 카테고리 메이저 생성하기 [ 정상 작동함 ]
@@ -43,13 +50,6 @@ const AdminCategoryManagement = () => {
             modalCreateClose()
         }
     }
-    // 카테고리 마이너 생성하기
-    const categoryMinorCreate = async () =>{
-        if(window.confirm("생성하시겠습니다?")){
-            await categoryMajorDeleteAPI()
-            categoryState()
-        }
-    }
     // 카테고리 메이저 삭제하기 [ 정상 작동함 ]
     const categoryMajorDelete = async (code) =>{
         if(window.confirm("정말로 삭제하시겠습니다?")){
@@ -57,21 +57,49 @@ const AdminCategoryManagement = () => {
             categoryState()
         }
     }
-    // 카테고리 마이너 삭제하기 [  ]
-    const categoryMinorDelete = async (code) =>{
-        if(window.confirm("정말로 삭제하시겠습니다?")){
-            await categoryMinorDeleteAPI(code)
-            categoryState()
+
+    // 카테고리 메이저 수정 [정상 작동]
+    const categoryTextUpdate = async () =>{
+        let data = {
+            "categoryStateMajorText" : categoryMajorTextM,
+            "categoryStateMajorCode" : categoryMajorCodeM,
         }
+        await categoryMajorUpdateAPI(data)
+        categoryModalDown(); // 모찰창 닫기
+        categoryModalUp(); // 닫으면서 상태 최신화
+    }
+
+
+        // 카테고리 마이너 생성하기 [ 정상 작동 ]
+    const categoryMinorCreate = async () =>{
+        let data = {
+            "categoryStateMajorCode" : categoryMajorCodeM,
+            "categoryStateMinorText" : categoryMinorText
+        }
+        await categoryMinorCreateAPI(data)
+        await categoryMinorSelect()
+        dispatch({type:"minorCreateStateFalse"})
+    }
+
+    // 카테고리 마이너 삭제하기
+    const categoryMinorDelete = async (code) =>{
+        await categoryMinorDeleteAPI(code);
+        await categoryMinorSelect()
     }
 
     // 카테고리 정보들 가져오기
     const categoryState = async () =>{
         const result = await categoryStateAPI();
-        console.log(result.data)
         dispatch({type:"categoryStateData" , payload : result.data})
     }
 
+    // 마이너 데이터 확인하기 
+    const categoryMinorSelect = async () =>{
+        const result = await CategoryMinorSelectAPI(categoryMajorCodeM);
+        dispatch({type:"categoryMinorDataState",payload: result.data})
+    } 
+
+    
     useEffect(()=>{
         categoryState()
     },[])
@@ -86,6 +114,11 @@ const AdminCategoryManagement = () => {
                         state={state} 
                         dispatch={dispatch} 
                         categoryModalDown={categoryModalDown}
+                        categoryState = {categoryState}
+                        categoryTextUpdate={categoryTextUpdate}
+                        categoryMinorCreate={categoryMinorCreate}
+                        categoryMinorDelete={categoryMinorDelete}
+                        categoryMinorSelect ={categoryMinorSelect}
                         ></AdminCategoryModal>
                 )}
                 {modalCreateState && (
@@ -111,10 +144,10 @@ const AdminCategoryManagement = () => {
                 {categoryStateData.map((category,index)=>(
                     <div className="categoryUpBox"  key={index} >
                         <div className="categoryUp">
-                            <div>{category.categoryStateMajor.categoryStateMajorText}</div>
+                            <div>{category.categoryStateMajorText}</div>
                             <div id="button-list">
                                 <div id="UpButton" onClick={() => categoryModalUp(category)}>✎</div>
-                                <div id="UpButton" onClick={() => {categoryMajorDelete(category.categoryStateMajor.categoryStateMajorCode)}}>X</div>
+                                <div id="UpButton" onClick={() => {categoryMajorDelete(category.categoryStateMajorCode)}}>X</div>
                             </div>
 
                         </div>
