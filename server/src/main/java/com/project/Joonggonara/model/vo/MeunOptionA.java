@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MeunOptionA {
 
+    /* 안 쓸 예정*/
     private int meunOptionCode;/*메뉴판 코드 관리*/
     private String meunOptionName; /*메뉴판 이름*/
     private int meunOptionCreate; /*메뉴판 관리 생성날짜*/

@@ -49,6 +49,8 @@ public class UserController {
     public String UserLogin(@RequestBody JGUserInfo jgUserInfo){
 
         JGUserInfo info = userService.IdSelectAPI(jgUserInfo.getUserId());
+        log.info("데이터 확인하기 : "  + info);
+
         // 데이터가 존재하지 않으며 null
         if(info == null){
             return "false";

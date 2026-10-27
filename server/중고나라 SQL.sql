@@ -2,12 +2,6 @@
 
 select * from JGUserInfo;
 
-/*더미 생성데이터*/
-insert into JGUserInfo (userId, userPwd, userImg, userName, userUpdate, userTotalPointer, userAddress, userAddressDetail)
-value ("test","1234","default2","홍길동",NOW(),0,"경기도","태전동");
-
-
-
 select * from addressinfo;
 
 select * from addressinfodetail
@@ -15,7 +9,7 @@ where addressDetailName = 1;
 
 /*사용자 정보*/
 CREATE TABLE JGUserInfo(
-  uesrCode integer auto_increment primary key, /*사용자 코드*/
+  userCode integer auto_increment primary key, /*사용자 코드*/
   userId varchar(20) not null unique, /*사용자 아이디*/
   userPwd varchar(150) not null, /*사용자 비밀번호*/
   userImg varchar(255) , /*사용자 이미지*/
@@ -35,6 +29,9 @@ CREATE TABLE JGUserInfo(
   /*2026-10-19 이후로 추가 됨*/
   userInfo varchar(255) default null /*사용자 자기소개*/
 );
+/*변경해주자*/
+ALTER TABLE JGUserInfo
+RENAME COLUMN uesrCode TO userCode;
 
 drop table JGUserInfo;
 select * from JGUserInfo;
@@ -45,7 +42,6 @@ CREATE TABLE addressInfo(
 	addressCode integer auto_increment primary key, /* 주소 코드 */
     addressName varchar(10) /* 주소 정보 */	
 );
-
 
 /* 주소 정보 디테일 */
 CREATE TABLE addressInfodetail(
@@ -87,6 +83,8 @@ CREATE TABLE JGNotice(
   JGNoticeDelect datetime /*게시글 삭제날짜*/ 
 );
 
+
+
 /* 게시글 좋아요 눌렀거나 댓글 달았을 때 알람 */
 /* 좋아요랑 댓글 생성할 때 또 하나 생성해야하나? 두번 하기엔 너무 아쉽지 ㅇㅇ */
 /* 아니면 칼람을 하나 추가하기?? */
@@ -118,14 +116,17 @@ CREATE TABLE JGNoticeImg(
 );
 
 
-/*어드민 전용 관리 페이지*/ 
-CREATE TABLE MeunOptionA(
-  meunOptionCode integer auto_increment primary key, /*메뉴판 코드 관리*/ 
-  meunOptionName varchar(30), /*메뉴판 이름*/ 
-  meunOptionCreate datetime default CURRENT_TIMESTAMP, /*메뉴판 관리 생성날짜*/ 
-  meunOptionCalssCheack boolean, /*등급 [ 어드민 포함 or 미포함 체크 여부]*/ 
-  meunOptionCodeSub integer /*메뉴판 코드 관리 [ 외래키 ]*/ 
-);
+
+-- 안쓸꺼임
+-- /*어드민 전용 관리 페이지*/ 
+-- CREATE TABLE MeunOptionA(
+--   meunOptionCode integer auto_increment primary key, /*메뉴판 코드 관리*/ 
+--   meunOptionName varchar(30), /*메뉴판 이름*/ 
+--   meunOptionCreate datetime default CURRENT_TIMESTAMP, /*메뉴판 관리 생성날짜*/ 
+--   meunOptionCalssCheack boolean, /*등급 [ 어드민 포함 or 미포함 체크 여부]*/ 
+--   meunOptionCodeSub integer /*메뉴판 코드 관리 [ 외래키 ]*/ 
+-- );
+-- drop table MeunOptionA;
 
 /*사용자 신고 누적*/ 
 CREATE TABLE UserDeclarationA(
@@ -136,6 +137,30 @@ CREATE TABLE UserDeclarationA(
   userDeclarationCreate datetime default CURRENT_TIMESTAMP, /*신고 생성날짜*/ 
   userDeclarationBoo boolean /*신고 접수?*/ 
 );
+
+
+/* 관리자 공지사항 관리 */
+CREATE TABLE notificationManagement(
+	notificationManagementCode integer auto_increment primary key, /* 공지사항 코드 */
+    notificationManagementTitle varchar(50) not null,/* 공지사항 제목 */
+    notificationManagementText text not null,/* 공지사항 내용 */
+    notificationManagementBannerBoo boolean not null,/* 공지사항 배너 사용여부 */
+    notificationManagementBoo boolean default true,/* 공지사항 현재 사용여부 */
+    notificationManagementImg varchar(30)/* 공지사항 이미지 */
+);
+select * from notificationManagement
+where notificationManagementBoo != false;
+/* 생성 */
+insert into notificationManagement(notificationManagementTitle,notificationManagementText,notificationManagementBannerBoo,notificationManagementImg)
+value("테스트 진행중","내용은 별거 엇음",true,"gdgd");
+/* 삭제 */
+Update notificationManagement
+set notificationManagementTitle = "" , notificationManagementText = ""
+where notificationManagementCode = "1";
+/* 수정 */
+Update notificationManagement
+set notificationManagementBoo = false
+where notificationManagementCode = "1";
 
 /* 관리자 카테고리 관리 */
 CREATE TABLE categoryStateMajor(

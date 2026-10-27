@@ -1,14 +1,13 @@
 package com.project.Joonggonara.controller;
 
 import com.project.Joonggonara.model.dto.CategoryDTO;
-import com.project.Joonggonara.model.vo.CategoryStateMajor;
-import com.project.Joonggonara.model.vo.CategoryStateMinor;
-import com.project.Joonggonara.model.vo.JGNotice;
-import com.project.Joonggonara.model.vo.JGUserInfo;
+import com.project.Joonggonara.model.dto.FormDataDTO;
+import com.project.Joonggonara.model.vo.*;
 import com.project.Joonggonara.service.AdminService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +29,30 @@ public class AdminController {
     public int mainSelectNoticeAll(){
         return adminService.mainSelectNoticeAll().size();
     };
+
+    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 공지사항 관리 페이지 @@@@@@@@@@@@@@@@@@@@@@@/
+    @PostMapping("notificationManagementCreate") /* <!-- 전체 게시글 생성 --> */
+    public int notificationManagementCreate(FormDataDTO formDataDTO){
+
+        MultipartFile file = formDataDTO.getBannerFile();
+    
+        // 1. 이걸로 DB에 저장하기
+        if (file != null && !file.isEmpty()) {
+            NotificationManagement notificationManagement = new NotificationManagement();
+            notificationManagement.setNotificationManagementCode(formDataDTO.getUserCode());
+            notificationManagement.setNotificationManagementTitle(formDataDTO.getTitle());
+            notificationManagement.setNotificationManagementBannerBoo(formDataDTO.getBannerBooState());
+            notificationManagement.setNotificationManagementTitle(formDataDTO.getTextEditor());
+            notificationManagement.setNotificationManagementImg(file.getOriginalFilename());
+        }
+        
+        // 2. 로컬에 폴더 만들어서 저장하기
+
+
+        log.info("폼 데이터 확인하기 : " + formDataDTO);
+        return 0;
+    };
+
 
 
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@카테고리 관리 페이지 @@@@@@@@@@@@@@@@@@@@@@@/

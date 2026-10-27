@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 관리자 공지사항 페이지 -->
+<mapper namespace="mapper.NotificationManagementMapper">
+
+    <!-- 공지사항 조회(ALL)하기 -->
+    <select id="notificationManagementSelect">
+        select * from notificationManagement
+        where notificationManagementBoo != false;
+    </select>
+
+    <!-- 공지사항 생성하기 -->
+    <insert id="notificationManagementCreate" parameterType="NotificationManagement">
+        insert into notificationManagement(notificationManagementTitle,notificationManagementText,notificationManagementBannerBoo,notificationManagementImg)
+        value(
+            #{notificationManagementTitle},
+            #{notificationManagementText},
+            #{notificationManagementBannerBoo},
+            #{notificationManagementImg}
+        );
+    </insert>
+
+    <!-- 공지사항 수정하기 -->
+    <update id="notificationManagementUpdate" parameterType="NotificationManagement">
+        Update notificationManagement
+        set notificationManagementTitle = #{notificationManagementTitle} , notificationManagementText = #{notificationManagementText}
+        where notificationManagementCode = #{notificationManagementCode};
+    </update>
+
+    <!-- 공지사항 삭제하기 -->
+    <delete id="notificationManagementDelete" parameterType="int">
+        Update notificationManagement
+        set notificationManagementBoo = false
+        where notificationManagementCode = #{code};
+    </delete>
+
+</mapper>
+
