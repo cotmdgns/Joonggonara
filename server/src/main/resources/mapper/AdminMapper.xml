@@ -18,8 +18,70 @@
     <select id="mainSelectSingoAll">
 
     </select>
-
     <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  -->
+
+
+    <!-- @@@@@@@@@@@@@@@@@@@ 공지사항 관리 페이지 @@@@@@@@@@@@@@@@@@@  -->
+    <!-- [ 괸리자 ]공지사항 조회(ALL)하기 [정상작동] -->
+    <select id="adminNotificationManagementSelect" resultType="NotificationManagementDTO">
+        select * from notificationManagement
+    </select>
+    <!-- [ 괸리자,일반 ]공지사항 디테일 조회하기 -->
+    <select id="notificationManagementSelectDetail" parameterType="int" resultType="NotificationManagementDTO">
+        select * from notificationManagement
+        where notificationManagementCode = #{code}
+    </select>
+    <!-- [ 일반 ]공지사항 조회(ALL)하기 [정상작동] -->
+    <select id="notificationManagementSelect" resultType="NotificationManagementDTO">
+        select * from notificationManagement
+        where notificationManagementBoo != false
+    </select>
+
+    <!-- 공지사항 생성하기 -->
+    <insert
+        id="notificationManagementCreate"
+        parameterType="NotificationManagement"
+        useGeneratedKeys="true"
+        keyProperty="notificationManagementCode"
+    >
+        insert into notificationManagement(
+            userCode,
+            notificationManagementTitle,
+            notificationManagementText,
+            notificationManagementBannerBoo,
+            notificationManagementImg
+        )
+        value(
+        #{userCode},
+        #{notificationManagementTitle},
+        #{notificationManagementText},
+        #{notificationManagementBannerBoo},
+        #{notificationManagementImg}
+        );
+    </insert>
+    <!--  공지사항 생성 후 파일이름 추가(수정) -->
+    <update id="notificationManagementImgNameUpdate" parameterType="FormDataDTO">
+        Update notificationManagement
+        set notificationManagementImg = #{fileName}
+        where notificationManagementCode = #{code};
+    </update>
+
+    <!-- 공지사항 수정하기 -->
+    <update id="notificationManagementUpdate" parameterType="NotificationManagement">
+        Update notificationManagement
+        set notificationManagementTitle = #{notificationManagementTitle} , notificationManagementText = #{notificationManagementText}
+        where notificationManagementCode = #{notificationManagementCode};
+    </update>
+
+    <!-- 공지사항 삭제하기 -->
+    <delete id="notificationManagementDelete" parameterType="int">
+        Update notificationManagement
+        set notificationManagementBoo = false
+        where notificationManagementCode = #{code};
+    </delete>
+    <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  -->
+
+
 
     <!-- @@@@@@@@@@@@@@@@@@@ 카테고리 관리 페이지 전용 @@@@@@@@@@@@@@@@@@@  -->
     <!--  카테고리 메이저 select문 [ 정상 작동 ] -->

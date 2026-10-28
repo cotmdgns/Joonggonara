@@ -13,8 +13,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -91,5 +95,22 @@ public class UserController {
         int code = addressService.addressCode(name);
         List<AddressInfoDetail> addressInfo =  addressService.addressDetailAPI(code);
         return addressInfo;
+    }
+
+
+    public String fileUpload(MultipartFile file, int noticeCode, String url) throws IOException {
+        // 랜덤한 이름값
+        UUID uuid = UUID.randomUUID();
+        // getOriginalFilename 이게 클라이언트에서 가져온 이미지 이름으로 변경?
+        String fileName = uuid.toString()+"_"+file.getOriginalFilename();
+        // File.separator 이거는 // 뜻
+        // 디렉토리 경로
+        File dir = new File(url + File.separator + noticeCode);
+        if (!dir.exists()) {
+            dir.mkdirs(); // 없으면 생성
+        }
+        File copyFile = new File(dir, fileName);
+        file.transferTo(copyFile);
+        return fileName;
     }
 }

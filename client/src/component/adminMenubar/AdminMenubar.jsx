@@ -11,15 +11,20 @@ import { SiNotion } from "react-icons/si"; // 게시글
 import { AiOutlineNotification } from "react-icons/ai"; // 공지
 
 // 리액트
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const AdminMenubar = () =>{
     // 메인에서 사용하는 카테고리는 관리자에서 관라하지만
     // 괸리자에서 사용하는 카테고리는 개발자가 직접관리하는걸로 [ 이유는 관리자가 관리자페이지를 관리한다? 뭔가..]
     // 여기서는 전역관리 필요없음 [ 이유는 따로 들고다닐 데이터가 없음, 각각의 관리에서는 필요하겠다만 ]
-    
+        // url 로케이션 전체?
+    const location = useLocation()  
     const [categoryState, setCategoryState] = useState(1)
+    
+    // 네비
+    const navigate = useNavigate();
+
     // 카테고리 상태 변경 버튼
     const categoryStateButton = (index) => {
         setCategoryState(index)
@@ -54,8 +59,16 @@ const AdminMenubar = () =>{
                 break;
         }
     }
-    // 네비
-    const navigate = useNavigate();
+
+    // 함수로 페이지 새로고침해도 어떤 메뉴인지 확인하기
+    const isActive = (path) => {
+    if (path === "/layoutAdmin") {
+        return location.pathname === "/layoutAdmin";
+    }
+
+    return location.pathname.includes(path);
+};
+
     return (
         <>
             <div id="adminMenubarBox">
@@ -63,13 +76,13 @@ const AdminMenubar = () =>{
                     이웃사람(관리페이지)
                 </div>
                 <div id="adminMenubarBoxCategory">
-                    <div onClick={()=>{categoryStateButton(1)}} id={categoryState == 1 && "categoyTrue"}><GrHostMaintenance></GrHostMaintenance>메인페이지</div>
-                    <div onClick={()=>{categoryStateButton(2)}} id={categoryState == 2 && "categoyTrue"}><FaUserFriends></FaUserFriends>사용자 관리</div>
-                    <div onClick={()=>{categoryStateButton(3)}} id={categoryState == 3 && "categoyTrue"}><AiOutlineNotification></AiOutlineNotification>공지사항 관리</div>
-                    <div onClick={()=>{categoryStateButton(4)}} id={categoryState == 4 && "categoyTrue"}><GrUserPolice></GrUserPolice>신고현황 관리 [게시글 있어야 가능]</div>
+                    <div onClick={()=>{categoryStateButton(1)}} id={isActive("/layoutAdmin") && "categoyTrue"}><GrHostMaintenance></GrHostMaintenance>메인페이지</div>
+                    <div onClick={()=>{categoryStateButton(2)}} id={isActive("adminUserManagement") && "categoyTrue"}><FaUserFriends></FaUserFriends>사용자 관리</div>
+                    <div onClick={()=>{categoryStateButton(3)}} id={isActive("adminNotificationManagement") && "categoyTrue"}><AiOutlineNotification></AiOutlineNotification>공지사항 관리</div>
+                    <div onClick={()=>{categoryStateButton(4)}} id={isActive("adminDeclarationManagement") && "categoyTrue"}><GrUserPolice></GrUserPolice>신고현황 관리 [게시글 있어야 가능]</div>
                     {/* <div onClick={()=>{categoryStateButton(5)}} id={categoryState == 5 && "categoyTrue"}><SiNotion></SiNotion>게시글 관리</div> */}
-                    <div onClick={()=>{categoryStateButton(6)}} id={categoryState == 6 && "categoyTrue"}><ImList></ImList>카테고리 관리</div>
-                    <div onClick={()=>{categoryStateButton(7)}} id={categoryState == 7 && "categoyTrue"}><IoHomeOutline></IoHomeOutline>관리자페이지에서 나가기</div>
+                    <div onClick={()=>{categoryStateButton(6)}} id={isActive("adminCategoryManagement") && "categoyTrue"}><ImList></ImList>카테고리 관리</div>
+                    <div onClick={()=>{categoryStateButton(7)}} ><IoHomeOutline></IoHomeOutline>관리자페이지에서 나가기</div>
                 </div>
             </div>
         </>

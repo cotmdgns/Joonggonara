@@ -142,25 +142,34 @@ CREATE TABLE UserDeclarationA(
 /* 관리자 공지사항 관리 */
 CREATE TABLE notificationManagement(
 	notificationManagementCode integer auto_increment primary key, /* 공지사항 코드 */
+    userCode integer, /*사용자 코드 [ 외래키 ]*/ 
     notificationManagementTitle varchar(50) not null,/* 공지사항 제목 */
-    notificationManagementText text not null,/* 공지사항 내용 */
+    notificationManagementText longtext not null,/* 공지사항 내용 */
     notificationManagementBannerBoo boolean not null,/* 공지사항 배너 사용여부 */
     notificationManagementBoo boolean default true,/* 공지사항 현재 사용여부 */
-    notificationManagementImg varchar(30)/* 공지사항 이미지 */
+    notificationManagementImg varchar(255),/* 공지사항 이미지 */
+    notificationManagementCreate datetime default CURRENT_TIMESTAMP /*공지사항 생성날짜*/ 
 );
+
+drop table notificationManagement;
+
+
 select * from notificationManagement
-where notificationManagementBoo != false;
+where notificationManagementCode = 1;
 /* 생성 */
 insert into notificationManagement(notificationManagementTitle,notificationManagementText,notificationManagementBannerBoo,notificationManagementImg)
 value("테스트 진행중","내용은 별거 엇음",true,"gdgd");
-/* 삭제 */
-Update notificationManagement
-set notificationManagementTitle = "" , notificationManagementText = ""
-where notificationManagementCode = "1";
 /* 수정 */
+Update notificationManagement
+set notificationManagementImg = "null" 
+where notificationManagementCode = "1";
+/* 삭제 */
 Update notificationManagement
 set notificationManagementBoo = false
 where notificationManagementCode = "1";
+
+delete from notificationManagement
+where notificationManagementCode = 1;
 
 /* 관리자 카테고리 관리 */
 CREATE TABLE categoryStateMajor(

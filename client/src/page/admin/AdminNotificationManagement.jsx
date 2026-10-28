@@ -6,15 +6,29 @@ import "./css/AdminNotificationManagement.scss"
 // 네비게이트
 import { useNavigate } from "react-router-dom";
 import { useParams,useLocation} from "react-router-dom";
+import { adminNotificationManagementSelectAPI } from "./api/AdminPageAPI";
+import { useEffect, useReducer } from "react";
+import { AdminNotificationReduser, initiaAdminNotificationReduser } from "./reduser/AdminNotificationReduser";
 
 // 관리자 페이지 [ 공지사항 관리 ]
+// 이 페이지는 일반 공지사항이랑 같이 쓸 예정임
+// url 로케이션으로 구분해서 사용할 예정
+// 그러면 공지사항은 금방 뚝딱 끝
 const AdminNotificationManagement = () =>{
     // 네비
     const navigate = useNavigate();
 
-    // url 로케이션 전체?
-    const location = useLocation()  
+    const [state, dispatch] = useReducer(
+    AdminNotificationReduser,
+    initiaAdminNotificationReduser,
+    );
+    const {notificationList} = state;
 
+    //공지사항 전체조회하기
+    const notificationManagementSelect = async () =>{
+        const result = await adminNotificationManagementSelectAPI();
+        dispatch({type:"notificationList", payload : result.data})
+    }
 
     // 공지사항 상세 디테일
     const notificationButton = (code) =>{
@@ -24,6 +38,26 @@ const AdminNotificationManagement = () =>{
     const notificationCreateButton = () =>{
         navigate(`/layoutAdmin/adminNotificationManagement/AdminNotification/create`);
     }
+
+    // 왼쪽으로 이동
+    const leftButton = () =>{
+
+    }
+
+    // 오른쪽으로 이동
+    const rightButton = () =>{
+        
+    }
+
+    // 페이징 버튼
+    const moveButton = () =>{
+
+    }
+
+    useEffect(()=>{
+        notificationManagementSelect()
+        console.log(state.notificationList)
+    },[])
     return (
         <>
             <div id="notification">
@@ -33,42 +67,42 @@ const AdminNotificationManagement = () =>{
                         <table className="managementTable">
                             <thead className="managementTableH">
                                 <tr>
-                                    <th>넘버</th>
-                                    <th>공지사항 이름</th>
-                                    <th>만든이</th>
-                                    {location.pathname.includes("layoutAdmin")
-                                        ? (
-                                            <>
-                                                <th>광고여부</th>
-                                                <th>사용여부</th>
-                                            </>
-                                        )
-                                        : <></>
-                                    }
-                                    <th>생성날짜</th>
+                                    <th id="number">넘버</th>
+                                    <th id="title">공지사항 이름</th>
+                                    <th id="name">만든이</th>
+                                    <th id="boo">광고여부</th>
+                                    <th id="boo">사용여부</th>
+                                    <th id="date">생성날짜</th>
                                 </tr>
                             </thead>
-                            <tbody className="managementTableB">
-                                <tr style={{cursor:"pointer"}} onClick={()=>{notificationButton(1)}}>
-                                    <td>1</td>
-                                    <td>오늘도 안전한 광고</td>
-                                    <td>어드민</td>
-                                    {location.pathname.includes("layoutAdmin")
-                                        ? (
-                                            <>
-                                            <td>O</td>
-                                            <td>O</td>
-                                            </>
-                                        )
-                                        : <></>
-                                    }
-                                    <td>2026-10-11</td>
-                                </tr>
-                            </tbody>
+                            {notificationList.map((list,index)=>{
+                                return(
+                                <tbody className="managementTableB" key={index}>
+                                    <tr style={{cursor:"pointer"}} onClick={()=>{notificationButton(list.notificationManagementCode)}}>
+                                        <td>{list.notificationManagementCode}</td>
+                                        <td>{list.notificationManagementTitle}</td>
+                                        <td>{list.userName}</td>
+                                        <td>{list.notificationManagementBannerBoo ? "사용중":"사용안함"}</td>
+                                        <td>{list.notificationManagementBoo  ? "사용중":"사용안함"}</td>
+                                        <td>{list.notificationManagementCreate.substring(0, 10)}</td>
+                                    </tr>
+                                </tbody>
+                                )
+                            })}
+
                         </table>
                     </div>
-                    <div>페이징역할(10개 보여주고, 10번까지)</div>
-                    <div onClick={() => {notificationCreateButton()}}>생성버튼역할 포지션 앱솔루트사용해서 올리기</div>
+                    <div id="paging">
+                        <div className="pageB">◀</div>
+                        <div className="pageB">1</div>
+                        <div className="pageB">1</div>
+                        <div className="pageB">1</div>
+                        <div className="pageB">1</div>
+                        <div className="pageB">1</div>
+                        <div className="pageB">1</div>
+                        <div className="pageB">▶</div>
+                        <div id="createButton" onClick={() => {notificationCreateButton()}}>생성</div>
+                    </div>
                 </div>
             </div>
         </>

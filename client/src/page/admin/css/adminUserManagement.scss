@@ -23,16 +23,31 @@
     width: 100%;
     box-shadow: 0px 0px 1px 1px rgb(222, 220, 220);
     .managementTableH{
-        background-color: gray;        
+        background-color: rgb(95, 89, 213);        
         color: white;
         border-bottom: 1px solid rgb(102, 100, 100);
         border: 1px solid black;
 
         tr{
             th{
-                padding: 5px 10px;
+                padding: 13px;
                 font-weight: bold;
-                font-size: 15px;
+                font-size: 13px;
+            }
+            #number{
+                width: 60px;
+            }
+            #title{
+                width: 300px;
+            }
+            #name{
+                width: 70px;
+            }
+            #boo{
+                width: 70px;
+            }
+            #date{
+                width: 70px;
             }
         }
     }
@@ -42,9 +57,39 @@
         border: 1px solid black;
         tr{
             td{
-                padding: 5px;
+                padding: 8px;
                 font-size: 11px;
             }
         }
     }
+
 }
+
+    #paging{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        width: 100%;
+        font-size: 13px;
+        padding: 10px;
+        .pageB{
+            padding: 3px;
+            cursor: pointer;
+            margin: 3px;
+        }
+        #createButton{
+            position: absolute;
+            background-color: rgb(97, 78, 239);
+            z-index: 1000px;
+            right: 10px;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 5px;
+            color:white;
+            cursor: pointer;
+        }
+        #createButton:hover{
+            background-color: rgb(54, 43, 144);
+        }
+    }

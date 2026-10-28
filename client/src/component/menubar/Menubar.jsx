@@ -24,7 +24,6 @@ const Menubar = () => {
   const { categoryModalBoo,productModalState } = state;
   
   const navi = useNavigate();
-
   //// 모달창
   // 상품 모달창 띄우기
   const productCerate = () =>{

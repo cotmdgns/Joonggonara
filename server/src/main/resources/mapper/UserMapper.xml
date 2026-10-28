@@ -15,4 +15,11 @@
         where userId = #{str}
     </select>
 
+    <!-- 사용자 코드로 아이디 가져오기 -->
+    <select id="selectID" parameterType="int" resultType="String">
+        select userName from JGUserInfo
+        where userCode = #{int}
+    </select>
+
+
 </mapper>

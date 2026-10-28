@@ -1,18 +1,53 @@
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 
-const Editor = ({ textEditor, dispatch }) => {
+const Editor = ({ mode,textEditor, dispatch ,readOnly,modules,textEditorUpdate}) => {
+
+  // 에디터 도구 설정
+  const modulesBox = {
+    toolbar: [
+      [{ header: [1, 2, 3, false] }],
+      ["bold", "italic", "underline", "strike"],
+
+      // 글자색상 및 배경색상
+      [{ color: [] }, { background: [] }],
+
+      // 글머리 기호 및 번호 목록
+      [{ list: "ordered" }, { list: "bullet" }],
+
+      // 정렬
+      [{ align: [] }],
+
+      ["link", "image"],
+      ["clean"]
+    ]
+  };
+
   return (
-    <div id="Editor-div">
-      <ReactQuill
+    <ReactQuill
         id="Editor-box"
         theme="snow"
-        value={textEditor}
+        value={
+          mode === "update"
+            ? (textEditorUpdate ?? textEditor ?? "")
+            : (textEditor ?? "")
+        }
+        modules={modules != null ? modules: modulesBox }
         onChange={(e) => {
-          dispatch({ type: "textEditorState", payload: e });
+          if(mode == "update"){
+          dispatch({
+            type: "textEditorUpdateState",
+            payload: e
+          });
+          }else{
+            dispatch({
+              type: "textEditorState",
+              payload: e
+            });
+          }
         }}
+        readOnly={readOnly}
       />
-    </div>
   );
 };
 

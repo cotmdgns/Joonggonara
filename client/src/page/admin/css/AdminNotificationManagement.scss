@@ -9,6 +9,9 @@
     border-radius: 10px;
     cursor: pointer;
   }
+  #notificationCenter{
+    
+  }
 }
 
 // 공지사항 디테일
@@ -150,11 +153,14 @@
 }
 
 // 에디터 박스
-#Editor-div {
+
+#Editor-box .ql-container {
+  height: 350px;
   background-color: white;
 }
-#Editor-box {
-  background-color: white;
-  height: 350px;
-  margin-bottom: 40px;
+
+#Editor-box .ql-editor {
+  height: 100%;
+  box-sizing: border-box;
+  overflow-y: auto;
 }

@@ -1,5 +1,11 @@
 export const initiaAdminNotificationReduser = {
+
+  notificationList : [],    // [ 어드민 ] 공지사항 전체 리스트
+  notificationDetail : "",  // [ 어드민 ] 공지사항 디테일 정보
+
   textEditor: "", // 공지사항 내용
+  textEditorUpdateState : "", // 공지사항 수정 내용
+  titleUpdateState : "",      // 공지사항 수정 제목
   title: "", // 공지사항 제목
   bannerBooState: false, // 공지사항 배너 상태 값
   updateBoo: false, // 공지사항 배너 사용 여부
@@ -28,6 +34,18 @@ export const AdminNotificationReduser = (state, action) => {
         ...state,
         textEditor: action.payload,
       };
+
+    case "textEditorUpdateState": // 텍스트 에디터 상태값
+      return {
+        ...state,
+        textEditorUpdateState: action.payload,
+      };
+    case "titleUpdateState": // 텍스트 에디터 상태값
+      return {
+        ...state,
+        titleUpdateState: action.payload,
+      };
+
     case "titleState": // 제목 상태값
       return {
         ...state,
@@ -43,5 +61,17 @@ export const AdminNotificationReduser = (state, action) => {
       return {
         ...state,
       };
+    case "notificationList" : // 공지사항 전체 리스트 
+      return {
+        ...state,
+        notificationList : action.payload,
+        
+      }
+    case "notificationDetail" : // 공지사항 디테일 정보
+      return {
+        ...state,
+        notificationDetail : action.payload,
+      }
+      
   }
 };

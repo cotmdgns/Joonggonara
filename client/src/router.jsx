@@ -40,6 +40,10 @@ const router = createBrowserRouter([
                 path:"jogoProductDetail/product/:code", // 디테일페이지
                 element: <JogoProductDetail/>,
             },
+            {
+                path : "NotificationManagement", // 공지사항 관리   // 그냥 페이지 새롭게 하나 만들어야 함
+                element :<AdminNotificationManagement/>
+            },
             // { 이렇게
             //     path: "login",
             //     element: <Login />,
@@ -89,7 +93,7 @@ const router = createBrowserRouter([
                 element :<AdminNotification/>
             },
             {
-                // 공지사항 생성 페이지
+                // 공지사항 수정 페이지
                 path : "adminNotificationManagement/AdminNotification/update/:code", 
                 element :<AdminNotification/>
             },

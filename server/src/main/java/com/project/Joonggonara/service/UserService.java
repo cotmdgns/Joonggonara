@@ -47,4 +47,9 @@ public class UserService {
 
         return userMapper.IdCheckAPI(str);
     }
+
+    // 사용자 코드로 이름 가져오기
+    public String selectID(int code){
+        return userMapper.selectID(code);
+    }
 }
