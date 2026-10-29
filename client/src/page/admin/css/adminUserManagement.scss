@@ -1,23 +1,269 @@
 #management{
     padding: 10px;
-    .managementName{
-        font-size: 25px;
-        font-weight: bold;
-        padding: 10px;  
-        margin: 10px 5px;
-        border-radius: 10px;
-        cursor: pointer;
+    // 사용자 관리 헤더
+    #managementHeader{
+        #managementHeaderH1{
+            font-size: 25px;
+            font-weight: bold;
+        }
+        #managementHeaderInfo{
+            font-size: 12px;
+            margin-top: 5px;
+            color: rgb(120, 120, 120);
+        }
     }
-    .managementName:hover{
-        background-color: rgb(196, 195, 195);
+    // 사용자 관리 정보
+    #managementInfo{
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        #managementInfoBox{
+             background-color: white;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 2px 2px rgb(217, 215, 215);
+            #managementInfoBoxLeft{
+                border-radius: 10px;
+                width: 50px;
+                height: 50px;
+                display: flex;
+                justify-content: start;
+                align-items: start;
+                padding: 5px;
+                div{
+                    width: 40px;
+                    height: 40px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 30px;
+                    font-size: 25px;
+                }
+            }
+            #managementInfoBoxRigth{
+                width: 100%;
+                height: 100%;
+                padding: 10px;
+                #managementInfoBoxRigthH3{
+                    font-size: 18px;
+                    font-weight: bold;
+                    color: rgb(158, 158, 158);
+                }
+                #managementInfoBoxRigthCount{
+                    font-size: 20px;
+                    font-weight: bold;
+                    padding-top: 10px;
+                }
+            }
+        }
     }
+    #managementInfoTable{
+        padding: 10px;
+        margin: 10px;
+        background-color: white;
+        // 검색 조건들
+        #managementInfoTableSearch{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            #managementInfoTableSearchInput{
+                width: 400px;
+                padding: 10px;
+                margin: 5px;              
+                border-radius: 5px;
+                border: 1px solid rgb(172, 169, 169);
+            }
+            #managementInfoTableSearchSelect{
+                padding: 10px;
+                width: 150px;
+                margin: 5px;
+                border-radius: 5px;
+                border: 1px solid rgb(172, 169, 169);
+            }
+            #managementInfoTableSearchButton{
+                padding: 10px;
+                width: 100px;
+                margin: 5px;
+                border: 1px solid rgb(172, 169, 169);
+                border-radius: 5px;
+                background-color: rgb(88, 124, 214);
+                color: white;
+            }
+            #managementInfoTableSearchButton:hover{
+                background-color: rgb(22, 61, 158);
+            }
+        }
 
-    // 헤더 밑줄
-    #managementSun{
-        border-bottom: 1px solid black;
-        margin-bottom: 10px;
+        // 테이블 창
+        .managementInfoTableBox {
+            width: 100%;
+            overflow-x: auto;
+            background-color: #fff;
+            border: 1px solid #e8edf4;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(25, 45, 75, 0.04);
+
+            .managementInfoTable {
+                width: 100%;
+                min-width: 750px;
+                border-collapse: collapse;
+                table-layout: fixed;
+                text-align: center;
+                font-size: 14px;
+                color: #334155;
+
+                thead {
+                    background-color: #f8fafc;
+
+                    tr {
+                        border-bottom: 1px solid #e2e8f0;
+
+                    }
+
+                    th {
+                        height: 48px;
+                        padding: 0 12px;
+                        font-weight: 600;
+                        color: #475569;
+                        white-space: nowrap;
+                        text-align: center;
+                        vertical-align: middle;
+                    }
+                }
+
+                tbody {
+                    tr {
+                        border-bottom: 1px solid #edf1f6;
+                        transition: background-color 0.2s;
+
+                        &:last-child {
+                            border-bottom: none;
+                        }
+
+                        &:hover {
+                            background-color: #f5f8ff;
+                        }
+                    }
+
+                    td {
+                        height: 52px;
+                        padding: 0 12px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        text-align: center;
+                        vertical-align: middle;
+                    }
+                }
+
+                .check {
+                    width: 45px;
+
+                    input {
+                        height: 15px;
+                        cursor: pointer;
+                        accent-color: #3478f6;
+                        vertical-align: middle;
+                    }
+                }
+
+                .number {
+                    width: 65px;
+                    color: #64748b;
+                }
+
+                .statusBadge {
+                    display: inline-block;
+                    padding: 5px 10px;
+                    border-radius: 20px;
+                    font-size: 12px;
+                    font-weight: 600;
+
+                    &.deleted {
+                        color: #64748b;
+                        background-color: #eef2f7;
+                    }
+
+                    &.suspended {
+                        color: #ea580c;
+                        background-color: #ffedd5;
+                    }
+                }
+            }
+
+            .managementPagination {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 16px;
+                min-height: 68px;
+                padding: 12px 18px;
+                border-top: 1px solid #edf1f6;
+
+                .totalCount {
+                    color: #64748b;
+                    font-size: 13px;
+                    white-space: nowrap;
+
+                    strong {
+                        color: #1e293b;
+                        font-weight: 700;
+                    }
+                }
+
+                .pageButtons {
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+
+                    button {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        min-width: 34px;
+                        height: 34px;
+                        padding: 0 8px;
+                        border: 1px solid #e2e8f0;
+                        border-radius: 6px;
+                        background-color: #fff;
+                        color: #475569;
+                        font-size: 13px;
+                        cursor: pointer;
+                        transition: all 0.2s;
+
+                        &:hover {
+                            border-color: #3478f6;
+                            color: #3478f6;
+                        }
+
+                        &.active {
+                            border-color: #3478f6;
+                            background-color: #3478f6;
+                            color: #fff;
+                            font-weight: 600;
+                        }
+
+                        &.pageArrow {
+                            font-size: 16px;
+                        }
+                    }
+
+                    .pageDots {
+                        padding: 0 3px;
+                        color: #94a3b8;
+                    }
+                }
+            }
+        }
+
     }
-}
+}   
 
 .managementTable{
     width: 100%;
@@ -47,7 +293,7 @@
                 width: 70px;
             }
             #date{
-                width: 70px;
+                width: 80px;
             }
         }
     }

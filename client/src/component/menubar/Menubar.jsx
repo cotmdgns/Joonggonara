@@ -5,6 +5,7 @@ import "./css/Menubar.scss";
 import { TfiMenu } from "react-icons/tfi";
 import { FaPlusCircle } from "react-icons/fa";
 import { MdPolicy } from "react-icons/md";
+import { TfiMenuAlt } from "react-icons/tfi";
 
 // 모달창 컴포넌트
 import CategoryModal from "./component/CategoryModal";
@@ -55,7 +56,7 @@ const Menubar = () => {
           </div>
           {productModalState && <JogoProductCreate productCreateClose={productCreateClose}/>}
           <div id="Menubar">
-            <span><FaPlusCircle/></span>
+            <span><TfiMenuAlt/></span>
             공지사항
           </div>
         </div>

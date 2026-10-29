@@ -8,12 +8,12 @@ const AdminUserTable = (userInfo) => {
         <table className="managementTable">
             <thead className="managementTableH">
                 <tr>
-                    <th>넘버</th>
+                    <th id="number">넘버</th>
                     <th>이름</th>
                     <th>아이디</th>
-                    <th>생성날짜</th>
-                    <th>삭제날짜</th>
-                    <th>정지날짜</th>
+                    <th id="date">생성날짜</th>
+                    <th id="date">삭제날짜</th>
+                    <th id="date">정지날짜</th>
                 </tr>
             </thead>
             <tbody className="managementTableB">
@@ -27,14 +27,11 @@ const AdminUserTable = (userInfo) => {
                 </tr>
             </tbody>
         </table>
-        <div>
-            
-        </div>
-        <div>
-            <div>페이징</div>
-            <div>1</div>
-            <div>1</div>
-            <div>1</div>
+
+        <div id="paging">
+            <div className="pageB">◀</div>
+            <div className="pageB">1</div>
+            <div className="pageB">▶</div>
         </div>
         <div>
             <div>사용자 검색</div>

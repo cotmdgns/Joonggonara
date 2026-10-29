@@ -17,7 +17,7 @@ CREATE TABLE JGUserInfo(
   userCreate datetime default CURRENT_TIMESTAMP, /*생성 날짜*/
   userUpdate datetime , /*변경 날짜*/
   userDelete datetime default null, /*삭제 날짜*/	
-  userManager int default 1, /*사용자 등급*/
+  userManager int default 1, /*사용자 등급 1은 일반사용자, 2는 관리자*/
   userYn boolean default true, /*사용유무*/
   userStopYn boolean default false, /*사용자 신고 유무*/
   userStopDate date , /*사용자 신고 누적 시 날짜 적용*/
@@ -153,12 +153,13 @@ CREATE TABLE notificationManagement(
 
 drop table notificationManagement;
 
-
 select * from notificationManagement
-where notificationManagementCode = 1;
+where notificationManagementBannerBoo = 1;
 /* 생성 */
 insert into notificationManagement(notificationManagementTitle,notificationManagementText,notificationManagementBannerBoo,notificationManagementImg)
 value("테스트 진행중","내용은 별거 엇음",true,"gdgd");
+
+
 /* 수정 */
 Update notificationManagement
 set notificationManagementImg = "null" 

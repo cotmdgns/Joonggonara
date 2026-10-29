@@ -39,7 +39,7 @@ const AdminMenubar = () =>{
                 break;
             case 3:
                 //공지사항관리
-                navigate("adminNotificationManagement")
+                navigate("adminNotificationManagement?pageNum=1")
                 break;
             case 4:
                 //신고현황관리

@@ -87,13 +87,11 @@ const AdminNotification = () => {
     );
   };
 
-  // 수정완료
+  // 수정완료 [ 정상작동 ]
   const notificationUpdateReal = async () => {
-
-    const userCode = sessionStorage.getItem("userCode");
     const formData = new FormData();
 
-    formData.append("userCode", userCode);
+    formData.append("code", notificationDetail.notificationManagementCode);
     formData.append("title", titleUpdateState);
     formData.append("textEditor", textEditorUpdateState);
     if(titleUpdateState == null || titleUpdateState == ""){
@@ -105,6 +103,8 @@ const AdminNotification = () => {
       return; 
     } 
     alert("수정되었습니다.")
+    console.log("제목 : " + titleUpdateState)
+    console.log("내용 : " + textEditorUpdateState)
     await notificationManagementUpdateAPI(formData)
     // navigate(`/layoutAdmin/adminNotificationManagement`);
   };
@@ -122,10 +122,6 @@ const AdminNotification = () => {
     notificationManagementSelectDetail()
   },[])
 
-  useEffect(()=>{
-    console.log("디테일 정보 확인하기")
-    console.log(notificationDetail)
-  },[notificationDetail])
 
   useEffect(() => {
     dispatch({
@@ -133,6 +129,7 @@ const AdminNotification = () => {
       payload: location.pathname.includes("update"),
     });
   }, [location.pathname]);
+            console.log(notificationDetail)
 
   return (
     <>
@@ -154,30 +151,17 @@ const AdminNotification = () => {
               ></Editor>
             </div>
             {/* 사용여부에 따라 달라짐 */}
-            {bannerBooState ? (
+            {notificationDetail.notificationManagementBannerBoo && 
               <div id="bannerBoo">
                 <div id="bannerH1">메인 배너</div>
                 <div id="notificationDetailBanner">
-                  <div id="bannerImg">배너(main) 이미지</div>
-                  <div id="bannerInfo">
-                    <div id="bannerTitleInfo">
-                      #크기는 280x280으로 설정해주세요
-                    </div>
-                    <input
-                      id="bannerTitle"
-                      type="text"
-                      placeholder="배너(main) 제목"
-                    ></input>
-                  </div>
+                  <img id="bannerImg" src={`http://localhost:8080/${notificationDetail.notificationManagementCode}/${notificationDetail.notificationManagementImg}`}></img>
                 </div>
               </div>
-            ) : (
-              <></>
-            )}
-
+            }
             <div id="notificationDetailFooter">
-              <div id={bannerBooState ? "buttonTrueReal" : "buttonFalseRela"}>
-                {bannerBooState ? "활성화" : "비활성화"}
+              <div id={notificationDetail.notificationManagementBannerBoo ? "buttonTrueReal" : "buttonFalseRela"}>
+                {notificationDetail.notificationManagementBannerBoo ? "활성화" : "비활성화"}
               </div>
               <div
                 id="close"
@@ -234,16 +218,11 @@ const AdminNotification = () => {
               />
             </div>
             {/* 사용여부에 따라 달라짐 */}
-            {bannerBooState ? (
+            {notificationDetail.notificationManagementBannerBoo ? (
               <div id="bannerBoo">
                 <div id="bannerH1">메인 배너</div>
                 <div id="notificationDetailBanner">
-                  <div id="bannerImg">배너(main) 이미지</div>
-                  <div id="bannerInfo">
-                    <div id="bannerTitleInfo">
-                      #크기는 280x280으로 설정해주세요
-                    </div>
-                  </div>
+                  <img id="bannerImg" src={`http://localhost:8080/${notificationDetail.notificationManagementCode}/${notificationDetail.notificationManagementImg}`}></img>
                 </div>
               </div>
             ) : (
@@ -251,13 +230,13 @@ const AdminNotification = () => {
             )}
 
             <div id="notificationDetailFooter">
-              <div id={bannerBooState ? "buttonTrueReal" : "buttonFalseRela"}>
-                {bannerBooState ? "활성화" : "비활성화"}
+              <div id={notificationDetail.notificationManagementBannerBoo ? "buttonTrueReal" : "buttonFalseRela"}>
+                {notificationDetail.notificationManagementBannerBoo ? "활성화" : "비활성화"}
               </div>
               <div
                 id="close"
                 onClick={() => {
-                  notificationUpdateClose(1);
+                  notificationUpdateClose(notificationDetail.notificationManagementCode);
                 }}
               >
                 뒤로가기
@@ -299,7 +278,7 @@ const AdminNotification = () => {
                 </div>
                 <div id="bannerInfo">
                   <div id="bannerTitleInfo">
-                    #크기는 280x280으로 설정해주세요
+                    #크기는 430x310으로 설정해주세요
                   </div>
                   {/*
                   <input

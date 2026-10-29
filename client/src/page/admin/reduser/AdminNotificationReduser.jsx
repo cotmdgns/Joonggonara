@@ -3,6 +3,9 @@ export const initiaAdminNotificationReduser = {
   notificationList : [],    // [ 어드민 ] 공지사항 전체 리스트
   notificationDetail : "",  // [ 어드민 ] 공지사항 디테일 정보
 
+  pagingData : "", // 페이징 종합 데이터
+  pagingButtonArr : [], // 페이징 endPage로 만든 버튼
+
   textEditor: "", // 공지사항 내용
   textEditorUpdateState : "", // 공지사항 수정 내용
   titleUpdateState : "",      // 공지사항 수정 제목
@@ -65,6 +68,12 @@ export const AdminNotificationReduser = (state, action) => {
       return {
         ...state,
         notificationList : action.payload,
+        
+      }
+    case "pagingData" : // 공지사항 페이징 처리
+      return {
+        ...state,
+        pagingData : action.payload,
         
       }
     case "notificationDetail" : // 공지사항 디테일 정보

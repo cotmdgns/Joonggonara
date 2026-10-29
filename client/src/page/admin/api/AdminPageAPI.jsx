@@ -33,10 +33,14 @@ export const mainSelectNoticeAllAPI = async () => {
 ////////////////////////////////////////////////
 //// 공지사항 관리자 페이지
 // [ 어드민 ] 공지사항 전체 조회하기 [ 정상 작동 ]
-export const adminNotificationManagementSelectAPI = async (form) => {
-  return await instance.get("/adminNotificationManagementSelect", form);
+export const adminNotificationManagementSelectAPI = (pageNum) => {
+  return instance.get("adminNotificationManagementSelect", {
+    params: {
+      code: pageNum
+    }
+  });
 };
-// [ 어드민,일반 ] 공지사항 상세 페이지 조회하기
+// [ 어드민,일반 ] 공지사항 상세 페이지 조회하기  
 export const notificationManagementSelectDetailAPI = async (code) => {
   return await instance.get(`/notificationManagementSelectDetail/${code}`);
 };

@@ -1,13 +1,12 @@
 package com.project.Joonggonara.controller;
 
-import com.project.Joonggonara.model.dto.CategoryDTO;
-import com.project.Joonggonara.model.dto.FormDataDTO;
-import com.project.Joonggonara.model.dto.NotificationManagementDTO;
+import com.project.Joonggonara.model.dto.*;
 import com.project.Joonggonara.model.vo.*;
 import com.project.Joonggonara.service.AdminService;
 import com.project.Joonggonara.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -51,14 +50,24 @@ public class AdminController {
 
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 공지사항 관리 페이지 @@@@@@@@@@@@@@@@@@@@@@@/
     @GetMapping("adminNotificationManagementSelect") /* <!-- [ 어드민 ] 공지사항 전체조회 [ 정상작동 ] --> */
-    public List<NotificationManagementDTO> adminNotificationManagementSelect(){
-        // 나중에 페이징 적용해야 함
-        List<NotificationManagementDTO> notificationManagementList = adminService.adminNotificationManagementSelect();
+    public NotificationManagementPageDTO adminNotificationManagementSelect(
+            @RequestParam(defaultValue = "1") int code,
+            Criteria cri){
+
+        cri.setPageNum(code);
+        // 리스트 안에 사용자 이름 넣고 보내기
+        List<NotificationManagementDTO> notificationManagementList = adminService.adminNotificationManagementSelect(cri);
         for(NotificationManagementDTO list : notificationManagementList){
             String name = userService.selectID(list.getUserCode());
             list.setUserName(name);
         }
-        return notificationManagementList;
+        int total = adminService.totalPage();
+        PageMakerDTO pageMake = new PageMakerDTO(cri, total);
+        NotificationManagementPageDTO notificationManagementPageDTO = NotificationManagementPageDTO.builder()
+                .notificationManagementList(notificationManagementList)
+                .pageMake(pageMake)
+                .build();
+        return notificationManagementPageDTO;
     };
 
     @GetMapping("notificationManagementSelectDetail/{code}") /* <!-- [ 어드민, 일반 ] 공지사항 디테일 조회 --> */
@@ -123,11 +132,14 @@ public class AdminController {
 
     @PostMapping("notificationManagementUpdate") /* <!-- 공지사항 수정 --> */
     public void notificationManagementUpdate(FormDataDTO formDataDTO){
+        log.info("클라이언트 데이터 : "  + formDataDTO);
         // 리턴값 나중에 변경하기
         NotificationManagement notificationManagement = NotificationManagement.builder()
+                .notificationManagementCode(formDataDTO.getCode())
                 .notificationManagementText(formDataDTO.getTextEditor())
-                .notificationManagementTitle(formDataDTO.getTitleUpdateState())
+                .notificationManagementTitle(formDataDTO.getTitle())
                 .build();
+        log.info("서버 전달 데이터 : "  + notificationManagement);
         adminService.notificationManagementUpdate(notificationManagement);
     };
 

@@ -14,7 +14,8 @@ public interface AdminMapper {
     List<JGNotice> mainSelectNoticeAll(); /* <!-- 전체게시글 --> */
 
     //*********************** 공지사항 관리 페이지
-    List<NotificationManagementDTO> adminNotificationManagementSelect();                // [ 어드민 ] 전체 조회하기
+    int totalPage();// 페이징 전용 토탈 페이지
+    List<NotificationManagementDTO> adminNotificationManagementSelect(Criteria cri);                // [ 어드민 ] 전체 조회하기
     NotificationManagementDTO notificationManagementSelectDetail(int code);             // [ 어드민 , 일반 ] 공지사항 디테일 조회하기
     int notificationManagementCreate(NotificationManagement notificationManagement);    // 공지사항 생성하기
     void notificationManagementImgNameUpdate(FormDataDTO formDataDTO);                  // 공지사항 생성 후 파일이름 추가(수정)

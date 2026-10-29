@@ -4,7 +4,7 @@
 import "./css/AdminNotificationManagement.scss"
 
 // 네비게이트
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useParams,useLocation} from "react-router-dom";
 import { adminNotificationManagementSelectAPI } from "./api/AdminPageAPI";
 import { useEffect, useReducer } from "react";
@@ -22,12 +22,28 @@ const AdminNotificationManagement = () =>{
     AdminNotificationReduser,
     initiaAdminNotificationReduser,
     );
-    const {notificationList} = state;
+    const {notificationList,pagingData,pagingButtonArr} = state;
 
-    //공지사항 전체조회하기
+    ////공지사항 전체조회하기
+    // url에 있는 파라미터 pageNum 꺼내서 사용하기
+    const [searchParams,setSearchParams] = useSearchParams();
+
+    const pageNum = Number(searchParams.get("pageNum") || 1);
+
     const notificationManagementSelect = async () =>{
-        const result = await adminNotificationManagementSelectAPI();
-        dispatch({type:"notificationList", payload : result.data})
+        const result = await adminNotificationManagementSelectAPI(pageNum);
+        console.log(result.data)
+        dispatch({
+            type: "notificationList",
+            payload: result.data.notificationManagementList
+        });
+
+        dispatch({
+            type: "pagingData",
+            payload: result.data.pageMake
+        });
+        
+        createButton()
     }
 
     // 공지사항 상세 디테일
@@ -41,23 +57,39 @@ const AdminNotificationManagement = () =>{
 
     // 왼쪽으로 이동
     const leftButton = () =>{
-
+        setSearchParams({ pageNum: pagingData.startPage - 1 })
     }
 
     // 오른쪽으로 이동
     const rightButton = () =>{
-        
+        setSearchParams({ pageNum: pagingData.endPage +1 })
     }
 
-    // 페이징 버튼
-    const moveButton = () =>{
-
+    // 페이징 버튼 만드는 함수
+    const createButton = () =>{
+        const result = []
+        for (let i = 1; i <= pagingData.endPage; i++) {
+            result.push(
+                <div
+                    key={i}
+                    className="pageB"
+                    onClick={() => setSearchParams({ pageNum: String(i) })}
+                >
+                    {i}
+                </div>
+            );
+        }
+        return result;
     }
 
     useEffect(()=>{
         notificationManagementSelect()
-        console.log(state.notificationList)
     },[])
+
+    useEffect(() => {
+        notificationManagementSelect();
+    }, [pageNum]);
+
     return (
         <>
             <div id="notification">
@@ -89,18 +121,21 @@ const AdminNotificationManagement = () =>{
                                 </tbody>
                                 )
                             })}
-
                         </table>
                     </div>
                     <div id="paging">
-                        <div className="pageB">◀</div>
-                        <div className="pageB">1</div>
-                        <div className="pageB">1</div>
-                        <div className="pageB">1</div>
-                        <div className="pageB">1</div>
-                        <div className="pageB">1</div>
-                        <div className="pageB">1</div>
-                        <div className="pageB">▶</div>
+                        {pagingData.prev && 
+                        <div className="pageB" onClick={()=>{
+                            leftButton()
+                        }}>◀</div>
+                        }
+                        
+                        {createButton()}
+                        {pagingData.next && 
+                        <div className="pageB" onClick={()=>{
+                            rightButton()
+                        }}>▶</div>  
+                        }
                         <div id="createButton" onClick={() => {notificationCreateButton()}}>생성</div>
                     </div>
                 </div>

@@ -23,8 +23,9 @@
 
     <!-- @@@@@@@@@@@@@@@@@@@ 공지사항 관리 페이지 @@@@@@@@@@@@@@@@@@@  -->
     <!-- [ 괸리자 ]공지사항 조회(ALL)하기 [정상작동] -->
-    <select id="adminNotificationManagementSelect" resultType="NotificationManagementDTO">
+    <select id="adminNotificationManagementSelect" parameterType="Criteria" resultType="NotificationManagementDTO">
         select * from notificationManagement
+        limit #{skip} ,#{amount};
     </select>
     <!-- [ 괸리자,일반 ]공지사항 디테일 조회하기 -->
     <select id="notificationManagementSelectDetail" parameterType="int" resultType="NotificationManagementDTO">
@@ -36,7 +37,10 @@
         select * from notificationManagement
         where notificationManagementBoo != false
     </select>
-
+    <!-- 페이징 전용 전체 토탈 데이터 -->
+    <select id="totalPage" resultType="int">
+        select count(*) from notificationManagement
+    </select>
     <!-- 공지사항 생성하기 -->
     <insert
         id="notificationManagementCreate"

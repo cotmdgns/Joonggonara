@@ -25,9 +25,13 @@ public class AdminService {
     };
 
     //******************************* 공지사항 관리 페이지
+    // 페이징에 사용할 토탈 페이지
+    public int totalPage(){
+        return mapper.totalPage();
+    }
     // [ 어드민 ] 공지사항 전체 조회하기
-    public List<NotificationManagementDTO> adminNotificationManagementSelect(){
-        return mapper.adminNotificationManagementSelect();
+    public List<NotificationManagementDTO> adminNotificationManagementSelect(Criteria cri){
+        return mapper.adminNotificationManagementSelect(cri);
     };
     // [ 어드민, 일반] 공지사항 디테일 조회하기
     public NotificationManagementDTO notificationManagementSelectDetail(int code){
