@@ -20,6 +20,128 @@
     </select>
     <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  -->
 
+    <!-- @@@@@@@@@@@@@@@@@@@ 사용자 관리 페이지 @@@@@@@@@@@@@@@@@@@  -->
+    <!-- 사용자 전체 가져오기 -->
+    <select id="userALlSelect" parameterType="UserInfoPagingDTO" resultType="JGUserInfo">
+        select * from JGUserInfo
+        <where>
+            <if test="userName != null and userName != ''">
+                AND userName = #{userName}
+            </if>
+            <if test="userManager != null and userManager != ''">
+                AND userManager = #{userManager}
+            </if>
+            <if test="userStateBoo == 'normal'">
+                userDelete is null AND userStopDate is null
+            </if>
+            <if test="userStateBoo == 'stop'">
+                AND userStopDate is not null
+            </if>
+            <if test="userStateBoo == 'delete'">
+                AND userDelete is not null
+            </if>
+        </where>
+    </select>
+    <!-- 사용자 관리 페이지 [ 페이징 전용 토탈 데이터 ]  -->
+    <select id="userALLTotalPage" parameterType="UserInfoPagingDTO" resultType="int">
+        select count(*) from JGUserInfo
+        <where>
+            <if test="userName != null and userName != ''">
+                and userName = #{userName}
+            </if>
+            <if test="userManager != null and userManager != ''">
+                and userManager = #{userManager}
+            </if>
+            <if test="userStateBoo == '정상'">
+                userDelete is null and userStopDate is null
+            </if>
+            <if test="userStateBoo == '정지'">
+                userStopDate is not null
+            </if>
+            <if test="userStateBoo == '삭제'">
+                userDelete is not null
+            </if>
+        </where>
+    </select>
+<!--    &lt;!&ndash; 정상 사용자 전체 가져오기 &ndash;&gt;-->
+<!--    <select id="userNormalSelect" parameterType="JGUserInfo" resultType="JGUserInfo">-->
+<!--        select * from JGUserInfo-->
+<!--        <where>-->
+<!--            userDelete is null and userStopDate is null-->
+<!--            <if test="userName != null and userName != ''">-->
+<!--                and userName = #{userName}-->
+<!--            </if>-->
+<!--            <if test="userManager != null and userManager != ''">-->
+<!--                and userManager = #{userManager}-->
+<!--            </if>-->
+<!--        </where>-->
+<!--    </select>-->
+<!--    &lt;!&ndash; 삭제한 사용자 전체 가져오기 &ndash;&gt;-->
+<!--    <select id="userDeleteSelect" parameterType="JGUserInfo" resultType="JGUserInfo">-->
+<!--        select * from JGUserInfo-->
+<!--        <where>-->
+<!--            userDelete is not null-->
+<!--            <if test="userName != null and userName != ''">-->
+<!--                and userName = #{userName}-->
+<!--            </if>-->
+<!--            <if test="userManager != null and userManager != ''">-->
+<!--                and userManager = #{userManager}-->
+<!--            </if>-->
+<!--        </where>-->
+<!--    </select>-->
+<!--    &lt;!&ndash; 정지된 사용자 전체 가져오기 &ndash;&gt;-->
+<!--    <select id="userStopSelect" parameterType="JGUserInfo" resultType="JGUserInfo">-->
+<!--        select * from JGUserInfo-->
+<!--        <where>-->
+<!--            userStopYn = true-->
+<!--            <if test="userName != null and userName != ''">-->
+<!--                and userName = #{userName}-->
+<!--            </if>-->
+<!--            <if test="userManager != null and userManager != ''">-->
+<!--                and userManager = #{userManager}-->
+<!--            </if>-->
+<!--        </where>-->
+<!--    </select>-->
+<!--    <select id="userNormalTotalPage" parameterType="JGUserInfo" resultType="int">-->
+<!--        select count(*) from JGUserInfo-->
+<!--        <where>-->
+<!--            userDelete is null and userStopDate is null-->
+<!--            <if test="userName != null and userName != ''">-->
+<!--                and userName = #{userName}-->
+<!--            </if>-->
+<!--            <if test="userManager != null and userManager != ''">-->
+<!--                and userManager = #{userManager}-->
+<!--            </if>-->
+<!--        </where>-->
+<!--    </select>-->
+<!--    <select id="userDeleteTotalPage" parameterType="JGUserInfo" resultType="int">-->
+<!--        select count(*) from JGUserInfo-->
+<!--        <where>-->
+<!--            userDelete is not null-->
+<!--            <if test="userName != null and userName != ''">-->
+<!--                and userName = #{userName}-->
+<!--            </if>-->
+<!--            <if test="userManager != null and userManager != ''">-->
+<!--                and userManager = #{userManager}-->
+<!--            </if>-->
+<!--        </where>-->
+<!--    </select>-->
+<!--    <select id="userStopTotalPage" parameterType="JGUserInfo" resultType="int">-->
+<!--        select count(*) from JGUserInfo-->
+<!--        <where>-->
+<!--            userStopDate in not null-->
+<!--            <if test="userName != null and userName != ''">-->
+<!--                and userName = #{userName}-->
+<!--            </if>-->
+<!--            <if test="userManager != null and userManager != ''">-->
+<!--                and userManager = #{userManager}-->
+<!--            </if>-->
+<!--        </where>-->
+<!--    </select>-->
+
+    <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  -->
+
+
 
     <!-- @@@@@@@@@@@@@@@@@@@ 공지사항 관리 페이지 @@@@@@@@@@@@@@@@@@@  -->
     <!-- [ 괸리자 ]공지사항 조회(ALL)하기 [정상작동] -->

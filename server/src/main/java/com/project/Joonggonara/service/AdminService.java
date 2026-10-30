@@ -2,6 +2,7 @@ package com.project.Joonggonara.service;
 
 import com.project.Joonggonara.model.dto.FormDataDTO;
 import com.project.Joonggonara.model.dto.NotificationManagementDTO;
+import com.project.Joonggonara.model.dto.UserInfoPagingDTO;
 import com.project.Joonggonara.model.vo.*;
 import mapper.AdminMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,34 @@ public class AdminService {
     public List<JGNotice> mainSelectNoticeAll(){
         return mapper.mainSelectNoticeAll();
     };
+
+
+    //******************************* 사용자 관리 페이지
+    public List<JGUserInfo> userALlSelect(UserInfoPagingDTO dto){/* 전체 사용자 가져오기 */
+        return mapper.userALlSelect(dto);
+    };
+//    public List<JGUserInfo> userNormalSelect(JGUserInfo jgUserInfo){/* 정상 사용자 가져오기 */
+//        return mapper.userNormalSelect(jgUserInfo);
+//    };
+//    public List<JGUserInfo> userStopSelect(JGUserInfo jgUserInfo){ /* 전체 사용자 가져오기 */
+//        return mapper.userStopSelect(jgUserInfo);
+//    };
+//    public List<JGUserInfo> userDeleteSelect(JGUserInfo jgUserInfo){ /* 전체 사용자 가져오기 */
+//        return mapper.userDeleteSelect(jgUserInfo);
+//    };
+    // 사용자 관리 페이지 [ 페이징 전용 데이터 ]
+    public int userALLTotalPage(UserInfoPagingDTO dto){
+        return mapper.userALLTotalPage(dto);
+    };
+//    public int userNormalTotalPage(UserInfoPagingDTO dto){
+//        return mapper.userNormalTotalPage(dto);
+//    };
+//    public int userDeleteTotalPage(UserInfoPagingDTO dto){
+//        return mapper.userDeleteTotalPage(dto);
+//    };
+//    public int userStopTotalPage(UserInfoPagingDTO dto){
+//        return mapper.userStopTotalPage(dto);
+//    };
 
     //******************************* 공지사항 관리 페이지
     // 페이징에 사용할 토탈 페이지

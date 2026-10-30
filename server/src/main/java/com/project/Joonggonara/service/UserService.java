@@ -27,8 +27,6 @@ public class UserService {
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         jgUserInfo.setUserPwd(encoder.encode(jgUserInfo.getUserPwd()));
 
-        log.info("데이터 확인하기 : " + jgUserInfo.getUserPwd());
-
         return userMapper.userIdCreate(jgUserInfo);
     }
 
@@ -46,6 +44,10 @@ public class UserService {
     public JGUserInfo IdSelectAPI(String str){
 
         return userMapper.IdCheckAPI(str);
+    }
+
+    public String nicknameCheck(String str){
+        return userMapper.nicknameCheck(str);
     }
 
     // 사용자 코드로 이름 가져오기

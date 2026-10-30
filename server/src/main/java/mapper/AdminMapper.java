@@ -2,6 +2,7 @@ package mapper;
 
 import com.project.Joonggonara.model.dto.FormDataDTO;
 import com.project.Joonggonara.model.dto.NotificationManagementDTO;
+import com.project.Joonggonara.model.dto.UserInfoPagingDTO;
 import com.project.Joonggonara.model.vo.*;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -12,6 +13,18 @@ public interface AdminMapper {
     //*********************** 메인 관리 페이지
     List<JGUserInfo> mainSelectUseAll(); /* <!-- 전체사용자 --> */
     List<JGNotice> mainSelectNoticeAll(); /* <!-- 전체게시글 --> */
+
+    //*********************** 사용자 관리 페이지
+    List<JGUserInfo> userALlSelect(UserInfoPagingDTO dto);          /* 전체 사용자 가져오기 */
+//    List<JGUserInfo> userNormalSelect(JGUserInfo jgUserInfo);          /* 정상 사용자 가져오기 */
+//    List<JGUserInfo> userStopSelect(JGUserInfo jgUserInfo);         /* 전체 사용자 가져오기 */
+//    List<JGUserInfo> userDeleteSelect(JGUserInfo jgUserInfo);       /* 전체 사용자 가져오기 */
+
+    // 사용자 관리 페이지 [ 페이징 전용 데이터 ]
+    int userALLTotalPage(UserInfoPagingDTO dto);
+//    int userNormalTotalPage(UserInfoPagingDTO dto);
+//    int userDeleteTotalPage(UserInfoPagingDTO dto);
+//    int userStopTotalPage(UserInfoPagingDTO dto);
 
     //*********************** 공지사항 관리 페이지
     int totalPage();// 페이징 전용 토탈 페이지

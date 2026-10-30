@@ -36,6 +36,7 @@ const SignUp = () =>{
         userId,                 // 사용자 아이디
         userPwd,                // 사용자 패스워드
         userName ,              // 사용자 이름
+        userNickName,           // 사용자 닉네임
         userEmail ,             // 시용자 이메일
         userAddressDetail ,       // 사용자 상세 주소
         userIdCheck ,           // 사용자 아이디 체크
@@ -44,6 +45,7 @@ const SignUp = () =>{
         userIdBoo,                // 사용자 아이디 조건여부
         userPwdBoo,               // 사용자 패스워드 조건여부
         userNameBoo,              // 사용자 이름 조건여부
+        userNcikNameBoo,          // 사용자 닉네임 조건여부
         userEmailBoo,             // 시용자 이메일 조건여부
         userAddressDetailBoo,       // 사용자 상세 주소 조건여부
 
@@ -51,6 +53,7 @@ const SignUp = () =>{
         userIdText,                // 사용자 아이디 조건여부 텍스트 
         userPwdText,               // 사용자 패스워드 조건여부 텍스트
         userNameText,              // 사용자 이름 조건여부 텍스트
+        userNcikNameText,           // 사용자 닉네임 조건여부 텍스트
         userEmailText,             // 시용자 이메일 조건여부 텍스트
         userAddressDetailText,       // 사용자 상세 주소 조건여부 텍스트
 
@@ -97,7 +100,8 @@ const SignUp = () =>{
         const data ={
         "userId" : userId,                
         "userPwd" : userPwd,                
-        "userName" : userName ,              
+        "userName" : userName ,   
+        "userNickname" : userNickName,           
         "userEmail" : userEmail ,            
         "userAddressDetail" : userAddressDetail,       
         "addressData" : addressData,
@@ -109,6 +113,7 @@ const SignUp = () =>{
             "userPwdBoo" : userPwdBoo,              
             "userNameBoo" : userNameBoo,              
             "userEmailBoo" : userEmailBoo,             
+            "userNcikNameBoo" : userNcikNameBoo,
             "userAddressDetailBoo" : userAddressDetailBoo,      
         }
 
@@ -120,6 +125,7 @@ const SignUp = () =>{
         // 2차 조건
         for (const i in data) {
             if (!data[i] || data[i].trim() === "") {
+                console.log(data[i])
                 return alert("빈칸없이 입력해주세요");
             }
         }
@@ -133,9 +139,13 @@ const SignUp = () =>{
         
         // 최종적으로 되면 바로 나가기 [ 정상 작동 ]
         if(window.confirm("정말로 생성하시겠습니까?")){
-            await userIdCreateAPI(data);
-            alert("가입 승인")
-            navigate("/login")
+            const result = await userIdCreateAPI(data);
+            if(result.data){
+                alert("가입 승인")
+                navigate("/login")
+            }else{
+                alert("존재하는 아이디 입니다.")
+            }
         }
 
 
@@ -214,6 +224,26 @@ const SignUp = () =>{
                                     <div id="check"></div> 
                                 :
                                     <div id="check" style={userNameBoo ? null:{color : "red"}}>{userNameText}</div>
+                                }
+                            </div>
+                            {/* 여기여기 */}
+                            <div id="nickNameCheck">
+                                <InputTag 
+                                    TText="text" 
+                                    PHText="nickName"
+                                    val={userNickName}
+                                    chage={(e)=>{
+                                        dispatch({type:"nicknameCheck",payload:e.target.value})
+                                    }}
+                                />
+                                {
+                                userNcikNameBoo === null ? 
+                                <></> 
+                                    :
+                                userNcikNameBoo ? 
+                                    <div id="check"></div> 
+                                :
+                                    <div id="check" style={userNcikNameBoo ? null:{color : "red"}}>{userNcikNameText}</div>
                                 }
                             </div>
                             <div id="emailCheck">

@@ -31,6 +31,18 @@ export const mainSelectNoticeAllAPI = async () => {
 ////////////////////////////////////////////////
 
 ////////////////////////////////////////////////
+///// 메인 관리자 페이지
+// 전체 사용자 가져오기
+export const userALlSelectlAPI = async (data) => {
+  return await instance.post("/userALlSelect",data);
+};
+
+
+  
+
+////////////////////////////////////////////////
+
+////////////////////////////////////////////////
 //// 공지사항 관리자 페이지
 // [ 어드민 ] 공지사항 전체 조회하기 [ 정상 작동 ]
 export const adminNotificationManagementSelectAPI = (pageNum) => {

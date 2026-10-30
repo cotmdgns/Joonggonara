@@ -13,6 +13,7 @@ CREATE TABLE JGUserInfo(
   userId varchar(20) not null unique, /*사용자 아이디*/
   userPwd varchar(150) not null, /*사용자 비밀번호*/
   userImg varchar(255) , /*사용자 이미지*/
+  userNickname varchar(50) not null unique, /* 사용자 닉네임*/
   userName varchar(20) not null, /*사용자 이름*/
   userCreate datetime default CURRENT_TIMESTAMP, /*생성 날짜*/
   userUpdate datetime , /*변경 날짜*/
@@ -25,10 +26,37 @@ CREATE TABLE JGUserInfo(
   addressData varchar(10), /* 사용자 주소 */
   addressDetailData varchar(10), /* 사용자 주소 */
   userAddressDetail varchar(10), /* 사용자 주소 (상세) */ 
-  
   /*2026-10-19 이후로 추가 됨*/
   userInfo varchar(255) default null /*사용자 자기소개*/
 );
+select * from JGUserInfo;
+/*사용자 백업정보*/
+CREATE TABLE JGUserInfoBack(
+  uesrCode integer not null, /*외래키로 사용할 예정*/ 
+  userPwd varchar(30) not null, /*사용자 비밀번호*/ 
+  userImg varchar(255), /*사용자 이미지*/ 
+  userName varchar(20), /*사용자 이름*/ 
+  userAddress varchar(10), /* 사용자 주소 */
+  userAddressDetail varchar(10), /* 사용자 주소 (상세) */ 
+  userUpdate datetime default CURRENT_TIMESTAMP, /*변경 날짜*/ 
+  userInfo varchar(255) default null,
+  
+  /* 추가됨 [ 서버에도 추가해야 함 ]*/
+  userYn boolean default true, 					/* 사용유무 : 정지나 삭제했을 떄 사용할 예정 */
+  userStopDate date default null,				/* 정지된 날짜 */
+  userStopLooseDate date default null,			/* 정지 풀린 날짜 */
+  userDelete date default null,					/* 삭제된 날짜 */
+  userDeleteLoose date default null					/* 삭제 풀린 날짜 */
+);
+
+/* 정지이력 누적 */
+CREATE TABLE JGUserInfoStopCumulative(
+	JGUserInfoStopCumulative integer auto_increment primary key
+);
+
+select * from JGUserInfo
+where userStopYn = false;
+
 /*변경해주자*/
 ALTER TABLE JGUserInfo
 RENAME COLUMN uesrCode TO userCode;
@@ -57,17 +85,6 @@ CREATE TABLE JGUserInfoPointer(
   userPointerCreate datetime default CURRENT_TIMESTAMP /*생성날짜*/ 
 );
 
-/*사용자 백업정보*/
-CREATE TABLE JGUserInfoBack(
-  uesrCode integer not null, /*외래키로 사용할 예정*/ 
-  userPwd varchar(30) not null, /*사용자 비밀번호*/ 
-  userImg varchar(255), /*사용자 이미지*/ 
-  userName varchar(20), /*사용자 이름*/ 
-  userAddress varchar(10), /* 사용자 주소 */
-  userAddressDetail varchar(10), /* 사용자 주소 (상세) */ 
-  userUpdate datetime default CURRENT_TIMESTAMP, /*변경 날짜*/ 
-  userInfo varchar(255) default null
-);
 
 
 /* 게시글 정보 */

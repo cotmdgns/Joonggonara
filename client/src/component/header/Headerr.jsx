@@ -94,7 +94,7 @@ const Headerr = () => {
     if(token != null){
       dispatch({type:"loginBoo"})
     }
-    if(userManager == 1){
+    if(userManager == 2){
       dispatch({type:"managerState"})
     }
   },[])

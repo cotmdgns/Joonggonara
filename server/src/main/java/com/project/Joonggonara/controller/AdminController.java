@@ -6,13 +6,11 @@ import com.project.Joonggonara.service.AdminService;
 import com.project.Joonggonara.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -47,6 +45,52 @@ public class AdminController {
     public int mainSelectNoticeAll(){
         return adminService.mainSelectNoticeAll().size();
     };
+
+    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 사용자 관리 페이지 @@@@@@@@@@@@@@@@@@@@@@@/
+    /* 전체 사용자 가져오기 */
+    @PostMapping("userALlSelect")
+    public UserInfoPagingDTO userALlSelect(@RequestBody UserInfoPagingDTO dto,Criteria cri){
+        // 클라이언트에서 데이터를 가져옴
+        // 1. 페이지, 2. 등급여부, 3. 현재 상태 여부
+        log.info("페이징 및 데이터 확인하기 : "  +dto );
+        if(dto.getCode() < 0){
+            cri.setPageNum(dto.getCode());
+        }else{
+            cri.setPageNum(1);
+        }
+        List<JGUserInfo> list =  adminService.userALlSelect(dto);
+        // 필요한 준비물 : 리스트와 포탈정보
+        int total = adminService.userALLTotalPage(dto);
+        dto.setJgUserInfoList(list);
+        PageMakerDTO pageMake = new PageMakerDTO(cri, total);
+        dto.setPageMake(pageMake);
+
+        log.info("종합 데이터 확인하기 : "  +dto );
+//        UserInfoPagingDTO dto = new UserInfoPagingDTO();
+//        return adminService.userALlSelect(jgUserInfo);
+        return dto;
+    };
+//    /* 정상 사용자 가져오기 */
+//    @PostMapping("userNormalSelect")
+//    public List<JGUserInfo> userNormalSelect(@RequestBody JGUserInfo jgUserInfo){
+//        UserInfoPagingDTO dto = new UserInfoPagingDTO();
+//        adminService.userNormalTotalPage(dto);
+//        return adminService.userNormalSelect(jgUserInfo);
+//    };
+//    /* 정지 사용자 가져오기 */
+//    @PostMapping("userStopSelect")
+//    public List<JGUserInfo> userStopSelect(@RequestBody JGUserInfo jgUserInfo){
+//        UserInfoPagingDTO dto = new UserInfoPagingDTO();
+//        adminService.userStopTotalPage(dto);
+//        return adminService.userStopSelect(jgUserInfo);
+//    };
+//    /* 삭제된 사용자 가져오기 */
+//    @PostMapping("userDeleteSelect")
+//    public List<JGUserInfo> userDeleteSelect(@RequestBody JGUserInfo jgUserInfo){
+//        UserInfoPagingDTO dto = new UserInfoPagingDTO();
+//        adminService.userDeleteTotalPage(dto);
+//        return adminService.userDeleteSelect(jgUserInfo);
+//    };
 
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 공지사항 관리 페이지 @@@@@@@@@@@@@@@@@@@@@@@/
     @GetMapping("adminNotificationManagementSelect") /* <!-- [ 어드민 ] 공지사항 전체조회 [ 정상작동 ] --> */

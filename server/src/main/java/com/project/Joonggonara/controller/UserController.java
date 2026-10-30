@@ -44,8 +44,18 @@ public class UserController {
     @ResponseBody
     @PostMapping("userIdCreate")
     public boolean UserIdCreate(@RequestBody JGUserInfo jgUserInfo){
-        userService.UserIdCreate(jgUserInfo);
-        return true;
+        // 여기서 아이디 체크하고 있으면 닉네임 바꾸게 변경 고고뚠
+        log.info("1. 데이터 확인하기 : " + jgUserInfo);
+        String result =userService.nicknameCheck(jgUserInfo.getUserNickname());
+        log.info("2. 데이터 확인하기 : " + result);
+        if(result == null || result.isEmpty()){
+            // 비어있거나 널이면 없다는거니깐 생성완료
+            userService.UserIdCreate(jgUserInfo);
+            return true;
+        }else{
+            // 닉네임 있다는거니깐 생성불가능하게
+            return false;
+        }
     }
 
     /* 사용자 로그인화면 [ 정상작동, 암호화된 데이터 비교 확인 True, 토큰값 제대로 나옴 ]*/

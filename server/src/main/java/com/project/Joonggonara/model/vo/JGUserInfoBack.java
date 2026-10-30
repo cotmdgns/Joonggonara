@@ -17,4 +17,10 @@ public class JGUserInfoBack {
     private String userAddress; // 사용자 주소
     private String userAddressDetail; // 사용자 주소 (상세)
     private String userInfo; // 사요자 자기소개
+
+    private boolean userYn;                     /* 사용유무 : 정지나 삭제했을 떄 사용할 예정 */
+    private String userStopDate;				/* 정지된 날짜 */
+    private String userStopLooseDate;			/* 정지 풀린 날짜 */
+    private String userDelete;					/* 삭제된 날짜 */
+    private String userDeleteLoose;             /* 삭제 풀린 날짜 */
 }

@@ -3,10 +3,12 @@ export const initiaSignUpReduser = {
     addressArr : [], // 주소배열 정보 (17개 있음)
     addressDetailArr : [], // 주소상세배열 정보 (상황에 따라 달라짐)
 
+
     // 회원가입 정보
     userId : "",                // 사용자 아이디
     userPwd : "",               // 사용자 패스워드
     userName : "",              // 사용자 이름
+    userNickName : "",          // 사용자 닉네임
     userEmail : "",             // 시용자 이메일
     userAddressDetail : "",       // 사용자 상세 주소
     userIdCheck : false,        // 사용자 아이디 체크 
@@ -16,6 +18,7 @@ export const initiaSignUpReduser = {
     // 정규표현식 조건 여부
     userIdBoo : null,                // 사용자 아이디 조건여부
     userPwdBoo : null,               // 사용자 패스워드 조건여부
+    userNcikNameBoo : null,          // 사용자 닉네임 조건여부
     userNameBoo : null,              // 사용자 이름 조건여부
     userEmailBoo : null,             // 시용자 이메일 조건여부
     userAddressDetailBoo : null,       // 사용자 상세 주소 조건여부
@@ -23,6 +26,7 @@ export const initiaSignUpReduser = {
     // 정규표현식 조건 여부 텍스트
     userIdText : "",                // 사용자 아이디 조건여부 텍스트 
     userPwdText : "",               // 사용자 패스워드 조건여부 텍스트
+    userNcikNameText : "",          // 사용자 닉네임 조건여부 텍스트
     userNameText : "",              // 사용자 이름 조건여부 텍스트
     userEmailText : "",             // 시용자 이메일 조건여부 텍스트
     userAddressDetailText : "",       // 사용자 상세 주소 조건여부 텍스트
@@ -85,6 +89,17 @@ export const SignUpReduser = (state,action) =>{
                 ""
                 :
                 "이름은 최소 2글자 이상, 최대 5글자 이하 입니다.",
+            }
+        case "nicknameCheck" : // 이름 체크
+            const nicknameRegex = /^[가-힣a-zA-Z0-9]{2,12}$/.test(action.payload);
+            return{
+                ...state,
+                userNickName : action.payload,
+                userNcikNameBoo : action.payload !== "" ? nicknameRegex : null ,
+                userNcikNameText : nicknameRegex ? 
+                ""
+                :
+                "이름은 최소 2글자 이상, 최대 12글자 이하 입니다.",
             }
         case "emailCheck" : // 이메일 체크
             const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(action.payload); // 이메일 정규표현식

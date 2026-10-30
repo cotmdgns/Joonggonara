@@ -200,7 +200,7 @@
             .managementPagination {
                 display: flex;
                 align-items: center;
-                justify-content: space-between;
+                justify-content: center;
                 gap: 16px;
                 min-height: 68px;
                 padding: 12px 18px;
@@ -337,5 +337,196 @@
         }
         #createButton:hover{
             background-color: rgb(54, 43, 144);
+        }
+    }
+
+
+
+
+    // @!!!@@ 모달창 scss
+    .modalBody{
+        position: fixed;
+        right: 0px;
+        top: 50%;
+        height: 80%;
+        width: 450px;
+        margin: auto;
+        border-radius: 10px;
+        transform: translate(100%, -50%);
+        transition: transform 0.3s ease;
+        box-shadow: 0px 0px 4px 4px rgb(229, 228, 228);
+        background-color: white;
+        overflow: auto;
+        &.active {
+            transform: translate(0, -50%);
+        }
+        // 헤더
+        .modalHeader{
+            border-bottom : 1px solid rgb(176, 176, 176);
+            border-radius: 10px 10px 0px 0px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+
+            .modalHeaderH1{
+                font-size: 20px;
+                font-weight: bold;
+            }
+            .modalHeaderClose{
+                cursor: pointer;
+                font-size: 17px;
+            }
+        }
+        .modalDataBody{
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .modalBodyLetf{
+                width: 100%;
+                .modalBodyLetfUp{
+                    display: flex;
+                    #img{
+                        width: 70px;
+                        height: 70px;
+                        background-color: red;
+                        border-radius: 100%;
+                    }
+                    #info{
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        flex-direction: column;
+                        padding-left: 10px;
+                        div{
+                            display: flex;
+                            align-items: center;
+                            gap: 10px;
+                            padding: 3px;
+                            #id{
+                                font-weight: bold;
+                                font-size: 17px;
+                            }
+                            #rank{
+                                border-radius: 20px;
+                                padding: 2px 5px;
+                                color: white;
+                                font-size: 11px;
+                                background-color: blue;
+                            }
+                            #name{
+                                color: rgb(126, 124, 124);
+                            }
+                        }
+                    }
+                }
+                .modalBodyLetfDown{
+                    font-size: 13px;
+                    #modalBodyLeftDownInfo{
+                        display: flex;
+                        justify-content: start;
+                        align-items: center;
+                        padding: 7px;
+                        gap: 8px;
+                        #info{
+                            width: 70px;
+                            display: flex;
+                            gap: 8px;
+                            color: rgb(152, 151, 151);
+                        }
+                    }
+                }
+            }
+            .modalBodyRight{
+                width: 70%;    
+                font-size: 14px;
+                font-weight: bold;
+                #UGbosu{
+                    margin: 5px;
+                }
+                #managerUpdate{
+                    padding: 10px 5px;
+                    margin: 5px;
+                    background-color: rgb(233, 233, 252);
+                    border: 2px solid rgb(170, 170, 238);
+                    color: blue;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    gap: 8px;
+                }
+                #delete{
+                    padding: 10px 5px;
+                    margin: 5px;
+                    background-color: rgb(252, 232, 232);
+                    border: 2px solid rgb(253, 194, 194);
+                    color: red;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    gap: 8px;
+                }
+            }
+        }
+        .modalDataBodys{
+            padding: 10px;
+            .modalDataBodysHeader{
+                display: flex;
+                justify-content: start;
+                align-items: center;
+                gap: 20px;
+                font-size: 17px;
+                margin-bottom: 10px;
+                div{
+                    padding: 10px;
+                }
+                #HeaderTrue{
+                    color: blue;
+                    border-bottom: 2px solid blue;
+                    font-weight: bold;
+                }
+            }
+            .modalDataBodysInfo{
+                padding: 10px;
+                border-radius: 10px;
+                height: 100%;
+                box-shadow: 0px 0px 2px 2px rgb(230, 229, 229);
+                #modalDataBodysInfoHeader{
+                    font-weight: bold;
+                    padding-bottom: 10px;
+                }
+                #modalDataBodysInfoBody{
+                    padding: 10px;
+                    font-size: 12px;
+                    div{
+                        display: flex;
+                        gap: 10px;
+                        padding: 10px 5px;
+                        span{
+                            width: 100px;
+                        }
+                        #box{
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+        }
+        // 풋터
+        .modalFooter{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            margin: 10px;
+            cursor: pointer;
+            font-size: 13px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 2px 2px rgb(229, 228, 228);
         }
     }
