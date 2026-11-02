@@ -3,9 +3,17 @@ export const initiaAdminUserManagementReduser = {
     modalData : "",                  // 모달창에 데이터 전달용도
     bodyHeaderState : 1,
 
+    infoState : "",         
+
+    deleteHistoryList : [],         // 삭제 이력값
+    stopHistoryList : [],           // 정지 이력값
 
     jgUserInfoList:[],
     pageMake:"",
+    selectAll : 0,
+    selectNormal : 0,
+    selectStop : 0,
+    selectDelete : 0,
 }
 
 
@@ -14,7 +22,8 @@ export const AdminUserManagementReduser = (state,action) =>{
         case "modalState" :// 모달창 상태값         
             return{
                 ...state,
-                modalState : true
+                modalState : true,
+                infoState : action.payload
             }
         case "modalClose" :// 모달창 닫기      
             return{
@@ -31,13 +40,30 @@ export const AdminUserManagementReduser = (state,action) =>{
                 ...state,
                 bodyHeaderState : action.payload,
             }
-        case "userALlSelect" :
+        case "userALlSelect" :              // 페이지 로드 시 모든 정보
             return {
                 ...state,
                 jgUserInfoList:action.payload.jgUserInfoList,
                 pageMake:action.payload.pageMake,
+                selectAll : action.payload.selectAll,
+                selectNormal : action.payload.selectNormal,
+                selectStop : action.payload.selectStop,
+                selectDelete : action.payload.selectDelete,
             }
-
-            
+        case "infoState" :// 모달창 상태값         
+            return{
+                ...state,
+                infoState : action.payload
+            }
+        case "deleteHistory" :
+            return {
+                ...state,
+                deleteHistoryList : action.payload,
+            }
+        case "stopHistory" :
+            return{
+                ...state,
+                stopHistoryList : action.payload,
+            }
     }
 }

@@ -29,30 +29,39 @@ CREATE TABLE JGUserInfo(
   /*2026-10-19 이후로 추가 됨*/
   userInfo varchar(255) default null /*사용자 자기소개*/
 );
-select * from JGUserInfo;
+select * from JGUserInfoBack
+where userCode = 1 and userDelete !=n;
 /*사용자 백업정보*/
 CREATE TABLE JGUserInfoBack(
-  uesrCode integer not null, /*외래키로 사용할 예정*/ 
-  userPwd varchar(30) not null, /*사용자 비밀번호*/ 
-  userImg varchar(255), /*사용자 이미지*/ 
-  userName varchar(20), /*사용자 이름*/ 
-  userAddress varchar(10), /* 사용자 주소 */
-  userAddressDetail varchar(10), /* 사용자 주소 (상세) */ 
-  userUpdate datetime default CURRENT_TIMESTAMP, /*변경 날짜*/ 
+  userCode int not null, /*외래키로 사용할 예정*/ 
+  userPwd varchar(30) default null, /*사용자 비밀번호*/ 
+  userImg varchar(255)  default null, /*사용자 이미지*/ 
+  userName varchar(20)  default null, /*사용자 이름*/ 
+  userAddress varchar(10)  default null, /* 사용자 주소 */
+  userAddressDetail varchar(10)  default null, /* 사용자 주소 (상세) */ 
+  userUpdate datetime  default null, /*변경 날짜*/ 
   userInfo varchar(255) default null,
   
   /* 추가됨 [ 서버에도 추가해야 함 ]*/
-  userYn boolean default true, 					/* 사용유무 : 정지나 삭제했을 떄 사용할 예정 */
+  -- userYn boolean default true, 					/* 사용유무 : 정지나 삭제했을 떄 사용할 예정 */
   userStopDate date default null,				/* 정지된 날짜 */
   userStopLooseDate date default null,			/* 정지 풀린 날짜 */
   userDelete date default null,					/* 삭제된 날짜 */
   userDeleteLoose date default null					/* 삭제 풀린 날짜 */
 );
 
-/* 정지이력 누적 */
-CREATE TABLE JGUserInfoStopCumulative(
-	JGUserInfoStopCumulative integer auto_increment primary key
-);
+drop table JGUserInfoBack;
+/* 1단계 복구 데이터된 데이터 */
+insert into JGUserInfoBack(userCode,userDelete, userDeleteLoose)
+value(9929, now(), now());
+
+select * from JGUserInfoBack;
+
+update JGUserInfo
+set userDelete = now()
+where userCode = 1;
+
+
 
 select * from JGUserInfo
 where userStopYn = false;

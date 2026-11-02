@@ -62,13 +62,17 @@ const router = createBrowserRouter([
         path:"layoutAdmin", // 관리자 페이지
         element: <LayoutAdmin />,
         children : [
+            // {
+            //     index: true,
+            //     element: <AdminPage />,
+            // },
+            // {
+            //     path : "adminUserManagement", // 사용자 관리
+            //     element :<AdminUserManagement/>
+            // }
             {
                 index: true,
-                element: <AdminPage />,
-            },
-            {
-                path : "adminUserManagement", // 사용자 관리
-                element :<AdminUserManagement/>
+                element: <AdminUserManagement />,
             },
             {
                 path : "adminDeclarationManagement", // 신고현황 관리

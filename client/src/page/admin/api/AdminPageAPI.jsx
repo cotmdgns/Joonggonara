@@ -31,14 +31,46 @@ export const mainSelectNoticeAllAPI = async () => {
 ////////////////////////////////////////////////
 
 ////////////////////////////////////////////////
-///// 메인 관리자 페이지
-// 전체 사용자 가져오기
+///// 사용자 관리  페이지
+// 전체 사용자 가져오기 [ 반쪽 짜리 정상 작동 : 검색때문에 다시 손봐야 함 ]
 export const userALlSelectlAPI = async (data) => {
   return await instance.post("/userALlSelect",data);
 };
+// 사용자 등급    [ 정상적으로 작동하고 변경되는거 확인함 ]
+export const rankUpdateAPI = async (data) => {
+  return await instance.post("/rankUpdate",data);
+};
+
+// 사용자 계정 삭제하기 [ 정상작동함 ]
+export const userDeleteAPI = async (data) => {
+  return await instance.post(`/userDelete/${data}`);
+};
+// 사용자 계정 복구하기 [ 정상작동함 ]
+export const userDeleteRollBackAPI = async (data) => {
+  return await instance.post("/userDeleteRollBack",data);
+};
+
+// 사용자 계정 정지하기 [ 정상작동함 ]
+export const userStopAPI = async (data) => {
+  return await instance.post(`/userStop/${data}`);
+};
+// 사용자 계정 정지 복구하기 [ 정상작동함 ]
+export const userStopRollBackAPI = async (data) => {
+  return await instance.post("/userStopRollBack",data);
+};
 
 
-  
+// 사용자 삭제 이력 [ 정상 작동 ]
+export const deleteHistoryAPI = async (data) => {
+  return await instance.get(`/deleteHistory/${data}`);
+};
+// 사용자 정지 이력 [ 정상 작동 ]
+export const stopHistoryAPI = async (data) => {
+  return await instance.get(`/stopHistory/${data}`);
+};
+
+
+
 
 ////////////////////////////////////////////////
 
@@ -71,8 +103,6 @@ export const notificationManagementUpdateAPI = async (form) => {
 export const notificationManagementDeleteAPI = async (code) => {
   return await instance.post(`/notificationManagementDelete/${code}`);
 };
-
-
 
 ////////////////////////////////////////////////
 

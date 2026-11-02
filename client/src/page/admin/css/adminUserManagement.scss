@@ -197,7 +197,7 @@
                 }
             }
 
-            .managementPagination {
+            .pagination {
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -206,58 +206,41 @@
                 padding: 12px 18px;
                 border-top: 1px solid #edf1f6;
 
-                .totalCount {
-                    color: #64748b;
+                button {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    min-width: 34px;
+                    height: 34px;
+                    padding: 0 8px;
+                    border: 1px solid #e2e8f0;
+                    border-radius: 6px;
+                    background-color: #fff;
+                    color: #475569;
                     font-size: 13px;
-                    white-space: nowrap;
+                    cursor: pointer;
+                    transition: all 0.2s;
 
-                    strong {
-                        color: #1e293b;
-                        font-weight: 700;
+                    &:hover {
+                        border-color: #3478f6;
+                        color: #3478f6;
+                    }
+
+                    &.active {
+                        border-color: #3478f6;
+                        background-color: #3478f6;
+                        color: #fff;
+                        font-weight: 600;
+                    }
+
+                    &.pageArrow {
+                        font-size: 16px;
                     }
                 }
 
-                .pageButtons {
-                    display: flex;
-                    align-items: center;
-                    gap: 6px;
-
-                    button {
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        min-width: 34px;
-                        height: 34px;
-                        padding: 0 8px;
-                        border: 1px solid #e2e8f0;
-                        border-radius: 6px;
-                        background-color: #fff;
-                        color: #475569;
-                        font-size: 13px;
-                        cursor: pointer;
-                        transition: all 0.2s;
-
-                        &:hover {
-                            border-color: #3478f6;
-                            color: #3478f6;
-                        }
-
-                        &.active {
-                            border-color: #3478f6;
-                            background-color: #3478f6;
-                            color: #fff;
-                            font-weight: 600;
-                        }
-
-                        &.pageArrow {
-                            font-size: 16px;
-                        }
-                    }
-
-                    .pageDots {
-                        padding: 0 3px;
-                        color: #94a3b8;
-                    }
+                .pageDots {
+                    padding: 0 3px;
+                    color: #94a3b8;
                 }
             }
         }
@@ -408,12 +391,8 @@
                                 font-weight: bold;
                                 font-size: 17px;
                             }
-                            #rank{
-                                border-radius: 20px;
-                                padding: 2px 5px;
-                                color: white;
-                                font-size: 11px;
-                                background-color: blue;
+                            #nicknmae{
+                                width: 90px;
                             }
                             #name{
                                 color: rgb(126, 124, 124);
@@ -448,6 +427,19 @@
                 #managerUpdate{
                     padding: 10px 5px;
                     margin: 5px;
+                    background-color: rgb(233, 252, 238);
+                    border: 2px solid rgb(170, 238, 198);
+                    color: rgb(18, 235, 51);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    gap: 8px;
+                }
+                #managerUpdateAdmin{
+                    padding: 10px 5px;
+                    margin: 5px;
                     background-color: rgb(233, 233, 252);
                     border: 2px solid rgb(170, 170, 238);
                     color: blue;
@@ -471,11 +463,25 @@
                     cursor: pointer;
                     gap: 8px;
                 }
+                #deleteRollBack{
+                    padding: 10px 5px;
+                    margin: 5px;
+                    background-color: rgb(232, 237, 252);
+                    border: 2px solid rgb(210, 194, 253);
+                    color: rgb(0, 119, 255);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    gap: 8px;
+                }
             }
         }
         .modalDataBodys{
             padding: 10px;
             .modalDataBodysHeader{
+                cursor: pointer;
                 display: flex;
                 justify-content: start;
                 align-items: center;

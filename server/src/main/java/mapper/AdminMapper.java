@@ -22,9 +22,23 @@ public interface AdminMapper {
 
     // 사용자 관리 페이지 [ 페이징 전용 데이터 ]
     int userALLTotalPage(UserInfoPagingDTO dto);
-//    int userNormalTotalPage(UserInfoPagingDTO dto);
-//    int userDeleteTotalPage(UserInfoPagingDTO dto);
-//    int userStopTotalPage(UserInfoPagingDTO dto);
+    int userALLTotal();             // 전체 토탈
+    int userNormalTotal();          // 정상 토탈
+    int userDeleteTotal();          // 삭제 토탈
+    int userStopTotal();            // 정지 토탈
+
+    void rankUpdate(JGUserInfo jgUserInfo);                     // 사용자 등급 변경하기
+
+    void userDelete(int code);                                  // 사용자 계정 삭제하기
+    void userDeleteRollBack1(JGUserInfo jgUserInfo);            // 1단계 사용자 계정복구하기
+    void userDeleteRollBack2(int code);                         // 2단계 사용자 계정복구하기
+
+    void userStop(int code);                                    // 사용자 계정 정지하기
+    void userStopRollBack1(JGUserInfo jgUserInfo);              // 1단계 사용자 계정복구하기
+    void userStopRollBack2(int code);                           // 2단계 사용자 계정복구하기
+
+    List<JGUserInfoBack> deleteHistory(int code);                       // 삭제 이력 조회
+    List<JGUserInfoBack> stopHistory(int code);                         // 정지 이력 조회
 
     //*********************** 공지사항 관리 페이지
     int totalPage();// 페이징 전용 토탈 페이지

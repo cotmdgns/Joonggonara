@@ -43,15 +43,59 @@ public class AdminService {
     public int userALLTotalPage(UserInfoPagingDTO dto){
         return mapper.userALLTotalPage(dto);
     };
-//    public int userNormalTotalPage(UserInfoPagingDTO dto){
-//        return mapper.userNormalTotalPage(dto);
-//    };
-//    public int userDeleteTotalPage(UserInfoPagingDTO dto){
-//        return mapper.userDeleteTotalPage(dto);
-//    };
-//    public int userStopTotalPage(UserInfoPagingDTO dto){
-//        return mapper.userStopTotalPage(dto);
-//    };
+
+    public int userALLTotal(){
+        return mapper.userALLTotal();
+    };
+    public int userNormalTotal(){
+        return mapper.userNormalTotal();
+    };
+    public int userDeleteTotal(){
+        return mapper.userDeleteTotal();
+    };
+    public int userStopTotal(){
+        return mapper.userStopTotal();
+    };
+
+    // 사용자 등급 변경하기
+    public void rankUpdate(JGUserInfo jgUserInfo){
+        mapper.rankUpdate(jgUserInfo);
+    }
+    // 사용자 계정 삭제하기
+    public void userDelete(int code){
+        mapper.userDelete(code);
+    }
+    // 1단계 사용자 계정복구하기
+    public void userDeleteRollBack1(JGUserInfo jgUserInfo){
+        mapper.userDeleteRollBack1(jgUserInfo);
+    };
+    // 2단계 사용자 계정복구하기
+    public void userDeleteRollBack2(int code){
+        mapper.userDeleteRollBack2(code);
+    };
+
+    // 사용자 계정 정지하기
+    public void userStop(int code){
+        mapper.userStop(code);
+    }
+    // 1단계 사용자 계정복구하기
+    public void userStopRollBack1(JGUserInfo jgUserInfo){
+        mapper.userStopRollBack1(jgUserInfo);
+    };
+    // 2단계 사용자 계정복구하기
+    public void userStopRollBack2(int code){
+        mapper.userStopRollBack2(code);
+    };
+
+    // 삭제 이력 조회
+    public List<JGUserInfoBack> deleteHistory(int code){
+        return mapper.deleteHistory(code);
+    };
+    // 정지 이력 조회
+    public List<JGUserInfoBack> stopHistory(int code){
+        return mapper.stopHistory(code);
+    };
+
 
     //******************************* 공지사항 관리 페이지
     // 페이징에 사용할 토탈 페이지

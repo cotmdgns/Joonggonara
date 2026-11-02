@@ -11,7 +11,8 @@ import { FaUserSlash } from "react-icons/fa";       // 정지된
 import { IoTrashBinSharp } from "react-icons/io5";  // 삭제된
 import { useEffect, useReducer } from "react";
 import { AdminUserManagementReduser, initiaAdminUserManagementReduser } from "./reduser/AdminUserManagementReduser";
-import { userALlSelectlAPI } from "./api/AdminPageAPI";
+import { deleteHistoryAPI, rankUpdateAPI, stopHistoryAPI, userALlSelectlAPI, userDeleteAPI, userDeleteRollBackAPI, userStopAPI, userStopRollBackAPI } from "./api/AdminPageAPI";
+import { useSearchParams } from "react-router-dom";
 
 // 리듀서
 
@@ -22,52 +23,170 @@ import { userALlSelectlAPI } from "./api/AdminPageAPI";
 const AdminUserManagement = () =>{  
 
     const[state,dispatch] = useReducer(AdminUserManagementReduser,initiaAdminUserManagementReduser)
-    const{modalState,modalData,jgUserInfoList,pageMake} = state;
+    const{
+        modalState,
+        modalData,
+        jgUserInfoList,
+        pageMake,
+        selectAll,
+        selectNormal,
+        selectStop,
+        selectDelete,
+        infoState,
+    } = state;
 
-    // 등급 변경
-    const rankUpdate = () =>{
+    /////////////////// 모달창에서 사용하는 함수들
+    // 등급 변경 [ 정상작동함 ]
+    const rankUpdate = async () =>{
+        if(infoState.userManager === 1){
+            if(window.confirm("관리자 등급으로 변경하시겠습니까?")){
+                // 사용자 매니저상태 변경만 하면 끝
+                const data = {
+                    "userManager" : 2,
+                    "userCode" : infoState.userCode,
+                }
+                console.log(data)
+                const result = await rankUpdateAPI(data)
+                dispatch({type:"infoState", payload : result.data})
+                userALlSelect()
+                alert("변경되었습니다.")
+            }
+        }else{
+            if(window.confirm("일반 사용자 등급으로 변경하시겠습니까?")){
+                // 사용자 매니저상태 변경만 하면 끝
+                const data = {
+                    "userManager" : 1,
+                    "userCode" : infoState.userCode,
+                }
+                const result = await rankUpdateAPI(data)
+                dispatch({type:"infoState", payload : result.data})
+                userALlSelect()
+                alert("변경되었습니다.")
+            }
+        }
 
     }
-
-    // 정지하기
-    const userStop = ()=>{
-
+    // 정지하기 [ 정상작동함 ]
+    const userStop = async ()=>{
+        if(window.confirm("사용자 계정을 정지하시겠습니까?")){
+            // 여기서의 정지는 무기한으로 가자
+            const code = infoState.userCode;
+            const result = await userStopAPI(code)
+            dispatch({type:"infoState", payload : result.data})
+            userALlSelect()
+            alert("정지 되었습니다.")
+        }
     }
 
-    // 삭제하기
-    const userDelete = ()=>{
-
+    // 정지롤백하기 [ 정상작동함 ]
+    const userStopRollBack = async ()=>{
+        if(window.confirm("사용자 계정을 복구하시겠습니까?")){
+            const data = {
+                "userCode" : infoState.userCode,
+                "userStopDate" : infoState.userStopDate,
+            }
+            const result = await userStopRollBackAPI(data)
+            console.log(result.data)
+            dispatch({type:"infoState", payload : result.data})
+            userALlSelect()
+            alert("복구 되었습니다.")
+        }
+    } 
+    // 삭제하기 [ 정상작동함 ]
+    const userDelete = async ()=>{
+        if(window.confirm("사용자를 삭제하시겠습니까?")){
+            const code = infoState.userCode;
+            const result = await userDeleteAPI(code)
+            dispatch({type:"infoState", payload : result.data})
+            userALlSelect()
+            alert("삭제 되었습니다.")
+        }
+    }
+    // 삭제 된 사용자 아이디 롤백 시키기 [ 정상작동함 ]
+    const userDeleteRollBack = async ()=>{
+        if(window.confirm("사용자 계정을 복구하시겠습니까?")){
+            const data = {
+                "userCode" : infoState.userCode,
+                "userDelete" : infoState.userDelete,
+            }
+            const result = await userDeleteRollBackAPI(data)
+            dispatch({type:"infoState", payload : result.data})
+            userALlSelect()
+            alert("복구 되었습니다.")
+        }
     }
 
+
+    ///////////////////////////////////////////
     // 모달창 띄우기 (조건) [ 정상 작동 ]
-    const userModal = () =>{
+    const userModal = (info) =>{
         dispatch({type:"modalState"})
+        dispatch({type:"infoState", payload : info})
     }
     // 모달창 닫기
     const modalClose = () => {
         dispatch({type:"modalClose"})
+        dispatch({type:"bodyHeaderState", payload : 1})
     }
 
     // 조건에 따른 전체 데이터 조회
+    // 페이징부터 적용해야함 ;;
     const userALlSelect = async () =>{
-
         const data ={
-            code : 0,                  // 페이지 번호
+            code : pageNum,                  // 페이지 번호
             userName: "",               // 사용자 이름
             userManager: "",            // 사용자 등급
             userStateBoo: ""            // 사용자 상태
         }
+        
 
         const result = await userALlSelectlAPI(data);
+        console.log(result.data)
         dispatch({type:"userALlSelect" ,payload:result.data})
+    }
+    // 검색하기
+    const searchUser = () =>{
+
+    }
+
+
+
+    const [searchParams,setSearchParams] = useSearchParams();
+    const pageNum = Number(searchParams.get("pageNum") || 1);
+    const createButton = () =>{
+        const result = []
+        for (let i = 1; i <= pageMake.endPage; i++) {
+            if(pageNum === i){
+             result.push(
+                <button
+                    type="button"
+                    key={i}
+                    className="active"
+                    onClick={() => {setSearchParams({ pageNum: String(i) }),userALlSelect()}}
+                    
+                >
+                    {i}
+                </button>
+            );               
+            }else{
+                result.push(
+                <button
+                    type="button"
+                    key={i}
+                    onClick={() => {setSearchParams({ pageNum: String(i) }),userALlSelect()}}
+                >
+                    {i}
+                </button>
+            );
+            }
+
+        }
+        return result;
     }
 
     useEffect(()=>{
         userALlSelect();
     },[])
-
-    console.log(jgUserInfoList)
-    console.log(pageMake)
     return (
         <>          
         <div id="management">
@@ -82,7 +201,7 @@ const AdminUserManagement = () =>{
                     </div>
                     <div id="managementInfoBoxRigth">
                         <div id="managementInfoBoxRigthH3">전체 사용자</div>
-                        <div id="managementInfoBoxRigthCount">0</div>
+                        <div id="managementInfoBoxRigthCount">{selectAll}</div>
                     </div>
                 </div>
                 <div id="managementInfoBox">
@@ -91,7 +210,7 @@ const AdminUserManagement = () =>{
                     </div>
                     <div id="managementInfoBoxRigth">
                         <div id="managementInfoBoxRigthH3">정상 사용자</div>
-                        <div id="managementInfoBoxRigthCount">0</div>
+                        <div id="managementInfoBoxRigthCount">{selectNormal}</div>
                     </div>
                 </div>
                 <div id="managementInfoBox">
@@ -100,7 +219,7 @@ const AdminUserManagement = () =>{
                     </div>
                     <div id="managementInfoBoxRigth">
                         <div id="managementInfoBoxRigthH3">정지된 사용자</div>
-                        <div id="managementInfoBoxRigthCount">0</div>
+                        <div id="managementInfoBoxRigthCount">{selectStop}</div>
                     </div>
                 </div>
                 <div id="managementInfoBox">
@@ -109,7 +228,7 @@ const AdminUserManagement = () =>{
                     </div>
                     <div id="managementInfoBoxRigth">
                         <div id="managementInfoBoxRigthH3">삭제된 사용자</div>
-                        <div id="managementInfoBoxRigthCount">0</div>
+                        <div id="managementInfoBoxRigthCount">{selectDelete}</div>
                     </div>
                 </div>
             </div>
@@ -141,6 +260,7 @@ const AdminUserManagement = () =>{
                                 <th className="number">번호</th>
                                 <th>이름</th>
                                 <th>아이디</th>
+                                <th>등급</th>
                                 <th>가입일</th>
                                 <th>삭제일</th>
                                 <th>정지일</th>
@@ -149,42 +269,52 @@ const AdminUserManagement = () =>{
 
                         <tbody>
                             {/* 여기에 반복문 돌려야 함 */}
-                            <tr onClick={()=>{userModal()}}>
-                                <td className="check">
-                                    <input type="checkbox" />
-                                </td>
-                                <td className="number">1</td>
-                                <td>채승훈</td>
-                                <td>gd</td>
-                                <td>2026-10-21</td>
-                                <td>
-                                    <span className="statusBadge deleted">2026-10-28</span>
-                                </td>
-                                <td>
-                                    <span className="statusBadge suspended">2026-10-27</span>
-                                </td>
-                            </tr>
+                            {jgUserInfoList.map((info,index)=>{
+                                return(
+                                <tr key={index} onClick={()=>{userModal(info)}}>
+                                    <td className="check">
+                                        <input type="checkbox" />
+                                    </td>
+                                    <td className="number">{info.userCode}</td>
+                                    <td>{info.userName}</td>
+                                    <td>{info.userId}</td>
+                                    <td>{info.userManager == 1 ? "일반 사용자" : "관리자"}</td>
+                                    <td>{info.userCreate.substring(0, 10)}</td>
+                                    <td>
+                                        {info.userDelete != null ? 
+                                        <span className="statusBadge deleted">{info.userDelete != null && info.userDelete.substring(0, 10)}</span>
+                                        :
+                                        <span>-</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        {info.userStopDate != null ? 
+                                        <span className="statusBadge suspended">{info.userStopDate != null && info.userStopDate.substring(0, 10)}</span>
+                                        : 
+                                        <span >-</span>
+                                        }
+                                    </td>
+                                </tr>
+                                )
+                            })}
+
                         </tbody>
                     </table>
 
                     {/* 페이지네이션 */}
-                    <div className="managementPagination">
-                        <div className="pageButtons">
-                            {pageMake.prev &&
-                            <button type="button" className="pageArrow">
-                                &lt;
-                            </button>
-                            }
-                            {/* 여기에 버튼함수 만들어야 함 페이징 ㅇㅇ */}
-                            <button type="button" className="active">1</button>
-                            <button type="button">2</button>
-                            {pageMake.next &&
-                            <button type="button" className="pageArrow">
-                                &gt; 
-                            </button>
-                            }
-
-                        </div>
+                    <div className="pagination">
+                        {pageMake.prev &&
+                        <button type="button" className="pageArrow">
+                            &lt;
+                        </button>
+                        }
+                        {/* 여기에 버튼함수 만들어야 함 페이징 ㅇㅇ */}
+                        {createButton()}
+                        {pageMake.next &&
+                        <button type="button" className="pageArrow">
+                            &gt; 
+                        </button>
+                        }
                     </div>
                 </div>
              </div>
@@ -194,9 +324,12 @@ const AdminUserManagement = () =>{
                 modalClose={modalClose} 
                 rankUpdate={rankUpdate}
                 userStop={userStop}
+                userStopRollBack = {userStopRollBack}
                 userDelete={userDelete}
+                userDeleteRollBack = {userDeleteRollBack}
                 dispatch={dispatch}
                 state={state}
+                infoState={infoState}
             />
         </div>  
         </>

@@ -11,4 +11,5 @@ public interface UserMapper {
     JGUserInfo IdCheckAPI(String userId);       // 아이디 체크하기
     String nicknameCheck(String str);           // 사용자 닉네임 체크하기
     String selectID(int code);                  // 사용자 코드로 이름 찾기
+    JGUserInfo selectUserInfo(int code);        // 사용자 코드로 정보 찾아오기
 }

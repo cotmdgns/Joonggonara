@@ -27,5 +27,9 @@
         where userCode = #{int}
     </select>
 
+    <select id="selectUserInfo" parameterType="int" resultType="JGUserInfo">
+        select * from JGUserInfo
+        where userCode = #{int}
+    </select>
 
 </mapper>

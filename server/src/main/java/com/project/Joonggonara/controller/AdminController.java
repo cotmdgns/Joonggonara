@@ -4,6 +4,7 @@ import com.project.Joonggonara.model.dto.*;
 import com.project.Joonggonara.model.vo.*;
 import com.project.Joonggonara.service.AdminService;
 import com.project.Joonggonara.service.UserService;
+import jakarta.websocket.server.PathParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -58,6 +59,7 @@ public class AdminController {
         }else{
             cri.setPageNum(1);
         }
+        dto.setCri(cri);
         List<JGUserInfo> list =  adminService.userALlSelect(dto);
         // 필요한 준비물 : 리스트와 포탈정보
         int total = adminService.userALLTotalPage(dto);
@@ -65,32 +67,75 @@ public class AdminController {
         PageMakerDTO pageMake = new PageMakerDTO(cri, total);
         dto.setPageMake(pageMake);
 
-        log.info("종합 데이터 확인하기 : "  +dto );
-//        UserInfoPagingDTO dto = new UserInfoPagingDTO();
-//        return adminService.userALlSelect(jgUserInfo);
+        log.info("" +list);
+
+        // 보내면서 같이 전체 데이터 보내기 (전체,정상,정지,삭제)
+        dto.setSelectAll(adminService.userALLTotal());
+        dto.setSelectNormal(adminService.userNormalTotal());
+        dto.setSelectStop(adminService.userStopTotal());
+        dto.setSelectDelete(adminService.userDeleteTotal());
         return dto;
     };
-//    /* 정상 사용자 가져오기 */
-//    @PostMapping("userNormalSelect")
-//    public List<JGUserInfo> userNormalSelect(@RequestBody JGUserInfo jgUserInfo){
-//        UserInfoPagingDTO dto = new UserInfoPagingDTO();
-//        adminService.userNormalTotalPage(dto);
-//        return adminService.userNormalSelect(jgUserInfo);
-//    };
-//    /* 정지 사용자 가져오기 */
-//    @PostMapping("userStopSelect")
-//    public List<JGUserInfo> userStopSelect(@RequestBody JGUserInfo jgUserInfo){
-//        UserInfoPagingDTO dto = new UserInfoPagingDTO();
-//        adminService.userStopTotalPage(dto);
-//        return adminService.userStopSelect(jgUserInfo);
-//    };
-//    /* 삭제된 사용자 가져오기 */
-//    @PostMapping("userDeleteSelect")
-//    public List<JGUserInfo> userDeleteSelect(@RequestBody JGUserInfo jgUserInfo){
-//        UserInfoPagingDTO dto = new UserInfoPagingDTO();
-//        adminService.userDeleteTotalPage(dto);
-//        return adminService.userDeleteSelect(jgUserInfo);
-//    };
+    /* 사용자 계정 삭제하기 */
+    @PostMapping("userDelete/{code}")
+    public JGUserInfo userDelete(@PathVariable("code")int code){
+        adminService.userDelete(code);
+        JGUserInfo info = userService.selectUserInfo(code);
+        return info;
+    }
+    /* 사용자 삭제된 계정 복구하기 */
+    @PostMapping("userDeleteRollBack")
+    public JGUserInfo userDeleteRollBack(@RequestBody JGUserInfo jgUserInfo){
+        adminService.userDeleteRollBack1(jgUserInfo);
+        adminService.userDeleteRollBack2(jgUserInfo.getUserCode());
+
+        JGUserInfo info = userService.selectUserInfo(jgUserInfo.getUserCode());
+        return info;
+    }
+
+    /* 사용자 계정 정지하기 [ 정상작동? ]*/
+    @PostMapping("userStop/{code}")
+    public JGUserInfo userStop(@PathVariable("code")int code){
+        adminService.userStop(code);
+        JGUserInfo info = userService.selectUserInfo(code);
+        return info;
+    }
+
+    /* 사용자 삭제된 계정 복구하기 */
+    @PostMapping("userStopRollBack")
+    public JGUserInfo userStopRollBack(@RequestBody JGUserInfo jgUserInfo){
+        adminService.userStopRollBack1(jgUserInfo);
+        adminService.userStopRollBack2(jgUserInfo.getUserCode());
+
+        JGUserInfo info = userService.selectUserInfo(jgUserInfo.getUserCode());
+        return info;
+    }
+
+
+
+
+
+    /* 사용자 등급 변경하기 */
+    @PostMapping("rankUpdate")
+    public JGUserInfo rankUpdate(@RequestBody JGUserInfo jgUserInfo){
+        adminService.rankUpdate(jgUserInfo);
+        JGUserInfo info = userService.selectUserInfo(jgUserInfo.getUserCode());
+        return info;
+    }
+
+    // 삭제 이력 조회 [ 정상 작동 ]
+    @GetMapping("deleteHistory/{code}")
+    public List<JGUserInfoBack> deleteHistory(@PathVariable("code") int code){
+        return adminService.deleteHistory(code);
+    };
+
+    // 정지 이력 조회 [ 정상 작동 ]
+    @GetMapping("stopHistory/{code}")
+    public List<JGUserInfoBack> stopHistory(@PathVariable("code") int code){
+        return adminService.stopHistory(code);
+    };
+
+
 
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 공지사항 관리 페이지 @@@@@@@@@@@@@@@@@@@@@@@/
     @GetMapping("adminNotificationManagementSelect") /* <!-- [ 어드민 ] 공지사항 전체조회 [ 정상작동 ] --> */

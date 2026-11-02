@@ -41,6 +41,7 @@
                 AND userDelete is not null
             </if>
         </where>
+
     </select>
     <!-- 사용자 관리 페이지 [ 페이징 전용 토탈 데이터 ]  -->
     <select id="userALLTotalPage" parameterType="UserInfoPagingDTO" resultType="int">
@@ -62,82 +63,83 @@
                 userDelete is not null
             </if>
         </where>
+        limit #{cri.skip} ,#{cri.amount};
     </select>
-<!--    &lt;!&ndash; 정상 사용자 전체 가져오기 &ndash;&gt;-->
-<!--    <select id="userNormalSelect" parameterType="JGUserInfo" resultType="JGUserInfo">-->
-<!--        select * from JGUserInfo-->
-<!--        <where>-->
-<!--            userDelete is null and userStopDate is null-->
-<!--            <if test="userName != null and userName != ''">-->
-<!--                and userName = #{userName}-->
-<!--            </if>-->
-<!--            <if test="userManager != null and userManager != ''">-->
-<!--                and userManager = #{userManager}-->
-<!--            </if>-->
-<!--        </where>-->
-<!--    </select>-->
-<!--    &lt;!&ndash; 삭제한 사용자 전체 가져오기 &ndash;&gt;-->
-<!--    <select id="userDeleteSelect" parameterType="JGUserInfo" resultType="JGUserInfo">-->
-<!--        select * from JGUserInfo-->
-<!--        <where>-->
-<!--            userDelete is not null-->
-<!--            <if test="userName != null and userName != ''">-->
-<!--                and userName = #{userName}-->
-<!--            </if>-->
-<!--            <if test="userManager != null and userManager != ''">-->
-<!--                and userManager = #{userManager}-->
-<!--            </if>-->
-<!--        </where>-->
-<!--    </select>-->
-<!--    &lt;!&ndash; 정지된 사용자 전체 가져오기 &ndash;&gt;-->
-<!--    <select id="userStopSelect" parameterType="JGUserInfo" resultType="JGUserInfo">-->
-<!--        select * from JGUserInfo-->
-<!--        <where>-->
-<!--            userStopYn = true-->
-<!--            <if test="userName != null and userName != ''">-->
-<!--                and userName = #{userName}-->
-<!--            </if>-->
-<!--            <if test="userManager != null and userManager != ''">-->
-<!--                and userManager = #{userManager}-->
-<!--            </if>-->
-<!--        </where>-->
-<!--    </select>-->
-<!--    <select id="userNormalTotalPage" parameterType="JGUserInfo" resultType="int">-->
-<!--        select count(*) from JGUserInfo-->
-<!--        <where>-->
-<!--            userDelete is null and userStopDate is null-->
-<!--            <if test="userName != null and userName != ''">-->
-<!--                and userName = #{userName}-->
-<!--            </if>-->
-<!--            <if test="userManager != null and userManager != ''">-->
-<!--                and userManager = #{userManager}-->
-<!--            </if>-->
-<!--        </where>-->
-<!--    </select>-->
-<!--    <select id="userDeleteTotalPage" parameterType="JGUserInfo" resultType="int">-->
-<!--        select count(*) from JGUserInfo-->
-<!--        <where>-->
-<!--            userDelete is not null-->
-<!--            <if test="userName != null and userName != ''">-->
-<!--                and userName = #{userName}-->
-<!--            </if>-->
-<!--            <if test="userManager != null and userManager != ''">-->
-<!--                and userManager = #{userManager}-->
-<!--            </if>-->
-<!--        </where>-->
-<!--    </select>-->
-<!--    <select id="userStopTotalPage" parameterType="JGUserInfo" resultType="int">-->
-<!--        select count(*) from JGUserInfo-->
-<!--        <where>-->
-<!--            userStopDate in not null-->
-<!--            <if test="userName != null and userName != ''">-->
-<!--                and userName = #{userName}-->
-<!--            </if>-->
-<!--            <if test="userManager != null and userManager != ''">-->
-<!--                and userManager = #{userManager}-->
-<!--            </if>-->
-<!--        </where>-->
-<!--    </select>-->
+
+    <!-- 전체 데이터 총 토탈 -->
+    <select id="userALLTotal" resultType="int">
+        select count(*) from JGUserInfo
+    </select>
+    <select id="userNormalTotal" resultType="int">
+        select count(*) from JGUserInfo
+        where userDelete is null and userStopDate is null
+    </select>
+    <select id="userDeleteTotal" resultType="int">
+        select count(*) from JGUserInfo
+        where userDelete is not null;
+    </select>
+    <select id="userStopTotal" resultType="int">
+        select count(*) from JGUserInfo
+        where userStopDate is not null and userDelete is null;
+    </select>
+
+    <!-- 사용자 등급 변경하기 -->
+    <update id="rankUpdate" parameterType="JGUserInfo">
+        update JGUserInfo
+        set userManager = #{userManager}
+        where userCode = #{userCode};
+    </update>
+
+    <!-- 사용자 계정 삭제하기 -->
+    <update id="userDelete" parameterType="int">
+        update JGUserInfo
+        set userDelete = now()
+        where userCode = #{int};
+    </update>
+
+    <!-- 1단계 삭제된 데이터 복구하기 -->
+    <update id="userDeleteRollBack1" parameterType="JGUserInfo">
+        insert into JGUserInfoBack(userCode,userDelete, userDeleteLoose)
+        value(#{userCode}, #{userDelete}, now());
+    </update>
+    <!-- 2단계 삭제된 데이터 복구하기 -->
+    <update id="userDeleteRollBack2" parameterType="int">
+        update JGUserInfo
+        set userDelete = null
+        where userCode = #{int};
+    </update>
+
+
+    <!-- 사용자 계정 삭제하기 -->
+    <update id="userStop" parameterType="int">
+        update JGUserInfo
+        set userStopDate = now()
+        where userCode = #{int};
+    </update>
+    <!-- 1단계 삭제된 데이터 복구하기 -->
+    <update id="userStopRollBack1" parameterType="JGUserInfo">
+        insert into JGUserInfoBack(userCode,userStopDate, userStopLooseDate)
+        value(#{userCode}, #{userStopDate}, now());
+    </update>
+    <!-- 2단계 삭제된 데이터 복구하기 -->
+    <update id="userStopRollBack2" parameterType="int">
+        update JGUserInfo
+        set userStopDate = null
+        where userCode = #{int};
+    </update>
+
+
+
+    <!-- 사용자 정지 이력 -->
+    <select id="deleteHistory" parameterType="int" resultType="JGUserInfoBack">
+        select * from JGUserInfoBack
+        where userCode = #{code} and userDelete is not null;
+    </select>
+    <!-- 사용자 삭제 이력 -->
+    <select id="stopHistory" parameterType="int" resultType="JGUserInfoBack">
+        select * from JGUserInfoBack
+        where userCode = #{code} and userStopDate is not null;
+    </select>
 
     <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  -->
 

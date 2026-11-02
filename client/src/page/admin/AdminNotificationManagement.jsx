@@ -69,15 +69,27 @@ const AdminNotificationManagement = () =>{
     const createButton = () =>{
         const result = []
         for (let i = 1; i <= pagingData.endPage; i++) {
-            result.push(
+            if(pageNum === i){
+             result.push(
                 <div
                     key={i}
-                    className="pageB"
+                    className="active"
+                    onClick={() => setSearchParams({ pageNum: String(i) })}
+                >
+                    {i}
+                </div>
+            );               
+            }else{
+                result.push(
+                <div
+                    key={i}
                     onClick={() => setSearchParams({ pageNum: String(i) })}
                 >
                     {i}
                 </div>
             );
+            }
+
         }
         return result;
     }
@@ -95,22 +107,23 @@ const AdminNotificationManagement = () =>{
             <div id="notification">
                 <div id="notificationHeader">공지사항관리</div>
                 <div id="notificationCenter">
-                    <div>
-                        <table className="managementTable">
-                            <thead className="managementTableH">
+                    {/* 테이블 css 바꾸기 */}
+                    <div className="notificationTableBox">
+                        <table className="notificationTable">
+                            <thead>
                                 <tr>
-                                    <th id="number">넘버</th>
-                                    <th id="title">공지사항 이름</th>
-                                    <th id="name">만든이</th>
-                                    <th id="boo">광고여부</th>
-                                    <th id="boo">사용여부</th>
-                                    <th id="date">생성날짜</th>
+                                    <th className="number">번호</th>
+                                    <th className="name">공지사항 이름</th>
+                                    <th>만든이</th>
+                                    <th>광고여부</th>
+                                    <th>사용여부</th>
+                                    <th>생성날짜</th>
                                 </tr>
                             </thead>
+                            <tbody className="managementTableB">
                             {notificationList.map((list,index)=>{
                                 return(
-                                <tbody className="managementTableB" key={index}>
-                                    <tr style={{cursor:"pointer"}} onClick={()=>{notificationButton(list.notificationManagementCode)}}>
+                                    <tr  key={index} style={{cursor:"pointer"}} onClick={()=>{notificationButton(list.notificationManagementCode)}}>
                                         <td>{list.notificationManagementCode}</td>
                                         <td>{list.notificationManagementTitle}</td>
                                         <td>{list.userName}</td>
@@ -118,11 +131,12 @@ const AdminNotificationManagement = () =>{
                                         <td>{list.notificationManagementBoo  ? "사용중":"사용안함"}</td>
                                         <td>{list.notificationManagementCreate.substring(0, 10)}</td>
                                     </tr>
-                                </tbody>
                                 )
                             })}
+                            </tbody>
                         </table>
                     </div>
+                    
                     <div id="paging">
                         {pagingData.prev && 
                         <div className="pageB" onClick={()=>{

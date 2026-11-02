@@ -54,4 +54,11 @@ public class UserService {
     public String selectID(int code){
         return userMapper.selectID(code);
     }
+
+
+    // 사용자 코드로 사용자 정보 찾아기
+    public JGUserInfo selectUserInfo(int code){
+        return userMapper.selectUserInfo(code);
+    }
+
 }
