@@ -23,7 +23,6 @@ const Main = () =>{
     // 메인배너 리스트 가져오기
     const mainBannerSelect = async () =>{
         const result = await mainBannerSelectAPI();
-        console.log(result.data)
         dispath({type:"mainBannerSelectList", payload : result.data})
     }
     

@@ -141,4 +141,18 @@ export const categoryMinorCreateAPI = async (data) => {
 export const categoryMinorDeleteAPI = async (code) => {
   return await instance.post(`/CategoryMinorDelete/${code}`);
 };
+
+
+// 카테고리 마이너 리스트 리스트
+export const CategoryMinorListSelectAPI = async (data) => {
+  return await instance.post(`/categoryMinorListSelect/${data}`);
+};
+// 카테고리 마이너 리스트 생성하기 
+export const categoryMinorListCreateAPI = async (data) => {
+  return await instance.post("/categoryMinorListCreate", data);
+};
+// 카테고리 마이너 삭제하기 
+export const categoryMinorListDeleteAPI = async (code) => {
+  return await instance.post(`/categoryMinorListDelete/${code}`);
+};
 ////////////////////////////////////////////////////

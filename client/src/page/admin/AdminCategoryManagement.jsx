@@ -1,7 +1,7 @@
 //
 import { useEffect } from "react";
 import { useReducer } from "react";
-import { categoryMajorCreateAPI, categoryMajorDeleteAPI, categoryMajorUpdateAPI, categoryMinorCreateAPI, categoryMinorDeleteAPI, CategoryMinorSelectAPI, categoryStateAPI } from "./api/AdminPageAPI";
+import { categoryMajorCreateAPI, categoryMajorDeleteAPI, categoryMajorUpdateAPI, categoryMinorCreateAPI, categoryMinorDeleteAPI, categoryMinorListCreateAPI, categoryMinorListDeleteAPI, CategoryMinorListSelectAPI, CategoryMinorSelectAPI, categoryStateAPI } from "./api/AdminPageAPI";
 import "./css/AdminCategoryManagement.scss"
 import { AdminCategoryReduser, initiaAdminCategoryReduser } from "./reduser/AdminCategoryReduser";
 import AdminCategoryModal from "./component/AdminCategoryModal";
@@ -19,6 +19,7 @@ const AdminCategoryManagement = () => {
         categoryMinorCodeM,
         categoryMinorTextM,
         categoryMinorText,
+        categoryMinorListText,
         backUpData,
     } = state;
 
@@ -29,7 +30,8 @@ const AdminCategoryManagement = () => {
     }
     // 모달창(생성) 닫기 [ 생성창은 끝 ]
     const modalCreateClose = () =>{
-        dispatch({type:"modalCreateClose"})        
+        dispatch({type:"modalCreateClose"})  
+        dispatch({type: "categoryMinorStateText" , payload:""})    
     }
 
     // 모달창(수정) 열기
@@ -40,6 +42,7 @@ const AdminCategoryManagement = () => {
     const categoryModalDown = () =>{
         dispatch({type:"categoryModalClose"})       
         dispatch({type:"minorCreateStateFalse"}) 
+        dispatch({type: "categoryMinorStateText" , payload:""})
     }
 
     // 카테고리 메이저 생성하기 [ 정상 작동함 ]
@@ -81,25 +84,56 @@ const AdminCategoryManagement = () => {
         dispatch({type:"minorCreateStateFalse"})
     }
 
-    // 카테고리 마이너 삭제하기
+
+    // 카테고리 마이너 삭제하기 [ 정상 작동 ]
     const categoryMinorDelete = async (code) =>{
         await categoryMinorDeleteAPI(code);
         await categoryMinorSelect()
     }
 
-    // 카테고리 정보들 가져오기
+    // 카테고리 정보들 가져오기 [ 정상 작동 ]
     const categoryState = async () =>{
         const result = await categoryStateAPI();
         dispatch({type:"categoryStateData" , payload : result.data})
     }
 
-    // 마이너 데이터 확인하기 
+    // 마이너 데이터 확인하기  [ 정상 작동 ]
     const categoryMinorSelect = async () =>{
         const result = await CategoryMinorSelectAPI(categoryMajorCodeM);
         dispatch({type:"categoryMinorDataState",payload: result.data})
     } 
 
-    
+
+
+
+    // 이거 3개 만들면 진짜 관리자 카테고리 페이지는 끝나는데 개귀찮아아ㅏㅏㅏ
+    // 마이너 리스트 리스트 조회하기 [ 정상 작동 ]
+    const categoryMinorListSelect = async (code) =>{
+        const result = await CategoryMinorListSelectAPI(code);
+        console.log("마이너 리스트 확인하기 : " + result.data)
+        dispatch({type:"categoryMinorListDataState",payload: result.data})
+    } 
+
+    // 카테고리 마이너 셀프 코드 생성   [ 정상 작동 ]
+    const categoryMinorListCreate = async () =>{
+        let data = {
+            "categoryStateMinorCode" : categoryMinorCodeM,
+            "categoryStateMajorCode" : categoryMajorCodeM,
+            "categoryStateMinorText" : categoryMinorListText
+        }
+        await categoryMinorListCreateAPI(data)
+        await categoryMinorListSelect(categoryMinorCodeM)
+        await categoryMinorSelect()
+        dispatch({type:"minorListCreateStateFalse"})
+    }
+
+        // 카테고리 마이너 삭제하기 [ 정상 작동 ]
+    const categoryMinorListDelete = async (code) =>{
+        await categoryMinorListDeleteAPI(code);
+        await categoryMinorListSelect(categoryMinorCodeM)
+    }
+
+
     useEffect(()=>{
         categoryState()
     },[])
@@ -119,6 +153,9 @@ const AdminCategoryManagement = () => {
                         categoryMinorCreate={categoryMinorCreate}
                         categoryMinorDelete={categoryMinorDelete}
                         categoryMinorSelect ={categoryMinorSelect}
+                        categoryMinorListCreate={categoryMinorListCreate}
+                        categoryMinorListSelect={categoryMinorListSelect}
+                        categoryMinorListDelete={categoryMinorListDelete}
                         ></AdminCategoryModal>
                 )}
                 {modalCreateState && (

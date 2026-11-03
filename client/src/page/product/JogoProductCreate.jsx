@@ -6,27 +6,38 @@ import JogoProductCategory from "./component/JogoProductCategory";
 import InputTag from "../../component/inputTag/InputTag";
 
 // 리액트
-import { useReducer } from "react";
+import { useEffect, useReducer } from "react";
 
 // css
 import "./css/JogoProduct.scss"
 
 // 리듀서
 import { initiaJogoProductReduser, JogoProductReduser } from "./reduser/JogoProductReduser";
+import { categoryMajorListAPI } from "../Main/api/MainAPI";
 
 
-const JogoProductCreate = ({productCreateClose}) => {
-    const arr = ["디지털","디지털","디지털","디지털","디지털","디지털"]
-    
+const JogoProductCreate = ({
+    productCreateClose,
+}) => {
     // 리듀서
     const [state,dispatch] = useReducer(JogoProductReduser,initiaJogoProductReduser)
-    const {stepState} = state;
+    const {stepState,categoryMajorList} = state;
+    // 카테고리 메이저 상품 리스트
+    const categoryMajor = async () => {
+        const result = await categoryMajorListAPI();
+        console.log(result)
+        dispatch({type:"categoryMajorList" , payload:result.data})
+    }
+    
+    useEffect(()=>{
+        categoryMajor();
+    },[])
 
     // 다음 step으로
     const nextStep = (index) =>{
         dispatch({type : "nextCategory"})
     }
-    
+    // 이 부분이 마이너 부분으로 변경
     const arr1 = ["서울","서울","서울","서울","서울","서울","서울","서울","서울"]
     const arr2 = ["서울","서울","서울","서울","서울","서울","서울","서울","서울"]
     return (
@@ -41,11 +52,11 @@ const JogoProductCreate = ({productCreateClose}) => {
                     </div>
                     {stepState == 1 && 
                     <div id="jogoProductCenter">
-                        {arr.map((str,index)=>(
+                        {categoryMajorList.map((str,index)=>(
                             <JogoProductCategory
                             // index가 아니라 code 
                             nextStep={() => { nextStep(index)}}
-                            key={index} productText={str}
+                            key={index} productText={str.categoryStateMajorText}
                             />
                         ))}
                     </div>           

@@ -58,6 +58,34 @@ public interface AdminMapper {
     void CategoryMinorCreate(CategoryStateMinor categoryStateMinor);//    <!--  카테고리 마이너 생성하기  -->
     void CategoryMinorDelete(int code);//    <!--  카테고리 마이너 삭제하기  -->
 
+    List<CategoryStateMinor> categoryMinorListSelect(int code);                 // 카테고리 마이너 리스트 전체 조회
+    void categoryMinorListCreate(CategoryStateMinor categoryStateMinor);        // 카테고리 마이너 리스트 생성
+    void categoryMinorListUpdate(CategoryStateMinor categoryStateMinor);                                     // 카테고리 마이너 리스트 생성 후 업데이트
+    void categoryMinorListDelete(int code);                                     // 카테고리 마이너 리스트 삭제
+    
+//        <select id="categoryMinorListSelect" parameterType="int" resultType="CategoryStateMinor">
+//    select categoryStateMinorCode,categoryStateMinorText
+//    from categoryStateMinor
+//    where categoryStateMinorCodeMinor = ${code}
+//    </select>
+//
+//    <!--  카테고리 마이너 리스트 생성하기  -->
+//    <insert id="categoryMinorListCreate" parameterType="CategoryStateMinor" keyProperty="categoryStateMinorCode">
+//    insert into categoryStateMinor(categoryStateMajorCode,categoryStateMinorText)
+//    value(#{categoryStateMajorCode}, #{categoryStateMinorText});
+//    </insert>
+//    <!--  카테고리 마이너 리스트 생성 후 업데이트 -->
+//    <update id="categoryMinorListUpdate" parameterType="int">
+//    UPDATE categoryMinorListUpdate
+//    set categoryStateMinorCodeMinor #{categoryStateMinorCodeMinor}
+//    where categoryStateMinorCode = #{categoryStateMinorCode}
+//    </update>
+//
+//    <!--  카테고리 마이너 리스트 삭제하기  -->
+//    <delete id="categoryMinorListDelete" parameterType="int">
+//    delete from categoryStateMinor
+//    where categoryStateMinorCode = #{int};
+//    </delete>
 
 
 

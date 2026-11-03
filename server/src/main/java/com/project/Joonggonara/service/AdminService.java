@@ -30,15 +30,7 @@ public class AdminService {
     public List<JGUserInfo> userALlSelect(UserInfoPagingDTO dto){/* 전체 사용자 가져오기 */
         return mapper.userALlSelect(dto);
     };
-//    public List<JGUserInfo> userNormalSelect(JGUserInfo jgUserInfo){/* 정상 사용자 가져오기 */
-//        return mapper.userNormalSelect(jgUserInfo);
-//    };
-//    public List<JGUserInfo> userStopSelect(JGUserInfo jgUserInfo){ /* 전체 사용자 가져오기 */
-//        return mapper.userStopSelect(jgUserInfo);
-//    };
-//    public List<JGUserInfo> userDeleteSelect(JGUserInfo jgUserInfo){ /* 전체 사용자 가져오기 */
-//        return mapper.userDeleteSelect(jgUserInfo);
-//    };
+
     // 사용자 관리 페이지 [ 페이징 전용 데이터 ]
     public int userALLTotalPage(UserInfoPagingDTO dto){
         return mapper.userALLTotalPage(dto);
@@ -159,6 +151,24 @@ public class AdminService {
     //    <!--  카테고리 마이너 삭제하기  -->
     public void CategoryMinorDelete(int code){
         mapper.CategoryMinorDelete(code);
+    };
+
+
+    // 카테고리 마이너 리스트 전체 조회
+    public List<CategoryStateMinor> categoryMinorListSelect(int code){
+        return mapper.categoryMinorListSelect(code);
+    };
+    // 카테고리 마이너 리스트 생성
+    public void categoryMinorListCreate(CategoryStateMinor categoryStateMinor){
+        mapper.categoryMinorListCreate(categoryStateMinor);
+    };
+    // 카테고리 마이너 리스트 생성 후 업데이트
+    public void categoryMinorListUpdate(CategoryStateMinor categoryStateMinor){
+        mapper.categoryMinorListUpdate(categoryStateMinor);
+    };
+    // 카테고리 마이너 리스트 삭제
+    public void categoryMinorListDelete(int code){
+        mapper.categoryMinorListDelete(code);
     };
 
 }

@@ -1,11 +1,9 @@
+	
 
+select * from JGUserInfo
+where userId LIKE "%awd%";
 
-select * from JGUserInfo;
-
-select * from addressinfo;
-
-select * from addressinfodetail
-where addressDetailName = 1;
+select * from categorystatemajor;
 
 /*사용자 정보*/
 CREATE TABLE JGUserInfo(
@@ -228,8 +226,21 @@ CREATE TABLE categoryStateMinor(
 	categoryStateMinorCode integer auto_increment primary key,  /* 카테고리 마이너 코드 */
     categoryStateMajorCode integer,								/* 카테고리 메이저 외래키 */
     categoryStateMinorText varchar(20),							/* 카테고리 마이너 이름 */
-    categoryStateMinorCreate datetime default CURRENT_TIMESTAMP	/* 카테고리 마이너 생성날짜 */
+    categoryStateMinorCreate datetime default CURRENT_TIMESTAMP,	/* 카테고리 마이너 생성날짜 */
+    categoryStateMinorCodeMinor integer default null			/* 카테고리 마이너 코드 셀프조인 */
 );
+   select *
+        from categoryStateMinor;
+        select *
+        from categoryStateMinor
+        where categoryStateMajorCode = 52;
+        
+		UPDATE categoryStateMinor
+        set categoryStateMinorCodeMinor = 57
+        where categoryStateMinorCode = 64;
+        
+ALTER TABLE categoryStateMinor
+ADD categoryStateMinorCodeMinor integer default null;
 
 /* 도, 시, 군 더미데이터 */
 /* 1. 광역시·도 데이터 입력 (17개) */

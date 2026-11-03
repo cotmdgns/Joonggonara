@@ -6,6 +6,9 @@ import {
  } from "../api/AdminPageAPI";
 
 const AdminCategoryModal = ({
+    categoryMinorListCreate, // 카테고리 마이너 리스트 생성
+    categoryMinorListSelect, // 카테고리 마이너 리스트 조회
+    categoryMinorListDelete, // 카테고리 마이너 리스트 삭제
     categoryMinorCreate, // 카테고리 마이너 생성
     categoryMinorDelete, // 카테고리 마이너 삭제
     categoryTextUpdate, // 카테고리 메이저 수정
@@ -25,9 +28,16 @@ const AdminCategoryModal = ({
         minorCreateState,
         categoryStateMinor,
         categoryMinorArr,
+        clickBoo,
+        minorListCreateState,
+        categoryMinorListText,
+        categoryMinorStateText,
+        categoryMinorListArr
     } = state;  
 
-
+    const clickBooButoon = (text) =>{
+        dispatch({type: "categoryMinorStateText" , payload:text})
+    }
 
     useEffect(()=>{
         categoryMinorSelect()
@@ -90,14 +100,75 @@ const AdminCategoryModal = ({
                             {/* 이게 한 세트 */}
                             {categoryMinorArr.map((data,index)=>{
                                 return (
-                                <div className="minor-item" key={index}>
+                                <div className="minor-item" key={index} >
                                     <span>{data.categoryStateMinorText}</span>
                                     <div>
                                         <button className="btn-delete-icon" onClick={()=>{
+                                            clickBooButoon(data),
+                                            categoryMinorListSelect(data.categoryStateMinorCode)
+                                        }}>추가</button>
+                                        <button className="btn-delete-icon" onClick={()=>{
                                             categoryMinorDelete(data.categoryStateMinorCode)
-                                        }}>X</button>
+                                        }}>삭제</button>
                                     </div>
                                 </div>
+                                )
+                            })}
+
+                        </div>
+                    </div>
+
+
+
+                    <div className="minor-section">
+                        <div className="minor-header-row">
+                            <label>하위 리스트 카테고리 {categoryMinorStateText != "" && <>[{categoryMinorStateText}]</>}</label>
+                            {categoryMinorStateText != null && categoryMinorStateText != "" ? 
+                                !minorListCreateState ? 
+                                <button className="btn-add" onClick={() => {
+                                    dispatch({type:"minorListCreateStateTrue"})
+                                }}>리스트 추가</button>
+                                :
+                                <button className="btn-add" onClick={() => {
+                                    dispatch({type:"minorListCreateStateFalse"})
+                                }}>리스트 닫기</button>
+                            :
+                                <></>
+                            }
+
+                            
+                            
+                        </div>
+
+                        <div className="minor-box-list">
+                            {minorListCreateState && 
+                                <div className="minor-item">
+                                    <input type="text"  
+                                        value={categoryMinorListText}
+                                        onChange={(e)=>{
+                                            dispatch({type:"categoryMinorListTextCreate",payload : e.target.value})
+                                        }}
+                                    />
+                                    <button className="btn-delete-icon"
+                                        onClick={categoryMinorListCreate}
+                                    >추가</button>
+                                </div>
+                            }
+
+                            {/* 이게 한 세트 */}
+                            {categoryMinorListArr.map((data,index)=>{
+                                return (
+                                <>
+                                <div className="minor-item" key={index} onClick={()=>{clickBoo()}}>
+                                    <span>{data.categoryStateMinorText}</span>
+                                    <div>
+                                        <button className="btn-delete-icon" 
+                                        onClick={()=>{categoryMinorListDelete(data.categoryStateMinorCode)}}>
+                                        X
+                                        </button>
+                                    </div>
+                                </div>
+                                </>
                                 )
                             })}
 

@@ -25,14 +25,21 @@
     <select id="userALlSelect" parameterType="UserInfoPagingDTO" resultType="JGUserInfo">
         select * from JGUserInfo
         <where>
-            <if test="userName != null and userName != ''">
-                AND userName = #{userName}
+            <!-- 이름 널이 아니면서 값이 존재하면 아이디 검색-->
+            <if test="userId != null and userId != ''">
+                AND userId LIKE CONCAT('%', #{userId}, '%')
             </if>
-            <if test="userManager != null and userManager != ''">
+            <!-- 매이져 등급 처리 끝 all 이면 조건 안먹히고 1이면 일반, 2이면 관리자 -->
+            <if test="userManager == 1">
                 AND userManager = #{userManager}
             </if>
+            <if test="userManager == 2">
+                AND userManager = #{userManager}
+            </if>
+            <!-- 삭제된, 정지된, 정상인 이 두개만 조건 만들면 됨 -->
             <if test="userStateBoo == 'normal'">
-                userDelete is null AND userStopDate is null
+                AND userStopDate is null
+                AND userDelete is null
             </if>
             <if test="userStateBoo == 'stop'">
                 AND userStopDate is not null
@@ -41,29 +48,35 @@
                 AND userDelete is not null
             </if>
         </where>
-
+        limit #{cri.skip} ,#{cri.amount};
     </select>
     <!-- 사용자 관리 페이지 [ 페이징 전용 토탈 데이터 ]  -->
     <select id="userALLTotalPage" parameterType="UserInfoPagingDTO" resultType="int">
         select count(*) from JGUserInfo
         <where>
-            <if test="userName != null and userName != ''">
-                and userName = #{userName}
+            <!-- 이름 널이 아니면서 값이 존재하면 아이디 검색-->
+            <if test="userId != null and userId != ''">
+                AND userId LIKE CONCAT('%', #{userId}, '%')
             </if>
-            <if test="userManager != null and userManager != ''">
-                and userManager = #{userManager}
+            <!-- 매이져 등급 처리 끝 all 이면 조건 안먹히고 1이면 일반, 2이면 관리자 -->
+            <if test="userManager == 1">
+                AND userManager = #{userManager}
             </if>
-            <if test="userStateBoo == '정상'">
-                userDelete is null and userStopDate is null
+            <if test="userManager == 2">
+                AND userManager = #{userManager}
             </if>
-            <if test="userStateBoo == '정지'">
-                userStopDate is not null
+            <!-- 삭제된, 정지된, 정상인 이 두개만 조건 만들면 됨 -->
+            <if test="userStateBoo == 'normal'">
+                AND userStopDate is null
+                AND userDelete is null
             </if>
-            <if test="userStateBoo == '삭제'">
-                userDelete is not null
+            <if test="userStateBoo == 'stop'">
+                AND userStopDate is not null
+            </if>
+            <if test="userStateBoo == 'delete'">
+                AND userDelete is not null
             </if>
         </where>
-        limit #{cri.skip} ,#{cri.amount};
     </select>
 
     <!-- 전체 데이터 총 토탈 -->
@@ -240,7 +253,7 @@
     <select id="SelectCategoryMinor" parameterType="int" resultType="CategoryStateMinor">
         select categoryStateMinorCode,categoryStateMinorText
         from categoryStateMinor
-        where categoryStateMajorCode = ${code}
+        where categoryStateMajorCode = ${code} and categoryStateMinorCodeMinor is null
     </select>
 
     <!--  카테고리 마이너 생성하기  -->
@@ -250,6 +263,32 @@
     </insert>
     <!--  카테고리 마이너 삭제하기  -->
     <delete id="CategoryMinorDelete" parameterType="int">
+        delete from categoryStateMinor
+        where categoryStateMinorCode = #{int};
+    </delete>
+
+
+    <!--  카테고리 마이너 리스트 select문 [ 정상 작동 ] -->
+    <select id="categoryMinorListSelect" parameterType="int" resultType="CategoryStateMinor">
+        select categoryStateMinorCode,categoryStateMinorText
+        from categoryStateMinor
+        where categoryStateMinorCodeMinor = ${code}
+    </select>
+
+    <!--  카테고리 마이너 리스트 생성하기  -->
+    <insert id="categoryMinorListCreate" parameterType="CategoryStateMinor" useGeneratedKeys="true" keyProperty="categoryStateMinorCode">
+        insert into categoryStateMinor(categoryStateMajorCode,categoryStateMinorText)
+        value(#{categoryStateMajorCode}, #{categoryStateMinorText});
+    </insert>
+    <!--  카테고리 마이너 리스트 생성 후 업데이트 -->
+    <update id="categoryMinorListUpdate" parameterType="CategoryStateMinor">
+        UPDATE categoryStateMinor
+        set categoryStateMinorCodeMinor = #{categoryStateMinorCodeMinor}
+        where categoryStateMinorCode = #{categoryStateMinorCode}
+    </update>
+
+    <!--  카테고리 마이너 리스트 삭제하기  -->
+    <delete id="categoryMinorListDelete" parameterType="int">
         delete from categoryStateMinor
         where categoryStateMinorCode = #{int};
     </delete>

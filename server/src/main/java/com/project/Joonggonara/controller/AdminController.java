@@ -54,12 +54,13 @@ public class AdminController {
         // 클라이언트에서 데이터를 가져옴
         // 1. 페이지, 2. 등급여부, 3. 현재 상태 여부
         log.info("페이징 및 데이터 확인하기 : "  +dto );
-        if(dto.getCode() < 0){
+        if(dto.getCode() > 0){
             cri.setPageNum(dto.getCode());
         }else{
             cri.setPageNum(1);
         }
         dto.setCri(cri);
+
         List<JGUserInfo> list =  adminService.userALlSelect(dto);
         // 필요한 준비물 : 리스트와 포탈정보
         int total = adminService.userALLTotalPage(dto);
@@ -67,7 +68,6 @@ public class AdminController {
         PageMakerDTO pageMake = new PageMakerDTO(cri, total);
         dto.setPageMake(pageMake);
 
-        log.info("" +list);
 
         // 보내면서 같이 전체 데이터 보내기 (전체,정상,정지,삭제)
         dto.setSelectAll(adminService.userALLTotal());
@@ -281,7 +281,39 @@ public class AdminController {
     public void CategoryMinorDelete(@PathVariable("code") int code){
         adminService.CategoryMinorDelete(code);
     };
+
+
+    //    //    <!--  카테고리 마이너 리스트 전체 리스트 -->
+    @PostMapping("categoryMinorListSelect/{code}")
+    public List<CategoryStateMinor> categoryMinorListSelect(@PathVariable("code") int code){
+        return adminService.categoryMinorListSelect(code);
+    };
+
+    //    <!--  카테고리 마이너 리스트 생성하기 [ 정상작동함 ]  -->
+    @PostMapping("categoryMinorListCreate")
+    public void categoryMinorListCreate(@RequestBody CategoryStateMinor categoryStateMinor){
+        // 생성하고
+        int minorNum = categoryStateMinor.getCategoryStateMinorCode();
+        adminService.categoryMinorListCreate(categoryStateMinor);
+        int minorNumUpdate = categoryStateMinor.getCategoryStateMinorCode();
+        categoryStateMinor.setCategoryStateMinorCodeMinor(minorNum);
+        // 수정해서 부모 코드 받기
+        adminService.categoryMinorListUpdate(categoryStateMinor);
+    };
+
+    //    <!--  카테고리 마이너 리스트 삭제하기  -->
+    @PostMapping("categoryMinorListDelete/{code}")
+    public void categoryMinorListDelete(@PathVariable("code") int code){
+        adminService.categoryMinorListDelete(code);
+    };
+
+
+
+
+
+
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@/
+
 
 
 

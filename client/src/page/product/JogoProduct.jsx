@@ -10,7 +10,7 @@ const JogoProduct = () => {
     const navigate = useNavigate();
     // 아니 이거 상상이상으로 편한데;;
     // 이걸로 api 호출해서 데이터 가져온 다음 전역관리하기
-    const { category,category2 } = useParams(); // 자동으로 디코딩되어 들어옴
+    const { category,category2,category3 } = useParams(); // 자동으로 디코딩되어 들어옴
 
 
     const notices = [1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -22,7 +22,12 @@ const JogoProduct = () => {
 
     return (
         <div id="JogoProductBody">
-            {category2 != undefined ? 
+            {category3 != undefined ? 
+            <div id="JogoProductH1">
+                선택된 카테고리:<span>{category.replaceAll("&","/")}</span><span><GoChevronRight/></span><span>{category2.replaceAll("&","/")}<GoChevronRight/></span><span>{category3.replaceAll("&","/")}</span>
+            </div> 
+            : 
+            category2 != undefined ? 
             // 둘 다 있음
             <div id="JogoProductH1">
                 선택된 카테고리:<span>{category.replaceAll("&","/")}</span><span><GoChevronRight/></span><span>{category2.replaceAll("&","/")}</span>
@@ -33,6 +38,8 @@ const JogoProduct = () => {
                 선택된 카테고리:<span>{category.replaceAll("&","/")}</span>
             </div>
             }
+
+            
 
             <div id="JogoProductCenter">
                 <div id="mainNoticeBox">

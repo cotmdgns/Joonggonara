@@ -22,3 +22,13 @@ instance.interceptors.request.use(
 export const mainBannerSelectAPI = async () => {
   return await instance.get("/mainBannerSelectList");
 };
+
+// 공지사항 배너사용중인 리스트 가져오기  
+export const categoryMajorListAPI = async () => {
+  return await instance.get("/categoryMajorList");
+};
+
+export const categoryMinorListAPI = async (code) => {
+  return await instance.get(`/categoryMinorList/${code}`);
+};
+

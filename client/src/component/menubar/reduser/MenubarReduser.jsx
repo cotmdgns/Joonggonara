@@ -5,8 +5,16 @@ export const initiaMenubarReduser = {
   // 모달창 옆 카테고리 상태값
   categoryState: 0,
 
+  // 메이저 카테고리 관리
+  textState : "",
+
   // 모달창 상품 생성 상태값
   productModalState : false,
+
+  // 카테고리 메이저 리스트
+  categoryMajorList : [],
+  categoryMinorList : [],
+  categoryMinorListList : [],
 };
 
 export const MenubarReduser = (state, action) => {
@@ -36,5 +44,26 @@ export const MenubarReduser = (state, action) => {
         ...state,
         productModalState : false
       };
+    case "categoryMajorList": // 카테고리 메이저 상품
+      return{
+        ...state,
+        categoryMajorList : action.payload,
+      };
+    case "categoryMinorList": // 카테고리 마이너 상품
+      return{
+        ...state,
+        categoryMinorList : action.payload,
+      };
+    case "textState": // 카테고리 마이너 상품
+      return{
+        ...state,
+        textState : action.payload,
+      };
+
   }
+
+
+  
 };
+
+

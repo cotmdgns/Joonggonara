@@ -14,6 +14,11 @@ export const initiaAdminUserManagementReduser = {
     selectNormal : 0,
     selectStop : 0,
     selectDelete : 0,
+
+
+    searchSelectManager : 0 ,       // 등급
+    searchSelectState : "all",      // 상태
+    searchSelectName : "",          // 이름
 }
 
 
@@ -64,6 +69,21 @@ export const AdminUserManagementReduser = (state,action) =>{
             return{
                 ...state,
                 stopHistoryList : action.payload,
+            }
+        case "searchSelectManager" :        //등급
+            return{
+                ...state,
+                searchSelectManager : action.payload,
+            }
+        case "searchSelectState" :          //상태
+            return{
+                ...state,
+                searchSelectState : action.payload,
+            }
+        case "searchSelectName" :          //검색 이름
+            return{
+                ...state,
+                searchSelectName : action.payload,
             }
     }
 }

@@ -1,6 +1,7 @@
 export const initiaJogoProductReduser = {
     stepState : 1,
-    productCode : 0
+    productCode : 0,
+    categoryMajorList : [],
 }
 
 export const JogoProductReduser = (state, action) =>{
@@ -15,6 +16,11 @@ export const JogoProductReduser = (state, action) =>{
                 ...state,
                 stepState : state.stepState - 1
             }
+        case "categoryMajorList": // 카테고리 메이저 상품
+        return{
+            ...state,
+            categoryMajorList : action.payload,
+        };
         default:
             return state;
     }

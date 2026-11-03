@@ -33,6 +33,9 @@ const AdminUserManagement = () =>{
         selectStop,
         selectDelete,
         infoState,
+        searchSelectManager,
+        searchSelectState,
+        searchSelectName,
     } = state;
 
     /////////////////// 모달창에서 사용하는 함수들
@@ -45,7 +48,6 @@ const AdminUserManagement = () =>{
                     "userManager" : 2,
                     "userCode" : infoState.userCode,
                 }
-                console.log(data)
                 const result = await rankUpdateAPI(data)
                 dispatch({type:"infoState", payload : result.data})
                 userALlSelect()
@@ -86,7 +88,7 @@ const AdminUserManagement = () =>{
                 "userStopDate" : infoState.userStopDate,
             }
             const result = await userStopRollBackAPI(data)
-            console.log(result.data)
+
             dispatch({type:"infoState", payload : result.data})
             userALlSelect()
             alert("복구 되었습니다.")
@@ -131,24 +133,16 @@ const AdminUserManagement = () =>{
 
     // 조건에 따른 전체 데이터 조회
     // 페이징부터 적용해야함 ;;
-    const userALlSelect = async () =>{
+    const userALlSelect = async (code) =>{
         const data ={
-            code : pageNum,                  // 페이지 번호
-            userName: "",               // 사용자 이름
-            userManager: "",            // 사용자 등급
-            userStateBoo: ""            // 사용자 상태
+            code : code == null ? 1:code,                  // 페이지 번호
+            userId: searchSelectName,               // 사용자 이름
+            userManager: searchSelectManager,            // 사용자 등급
+            userStateBoo: searchSelectState            // 사용자 상태
         }
-        
-
         const result = await userALlSelectlAPI(data);
-        console.log(result.data)
         dispatch({type:"userALlSelect" ,payload:result.data})
     }
-    // 검색하기
-    const searchUser = () =>{
-
-    }
-
 
 
     const [searchParams,setSearchParams] = useSearchParams();
@@ -162,7 +156,7 @@ const AdminUserManagement = () =>{
                     type="button"
                     key={i}
                     className="active"
-                    onClick={() => {setSearchParams({ pageNum: String(i) }),userALlSelect()}}
+                    onClick={() => {setSearchParams({ pageNum: String(i) }),userALlSelect(i)}}
                     
                 >
                     {i}
@@ -173,7 +167,7 @@ const AdminUserManagement = () =>{
                 <button
                     type="button"
                     key={i}
-                    onClick={() => {setSearchParams({ pageNum: String(i) }),userALlSelect()}}
+                    onClick={() => {setSearchParams({ pageNum: String(i) }),userALlSelect(i)}}
                 >
                     {i}
                 </button>
@@ -234,20 +228,29 @@ const AdminUserManagement = () =>{
             </div>
              <div id="managementInfoTable">
                 <div id="managementInfoTableSearch">
-                    <input id="managementInfoTableSearchInput" type="text" placeholder="검색할 아이디를 입력.."/>
+                    <input id="managementInfoTableSearchInput" type="text" placeholder="검색할 아이디를 입력.."
+                        value={searchSelectName}
+                        onChange={(e)=>{
+                            dispatch({type:"searchSelectName", payload : e.target.value})
+                        }}
+                    />
                     <div>
-                        <select id="managementInfoTableSearchSelect">
-                            <option value="all">전체 등급</option>
-                            <option value="admin">관리자 등급</option>
-                            <option value="nomal">일반 등급</option>
+                        <select id="managementInfoTableSearchSelect" 
+                                onChange={(e)=>{dispatch({type:"searchSelectManager",payload : e.target.value})}}
+                        >
+                            <option value="0">전체 등급</option>
+                            <option value="2">관리자 등급</option>
+                            <option value="1">일반 등급</option>
                         </select>
-                        <select id="managementInfoTableSearchSelect">
-                            <option>전체 상태</option>
-                            <option>정상 사용자</option>
-                            <option>정지된 사용자</option>
-                            <option>삭제한 사용자</option>
+                        <select id="managementInfoTableSearchSelect" 
+                                onChange={(e)=>{dispatch({type:"searchSelectState",payload : e.target.value})}}
+                        >
+                            <option value="all">전체 상태</option>
+                            <option value="normal">정상 사용자</option>
+                            <option value="stop">정지된 사용자</option>
+                            <option value="delete">삭제한 사용자</option>
                         </select>
-                        <button id="managementInfoTableSearchButton">검색</button>
+                        <button id="managementInfoTableSearchButton" onClick={()=>{userALlSelect(1)}}>검색</button>
                     </div>
                 </div>
                 <div className="managementInfoTableBox">

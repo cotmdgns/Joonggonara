@@ -18,12 +18,11 @@ import { useNavigate } from "react-router-dom";
 
 // 리듀서
 import { MenubarReduser, initiaMenubarReduser } from "./reduser/MenubarReduser";
-
 const Menubar = () => {
   //모달창 상태값
   const [state, dispatch] = useReducer(MenubarReduser, initiaMenubarReduser);
-  const { categoryModalBoo,productModalState } = state;
-  
+  const { categoryModalBoo,productModalState,stepState } = state;
+
   const navi = useNavigate();
   //// 모달창
   // 상품 모달창 띄우기
@@ -48,13 +47,25 @@ const Menubar = () => {
               <TfiMenu />
             </div>
             <div id="MenubarText">카테고리</div>
-            {categoryModalBoo && <CategoryModal />}
+            {categoryModalBoo && 
+            <CategoryModal 
+              state={state}
+              dispatch={dispatch}
+              navi={navi}
+            />
+            }
           </div>
           <div id="Menubar" onClick={()=>{productCerate()}}>
             <span><FaPlusCircle/></span>
             상품 올리기
           </div>
-          {productModalState && <JogoProductCreate productCreateClose={productCreateClose}/>}
+          {/* 너가 상품이구나? */}
+          {productModalState && 
+          <JogoProductCreate 
+            productCreateClose={productCreateClose}
+            state={state}
+            dispatch={dispatch}
+          />}
           <div id="Menubar">
             <span><TfiMenuAlt/></span>
             공지사항

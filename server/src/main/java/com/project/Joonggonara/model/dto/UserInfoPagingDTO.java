@@ -21,7 +21,7 @@ public class UserInfoPagingDTO {
 
 
     private int code;
-    private String userName;
+    private String userId;
     private String userManager;
     private String userStateBoo;
 
