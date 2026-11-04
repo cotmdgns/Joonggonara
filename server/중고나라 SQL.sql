@@ -100,14 +100,14 @@ CREATE TABLE JGNotice(
   JGNoticeTitle varchar(20) not null, /*게시글 제목*/ 
   JGNoticeText varchar(255) not null, /*게시글 내용*/ 
   JGNoticeProductPrice varchar(255) not null, /*게시글 제품 가격 */
-  JGNoticeProductType varchar(255) not null, /*게시글 제품 구분 */ 
+  JGNoticeProductTypeMajor varchar(255) not null, /*게시글 제품 구분 */ 
+  JGNoticeProductTypeMinor varchar(255) not null, /*게시글 제품 구분 */ 
+  JGNoticeProductTypeMinorList varchar(255) not null, /*게시글 제품 구분 */ 
   uesrCode integer not null, /*사용자 정보 [외래키로 사용]*/ 
   JGNoticeCreate datetime default CURRENT_TIMESTAMP, /*게시글 생성날짜*/ 
   JGNoticeUpdate datetime, /*게시글 수정날짜*/ 
   JGNoticeDelect datetime /*게시글 삭제날짜*/ 
 );
-
-
 
 /* 게시글 좋아요 눌렀거나 댓글 달았을 때 알람 */
 /* 좋아요랑 댓글 생성할 때 또 하나 생성해야하나? 두번 하기엔 너무 아쉽지 ㅇㅇ */

@@ -23,12 +23,14 @@ export const mainBannerSelectAPI = async () => {
   return await instance.get("/mainBannerSelectList");
 };
 
-// 공지사항 배너사용중인 리스트 가져오기  
+// 모달창 카테고리 메이저 리스트 가져오기 
 export const categoryMajorListAPI = async () => {
   return await instance.get("/categoryMajorList");
 };
 
+// 모달창 카테고리 마이너 리스트 관련된거 싹다 가져오기 
 export const categoryMinorListAPI = async (code) => {
   return await instance.get(`/categoryMinorList/${code}`);
 };
+
 

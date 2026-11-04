@@ -1,6 +1,6 @@
 import { MdHeight } from "react-icons/md";
 
-const InputTag = ({TText,PHText,WText,val,chage,col,bor}) =>{
+const InputTag = ({TText,PHText,WText,val,chage,col,bor,boo,onClick}) =>{
     const cssStyle ={
         //default ( 디폴트 값, 변경 안됨 )
         "padding" : "10px",
@@ -25,10 +25,13 @@ const InputTag = ({TText,PHText,WText,val,chage,col,bor}) =>{
             <div >
                 <input 
                     onChange={chage}
+                    onClick={onClick}
                     value={val}
                     type={inputStyle.type} 
                     placeholder={inputStyle.placeholder}
-                    style={cssStyle}/>
+                    style={cssStyle}
+                    disabled={boo != null ? true : false}
+                    />
             </div>
         </>
     )

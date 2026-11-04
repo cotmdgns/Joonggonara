@@ -27,6 +27,12 @@ const Menubar = () => {
   //// 모달창
   // 상품 모달창 띄우기
   const productCerate = () =>{
+    const token = sessionStorage.getItem("token");
+    if(!token){
+      alert("로그인을 하셔야 이용 가능합니다.")
+      navi("/login")
+      return
+    }
     dispatch({type:"productCreateTrue"})
   }
   // 상품 모달창 닫기

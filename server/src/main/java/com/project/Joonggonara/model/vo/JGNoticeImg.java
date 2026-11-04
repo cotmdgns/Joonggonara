@@ -1,12 +1,14 @@
 package com.project.Joonggonara.model.vo;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class JGNoticeImg {
 
     private int jGNoticeImgCode; /*게시글 이미지 코드*/
