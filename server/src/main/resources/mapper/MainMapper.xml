@@ -5,28 +5,80 @@
 
 <mapper namespace="mapper.MainMapper">
 
-    <!-- 공지사항에 있는 배너 사용중인 리스트 뽑아내기 -->
+    <!-- 공지사항에 있는 배너 사용중인 리스트 뽑아내기 [ 정상작동 ] -->
     <select id="mainBannerSelect" parameterType="NotificationManagement">
         select * from notificationManagement
-        where notificationManagementBannerBoo = 1;
+        where notificationManagementBannerBoo = 1 and notificationManagementBoo != 0
     </select>
-    <!-- 카테고리 메뉴에 사용할 메이저 리스트 -->
-    <select id="categoryMajorList">
-
+    <!-- 카테고리 마이너 코드로 카테고리 이름 찾아내기 -->
+    <select id="selectCategoryMinor" parameterType="int" resultType="String">
+        select categoryStateMinorText from categoryStateMinor
+        where categoryStateMinorCode = #{code};
     </select>
 
-    <!-- 카테고리 메뉴에 사용할 마이너 리스트 -->
-    <select id="categoryMinorList">
+    <!-- 생성 게시글 하나 생성하기 -->
+    <insert id="insertNotice" parameterType="JGNotice" useGeneratedKeys="true" keyProperty="JGNoticeCode">
+        insert into JGNotice(
+        JGNoticeTitle,
+        JGNoticeText,
+        JGNoticeProductPrice,
+        JGNoticeProductTypeMajor,
+        JGNoticeProductTypeMinor,
+        JGNoticeProductTypeMinorList,
+        userCode
+        )
+        value(
+        #{JGNoticeTitle},
+        #{JGNoticeText},
+        #{JGNoticeProductPrice},
+        #{JGNoticeProductTypeMajor},
+        #{JGNoticeProductTypeMinor},
+        #{JGNoticeProductTypeMinorList},
+        #{userCode}
+        );
+    </insert>
 
+    <insert id="createImg" parameterType="list">
+        insert into jgnoticeimg(JGNoticeImg,JGNoticeCode)
+        value
+        <foreach collection="list" item="img" separator=",">
+            (
+            #{img.JGNoticeImg},
+            #{img.JGNoticeCode}
+            )
+        </foreach>
+    </insert>
+    <!-- 카테고리 및 검색 키워드로 데이터 가져오기 -->
+    <!-- 1. 검색으로 데이터 가져오기 -->
+    <!-- 2. 카테고리로 데이터 가져오기 -->
+    <select id="searchNoticeSelect" parameterType="SearchDTO" resultType="JGNotice">
+        select * from JGNotice
+        <where>
+            1=1
+            <!-- 검색용 -->
+            <if test="search != null">
+                AND JGNoticeText LIKE CONCAT('%', #{search}, '%')
+            </if>
+            <!-- 카테고리 확인용 -->
+            <if test="title1 != title1">
+                AND JGNoticeProductTypeMajor = #{title1}
+            </if>
+            <if test="title2 != title2">
+                AND JGNoticeProductTypeMinor = #{title2}
+            </if>
+            <if test="title3 != title3">
+                AND JGNoticeProductTypeMinorList = #{title3}
+            </if>
+        </where>;
     </select>
+
 
 
     <!-- 이번주 상품 ( 일주일안으로 올라온 데이터 가져오기 ) 게시글 20개 뽑아오기 -->
 
     <!-- 본인 동네 주소로 근처 게시글 데이터 20개 뽑아오기 -->
 
-    <!-- 카테고리 메이저 키워드로 게시글 데이터 뽑아오기 -->
 
-    <!-- 카테고리 마이너 키워드로 게시글 데이터 뽑아오기 -->
+
 </mapper>
 

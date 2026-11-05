@@ -1,9 +1,17 @@
 	
 
-select * from JGUserInfo
-where userId LIKE "%awd%";
+select * from JGUserInfo;
+
+update JGUserInfo
+set userManager = 2
+where userCode = 1;
+
 
 select * from categorystatemajor;
+
+select * from notificationmanagement;
+
+
 
 /*사용자 정보*/
 CREATE TABLE JGUserInfo(
@@ -47,6 +55,8 @@ CREATE TABLE JGUserInfoBack(
   userDelete date default null,					/* 삭제된 날짜 */
   userDeleteLoose date default null					/* 삭제 풀린 날짜 */
 );
+
+
 
 drop table JGUserInfoBack;
 /* 1단계 복구 데이터된 데이터 */
@@ -103,11 +113,24 @@ CREATE TABLE JGNotice(
   JGNoticeProductTypeMajor varchar(255) not null, /*게시글 제품 구분 */ 
   JGNoticeProductTypeMinor varchar(255) not null, /*게시글 제품 구분 */ 
   JGNoticeProductTypeMinorList varchar(255) not null, /*게시글 제품 구분 */ 
-  uesrCode integer not null, /*사용자 정보 [외래키로 사용]*/ 
+  userCode integer not null, /*사용자 정보 [외래키로 사용]*/ 
   JGNoticeCreate datetime default CURRENT_TIMESTAMP, /*게시글 생성날짜*/ 
-  JGNoticeUpdate datetime, /*게시글 수정날짜*/ 
-  JGNoticeDelect datetime /*게시글 삭제날짜*/ 
+  JGNoticeUpdate datetime default null, /*게시글 수정날짜*/ 
+  JGNoticeDelect datetime default null, /*게시글 삭제날짜*/ 
+  JGNoticeSaleBoo boolean default false /* 상품 판매 여부 확인용*/
 );
+alter table JGNotice
+add column JGNoticeSaleBoo boolean default false;
+/* 여기에 판매됬는지에 대한 여부 있어야 하자나 false = 판매중, true = 판매완료*/
+
+
+select notice.* from JGNotice notice
+Join jguserinfo user ON notice.userCode= user.userCode
+where user.addressDetailData = "광주시";
+
+
+select * from JGNoticeImg;
+
 
 /* 게시글 좋아요 눌렀거나 댓글 달았을 때 알람 */
 /* 좋아요랑 댓글 생성할 때 또 하나 생성해야하나? 두번 하기엔 너무 아쉽지 ㅇㅇ */
@@ -139,6 +162,7 @@ CREATE TABLE JGNoticeImg(
   JGNoticeCode integer /*게시글 코드 [ 외래키 ]*/ 
 );
 
+select * from JGNoticeImg;
 
 
 -- 안쓸꺼임
@@ -162,6 +186,7 @@ CREATE TABLE UserDeclarationA(
   userDeclarationBoo boolean /*신고 접수?*/ 
 );
 
+select * from notificationManagement;
 
 /* 관리자 공지사항 관리 */
 CREATE TABLE notificationManagement(
@@ -175,10 +200,12 @@ CREATE TABLE notificationManagement(
     notificationManagementCreate datetime default CURRENT_TIMESTAMP /*공지사항 생성날짜*/ 
 );
 
+
+
 drop table notificationManagement;
 
 select * from notificationManagement
-where notificationManagementBannerBoo = 1;
+where notificationManagementBannerBoo = 1 and notificationManagementBoo != 0;
 /* 생성 */
 insert into notificationManagement(notificationManagementTitle,notificationManagementText,notificationManagementBannerBoo,notificationManagementImg)
 value("테스트 진행중","내용은 별거 엇음",true,"gdgd");
@@ -202,9 +229,10 @@ CREATE TABLE categoryStateMajor(
     categoryStateMajorText varchar(20),							/* 카테고리 메이저 이름 */
     categoryStateMajorCreate datetime default CURRENT_TIMESTAMP	/* 카테고리 메이저 생성날짜 */
 );
-select * from categoryStateMajor;
-delete from categoryStateMajor
-where categoryStateMajorCode = 1;
+
+select * from categoryStateMinor
+        where categoryStateMinorCode = 1;
+
 /* 반려동물, 게임, 취미, 도서/음반/문구, 가전제품, 패션의류, 노트북/PC */
 /* 카테고리 메이저 데이터 만들기 */
 insert into categoryStateMajor(categoryStateMajorText)
@@ -229,6 +257,10 @@ CREATE TABLE categoryStateMinor(
     categoryStateMinorCreate datetime default CURRENT_TIMESTAMP,	/* 카테고리 마이너 생성날짜 */
     categoryStateMinorCodeMinor integer default null			/* 카테고리 마이너 코드 셀프조인 */
 );
+
+select * from categoryStateMinor
+where categoryStateMinorCode = 3;
+
    select *
         from categoryStateMinor;
         select *

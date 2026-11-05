@@ -22,9 +22,7 @@ import java.util.UUID;
 public class AdminController {
 
     // 서로 파일 위치 다른 이유는 저장위치가 달라서
-    // 노트북은 C드라이브, 컴퓨터는 D드라이브 (C용량이 너무 없음 ㅎ;)
-    private String laptop = "C:\\github\\img\\";         // 내 노트북 파일 위치
-    private String computer = "";       // 내 컴퓨터 파일 위치
+    private String laptop = "C:\\github\\img\\banner\\";         // 내 파일 위치
 
     @Autowired
     private AdminService adminService;
@@ -192,6 +190,7 @@ public class AdminController {
                 int code = notificationManagement.getNotificationManagementCode();
 //            log.info("데이터 확인하기 [code] : " + code);
                 String fileName = fileUpload(file,code,laptop);
+
                 FormDataDTO dto = FormDataDTO.builder()
                         .code(notificationManagement.getNotificationManagementCode())
                         .fileName(fileName)

@@ -22,5 +22,6 @@ public class JGNotice {
     private String jGNoticeCreate; /*게시글 생성날짜*/
     private String jGNoticeUpdate; /*게시글 수정날짜*/
     private String jGNoticeDelect; /*게시글 삭제날짜*/
+    private Boolean JGNoticeSaleBoo; /* 상품 판매 확인용도 */
 
 }
