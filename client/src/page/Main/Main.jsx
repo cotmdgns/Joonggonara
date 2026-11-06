@@ -28,8 +28,7 @@ const Main = () =>{
     
     // 배너 클릭 시 공지사항 페이지로 이동하기
     const gotoNotificationPage = (code) =>{
-        alert(code)
-        // navigate('')
+        navigate(`/notification/notificationDetail/${code}`);
     }
     
     // 임시방편임 이거 나중에 지울꺼임

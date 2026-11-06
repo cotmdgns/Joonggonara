@@ -14,6 +14,9 @@ import AdminNoticeManagement from "./page/admin/AdminNoticeManagement";
 import AdminNotificationManagement from "./page/admin/AdminNotificationManagement";
 import AdminCategoryManagement from "./page/admin/AdminCategoryManagement";
 import AdminNotification from "./page/admin/component/AdminNotification";
+import Notification from "./page/notification/Notification";
+import NotificationDetail from "./page/notification/compoenet/NotificationDetail";
+
 
 const router = createBrowserRouter([
     {
@@ -45,9 +48,13 @@ const router = createBrowserRouter([
                 element: <JogoProductDetail/>,
             },
             {
-                path : "NotificationManagement", // 공지사항 관리   // 그냥 페이지 새롭게 하나 만들어야 함
-                element :<AdminNotificationManagement/>
+                path : "notification", // 일반 전용 공지사항 페이지
+                element :<Notification/>
             },
+            {
+                path : "notification/notificationDetail/:code",    // 일반 전용 공지사항 디테일 페이지
+                element : <NotificationDetail/>
+            }
             // { 이렇게
             //     path: "login",
             //     element: <Login />,

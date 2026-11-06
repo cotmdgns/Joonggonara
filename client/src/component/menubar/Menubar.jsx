@@ -9,7 +9,7 @@ import { TfiMenuAlt } from "react-icons/tfi";
 
 // 모달창 컴포넌트
 import CategoryModal from "./component/CategoryModal";
-import JogoProductCreate from "../../page/product/JogoProductCreate";
+import JogoProductCreate from "../../page/product/component/JogoProductCreate";
 
 
 // 리액트
@@ -40,6 +40,10 @@ const Menubar = () => {
     dispatch({type:"productCreateFalse"})
   }
   ////
+  // 공지사항 페이지 이동하기
+    const gotoMoveNotification = () =>{
+      navi("/notification?pageNum=1")
+  }
   return (
     <>
       <div id="MenubarBack">
@@ -72,7 +76,7 @@ const Menubar = () => {
             state={state}
             dispatch={dispatch}
           />}
-          <div id="Menubar">
+          <div id="Menubar" onClick={()=>{gotoMoveNotification()}}>
             <span><TfiMenuAlt/></span>
             공지사항
           </div>

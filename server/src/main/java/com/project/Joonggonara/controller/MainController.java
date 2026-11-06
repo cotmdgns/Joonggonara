@@ -2,6 +2,7 @@ package com.project.Joonggonara.controller;
 
 import com.project.Joonggonara.model.dto.CategoryDTO;
 import com.project.Joonggonara.model.dto.NoticeStateDTO;
+import com.project.Joonggonara.model.dto.SearchDTO;
 import com.project.Joonggonara.model.vo.*;
 import com.project.Joonggonara.service.AdminService;
 import com.project.Joonggonara.service.MainService;
@@ -103,11 +104,17 @@ public class MainController {
         }catch (Exception e){
             log.info(""+ e);
         }
-
         // 끝
-
     }
-
+    
+    // 상품 검색하기
+    @PostMapping("searchNoticeSelect")
+    public List<JGNotice> searchNoticeSelect(@RequestBody SearchDTO dto){
+        // 데이터 조회하는데 있어서 큰 문제는 없다.
+        // 왜? 마이바티스에서 다 처리를 할 예정이기 때문에지
+        log.info("데이터 확인하기 dto : " + dto);
+        return mainService.searchNoticeSelect(dto);
+    }
 
 
 

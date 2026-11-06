@@ -21,3 +21,8 @@ instance.interceptors.request.use(
 export const noticeCreateAPI = async (data) => {
   return await instance.post("/noticeCreate",data);
 };
+
+// 상세 상품 검색하기 searchNoticeSelect
+export const searchNoticeSelectAPI = async (data) => {
+  return await instance.post("/searchNoticeSelect",data);
+};

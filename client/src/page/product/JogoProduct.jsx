@@ -3,6 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import "./css/JogoProduct.scss"
 import { GoChevronRight } from "react-icons/go";
 import MainNotice from "../../component/mainNotice/MainNotice";
+import { searchNoticeSelectAPI } from "./api/productAPI";
+import { useEffect } from "react";
 
 
 const JogoProduct = () => {
@@ -19,6 +21,26 @@ const JogoProduct = () => {
     const gotoDetailProduct = (code) =>{
         navigate(`/jogoProductDetail/product/${code}`)
     }
+
+    // 검색한 리스트
+    const searchNoticeSelect = async () =>{
+        const data = {
+            search : "",          // 검색용
+            title1: category ?? "",
+            title2: category2 ?? "",
+            title3: category3 ?? "",
+            price1 : "",     // 금액에서 ~
+            price2 : "",     // ~ 금액까지
+            address1 : "",     // 지역 (서울, 경기도, 대전, 대구... )
+            address2 : "",   // 지역 (강남, 서초, 성남 ... )
+        }
+        const result = await searchNoticeSelectAPI(data)
+        console.log(result.data)
+    }
+
+    useEffect(()=>{
+        searchNoticeSelect()
+    },[category,category2,category3])
 
     return (
         <div id="JogoProductBody">

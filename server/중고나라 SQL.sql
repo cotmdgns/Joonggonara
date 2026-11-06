@@ -119,17 +119,23 @@ CREATE TABLE JGNotice(
   JGNoticeDelect datetime default null, /*게시글 삭제날짜*/ 
   JGNoticeSaleBoo boolean default false /* 상품 판매 여부 확인용*/
 );
+
+select * from JGNotice;
+
 alter table JGNotice
 add column JGNoticeSaleBoo boolean default false;
+
+alter table JGNotice
+RENAME COLUMN uesrCode TO userCode;
 /* 여기에 판매됬는지에 대한 여부 있어야 하자나 false = 판매중, true = 판매완료*/
 
 
 select notice.* from JGNotice notice
 Join jguserinfo user ON notice.userCode= user.userCode
-where user.addressDetailData = "광주시";
+WHERE notice.JGNoticeProductTypeMajor = "반려동물";
 
 
-select * from JGNoticeImg;
+select * from jguserinfo;
 
 
 /* 게시글 좋아요 눌렀거나 댓글 달았을 때 알람 */
@@ -200,6 +206,9 @@ CREATE TABLE notificationManagement(
     notificationManagementCreate datetime default CURRENT_TIMESTAMP /*공지사항 생성날짜*/ 
 );
 
+select * from notificationManagement
+where notificationManagementBoo != 0
+order by notificationManagementBannerBoo desc;
 
 
 drop table notificationManagement;

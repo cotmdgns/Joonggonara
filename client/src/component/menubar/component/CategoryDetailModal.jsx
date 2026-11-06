@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import "../css/Menubar.scss"
 
 const CategoryDetailModal = ({
@@ -9,7 +9,8 @@ const CategoryDetailModal = ({
 
     // 네비
     const navigate = useNavigate()
-    
+    const param = useParams();
+
     const {textState} = state;
 
     // 상품페이지 이동

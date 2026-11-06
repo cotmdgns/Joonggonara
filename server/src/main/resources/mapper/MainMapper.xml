@@ -52,24 +52,42 @@
     <!-- 1. 검색으로 데이터 가져오기 -->
     <!-- 2. 카테고리로 데이터 가져오기 -->
     <select id="searchNoticeSelect" parameterType="SearchDTO" resultType="JGNotice">
-        select * from JGNotice
+        select notice.* from JGNotice notice
+        Join jguserinfo user ON notice.userCode= user.userCode
+
         <where>
-            1=1
-            <!-- 검색용 -->
-            <if test="search != null">
-                AND JGNoticeText LIKE CONCAT('%', #{search}, '%')
+            <if test="search != null and search != ''">
+                AND notice.JGNoticeText LIKE CONCAT('%', #{search}, '%')
             </if>
-            <!-- 카테고리 확인용 -->
-            <if test="title1 != title1">
-                AND JGNoticeProductTypeMajor = #{title1}
+
+            <if test="title1 != null and title1 != ''">
+                AND notice.JGNoticeProductTypeMajor = #{title1}
             </if>
-            <if test="title2 != title2">
-                AND JGNoticeProductTypeMinor = #{title2}
+
+            <if test="title2 != null and title2 != ''">
+                AND notice.JGNoticeProductTypeMinor = #{title2}
             </if>
-            <if test="title3 != title3">
-                AND JGNoticeProductTypeMinorList = #{title3}
+
+            <if test="title3 != null and title3 != ''">
+                AND notice.JGNoticeProductTypeMinorList = #{title3}
             </if>
-        </where>;
+
+            <if test="address1 != null and address1 != ''">
+                AND user.addressData = #{address1}
+            </if>
+
+            <if test="address2 != null and address2 != ''">
+                AND user.addressDetailData = #{address2}
+            </if>
+
+            <if test="price1 != null and price1 != ''">
+                AND CAST(REPLACE(notice.JGNoticeProductPrice, ',', '') AS UNSIGNED) >= #{price1}
+            </if>
+
+            <if test="price2 != null and price2 != ''">
+                AND CAST(REPLACE(notice.JGNoticeProductPrice, ',', '') AS UNSIGNED) &lt;= #{price2}
+            </if>
+        </where>
     </select>
 
 

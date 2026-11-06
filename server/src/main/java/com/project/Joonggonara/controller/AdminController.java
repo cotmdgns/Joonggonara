@@ -136,7 +136,7 @@ public class AdminController {
 
 
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 공지사항 관리 페이지 @@@@@@@@@@@@@@@@@@@@@@@/
-    @GetMapping("adminNotificationManagementSelect") /* <!-- [ 어드민 ] 공지사항 전체조회 [ 정상작동 ] --> */
+    @GetMapping("adminNotificationManagementSelect") /* <!-- [ 어드민, 일반 ] 공지사항 전체조회 [ 정상작동 ] --> */
     public NotificationManagementPageDTO adminNotificationManagementSelect(
             @RequestParam(defaultValue = "1") int code,
             Criteria cri){
@@ -144,10 +144,15 @@ public class AdminController {
         cri.setPageNum(code);
         // 리스트 안에 사용자 이름 넣고 보내기
         List<NotificationManagementDTO> notificationManagementList = adminService.adminNotificationManagementSelect(cri);
+
+
+
         for(NotificationManagementDTO list : notificationManagementList){
             String name = userService.selectID(list.getUserCode());
             list.setUserName(name);
         }
+
+
         int total = adminService.totalPage();
         PageMakerDTO pageMake = new PageMakerDTO(cri, total);
         NotificationManagementPageDTO notificationManagementPageDTO = NotificationManagementPageDTO.builder()
@@ -157,11 +162,10 @@ public class AdminController {
         return notificationManagementPageDTO;
     };
 
-    @GetMapping("notificationManagementSelectDetail/{code}") /* <!-- [ 어드민, 일반 ] 공지사항 디테일 조회 --> */
+    @GetMapping("notificationManagementSelectDetail/{code}") /* <!-- [ 어드민, 일반 ] 공지사항 상세(디테일) 조회 --> */
     public NotificationManagementDTO notificationManagementSelectDetail(@PathVariable("code")int code){
         return adminService.notificationManagementSelectDetail(code);
     };
-
 
 
 

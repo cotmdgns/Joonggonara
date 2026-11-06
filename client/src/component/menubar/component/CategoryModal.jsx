@@ -56,7 +56,9 @@ const CategoryModal = ({state,dispatch,navi}) =>{
                     {categoryMajorList.map((arr,index)=>(
                     categoryState === index ? 
                         <div key={index} id="categoryTrue"
-                            onClick={()=>{gotoCategory(arr.categoryStateMajorText)}}
+                            onClick={()=>{gotoCategory(arr.categoryStateMajorText),
+                                dispatch({type:"textState",payload : arr.categoryStateMajorText})
+                            }}
                         >{arr.categoryStateMajorText}</div> 
                         :
                         <div key={index} 

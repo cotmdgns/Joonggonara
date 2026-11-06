@@ -1,5 +1,6 @@
 package com.project.Joonggonara.service;
 
+import com.project.Joonggonara.model.dto.SearchDTO;
 import com.project.Joonggonara.model.vo.JGNotice;
 import com.project.Joonggonara.model.vo.JGNoticeImg;
 import com.project.Joonggonara.model.vo.NotificationManagement;
@@ -31,5 +32,10 @@ public class MainService {
     // <!-- 이미지 만들기 -->
     public void createImg(List<JGNoticeImg> list){
         mainMapper.createImg(list);
+    }
+
+    // 상세 리스트 가져오기 ( 검색도 가능함 , 페이징 걸고 한페이지 50개 )
+    public List<JGNotice> searchNoticeSelect(SearchDTO dto){
+        return mainMapper.searchNoticeSelect(dto);
     }
 }

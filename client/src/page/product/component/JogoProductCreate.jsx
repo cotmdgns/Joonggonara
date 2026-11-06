@@ -3,26 +3,26 @@ import { IoMdCloseCircleOutline } from "react-icons/io";
 import { FaCamera } from "react-icons/fa";
 
 // 컴포넌트
-import JogoProductCategory from "./component/JogoProductCategory";
-import InputTag from "../../component/inputTag/InputTag";
+import JogoProductCategory from "./JogoProductCategory";
+import InputTag from "../../../component/inputTag/InputTag";
 
 // 리액트
 import { useEffect, useReducer } from "react";
 
 // css
-import "./css/JogoProduct.scss";
+import "../css/JogoProduct.scss";
 
 // 리듀서
 import {
   initiaJogoProductReduser,
   JogoProductReduser,
-} from "./reduser/JogoProductReduser";
+} from "../reduser/JogoProductReduser";
 import {
   categoryMajorListAPI,
   categoryMinorListAPI,
-} from "../Main/api/MainAPI";
-import AddressOpenAPI from "../../component/AddressOpenAPI";
-import { noticeCreateAPI } from "./api/productAPI";
+} from "../../Main/api/MainAPI";
+import AddressOpenAPI from "../../../component/AddressOpenAPI";
+import { noticeCreateAPI } from "../api/productAPI";
 
 const JogoProductCreate = ({ productCreateClose }) => {
   // 리듀서

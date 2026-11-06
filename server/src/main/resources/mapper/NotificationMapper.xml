@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="mapper.NotificationMapper">
+
+    <!-- 공지사항 배너 사용중인거부터 뽑고 -->
+    <select id="selectNotification" parameterType="Criteria" resultType="NotificationManagementDTO">
+        select * from notificationManagement
+        where notificationManagementBoo != 0
+        order by notificationManagementBannerBoo desc
+        limit #{skip} ,#{amount};
+    </select>
+
+    <!-- [ 괸리자,일반 ]공지사항 디테일 조회하기 -->
+    <select id="selectNotificationDetail" parameterType="int" resultType="NotificationManagementDTO">
+        select * from notificationManagement
+        where notificationManagementCode = #{code} and notificationManagementBoo != 0
+    </select>
+
+
+    <select id="total" resultType="int">
+        select count(*) from notificationManagement
+        where notificationManagementBoo != 0
+    </select>
+
+</mapper>
