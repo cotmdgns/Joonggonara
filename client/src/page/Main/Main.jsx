@@ -34,6 +34,18 @@ const Main = () =>{
     // 임시방편임 이거 나중에 지울꺼임
     const notices = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
+    // 사용자 주소로 근처 상품 보여주기
+    const userAddressSelect = () =>{
+        const userCode = sessionStorage.getItem("uesrCode")
+        // 서버에서 유저코드로 주소 알아낸 다음
+        // 그 주소로 동륵 된 상품들 보여주기
+    }
+
+    // 최신에 올라온 상품
+    const newNotificationSelect = () =>{
+        // 이건 DB에서 현재 날짜에서 -7일 해서 계속 가져다주기
+    }
+
     // 상세페이지 이동
     const gotoDetailProduct = (code) =>{
         navigate(`jogoProductDetail/product/${code}`)

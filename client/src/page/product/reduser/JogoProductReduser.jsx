@@ -19,6 +19,18 @@ export const initiaJogoProductReduser = {
     numState : 0,               // 이미지 상태값
     imgList : [],               // 이미지 리스트
     imgListServer : [],         // 서버로 이동할 리스트
+
+    // 상세페이지에서 사용하는 변수명들
+    // 검색용 데이터
+    search : "",
+    price1 : "",
+    price2 : "",
+    address1 : "",
+    address2 : "",
+
+    // 상세페이지 종합 리스트 데이터
+    selectNotificationList : [],
+
 }
 
 export const JogoProductReduser = (state, action) =>{
@@ -122,7 +134,12 @@ export const JogoProductReduser = (state, action) =>{
                 addressDetail: action.payload,
             };
 
-
+        /////////////////////////// 상세페이지에서 사용한 상태관리
+        case "selectNotificationList":  // 상세 종합 데이터
+            return{
+                ...state,
+                selectNotificationList : action.payload,
+            }
 
 
 

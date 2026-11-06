@@ -7,7 +7,7 @@ const MainBannerInfo = ({list,gotoNotificationPage}) =>{
     return (
         <>
             <div id="MainBannerBox" onClick={()=>{gotoNotificationPage(list.notificationManagementCode)}}>
-                <img src={`http://localhost:8080/banner/${list.notificationManagementCode}/${list.notificationManagementImg}`} id="MainBannerImg"/>
+                <img src={`http://localhost:8080/${list.notificationManagementCode}/${list.notificationManagementImg}`} id="MainBannerImg"/>
                 <div id="MainBannerInfo">
                     <div id="MainBannerLink">
                         <div id="MainBannerTitle">{list.notificationManagementTitle}</div>

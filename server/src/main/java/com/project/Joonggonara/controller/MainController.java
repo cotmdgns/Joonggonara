@@ -1,6 +1,7 @@
 package com.project.Joonggonara.controller;
 
 import com.project.Joonggonara.model.dto.CategoryDTO;
+import com.project.Joonggonara.model.dto.NoticeDTO;
 import com.project.Joonggonara.model.dto.NoticeStateDTO;
 import com.project.Joonggonara.model.dto.SearchDTO;
 import com.project.Joonggonara.model.vo.*;
@@ -106,16 +107,115 @@ public class MainController {
         }
         // 끝
     }
-    
-    // 상품 검색하기
+
+
+    // 상품 검색하기  [ 페이징도 적용해야 함 ]
     @PostMapping("searchNoticeSelect")
-    public List<JGNotice> searchNoticeSelect(@RequestBody SearchDTO dto){
-        // 데이터 조회하는데 있어서 큰 문제는 없다.
-        // 왜? 마이바티스에서 다 처리를 할 예정이기 때문에지
-        log.info("데이터 확인하기 dto : " + dto);
-        return mainService.searchNoticeSelect(dto);
+    public List<NoticeDTO> searchNoticeSelect(@RequestBody SearchDTO dto){
+        // 검색 후 데이터
+        List<JGNotice> list = mainService.searchNoticeSelect(dto);
+        // 데이터 담기 위한 리스트
+        List<NoticeDTO> result = new ArrayList<>();
+        // 반복문
+        for(JGNotice data : list){
+            // 코드로 이미지들 가져오고
+            List<JGNoticeImg> img = mainService.searchNoticeSelectImg(data.getJGNoticeCode());
+            log.info("데이터 확인하기 : " + img);
+            NoticeDTO noticeDTO = NoticeDTO.builder()
+                    .jGNoticeCode(data.getJGNoticeCode())
+                    .jGNoticeTitle(data.getJGNoticeTitle())
+                    .jGNoticeText(data.getJGNoticeText())
+                    .jGNoticeProductPrice(data.getJGNoticeProductPrice())
+                    .JGNoticeProductTypeMajor(data.getJGNoticeProductTypeMajor())
+                    .JGNoticeProductTypeMinor(data.getJGNoticeProductTypeMinor())
+                    .JGNoticeProductTypeMinorList(data.getJGNoticeProductTypeMinorList())
+                    .userCode(data.getUserCode())
+                    .jGNoticeCreate(data.getJGNoticeCreate())
+                    .jGNoticeUpdate(data.getJGNoticeUpdate())
+                    .jGNoticeDelect(data.getJGNoticeDelect())
+                    .JGNoticeSaleBoo(data.getJGNoticeSaleBoo())
+                    .firstImgName(img.get(0).getJGNoticeImg())
+                    .firstImgCode(img.get(0).getJGNoticeImgCode())
+                    .build();
+            result.add(noticeDTO);
+        }
+
+        return result;
     }
 
+    // 사용자 코드로 주소 찾고 해당 주소로 등록된 게시글 찾기
+    @PostMapping("userAddressSelect")
+    public List<NoticeDTO> userAddressSelect(@RequestBody SearchDTO dto){
+
+        List<JGNotice> list = mainService.searchNoticeSelect(dto);
+        // 검색과 데이터 보내는 방식은 같지만 좀 더 다름
+        // 게시글 찾는 쿼리만 다를 뿐 밑에 데이터 정리해서 보내주는건 같음
+
+
+        // 데이터 담기 위한 리스트
+        List<NoticeDTO> result = new ArrayList<>();
+        // 반복문
+        for(JGNotice data : list){
+            // 코드로 이미지들 가져오고
+            List<JGNoticeImg> img = mainService.searchNoticeSelectImg(data.getJGNoticeCode());
+            log.info("데이터 확인하기 : " + img);
+            NoticeDTO noticeDTO = NoticeDTO.builder()
+                    .jGNoticeCode(data.getJGNoticeCode())
+                    .jGNoticeTitle(data.getJGNoticeTitle())
+                    .jGNoticeText(data.getJGNoticeText())
+                    .jGNoticeProductPrice(data.getJGNoticeProductPrice())
+                    .JGNoticeProductTypeMajor(data.getJGNoticeProductTypeMajor())
+                    .JGNoticeProductTypeMinor(data.getJGNoticeProductTypeMinor())
+                    .JGNoticeProductTypeMinorList(data.getJGNoticeProductTypeMinorList())
+                    .userCode(data.getUserCode())
+                    .jGNoticeCreate(data.getJGNoticeCreate())
+                    .jGNoticeUpdate(data.getJGNoticeUpdate())
+                    .jGNoticeDelect(data.getJGNoticeDelect())
+                    .JGNoticeSaleBoo(data.getJGNoticeSaleBoo())
+                    .firstImgName(img.get(0).getJGNoticeImg())
+                    .firstImgCode(img.get(0).getJGNoticeImgCode())
+                    .build();
+            result.add(noticeDTO);
+        }
+
+        return result;
+    }
+    // DB에서 현재 날짜에서 일주일 전 데이터 가져와서 보내주기
+    @PostMapping("newNotificationSelect")
+    public List<NoticeDTO> newNotificationSelect(@RequestBody SearchDTO dto){
+
+        List<JGNotice> list = mainService.searchNoticeSelect(dto);
+        // 검색과 데이터 보내는 방식은 같지만 좀 더 다름
+        // 게시글 찾는 쿼리만 다를 뿐 밑에 데이터 정리해서 보내주는건 같음
+
+        // 데이터 담기 위한 리스트
+        List<NoticeDTO> result = new ArrayList<>();
+        // 반복문
+        for(JGNotice data : list){
+            // 코드로 이미지들 가져오고
+            List<JGNoticeImg> img = mainService.searchNoticeSelectImg(data.getJGNoticeCode());
+            log.info("데이터 확인하기 : " + img);
+            NoticeDTO noticeDTO = NoticeDTO.builder()
+                    .jGNoticeCode(data.getJGNoticeCode())
+                    .jGNoticeTitle(data.getJGNoticeTitle())
+                    .jGNoticeText(data.getJGNoticeText())
+                    .jGNoticeProductPrice(data.getJGNoticeProductPrice())
+                    .JGNoticeProductTypeMajor(data.getJGNoticeProductTypeMajor())
+                    .JGNoticeProductTypeMinor(data.getJGNoticeProductTypeMinor())
+                    .JGNoticeProductTypeMinorList(data.getJGNoticeProductTypeMinorList())
+                    .userCode(data.getUserCode())
+                    .jGNoticeCreate(data.getJGNoticeCreate())
+                    .jGNoticeUpdate(data.getJGNoticeUpdate())
+                    .jGNoticeDelect(data.getJGNoticeDelect())
+                    .JGNoticeSaleBoo(data.getJGNoticeSaleBoo())
+                    .firstImgName(img.get(0).getJGNoticeImg())
+                    .firstImgCode(img.get(0).getJGNoticeImgCode())
+                    .build();
+            result.add(noticeDTO);
+        }
+
+        return result;
+    }
 
 
 

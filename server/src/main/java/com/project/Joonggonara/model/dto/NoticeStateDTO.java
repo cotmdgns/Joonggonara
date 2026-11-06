@@ -13,6 +13,8 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class NoticeStateDTO {
+
+    // 클라이언트에서 서버로 받을 때 [ 게시글 생성할 때 사용할 변수 ]
     private int code; // 사용자 코드
     private String categoryMajor; // 게시글 메이져 카테고리
     private int categoryMinor; // 게시글 마이너 카테고리
@@ -25,4 +27,7 @@ public class NoticeStateDTO {
 //    private String detailAddress; // 상세주소
     private String productInfo;  // 상품설명란
     private List<MultipartFile> imgs; // 상품 이미지
+
+
+
 }

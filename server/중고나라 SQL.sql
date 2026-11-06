@@ -168,7 +168,8 @@ CREATE TABLE JGNoticeImg(
   JGNoticeCode integer /*게시글 코드 [ 외래키 ]*/ 
 );
 
-select * from JGNoticeImg;
+select * from JGNoticeImg
+where JGNoticeCode = 1;
 
 
 -- 안쓸꺼임

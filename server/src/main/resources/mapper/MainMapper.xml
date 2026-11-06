@@ -90,13 +90,27 @@
         </where>
     </select>
 
+    <!-- 검색할 때 이미지도 필요해서 하나 보내줘여함 -->
+    <!-- 이 쿼리문으로 범용성 좋은거 같아서 상세 디테일 페이지에서도 사용 가능할거 같음 -->
+    <select id="searchNoticeSelectImg" parameterType="int" resultType="JGNoticeImg">
+        select * from JGNoticeImg
+        where JGNoticeCode = #{code}
+    </select>
 
 
     <!-- 이번주 상품 ( 일주일안으로 올라온 데이터 가져오기 ) 게시글 20개 뽑아오기 -->
+    <!--  1. DB에서 일주일전 데이터 가져와서 뿌려주기 (최대 20개)  -->
+
 
     <!-- 본인 동네 주소로 근처 게시글 데이터 20개 뽑아오기 -->
+    <!--  1. 사용자 코드로 주소 얻고 (서비스에서 바로 진행할거) -->
+    <select id="selectUserAddress">
 
+    </select>
+    <!--  2. 사용자 주소로 관련 게시글 가져오기  -->
+    <select id="selectUserAddressNotification">
 
+    </select>
 
 </mapper>
 

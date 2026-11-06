@@ -38,4 +38,10 @@ public class MainService {
     public List<JGNotice> searchNoticeSelect(SearchDTO dto){
         return mainMapper.searchNoticeSelect(dto);
     }
+
+    public List<JGNoticeImg> searchNoticeSelectImg(int code){
+        return mainMapper.searchNoticeSelectImg(code);
+    };
+
+
 }

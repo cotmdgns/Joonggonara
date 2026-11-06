@@ -43,7 +43,7 @@ const Login = () =>{
             "userPwd" : userPwd
         }
         const result = await userLoginAPI(data)
-
+        
         if(result.data === false || result.data === "false"){
             alert("아이디와 비밀번호가 틀립니다.")
         }else{

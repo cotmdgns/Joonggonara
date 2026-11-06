@@ -4,7 +4,8 @@ import "./css/JogoProduct.scss"
 import { GoChevronRight } from "react-icons/go";
 import MainNotice from "../../component/mainNotice/MainNotice";
 import { searchNoticeSelectAPI } from "./api/productAPI";
-import { useEffect } from "react";
+import { useEffect, useReducer } from "react";
+import { initiaJogoProductReduser, JogoProductReduser } from "./reduser/JogoProductReduser";
 
 
 const JogoProduct = () => {
@@ -13,7 +14,7 @@ const JogoProduct = () => {
     // 아니 이거 상상이상으로 편한데;;
     // 이걸로 api 호출해서 데이터 가져온 다음 전역관리하기
     const { category,category2,category3 } = useParams(); // 자동으로 디코딩되어 들어옴
-
+    const [state,dispatch] = useReducer(JogoProductReduser,initiaJogoProductReduser)
 
     const notices = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -35,7 +36,7 @@ const JogoProduct = () => {
             address2 : "",   // 지역 (강남, 서초, 성남 ... )
         }
         const result = await searchNoticeSelectAPI(data)
-        console.log(result.data)
+        dispatch({type:"selectNotificationList" , payload : result.data})
     }
 
     useEffect(()=>{
@@ -65,8 +66,8 @@ const JogoProduct = () => {
 
             <div id="JogoProductCenter">
                 <div id="mainNoticeBox">
-                    {notices.map((num,index)=>(
-                        <MainNotice key={index} number={num} gotoDetailProduct={gotoDetailProduct}/>
+                    {state.selectNotificationList.map((list,index)=>(
+                        <MainNotice key={index} list={list} gotoDetailProduct={gotoDetailProduct}/>
                     ))}
                 </div>
             </div>
