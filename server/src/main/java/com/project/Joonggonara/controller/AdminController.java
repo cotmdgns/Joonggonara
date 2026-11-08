@@ -51,7 +51,7 @@ public class AdminController {
     public UserInfoPagingDTO userALlSelect(@RequestBody UserInfoPagingDTO dto,Criteria cri){
         // 클라이언트에서 데이터를 가져옴
         // 1. 페이지, 2. 등급여부, 3. 현재 상태 여부
-        log.info("페이징 및 데이터 확인하기 : "  +dto );
+//        log.info("페이징 및 데이터 확인하기 : "  +dto );
         if(dto.getCode() > 0){
             cri.setPageNum(dto.getCode());
         }else{

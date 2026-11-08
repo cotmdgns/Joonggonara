@@ -33,8 +33,13 @@ export const categoryMinorListAPI = async (code) => {
 };
 
 //////////////// 검색용 API
-// 상품 및 카테고리로 검색하기 (DTO로 보내고 DTO로 받기)
 
 // 일주일안으로 생성된 데이터 확인하기
+export const newNotificationSelectAPI = async (code) => {
+  return await instance.get("/newNotificationSelect");
+};
 
 // 내 지역으로 해서 주변 상품 뽑아주기
+export const userAddressSelectAPI = async (code) => {
+  return await instance.get(`/userAddressSelect/${code}`);
+};

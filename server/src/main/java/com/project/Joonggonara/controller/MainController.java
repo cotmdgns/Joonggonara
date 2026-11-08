@@ -144,10 +144,10 @@ public class MainController {
     }
 
     // 사용자 코드로 주소 찾고 해당 주소로 등록된 게시글 찾기
-    @PostMapping("userAddressSelect")
-    public List<NoticeDTO> userAddressSelect(@RequestBody SearchDTO dto){
+    @PostMapping("userAddressSelect/{code}")
+    public List<NoticeDTO> userAddressSelect(@PathVariable("code") int code){
 
-        List<JGNotice> list = mainService.searchNoticeSelect(dto);
+        List<JGNotice> list = mainService.selectUserAddressNotification(code);
         // 검색과 데이터 보내는 방식은 같지만 좀 더 다름
         // 게시글 찾는 쿼리만 다를 뿐 밑에 데이터 정리해서 보내주는건 같음
 
@@ -181,10 +181,10 @@ public class MainController {
         return result;
     }
     // DB에서 현재 날짜에서 일주일 전 데이터 가져와서 보내주기
-    @PostMapping("newNotificationSelect")
-    public List<NoticeDTO> newNotificationSelect(@RequestBody SearchDTO dto){
+    @GetMapping("newNotificationSelect")
+    public List<NoticeDTO> newNotificationSelect(){
 
-        List<JGNotice> list = mainService.searchNoticeSelect(dto);
+        List<JGNotice> list = mainService.selectNoticeDATE();
         // 검색과 데이터 보내는 방식은 같지만 좀 더 다름
         // 게시글 찾는 쿼리만 다를 뿐 밑에 데이터 정리해서 보내주는건 같음
 

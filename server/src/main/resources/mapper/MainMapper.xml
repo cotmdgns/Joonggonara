@@ -54,7 +54,6 @@
     <select id="searchNoticeSelect" parameterType="SearchDTO" resultType="JGNotice">
         select notice.* from JGNotice notice
         Join jguserinfo user ON notice.userCode= user.userCode
-
         <where>
             <if test="search != null and search != ''">
                 AND notice.JGNoticeText LIKE CONCAT('%', #{search}, '%')
@@ -83,7 +82,7 @@
             <if test="price1 != null and price1 != ''">
                 AND CAST(REPLACE(notice.JGNoticeProductPrice, ',', '') AS UNSIGNED) >= #{price1}
             </if>
-
+4
             <if test="price2 != null and price2 != ''">
                 AND CAST(REPLACE(notice.JGNoticeProductPrice, ',', '') AS UNSIGNED) &lt;= #{price2}
             </if>
@@ -100,16 +99,21 @@
 
     <!-- 이번주 상품 ( 일주일안으로 올라온 데이터 가져오기 ) 게시글 20개 뽑아오기 -->
     <!--  1. DB에서 일주일전 데이터 가져와서 뿌려주기 (최대 20개)  -->
-
+    <select id="selectNoticeDATE" resultType="JGNotice">
+        select * from jgnotice
+        where JGNoticeCreate between DATE_SUB(now(), interval 7 DAY) AND now();
+    </select>
 
     <!-- 본인 동네 주소로 근처 게시글 데이터 20개 뽑아오기 -->
     <!--  1. 사용자 코드로 주소 얻고 (서비스에서 바로 진행할거) -->
-    <select id="selectUserAddress">
-
-    </select>
-    <!--  2. 사용자 주소로 관련 게시글 가져오기  -->
-    <select id="selectUserAddressNotification">
-
+    <!--  2. 사용자 주소로 관련 게시글 가져오기/ 아니지  서브퀴리로 찾으면 하나로 충분하자나-->
+    <select id="selectUserAddressNotification" parameterType="int" resultType="JGNotice">
+        select notice.* from (
+                select addressDetailData from jguserinfo
+                where userCode = #{code}
+            ) data
+            join jguserinfo info On data.addressDetailData = info.addressDetailData
+        join jgnotice notice On info.userCode = notice.userCode;
     </select>
 
 </mapper>

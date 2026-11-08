@@ -43,5 +43,12 @@ public class MainService {
         return mainMapper.searchNoticeSelectImg(code);
     };
 
-
+    // 현재날짜로 일주일치 최신 게시글 가져오기
+    public List<JGNotice> selectNoticeDATE(){
+        return mainMapper.selectNoticeDATE();
+    };
+    // 사용자 정보로 근처 상품들 찾기
+    public List<JGNotice> selectUserAddressNotification(int code){
+        return mainMapper.selectUserAddressNotification(code);
+    };
 }
