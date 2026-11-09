@@ -35,7 +35,7 @@ export const categoryMinorListAPI = async (code) => {
 //////////////// 검색용 API
 
 // 일주일안으로 생성된 데이터 확인하기
-export const newNotificationSelectAPI = async (code) => {
+export const newNotificationSelectAPI = async () => {
   return await instance.get("/newNotificationSelect");
 };
 

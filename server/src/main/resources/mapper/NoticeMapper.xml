@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.NoticeMapper">
+
+<!--    구독 생성하기-->
+    <insert id="subscribeNoticeCreate" parameterType="JGNoticeSubcribe">
+        insert into JGNoticeSubcribe(JGNoticeCode,userCode)
+        value(#{JGNoticeCode}, #{userCode});
+    </insert>
+
+    <!--    구독 취소하기-->
+    <delete id="subscribeNoticeUpdate" parameterType="JGNoticeSubcribe">
+        delete from JGNoticeSubcribe
+        where JGNoticeCode = #{JGNoticeCode} and userCode = #{userCode};
+    </delete>
+
+    <!--  신고하기  -->
+
+
+    <!--  구매하기  -->
+    <insert id="saleJGNotice" parameterType="JGNotice">
+        update JGNotice
+        set JGNoticeSaleUserCode = #{JGNoticeSaleUserCode} , JGNoticeSaleBoo = #{JGNoticeSaleBoo}
+        where JGNoticeCode = #{JGNoticeCode};
+    </insert>
+
+
+
+
+
+    <!--    댓글 조회 , 게시글 코드 받고 -->
+    <select id="selectComment" parameterType="int" resultType="JGNoticeComment">
+        select * from JGNoticeComment
+        where JGNoticeCode = #{code};
+    </select>
+    <!--  댓글 생성  -->
+    <insert id="createComment" parameterType="JGNoticeComment">
+        insert into JGNoticeComment(userCode,JGNoticeCode,JGNoticeText)
+        value(#{userCode},#{JGNoticeCode},#{JGNoticeText});
+    </insert>
+    <!--  댓글 수정  -->
+    <update id="updateComment" parameterType="JGNoticeComment">
+        update JGNoticeComment
+        set JGNoticeText = #{JGNoticeText}
+        where userCode = #{userCode} and JGNoticeCode = #{JGNoticeCode};
+    </update>
+    <!--  댓글 삭제  -->
+    <delete id="deleteComment" parameterType="int">
+        delete from JGNoticeComment
+        where JGNoticeCommentCode = #{JGNoticeCommentCode};
+    </delete>
+
+</mapper>

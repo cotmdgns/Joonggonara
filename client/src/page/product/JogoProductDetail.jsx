@@ -1,37 +1,199 @@
+import { useNavigate, useParams } from "react-router-dom";
 import "./css/JogoProduct.scss"
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+import DeclarationModal from "../../component/declarationModal/DeclarationModal";
+
+// 아이콘
+import { FaRegHeart } from "react-icons/fa"; // 빈하트
+import { FaHeart } from "react-icons/fa"; // 하트
+
+
 import { GoChevronRight } from "react-icons/go";
+import { selectProductDataAPI } from "./api/productAPI";
+import { useEffect, useReducer } from "react";
+import { initiaJogoProductReduser, JogoProductReduser } from "./reduser/JogoProductReduser";
+
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+import AdminDeclarationModal from "../admin/component/AdminDeclarationModal";
 // 상세페이지
 const JogoProductDetail = () =>{
+    const param = useParams("code");
+    const navigate = useNavigate();
+    const[state,dispatch] = useReducer(JogoProductReduser,initiaJogoProductReduser)
+
+    // 상품 데이터 가져오기
+    const selectProductData = async () =>{
+        const result = await selectProductDataAPI(param.code)
+        console.log(result.data)
+        dispatch({type:"noticeDetilData" , payload : result.data.notice})
+        dispatch({type:"noticeDetilUesrData" , payload : result.data.jgUserInfo})
+        dispatch({type:"noticeDetilDataImg" , payload : result.data.noticeImgs})
+        dispatch({type:"total" , payload : result.data.saleTotal})
+        dispatch({type:"lastSaleDay" , payload : result.data.lastSale})
+    }
+
+    useEffect(()=>{
+        selectProductData();
+    },[])
+    // 찜하기 [ 저장하기 ]
+    const subscribe = () => {
+        alert("gd")
+    }
+    // 찜 취소하기 [ 저장취소 ]
+    const subscribeFalse = () => {
+
+    }
+
+    // 구매하기
+    const buyProduct = () => {
+
+    }
+
+    // 신고하기
+    const singoButton = () => {
+        const data = {
+            type : state.type,              // 게시글이냐 댓글이냐
+            arrList : state.checkList,      // 신고항목 붙여서 DB에 저장한 다음 나중에 구분자 선택해서 꺼내쓰기
+            singoText : state.singoText,    // 텍스트
+            userCode : sessionStorage.getItem("userCode"),
+            noticeUserCode : state.noticeDetilData.userCode
+        }
+        if(state.checkList <= 0){
+            alert("최소 하나 이상 체크해주세요.")
+            return
+        }
+        if(state.singoText == ""){
+            alert("내용을 입력해주세요.")
+            return
+        }
+        console.log(data)
+        // API 호출
+    }
+    // 신고하기 [ 모달 열기 ]
+    const singoButtonModalTrue = (type) => {
+        dispatch({type:"modalTrue", payload:type})
+
+    }
+    // 신고하기 [ 모달 닫기 ]
+    const singoButtonModalFalse = () => {
+        dispatch({type:"modalFalse"})
+    }
+    // 신고하기 체크박스 상태값 확인하기
+    const singoCheck = (e) =>{
+        console.log("나 안나옴?")
+     
+    }
+
+
+    // 상품 제목 위 카테고리 선택 시 이동하는 네비게이션    [ 정상 작동 중임 ] 
+    const gotoPage = (code) =>{
+        // 1이면 카테고리 한개
+        switch(code){
+            case 1 :
+                navigate("/jogoProduct/" + state.noticeDetilData.jgnoticeProductTypeMajor)
+                return 
+            case 2 :
+                navigate("/jogoProduct/" + state.noticeDetilData.jgnoticeProductTypeMajor +"/" + state.noticeDetilData.jgnoticeProductTypeMinor)
+                return 
+            case 3 :
+                navigate("/jogoProduct/" + 
+                    state.noticeDetilData.jgnoticeProductTypeMajor + "/" 
+                    + state.noticeDetilData.jgnoticeProductTypeMinor + "/" 
+                    + state.noticeDetilData.jgnoticeProductTypeMinorList 
+                )
+                return 
+        }
+    }
+
+// 
     return (
         <>
             <div id="JogoProductDetailBody">
-                <div id="JogoProductDetailImg">나는 이미지</div>
+                <Swiper
+                    // 사용할 모듈 등록
+                    id="JogoProductDetailImg"
+                    modules={[Autoplay, Pagination, Navigation]}
+                    spaceBetween={50} // 슬라이드 간격 (px)
+                    slidesPerView={1} // 한 화면에 보여줄 슬라이드 개수
+                    loop={true} // 무한 반복 여부
+                    navigation={true} // 좌우 화살표 버튼 사용 여부
+                    >
+                    {state.noticeDetilDataImg.map((img,index)=>{
+                        return (
+                            <>
+                            <SwiperSlide key={index}><img id="img" src={`http://localhost:8080/notice/${img.jgnoticeCode}/${img.jgnoticeImg}`}/></SwiperSlide>
+                            </>
+                        )
+                    })}
+                </Swiper>
+
                 <div id="JogoProductDetailInfo">
                     <div>
-                        <div id="JogoProductDetailInfoH2">여기는 코드를 받고 그걸로 경로 가져올꺼임<GoChevronRight/></div>
-                        <div id="JogoProductDetailInfoText">[오버홀/올제치] RADO Silver Horse 빈티지 오토매틱 시계</div>
-                        <div id="JogoProductDetailInfoPrice">65,000원</div>
-                        <div id="JogoProductDetailInfoDate">2시간 전</div>     
+                        <div id="JogoProductDetailInfoH2">
+                            {state.noticeDetilData.jgnoticeProductTypeMajor != null &&
+                                <>
+                                    <span style={{"cursor":"pointer"}} onClick={()=>gotoPage(1)}>
+                                    {state.noticeDetilData.jgnoticeProductTypeMajor}
+                                    </span>
+                                    <GoChevronRight/>
+                                </>
+                            }
+                            {state.noticeDetilData.jgnoticeProductTypeMinor != null &&
+                                <>
+                                    <span style={{"cursor":"pointer"}} onClick={()=>gotoPage(2)}>
+                                    {state.noticeDetilData.jgnoticeProductTypeMinor}
+                                    </span>
+                                    <GoChevronRight/>
+                                </>
+                            }
+                            {state.noticeDetilData.jgnoticeProductTypeMinorList != null &&
+                                <>
+                                    <span style={{"cursor":"pointer"}} onClick={()=>gotoPage(3)}>
+                                    {state.noticeDetilData.jgnoticeProductTypeMinorList}
+                                    </span>
+                                </>
+                            }
+                        </div>
+                        <div id="JogoProductDetailInfoText">{state.noticeDetilData.jgnoticeText}</div>
+                        <div id="JogoProductDetailInfoPrice">{state.noticeDetilData.jgnoticeProductPrice}원</div>
+                        <div id="JogoProductDetailInfoDate">생성날짜 : {state?.noticeDetilData?.jgnoticeCreate?.substring(0,10)}</div>     
+                        <div id="JogoProductDetailInfoDate">사용자 이름 : {state.noticeDetilUesrData.userNickname}</div>
+                        <div id="JogoProductDetailInfoDate">마지막 거래일 : {state.lastSaleDay == null ? "없음" : state.lastSaleDay}</div>
+                        <div id="JogoProductDetailInfoDate">총거래 : {state.total}</div>
+                    </div>
+                    <div id="JogoProductDetailBody2">
+                        <div id="JogoProductDetailInfoTitle">상품설명</div>
+                        <div id="JogoProductDetailInfoBox">{state.noticeDetilData.jgnoticeTitle}</div>
                     </div>
                     <div id="JogoProductbutton">
-                        <div id="buttonCreate">저장하기</div> 
-                        <div id="buttonDelete">신고하기</div>       
-                        <div id="buttonInsert">구매하기</div>       
+    
+                        {state.noticeDetilData.jgnoticeSaleBoo ? 
+                        <>
+                            <div id="buttonInsert">판매완료</div>                     
+                        </>
+                        : 
+                        <>
+                            <div id="buttonCreate" onClick={()=>{subscribe()}}><FaRegHeart/>저장하기</div> 
+                            <div id="buttonDelete" onClick={() =>{singoButtonModalTrue("게시글")}}>신고하기</div> 
+                            <div id="buttonInsert">구매하기</div>                     
+                        </>
+                        }  
+                            
                     </div>
                 </div>
             </div>
-            <div id="JogoProductDetailBody2">
-                <div>사용자 이름 : </div>
-                <div>현재 별점 : </div>
-                <div>마지막 거래일 :  </div>
-                <div>총거래 : </div>
-                <div id="JogoProductDetailInfoWiche">거래 장소 : <span>서울특별시 어디어동 어디호 213호</span></div>
-            </div>
-
-            <div id="JogoProductDetailBody2">
-                <div id="JogoProductDetailInfoTitle">상품설명</div>
-                <div id="JogoProductDetailInfoBox">나는 설명란이야 설명란이야 설명란이야 설명란이야 설명란이야 설명란이야 설명란이야 설명란이야 설명란이야 설명란이야 설명란이야 설명란이야 설명란이야 설명란이야 설명란이야 설명란이야 설명란이야 설명란이야 설명란이야 설명란이야 설명란이야 설명란이야 설명란이야 설명란이야 설명란이야!</div>
-            </div>
+            {/* 모달창 */}
+            {state.modal && <DeclarationModal 
+                modalClose={singoButtonModalFalse}
+                state={state}
+                dispatch={dispatch}
+                singoButton={singoButton}
+                singoCheck={singoCheck}
+                ></DeclarationModal>}
+            
         </>
     )
 }

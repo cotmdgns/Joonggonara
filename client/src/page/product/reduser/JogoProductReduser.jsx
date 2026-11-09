@@ -1,5 +1,6 @@
 
 export const initiaJogoProductReduser = {
+    // 여기 상품 리스트 등록 할때 사용하는 변수들
     stepState : 1,
     productCode : 0,
     categoryMajorList : [],             
@@ -31,6 +32,21 @@ export const initiaJogoProductReduser = {
     // 상세페이지 종합 리스트 데이터
     selectNotificationList : [],
 
+
+    ///// 디테일 상세 페이지 데이터들
+    noticeDetilData:"",
+    noticeDetilUesrData:"",
+    noticeDetilDataImg:[],
+    total : 0,
+    lastSaleDay : null,
+
+
+    // 신고하기에서 사용할 예정
+    arr : ["욕설 및 비방","스팸 및 광고","음란성 컨텐츠","불법정보 포함","사기 및 협박"],
+    checkList : [],   
+    modal : false,              // 모달상태값
+    type:"",                    // 게시글이냐 댓글이냐
+    singoText : "",             // 신고내용
 }
 
 export const JogoProductReduser = (state, action) =>{
@@ -141,8 +157,71 @@ export const JogoProductReduser = (state, action) =>{
                 selectNotificationList : action.payload,
             }
 
+        /////////////////////////////// 
+        case "noticeDetilData":  // 디테일 상세 페이지 데이터 
+            return{
+                ...state,
+                noticeDetilData : action.payload,
+            }
+        case "noticeDetilDataImg":  // 디테일 상세 페이지 데이터 
+            return{
+                ...state,
+                noticeDetilDataImg : action.payload,
+            }
+        case "noticeDetilUesrData":  // 디테일 상세페이지 유저 정보 
+            return{
+                ...state,
+                noticeDetilUesrData : action.payload,
+            }
+        case "total":  // 총 거래수
+            return{
+                ...state,
+                total : action.payload,
+            }
+        case "lastSaleDay":  // 마지막 거래 날짜
+            return{
+                ...state,
+                lastSaleDay : action.payload,
+            }
 
 
+        case "modalTrue":  // 모달 true
+            return{
+                ...state,
+                modal : !state.modal,
+                type : action.payload,
+            }
+        case "modalFalse":  // 모달 false
+            return{
+                ...state,
+                modal : !state.modal,
+                type : "",
+            }
+        case "check" :      // 체크 박스
+            return{
+                ...state,
+                check : action.payload,
+
+            }
+        case "singoText" :      // 신고 텍스트
+            return{
+                ...state,
+                singoText : action.payload,
+            }
+
+        case "checkListAdd":
+            return {
+                ...state,
+                checkList: [...state.checkList, action.payload]
+            };
+
+        case "checkListRemove":
+            return {
+                ...state,
+                checkList: state.checkList.filter(
+                    item => item !== action.payload
+                )
+            };
 
 
         default:

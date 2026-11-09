@@ -1,9 +1,6 @@
 package com.project.Joonggonara.controller;
 
-import com.project.Joonggonara.model.dto.CategoryDTO;
-import com.project.Joonggonara.model.dto.NoticeDTO;
-import com.project.Joonggonara.model.dto.NoticeStateDTO;
-import com.project.Joonggonara.model.dto.SearchDTO;
+import com.project.Joonggonara.model.dto.*;
 import com.project.Joonggonara.model.vo.*;
 import com.project.Joonggonara.service.AdminService;
 import com.project.Joonggonara.service.MainService;
@@ -113,14 +110,15 @@ public class MainController {
     @PostMapping("searchNoticeSelect")
     public List<NoticeDTO> searchNoticeSelect(@RequestBody SearchDTO dto){
         // 검색 후 데이터
+        log.info("1. 데이터 확인하기 dto : " + dto);
         List<JGNotice> list = mainService.searchNoticeSelect(dto);
+        log.info("2. 데이터 확인하기 list : " + list);
         // 데이터 담기 위한 리스트
         List<NoticeDTO> result = new ArrayList<>();
         // 반복문
         for(JGNotice data : list){
             // 코드로 이미지들 가져오고
             List<JGNoticeImg> img = mainService.searchNoticeSelectImg(data.getJGNoticeCode());
-            log.info("데이터 확인하기 : " + img);
             NoticeDTO noticeDTO = NoticeDTO.builder()
                     .jGNoticeCode(data.getJGNoticeCode())
                     .jGNoticeTitle(data.getJGNoticeTitle())
@@ -144,9 +142,10 @@ public class MainController {
     }
 
     // 사용자 코드로 주소 찾고 해당 주소로 등록된 게시글 찾기
-    @PostMapping("userAddressSelect/{code}")
+    @GetMapping("userAddressSelect/{code}")
     public List<NoticeDTO> userAddressSelect(@PathVariable("code") int code){
 
+        log.info("코드 확인하기 : " + code);
         List<JGNotice> list = mainService.selectUserAddressNotification(code);
         // 검색과 데이터 보내는 방식은 같지만 좀 더 다름
         // 게시글 찾는 쿼리만 다를 뿐 밑에 데이터 정리해서 보내주는건 같음
@@ -158,7 +157,6 @@ public class MainController {
         for(JGNotice data : list){
             // 코드로 이미지들 가져오고
             List<JGNoticeImg> img = mainService.searchNoticeSelectImg(data.getJGNoticeCode());
-            log.info("데이터 확인하기 : " + img);
             NoticeDTO noticeDTO = NoticeDTO.builder()
                     .jGNoticeCode(data.getJGNoticeCode())
                     .jGNoticeTitle(data.getJGNoticeTitle())
@@ -194,7 +192,6 @@ public class MainController {
         for(JGNotice data : list){
             // 코드로 이미지들 가져오고
             List<JGNoticeImg> img = mainService.searchNoticeSelectImg(data.getJGNoticeCode());
-            log.info("데이터 확인하기 : " + img);
             NoticeDTO noticeDTO = NoticeDTO.builder()
                     .jGNoticeCode(data.getJGNoticeCode())
                     .jGNoticeTitle(data.getJGNoticeTitle())
@@ -217,8 +214,28 @@ public class MainController {
         return result;
     }
 
+    // @@@@@@@@@@@@@@@@@@ 디테일 페이지 데이터 가져오기
+    @GetMapping("selectProductData/{code}")
+    public NoticeDetailDTO selectProductData(@PathVariable("code")int code){
+        // 1. 코드로 게시글 찾기
+        JGNotice notice = mainService.selectProductData(code);
+        JGUserInfo info = mainService.selectUserInfoData(notice.getUserCode());
+        List<JGNoticeImg> img = mainService.searchNoticeSelectImg(notice.getJGNoticeCode());
 
-
+        String lastDay = mainService.lastSaleNotice(notice.getUserCode());
+        int total = mainService.totalSaleNotice(notice.getUserCode());
+        log.info("1. 데이터 확인하기 :  " + total);
+        log.info("1. 데이터 확인하기 :  " + lastDay);
+        NoticeDetailDTO dto = NoticeDetailDTO.builder()
+                .notice(notice)
+                .jgUserInfo(info)
+                .noticeImgs(img)
+                .lastSale(lastDay)
+                .saleTotal(total)
+                .build();
+        log.info("2. 데이터 확인하기 :  " + dto);
+        return dto;
+    }
 
 
     public String fileUpload(MultipartFile file,int Code,String url) throws IOException {

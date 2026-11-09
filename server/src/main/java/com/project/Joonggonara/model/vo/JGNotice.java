@@ -23,5 +23,6 @@ public class JGNotice {
     private String jGNoticeUpdate; /*게시글 수정날짜*/
     private String jGNoticeDelect; /*게시글 삭제날짜*/
     private Boolean JGNoticeSaleBoo; /* 상품 판매 확인용도 */
+    private String JGNoticeSaleUserCode; /* 상품 구매한 사용자 코드 */
 
 }

@@ -388,7 +388,7 @@ where userCode = 1;
 
 
 select * from JGUserInfo
-where userStopYn = false;
+where userCode = 1;
 
 /*변경해주자*/
 ALTER TABLE JGUserInfo
@@ -433,56 +433,30 @@ CREATE TABLE JGNotice(
   JGNoticeCreate datetime default CURRENT_TIMESTAMP, /*게시글 생성날짜*/ 
   JGNoticeUpdate datetime default null, /*게시글 수정날짜*/ 
   JGNoticeDelect datetime default null, /*게시글 삭제날짜*/ 
-  JGNoticeSaleBoo boolean default false /* 상품 판매 여부 확인용*/
+  JGNoticeSaleBoo boolean default false, /* 상품 판매 여부 확인용*/
+  JGNoticeSaleUserCode varchar(10) default null /* 상품을 구매한 사람 코드 */
 );
-
-/* 1. 사용자 코드로 주소찾고 */
-/* 2. 같은 주소를 가진 사용자들의 코드로 게시글 찾기 */
-/* 3. 제일 최근에 만들어진 게시글 위주로 보여주기 */
-
-
-
-select notice.* from (
-	select addressDetailData from jguserinfo
-	where userCode = 1
-) data
-join jguserinfo info On data.addressDetailData = info.addressDetailData
-join jgnotice notice On info.userCode = notice.userCode;
-
-
-
+/* 오늘 집에서 할꺼면 추가하고 안할꺼면 추가하지마 */
+ALTER TABLE JGNotice
+MODIFY COLUMN JGNoticeSaleUserCode INT DEFAULT NULL;
 
 select * from JGNotice;
 
-select *  from addressinfodetail;
+update JGNotice
+set JGNoticeSaleUserCode = 1 , JGNoticeSaleBoo = 1
+where JGNoticeCode = 1;
 
-alter table JGNotice
-RENAME COLUMN uesrCode TO userCode;
-/* 여기에 판매됬는지에 대한 여부 있어야 하자나 false = 판매중, true = 판매완료*/
-
-
-select notice.* from JGNotice notice
-Join jguserinfo user ON notice.userCode= user.userCode
-WHERE notice.JGNoticeProductTypeMajor = "반려동물";
-
-
-select * from jguserinfo;
-
-
-/* 게시글 좋아요 눌렀거나 댓글 달았을 때 알람 */
-/* 좋아요랑 댓글 생성할 때 또 하나 생성해야하나? 두번 하기엔 너무 아쉽지 ㅇㅇ */
-/* 아니면 칼람을 하나 추가하기?? */
 
 /* 게시글 구독 or 좋아요 */
 CREATE TABLE JGNoticeSubcribe(
   JGNoticeSubcribeCode integer auto_increment primary key, /*게시글 좋아요 코드*/ 
   JGNoticeCode integer, /*게시글 코드 [ 외래키 ]*/ 
-  JGNoticeSubcribeCount integer, /*게시글 구독*/ 
   JGNoticeSubcribeCreate datetime default CURRENT_TIMESTAMP,  /*구독 생성날자*/ 
   userCode integer /*유저 코드 [ 외래키 ]*/ 
 );
 
-/*게시글 댓글*/ 
+
+/*게시글 댓글   */ 
 CREATE TABLE JGNoticeComment(
   JGNoticeCommentCode integer auto_increment primary key, /*게시글 댓글*/ 
   userCode integer, /*사용자 코드 [ 외래키 ]*/ 
@@ -491,6 +465,7 @@ CREATE TABLE JGNoticeComment(
   JGNoticeCreate datetime default CURRENT_TIMESTAMP /*댓글 생성날짜*/ 
 );
 
+
 /*게시글 사진정보*/ 
 CREATE TABLE JGNoticeImg(
   JGNoticeImgCode integer auto_increment primary key, /*게시글 이미지 코드*/ 
@@ -498,9 +473,6 @@ CREATE TABLE JGNoticeImg(
   JGNoticeImgCreate datetime default CURRENT_TIMESTAMP, /*게시글 이미지 생살날짜*/
   JGNoticeCode integer /*게시글 코드 [ 외래키 ]*/ 
 );
-
-select * from JGNoticeImg
-where JGNoticeCode = 1;
 
 
 -- 안쓸꺼임
@@ -517,14 +489,19 @@ where JGNoticeCode = 1;
 /*사용자 신고 누적*/ 
 CREATE TABLE UserDeclarationA(
   userDeclarationCode integer auto_increment primary key, /*사용자 신고 누적 코드*/ 
+  noticeUserCode integer,	/* 게시글 유저코드 */
   userCode integer, /*사용자 코드 [ 외래키 ]*/ 
+  userDeclarationType varchar(5) not null, /* 신고타입 ex)댓글이냐 게시글이냐 */
   userDeclarationOption varchar(25), /*신고 사유*/ 
   userDeclarationText varchar(80), /*신고 내용*/ 
   userDeclarationCreate datetime default CURRENT_TIMESTAMP, /*신고 생성날짜*/ 
   userDeclarationBoo boolean /*신고 접수?*/ 
 );
 
-select * from notificationManagement;
+alter table UserDeclarationA
+add column noticeUserCode integer;
+
+
 
 /* 관리자 공지사항 관리 */
 CREATE TABLE notificationManagement(
@@ -538,31 +515,7 @@ CREATE TABLE notificationManagement(
     notificationManagementCreate datetime default CURRENT_TIMESTAMP /*공지사항 생성날짜*/ 
 );
 
-select * from notificationManagement
-where notificationManagementBoo != 0
-order by notificationManagementBannerBoo desc;
 
-
-drop table notificationManagement;
-
-select * from notificationManagement
-where notificationManagementBannerBoo = 1 and notificationManagementBoo != 0;
-/* 생성 */
-insert into notificationManagement(notificationManagementTitle,notificationManagementText,notificationManagementBannerBoo,notificationManagementImg)
-value("테스트 진행중","내용은 별거 엇음",true,"gdgd");
-
-
-/* 수정 */
-Update notificationManagement
-set notificationManagementImg = "null" 
-where notificationManagementCode = "1";
-/* 삭제 */
-Update notificationManagement
-set notificationManagementBoo = false
-where notificationManagementCode = "1";
-
-delete from notificationManagement
-where notificationManagementCode = 1;
 
 /* 관리자 카테고리 관리 */
 CREATE TABLE categoryStateMajor(
@@ -571,25 +524,6 @@ CREATE TABLE categoryStateMajor(
     categoryStateMajorCreate datetime default CURRENT_TIMESTAMP	/* 카테고리 메이저 생성날짜 */
 );
 
-select * from categoryStateMinor
-        where categoryStateMinorCode = 1;
-
-/* 반려동물, 게임, 취미, 도서/음반/문구, 가전제품, 패션의류, 노트북/PC */
-/* 카테고리 메이저 데이터 만들기 */
-insert into categoryStateMajor(categoryStateMajorText)
-value("반려동물");
-insert into categoryStateMajor(categoryStateMajorText)
-value("게임");
-insert into categoryStateMajor(categoryStateMajorText)
-value("취미");
-insert into categoryStateMajor(categoryStateMajorText)
-value("도서/음반/문구");
-insert into categoryStateMajor(categoryStateMajorText)
-value("가전제품");
-insert into categoryStateMajor(categoryStateMajorText)
-value("패션의류");
-insert into categoryStateMajor(categoryStateMajorText)
-value("노트북/PC");
 
 CREATE TABLE categoryStateMinor(
 	categoryStateMinorCode integer auto_increment primary key,  /* 카테고리 마이너 코드 */
@@ -598,22 +532,6 @@ CREATE TABLE categoryStateMinor(
     categoryStateMinorCreate datetime default CURRENT_TIMESTAMP,	/* 카테고리 마이너 생성날짜 */
     categoryStateMinorCodeMinor integer default null			/* 카테고리 마이너 코드 셀프조인 */
 );
-
-select * from categoryStateMinor
-where categoryStateMinorCode = 3;
-
-   select *
-        from categoryStateMinor;
-        select *
-        from categoryStateMinor
-        where categoryStateMajorCode = 52;
-        
-		UPDATE categoryStateMinor
-        set categoryStateMinorCodeMinor = 57
-        where categoryStateMinorCode = 64;
-        
-ALTER TABLE categoryStateMinor
-ADD categoryStateMinorCodeMinor integer default null;
 
 /* 도, 시, 군 더미데이터 */
 /* 1. 광역시·도 데이터 입력 (17개) */

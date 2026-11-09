@@ -10,13 +10,14 @@ import "./css/Main.scss";
 
 import { useNavigate } from "react-router-dom";
 import { initiaMainReduser, MainReduser } from "./component/MainReduser";
+import { initiaJogoProductReduser, JogoProductReduser } from "../product/reduser/JogoProductReduser";
 
 const Main = () => {
   // 네비게이션
   const navigate = useNavigate();
 
   const [state, dispath] = useReducer(MainReduser, initiaMainReduser);
-
+  const userCode = sessionStorage.getItem("userCode");
   const {
     mainBannerSelectList, // 배너 리스트
     newNotificationSelectList, // 이번 주 추천 상품 리스트
@@ -37,9 +38,9 @@ const Main = () => {
   // 임시방편임 이거 나중에 지울꺼임
   const notices = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-  // 내 지역으로 해서 주변 상품 뽑아주기
+  // 내 지역으로 해서 주변 상품 뽑아주기  [ 작동 못하고 있음 ]
   const userAddressSelect = async () => {
-    const userCode = sessionStorage.getItem("uesrCode");
+    
     const result = await userAddressSelectAPI(userCode);
     console.log("내 지역 상품");
     console.log(result.data);
@@ -50,8 +51,6 @@ const Main = () => {
   const newNotificationSelect = async () => {
     // 이건 DB에서 현재 날짜에서 -7일 해서 계속 가져다주기
     const result = await newNotificationSelectAPI();
-    console.log("일주일 상품");
-    console.log(result.data);
     dispath({ type: "newNotificationSelect", payload: result.data });
   };
 
@@ -73,26 +72,29 @@ const Main = () => {
         dispath={dispath}
         mainBannerSelectList={mainBannerSelectList}
         gotoNotificationPage={gotoNotificationPage}
-      />{" "}
+      />
       {/* 배너 */}
       <div id="mainBox">
-        <div id="mainNoticeInfo">
+        {userCode != undefined && 
+          <div id="mainNoticeInfo">
           <div id="mainNoticeH1">우리 동네 상품</div>
           <div id="mainNoticeBox">
-            {userAddressSelectList.map((num, index) => (
+            {userAddressSelectList.map((list, index) => (
               <MainNotice
                 key={index}
-                list={num}
+                list={list}
                 gotoDetailProduct={gotoDetailProduct}
               />
             ))}
           </div>
-          {notices.length >= 12 ? (
+          {userAddressSelectList.length >= 11 ? (
             <div id="noticeDetailLink">더보기</div>
           ) : (
             <></>
           )}
         </div>
+        }
+
 
         <div id="mainNoticeInfo">
           <div id="mainNoticeH1">추천 상품</div>
@@ -105,7 +107,7 @@ const Main = () => {
               />
             ))}
           </div>
-          {notices.length >= 12 ? (
+          {userAddressSelectList.length >= 12 ? (
             <div id="noticeDetailLink">더보기</div>
           ) : (
             <></>

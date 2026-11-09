@@ -116,6 +116,6 @@ const AdminDeclarationManagement = () =>{
 }
 // 나중에 사용할 클릭 이벤트
 // <div onClick={() => {adminModalOpen()}}>신고 확인button</div>
-// {boo.adminModal && <AdminDeclarationModal adminModalClose   ={adminModalClose}/>}
+// {boo.adminModal && <AdminDeclarationModal adminModalClose={adminModalClose}/>}
 
 export default AdminDeclarationManagement;

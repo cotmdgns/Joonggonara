@@ -26,3 +26,8 @@ export const noticeCreateAPI = async (data) => {
 export const searchNoticeSelectAPI = async (data) => {
   return await instance.post("/searchNoticeSelect",data);
 };
+
+// 상품 코드로 정보 불러오기
+export const selectProductDataAPI = async (code) =>{
+  return await instance.get(`/selectProductData/${code}`)
+}

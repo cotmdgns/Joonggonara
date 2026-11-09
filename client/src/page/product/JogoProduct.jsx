@@ -26,6 +26,7 @@ const JogoProduct = () => {
   };
 
   // 검색한 리스트
+  // 페이징 넣어야 함
   const searchNoticeSelect = async () => {
     const data = {
       search: "", // 검색용
@@ -40,6 +41,7 @@ const JogoProduct = () => {
     const result = await searchNoticeSelectAPI(data);
     dispatch({ type: "selectNotificationList", payload: result.data });
   };
+
 
   useEffect(() => {
     searchNoticeSelect();
