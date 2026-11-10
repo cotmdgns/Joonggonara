@@ -11,7 +11,6 @@ const DeclarationModal = ({
     singoButton,
     singoCheck
 }) =>{
-    const [checkList, setCheckList] = useState([]);
     
     return (
         <div id="declarationModal1">
@@ -67,30 +66,7 @@ const DeclarationModal = ({
                                     </div>  
                                     )
                                 })}
-                                {/* <div id="infoBox2">
-                                    <input type="checkbox"></input>
-                                    <div>욕설 및 비방</div>
-                                </div>
-                                <div id="infoBox2">
-                                    <input type="checkbox"></input>
-                                    <div>스팸 및 광고</div>
-                                </div>
-                                <div id="infoBox2">
-                                    <input type="checkbox"></input>
-                                    <div>음란성 컨텐츠</div>
-                                </div>
-                                <div id="infoBox2">
-                                    <input type="checkbox"></input>
-                                    <div>불법정보 포함</div>
-                                </div>
-                                <div id="infoBox2">
-                                    <input type="checkbox"></input>
-                                    <div>사기 및 협박</div>
-                                </div>
-                                <div id="infoBox2">
-                                    <input type="checkbox"></input>
-                                    <div>기타</div>
-                                </div> */}
+                               
                             </div>
                         </div>
                     </div>
@@ -100,7 +76,6 @@ const DeclarationModal = ({
                             <div id="infoBox">
                                 <textarea  
                                 onChange={(e)=>{
-                                    console.log(e.target.value)
                                     dispatch({type:"singoText",payload : e.target.value})
                                 }}
                         ></textarea>

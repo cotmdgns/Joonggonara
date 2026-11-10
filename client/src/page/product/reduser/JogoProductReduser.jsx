@@ -47,6 +47,9 @@ export const initiaJogoProductReduser = {
     modal : false,              // 모달상태값
     type:"",                    // 게시글이냐 댓글이냐
     singoText : "",             // 신고내용
+
+
+    // 댓글 상태관리
 }
 
 export const JogoProductReduser = (state, action) =>{
@@ -196,6 +199,7 @@ export const JogoProductReduser = (state, action) =>{
                 ...state,
                 modal : !state.modal,
                 type : "",
+                checkList :[],
             }
         case "check" :      // 체크 박스
             return{
@@ -208,7 +212,14 @@ export const JogoProductReduser = (state, action) =>{
                 ...state,
                 singoText : action.payload,
             }
+            // 찜 상태값
+        case "subscribeState" :      // 신고 텍스트
+            return{
+                ...state,
+                subscribeState : action.payload,
+            }
 
+                // 체크리스트 
         case "checkListAdd":
             return {
                 ...state,

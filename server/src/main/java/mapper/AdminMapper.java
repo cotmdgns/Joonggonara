@@ -39,6 +39,12 @@ public interface AdminMapper {
 
     List<JGUserInfoBack> deleteHistory(int code);                       // 삭제 이력 조회
     List<JGUserInfoBack> stopHistory(int code);                         // 정지 이력 조회
+    //*********************** 신고 관리 페이지
+    List<UserDeclarationA> selectDeclaration(Criteria criteria);                 // 신고 전체 리스트
+    int selectDeclarationTotal();                                   // 신고 토탈
+    String  selectName(int code);                               // 사용자 코드로 이름 찾기
+    String  noticeSelectName(int code);                               // 게시글 사용자 코드로 이름 찾기
+
 
     //*********************** 공지사항 관리 페이지
     int totalPage();// 페이징 전용 토탈 페이지

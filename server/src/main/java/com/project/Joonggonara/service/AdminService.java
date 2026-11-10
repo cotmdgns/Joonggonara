@@ -89,6 +89,20 @@ public class AdminService {
     };
 
 
+    //*********************** 신고 관리 페이지
+    public List<UserDeclarationA> selectDeclaration(Criteria criteria){  // 신고 전체 리스트 찾기
+        return mapper.selectDeclaration(criteria);
+    };
+    public int selectDeclarationTotal(){
+        return mapper.selectDeclarationTotal();
+    }
+    public String  selectName(int code){                // 사용자 코드로 이름 차직
+        return mapper.selectName(code);
+    }
+    public String  noticeSelectName(int code){                // 사용자 코드로 이름 차직
+        return mapper.selectName(code);
+    }
+
     //******************************* 공지사항 관리 페이지
     // 페이징에 사용할 토탈 페이지
     public int totalPage(){

@@ -55,6 +55,7 @@ const Headerr = () => {
   // 로그아웃 버튼
   const logoutButton = () => {
     dispatch({type:"logout"})
+    navigate("/")
     alert("정상적으로 로그아웃 되었습니다.");
   };
   // 회원가입

@@ -436,6 +436,11 @@ CREATE TABLE JGNotice(
   JGNoticeSaleBoo boolean default false, /* 상품 판매 여부 확인용*/
   JGNoticeSaleUserCode varchar(10) default null /* 상품을 구매한 사람 코드 */
 );
+
+update JGNotice
+set JGNoticeSaleUserCode = null , JGNoticeSaleBoo = false
+where JGNoticeCode = 23;
+
 /* 오늘 집에서 할꺼면 추가하고 안할꺼면 추가하지마 */
 ALTER TABLE JGNotice
 MODIFY COLUMN JGNoticeSaleUserCode INT DEFAULT NULL;
@@ -455,15 +460,20 @@ CREATE TABLE JGNoticeSubcribe(
   userCode integer /*유저 코드 [ 외래키 ]*/ 
 );
 
+select * from JGNoticeSubcribe;
 
-/*게시글 댓글   */ 
-CREATE TABLE JGNoticeComment(
-  JGNoticeCommentCode integer auto_increment primary key, /*게시글 댓글*/ 
-  userCode integer, /*사용자 코드 [ 외래키 ]*/ 
-  JGNoticeCode integer, /*게시글 코드 [ 외래키 ]*/ 
-  JGNoticeText varchar(255), /*게시글 댓글*/ 
-  JGNoticeCreate datetime default CURRENT_TIMESTAMP /*댓글 생성날짜*/ 
-);
+select * from JGNoticeSubcribe
+where JGNoticeCode = 23 AND userCode = 1;
+        
+
+/*게시글 댓글  [ 폐기 예정 ]  */ 
+-- CREATE TABLE JGNoticeComment(
+--   JGNoticeCommentCode integer auto_increment primary key, /*게시글 댓글*/ 
+--   userCode integer, /*사용자 코드 [ 외래키 ]*/ 
+--   JGNoticeCode integer, /*게시글 코드 [ 외래키 ]*/ 
+--   JGNoticeText varchar(255), /*게시글 댓글*/ 
+--   JGNoticeCreate datetime default CURRENT_TIMESTAMP /*댓글 생성날짜*/ 
+-- );
 
 
 /*게시글 사진정보*/ 
@@ -490,16 +500,26 @@ CREATE TABLE JGNoticeImg(
 CREATE TABLE UserDeclarationA(
   userDeclarationCode integer auto_increment primary key, /*사용자 신고 누적 코드*/ 
   noticeUserCode integer,	/* 게시글 유저코드 */
+  noticeCode integer,		/* 게시글 코드 */
   userCode integer, /*사용자 코드 [ 외래키 ]*/ 
-  userDeclarationType varchar(5) not null, /* 신고타입 ex)댓글이냐 게시글이냐 */
-  userDeclarationOption varchar(25), /*신고 사유*/ 
-  userDeclarationText varchar(80), /*신고 내용*/ 
+  noticeText varchar(100),		/* 게시글 제목 */
+  userDeclarationType varchar(10) not null, /* 신고타입 ex)댓글이냐 게시글이냐 */
+  userDeclarationOption varchar(40), /*신고 사유*/ 
+  userDeclarationText varchar(255), /*신고 내용*/ 
   userDeclarationCreate datetime default CURRENT_TIMESTAMP, /*신고 생성날짜*/ 
-  userDeclarationBoo boolean /*신고 접수?*/ 
+  userDeclarationBoo varchar(10) default "처리대기"/*신고 접수?*/ 
 );
+drop table UserDeclarationA;
 
 alter table UserDeclarationA
-add column noticeUserCode integer;
+add column noticeCode integer;
+
+select * from UserDeclarationA;
+
+
+update UserDeclarationA
+set userDeclarationBoo = "처리대기"
+where userDeclarationCode = 9;
 
 
 

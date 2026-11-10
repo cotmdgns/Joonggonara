@@ -257,9 +257,7 @@ const AdminUserManagement = () =>{
                     <table className="managementInfoTable">
                         <thead>
                             <tr>
-                                <th className="check">
-                                    <input type="checkbox" />
-                                </th>
+
                                 <th className="number">번호</th>
                                 <th>이름</th>
                                 <th>아이디</th>
@@ -275,9 +273,7 @@ const AdminUserManagement = () =>{
                             {jgUserInfoList.map((info,index)=>{
                                 return(
                                 <tr key={index} onClick={()=>{userModal(info)}}>
-                                    <td className="check">
-                                        <input type="checkbox" />
-                                    </td>
+
                                     <td className="number">{info.userCode}</td>
                                     <td>{info.userName}</td>
                                     <td>{info.userId}</td>

@@ -39,7 +39,7 @@ const AdminMenubar = () =>{
                 break;
             case 4:
                 //신고현황관리
-                navigate("adminDeclarationManagement")
+                navigate("adminDeclarationManagement?pageNum=1")
                 break;
             // case 5:
             //     //게시글관리

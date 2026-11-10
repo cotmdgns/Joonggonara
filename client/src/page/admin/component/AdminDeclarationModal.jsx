@@ -1,53 +1,55 @@
 import "../css/AdminDeclarationManagement.scss"
 
 
-const AdminDeclarationModal = ({adminModalClose}) =>{
+const AdminDeclarationModal = ({adminModalClose,singoCreateButton,state,dispatch,gotoLink}) =>{
+    console.log(state.detailData)
+
     return (
         <>
             <div id="declarationModal">
                 <div id="declarationModalBox">
                     <div id="declarationModalHeader">
                         <div id="modalHeader">신고 상세 내용</div>
-                        <div id="modalStateYellow">[처리대기]</div>
-                        {/* <div id="modalStateGreen">신고상태[조치완료]</div>
-                        <div id="modalStateRed">신고상태[반려]</div> */}
+                        <div id={state.detailData.userDeclarationA.userDeclarationBoo === "처리대기" ? "modalStateYellow" 
+                                    : state.detailData.userDeclarationA.userDeclarationBoo === "처리완료" ? "modalStateGreen" : "modalStateRed"}>[{state.detailData.userDeclarationA.userDeclarationBoo}]</div>
                     </div>
                     <div id="declarationModalCenter">
                         <div id="declarationDiv">
                             <div id="declarationDivH1">신고 기본 정보</div>
                             <div id="declarationDivInfo1">
-                                <div>신고 번호: <span>1</span></div>
-                                <div>신고 유형: <span>댓글</span></div>
-                                <div>신고 일자: <span>2026-10-16</span></div>
-                                <div>신고자 ID: <span>userId1</span></div>
-                                <div>처리 상태: <span id="modalStateYellow">[처리대기]</span></div>
+                                <div>신고 번호: <span>{state.detailData.userDeclarationA.userDeclarationCode}</span></div>
+                                <div>신고 유형: <span>{state.detailData.userDeclarationA.userDeclarationType}</span></div>
+                                <div>신고 일자: <span>{state.detailData?.userDeclarationA?.userDeclarationCreate?.substring(0,10)}</span></div>
+                                <div>신고자 ID: <span>{state.detailData.userName}</span></div>
+                                <div>처리 상태: 
+                                    
+                                    <span id={state.detailData.userDeclarationA.userDeclarationBoo === "처리대기" ? "modalStateYellow" 
+                                    : state.detailData.userDeclarationA.userDeclarationBoo === "처리완료" ? "modalStateGreen" : "modalStateRed"}>[{state.detailData.userDeclarationA.userDeclarationBoo}]</span>
+                                </div>
                             </div>
                         </div>
                         <div id="declarationDiv">
                             <div id="declarationDivH1">대상 컨텐츠 정보</div>
-                            <div id="declarationDivInfo2">
-                                <div id="infoBox">
-                                    <div id="infoBoxH3">게시글 제목</div>
-                                    <div id="infoBoxH2">욕설 및 비방</div>
-                                    <div id="infoBoxH3">작성자</div>
-                                    <div id="infoBoxH2">userIDIDIDI</div>
-                                </div>
-                                <div id="infoBox">
-                                    <div id="infoBoxH3">내용</div>
-                                    <div id="infoBoxH2">아이 개@##@ㄴ아 그렇ㄱ ㅔ 사는ㄱ ㅓ아니야</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="declarationDiv">
-                            <div id="declarationDivH1">신고 사유 상세</div>
                             <div id="declarationDivInfo3">
                                 <div id="infoBox">
+                                    <div id="infoBoxH1">게시글 제목</div>
+                                    <div>{state.detailData.userDeclarationA.noticeText}</div>
+                                </div>
+                                <div id="infoBox">
+                                    <div id="infoBoxH1">작성자 ID</div>
+                                    <div>{state.detailData.noticeUserName}</div>
+                                </div>
+                                <div id="infoBox">
+                                    <div id="infoBoxH1">링크</div>
+                                    <div id="gotoLink" onClick={()=>{gotoLink(state.detailData.userDeclarationA.noticeCode)}}>바로가기</div>
+                                </div>
+                                <div id="infoBox">
                                     <div id="infoBoxH1">신고 사유</div>
-                                    <div>욕설 및 비방</div>
+                                    <div>{state.detailData.userDeclarationA.userDeclarationOption}</div>
                                 </div>
                                 <div id="infoBox">
                                     <div id="infoBoxH1">신고자 상세 의견</div>
-                                    <div>다른 사용자에게 심한 욕설과 협박성 댓글을 달았습니다.</div>
+                                    <div>{state.detailData.userDeclarationA.userDeclarationText}</div>
                                 </div>
                             </div>
                         </div>
@@ -78,13 +80,13 @@ const AdminDeclarationModal = ({adminModalClose}) =>{
                                 </div>
                                 <div id="infoBox">
                                     <div id="infoBoxH1">처리 의견</div>
-                                    <textarea>1.컨텐츠 삭제랑 이용정지는 같이 사용가능 2. 신고반려랑은 같이 불가능</textarea>
+                                    <textarea></textarea>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div id="declarationModalFooter">
-                        <div id="button">처리완료</div>
+                        <div id="button" onClick={singoCreateButton}>처리완료</div>
                         <div id="button" onClick={adminModalClose}>창 닫기</div>
                     </div>
                 </div>

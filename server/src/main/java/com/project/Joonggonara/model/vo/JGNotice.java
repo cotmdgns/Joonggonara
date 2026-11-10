@@ -1,5 +1,6 @@
 package com.project.Joonggonara.model.vo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class JGNotice {
 
+    @JsonProperty("jGNoticeCode")
     private int jGNoticeCode; /*게시글 코드*/
     private String jGNoticeTitle; /*게시글 제목*/
     private String jGNoticeText; /*게시글 내용*/

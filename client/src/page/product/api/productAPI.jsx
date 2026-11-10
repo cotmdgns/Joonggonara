@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "http://localhost:8080/api/main",
+  baseURL: "http://localhost:8080/api/notice",
 });
 
 instance.interceptors.request.use(
@@ -31,3 +31,42 @@ export const searchNoticeSelectAPI = async (data) => {
 export const selectProductDataAPI = async (code) =>{
   return await instance.get(`/selectProductData/${code}`)
 }
+
+// 신고하기
+export const createDeclarationButtonAPI = async (data) =>{
+  return await instance.post("/createDeclarationButton",data);
+}
+
+// 찜 상태값 [ 정상작동 ]
+export const subscribeNoticeSelectAPI = async (data) =>{
+  return await instance.get("/subscribeNoticeSelect",{
+    params : {
+        jGNoticeCode: data.jGNoticeCode,
+        userCode: data.userCode,
+    }
+  });
+}
+
+// 찜하기 [ 정상작동 ]
+export const subscribeNoticeCreateAPI = async (data) =>{
+  return await instance.post("/subscribeNoticeCreate",data);
+}
+
+// 찜취소 [ 정상작동 ]
+export const subscribeNoticeDeleteAPI = async (data) =>{
+  return await instance.post("/subscribeNoticeDelete",data);
+}
+
+// 구매하기 saleJGNotice
+export const saleJGNoticeAPI = async (data) =>{
+  return await instance.post("/saleJGNotice",data);
+}
+
+// 댓글 생성
+
+// 댓글 조회
+
+// 댓글 수정
+
+// 댓글 삭제
+

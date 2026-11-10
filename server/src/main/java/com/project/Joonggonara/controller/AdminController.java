@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -133,6 +134,36 @@ public class AdminController {
         return adminService.stopHistory(code);
     };
 
+
+    // @@@@@@@@@@@@@@@@@@@@@@@@@@@ 신고현황 관리 페이지@@@@@@@@@@@@@@@@@@@@@@@@
+    @GetMapping("selectDeclaration/{code}")
+    public DeclarationPagingDTO selectDeclaration(@PathVariable("code")int code, Criteria cri){
+
+        cri.setPageNum(code);
+
+        List<DeclarationDTO> dtoList = new ArrayList<>();
+        List<UserDeclarationA> list = adminService.selectDeclaration(cri);
+        for(UserDeclarationA a : list){
+            String name = adminService.selectName(a.getUserCode());
+            String noticeName = adminService.noticeSelectName(a.getNoticeUserCode());
+            DeclarationDTO dto = DeclarationDTO.builder()
+                    .userDeclarationA(a)
+                    .userName(name) // 사용자 아이디
+                    .noticeUserName(noticeName) // 게시글 만들 사용자 이름
+                    .build();
+            dtoList.add(dto);
+        }
+
+        int total = adminService.selectDeclarationTotal();
+        PageMakerDTO pageMake = new PageMakerDTO(cri, total);
+
+        DeclarationPagingDTO declarationPagingDTO = DeclarationPagingDTO.builder()
+                .declarationDTO(dtoList)
+                .pageMake(pageMake)
+                .build();
+
+        return declarationPagingDTO;
+    };
 
 
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 공지사항 관리 페이지 @@@@@@@@@@@@@@@@@@@@@@@/

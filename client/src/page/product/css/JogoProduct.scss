@@ -1,3 +1,10 @@
+
+#JogoProductDetailImg .swiper-button-prev,
+#JogoProductDetailImg .swiper-button-next {
+    width: 15px;
+    height: 15px;
+}
+
 // 상품 페이지 css
 #JogoProductBody{
     width: 900px;
@@ -108,10 +115,19 @@
                 align-items: center;
                 justify-content: center;
                 gap: 5px;
-
             }
             #buttonCreate:hover{
                 background-color: rgb(74, 152, 90);
+            }
+            .buttonCreateFalse{
+                background-color: rgb(227, 117, 117);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 5px;
+            }
+            .buttonCreateFalse:hover{
+                background-color: rgb(242, 74, 74);
             }
             #buttonDelete{
                 color: black;
@@ -412,3 +428,4 @@ label{
         text-align: center;
     }
 }
+
