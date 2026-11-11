@@ -1,8 +1,6 @@
 package com.project.Joonggonara.service;
 
-import com.project.Joonggonara.model.dto.FormDataDTO;
-import com.project.Joonggonara.model.dto.NotificationManagementDTO;
-import com.project.Joonggonara.model.dto.UserInfoPagingDTO;
+import com.project.Joonggonara.model.dto.*;
 import com.project.Joonggonara.model.vo.*;
 import mapper.AdminMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,11 +88,19 @@ public class AdminService {
 
 
     //*********************** 신고 관리 페이지
-    public List<UserDeclarationA> selectDeclaration(Criteria criteria){  // 신고 전체 리스트 찾기
-        return mapper.selectDeclaration(criteria);
+    public List<UserDeclarationA> selectDeclaration(DeclarationDTO declarationDTO){  // 신고 전체 리스트 찾기
+        return mapper.selectDeclaration(declarationDTO);
     };
-    public int selectDeclarationTotal(){
-        return mapper.selectDeclarationTotal();
+    public void updateDeclaration(UpdateDeclarationDTO dto){
+        mapper.updateDeclaration(dto);
+    }
+
+    public void updateUserInfo(UpdateDeclarationDTO dto){
+        mapper.updateUserInfo(dto);
+    };
+
+    public int selectDeclarationTotal(DeclarationDTO declarationDTO){
+        return mapper.selectDeclarationTotal(declarationDTO);
     }
     public String  selectName(int code){                // 사용자 코드로 이름 차직
         return mapper.selectName(code);
@@ -102,6 +108,21 @@ public class AdminService {
     public String  noticeSelectName(int code){                // 사용자 코드로 이름 차직
         return mapper.selectName(code);
     }
+
+    /* 총 토탈 */
+    public int selectTotal(){
+        return mapper.selectTotal();
+    };
+    public int selectStopTotal(){
+        return mapper.selectStopTotal();
+    };
+    public int selectSuccessTotal(){
+        return mapper.selectSuccessTotal();
+    };
+    public int selectBackTotal(){
+        return mapper.selectBackTotal();
+    };
+
 
     //******************************* 공지사항 관리 페이지
     // 페이징에 사용할 토탈 페이지

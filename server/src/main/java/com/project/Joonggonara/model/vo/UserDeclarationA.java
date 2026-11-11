@@ -17,6 +17,8 @@ public class UserDeclarationA {
     private String userDeclarationType; /* 신고 타입 ex)댓글이냐  게시글이냐 */
     private String userDeclarationOption; /*신고 사유*/
     private String userDeclarationText; /*신고 내용*/
+    private String userDeclarationStateBoo; /* 신고 상태 [ 이용정지냐,신고반려냐,대상 컨텐츠삭제냐 */
+    private String userDeclarationTextComment;  /* 신고 접수 내용 */
     private String userDeclarationCreate; /*신고 생성날짜*/
     private String userDeclarationBoo; /*신고 접수?*/
 

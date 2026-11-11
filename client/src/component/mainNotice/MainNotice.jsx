@@ -26,16 +26,22 @@ const MainNotice = ({ list, gotoDetailProduct }) => {
           src={`http://localhost:8080/notice/${list.jgnoticeCode}/${list.firstImgName}`}
           id="mainNoticeImg"
         />
-        <div id="mainNoticeText">{list.jgnoticeTitle}</div>
-        <div id="mainNoticePrice">{list.jgnoticeProductPrice}</div>
-        <div id="mainNoticeTime">5시간 전</div>
-        <div id="mainNoticeIcon" onClick={(e)=>{
-          noticeLike();
-          e.stopPropagation();
-        }}>
-          <FaHeart style={{"color":"red"}}/>
-          {/* <FaRegHeart style={{"color":"red"}}/> */}
-        </div>
+        <>
+          <div id="mainNoticeText">{list.jgnoticeTitle}</div>
+          <div id="mainNoticePrice">{list.jgnoticeProductPrice}</div>
+          <div id="mainNoticeTime">5시간 전</div>
+          <div id="mainNoticeIcon" onClick={(e)=>{
+            noticeLike();
+            e.stopPropagation();
+          }}>
+            {list.checkBoo ? 
+            <FaHeart style={{"color":"red"}}/>
+            :
+            <FaRegHeart style={{"color":"red"}}/>
+            }
+          </div>
+        </> 
+        {list.jgnoticeSaleBoo && <div id="saleBox">판매완료</div>}
       </div>
     </>
   );

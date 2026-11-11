@@ -158,13 +158,49 @@
     <!-- @@@@@@@@@@@@@@@@@@@ 신고관리 페이지 @@@@@@@@@@@@@@@@@@@  -->
 
     <!-- 신고 전체 리스트 -->
-    <select id="selectDeclaration" parameterType="Criteria" resultType="UserDeclarationA">
+    <select id="selectDeclaration" parameterType="DeclarationDTO" resultType="UserDeclarationA">
         select * from UserDeclarationA
-        limit #{skip} ,#{amount};
+        <where>
+            1=1
+            <if test="searchUserId != ''">
+                AND userCode IN (
+                    select userCode from jguserinfo data
+                    where userId LIKE CONCAT('%', #{searchUserId}, '%')
+                )
+            </if>
+            <if test="searchOption == 'normal'">
+                AND userDeclarationBoo = "반려"
+            </if>
+            <if test="searchOption == 'stop'">
+                AND userDeclarationBoo = "처리대기"
+            </if>
+            <if test="searchOption == 'success'">
+                AND userDeclarationBoo = "처리완료"
+            </if>
+        </where>
+        limit #{cri.skip} ,#{cri.amount};
     </select>
     <!-- 신고 전체 리스트 -->
-    <select id="selectDeclarationTotal" resultType="int">
+    <select id="selectDeclarationTotal" parameterType="DeclarationDTO" resultType="int">
         select count(*) from UserDeclarationA
+        <where>
+            1=1
+            <if test="searchUserId != ''">
+                AND userCode IN (
+                select userCode from jguserinfo data
+                where userId LIKE CONCAT('%', #{searchUserId}, '%')
+                )
+            </if>
+            <if test="searchOption == 'normal'">
+                AND userDeclarationBoo = "반려"
+            </if>
+            <if test="searchOption == 'stop'">
+                AND userDeclarationBoo = "처리대기"
+            </if>
+            <if test="searchOption == 'success'">
+                AND userDeclarationBoo = "처리완료"
+            </if>
+        </where>
     </select>
 
     <!-- 사용자 코드로 이름 찾기 -->
@@ -180,11 +216,38 @@
     <!-- 게시글 코드로 게시글 이름 가져오기 -->
 
     <!-- 신고 상태 업데이트 -->
-    <update id="updateDeclaration">
+    <update id="updateDeclaration" parameterType="UpdateDeclarationDTO">
         update UserDeclarationA
-        set userDeclarationBoo = "처리대기"
-        where userDeclarationCode = 1;
+        set userDeclarationBoo = #{userDeclarationBoo} ,
+            userDeclarationTextComment = #{textState} ,
+            userDeclarationStateBoo = #{checkBooText},
+            userDeclarationProcessUser = #{userCode}
+        where userDeclarationCode = #{declarationCode};
     </update>
+    <!-- 신고 상태 업데이트 [ 만약 신고 상태가 이용 정지일 경우 ] -->
+    <update id="updateUserInfo" parameterType="UpdateDeclarationDTO">
+        UPDATE JGUserInfo
+        SET userStopDate = TIMESTAMP(DATE_ADD(CURDATE(), INTERVAL #{selectOption} DAY)),  userStopYn = true
+        WHERE userCode = #{userCode};
+    </update>
+
+
+    <!-- 포탈 총 4개 -->
+    <select id="selectTotal" resultType="int">
+        select count(*) from UserDeclarationA;
+    </select>
+    <select id="selectStopTotal" resultType="int">
+        select count(*) from UserDeclarationA
+        where userDeclarationBoo = "처리대기";
+    </select>
+    <select id="selectSuccessTotal" resultType="int">
+        select count(*) from UserDeclarationA
+        where userDeclarationBoo = "처리완료";
+    </select>
+    <select id="selectBackTotal" resultType="int">
+        select count(*) from UserDeclarationA
+        where userDeclarationBoo = "반려";
+    </select>
 
     <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  -->
 

@@ -33,10 +33,24 @@ export const mainSelectNoticeAllAPI = async () => {
 
 ////////////////////////////////////////////////
 // 신고 관리 페이지
-export const selectDeclarationAPI = async (code) =>{
-  return await instance.get(`/selectDeclaration/${code}`);
+export const selectDeclarationAPI = async (data) =>{
+  return await instance.get("/selectDeclaration",{
+    params:{
+      code : data.code,
+      searchUserId : data.searchUserId,
+      searchOption : data.searchOption
+    }
+  });
+}
+// 신고 처리하기
+export const updateDeclarationAPI = async (data) =>{
+  return await instance.post("/updateDeclaration",data);
 }
 
+// 신고 전체적 리스트 (total)
+export const selectDeclarationTotalListAPI = async () =>{
+  return await instance.get("/selectDeclarationTotalList");
+}
 ////////////////////////////////////////////////
 
 

@@ -8,7 +8,7 @@ import AdminDeclarationModal from "./component/AdminDeclarationModal";
 //리액트
 import { useEffect, useReducer, useState } from "react";
 import { AdminDeclarationReduser, initiaAdminDeclarationReduser } from "./reduser/AdminDeclarationReduser";
-import { selectDeclarationAPI } from "./api/AdminPageAPI";
+import { selectDeclarationAPI, selectDeclarationTotalListAPI, updateDeclarationAPI } from "./api/AdminPageAPI";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 
@@ -19,11 +19,26 @@ const AdminDeclarationManagement = () =>{
     const navigate = useNavigate();
     const[state,dispatch] =useReducer(AdminDeclarationReduser,initiaAdminDeclarationReduser)
    
+
+
     // 전체 신고리스트 가져오기
     const selectDeclaration = async () =>{
-        const result = await selectDeclarationAPI(pageNum)
+        const data = {
+            code : pageNum,
+            searchUserId : state.searchUseId,
+            searchOption : state.searchOption == "" ? "all" : state.searchOption,
+        }
+        console.log(data)
+        const result = await selectDeclarationAPI(data)
         dispatch({type:"declarationList" ,payload : result.data.declarationDTO})
         dispatch({type:"declarationPaging" ,payload : result.data.pageMake})
+    }
+
+
+        // 전체 신고리스트 가져오기 [ 토탈 ]
+    const selectDeclarationTotal = async () =>{
+        const result = await selectDeclarationTotalListAPI();
+        dispatch({type:"selectDeclarationTotal" , payload : result.data})
     }
     // 모달창 끄기
     const adminModalClose = ()=>{
@@ -36,10 +51,33 @@ const AdminDeclarationManagement = () =>{
     }
 
     // 신고 처리완료 버튼
-    const singoCreateButton = ()=>{
+    const singoCreateButton = async ()=>{
+        const data = {
+            userCode : sessionStorage.getItem("userCode"),
+            declarationCode : state.detailData.userDeclarationA.userDeclarationCode,
+            checkBooText : state.checkBoo,
+            selectOption : state.selectOption,
+            textState : state.textState
+        }
+        console.log(data)
+        if(data.checkBoo == ""){
+            alert("조치 결과 선택해주세요.")
+            return;
+        }
+        if(data.textState == ""){
+            alert("조치 내용을 적어주세요.")
+            return;
+        }
 
+        await updateDeclarationAPI(data)
+        alert("신청 완료됬습니다.")
+        adminModalClose()
+        selectDeclaration()
+        selectDeclarationTotal()
     }
 
+
+    // 신고 모달에서 -> 문제잇는 게시글로 바로가기
     const gotoLink = (code)=>{
         navigate(`/jogoProductDetail/product/${code}`)
     }
@@ -73,6 +111,7 @@ const AdminDeclarationManagement = () =>{
     };
 
     useEffect(()=>{
+        selectDeclarationTotal()
         selectDeclaration()
     },[])
 
@@ -87,31 +126,33 @@ const AdminDeclarationManagement = () =>{
                 <div id="declarationManagementH1">신고현황 관리</div>
                 <div id="declarationManagementHeader">
                     <div>
-                        전체신고: <span>154</span>건
+                        전체신고: <span>{state.selectDeclarationTotal.selectTotal}</span>건
                     </div>
                     <div>
-                        처리대기: <span>23</span>건
+                        처리대기: <span>{state.selectDeclarationTotal.selectStopTotal}</span>건
                     </div>
                     <div>
-                        조치완료: <span>112</span>건
+                        조치완료: <span>{state.selectDeclarationTotal.selectSuccessTotal}</span>건
                     </div>
                     <div>
-                        반려 <span>19</span>건
+                        반려 <span>{state.selectDeclarationTotal.selectBackTotal}</span>건
                     </div>
                 </div>
                 
                 <div className="managementInfoTableBox">
                     {/* 아래 css 가져와야 함 */}
                     <div id="managementInfoTableSearch">
-                        <input id="managementInfoTableSearchInput" type="text" placeholder="검색할 아이디를 입력.."/>
+                        <input id="managementInfoTableSearchInput" type="text" placeholder="검색할 아이디를 입력.."
+                            onChange={(e)=>{dispatch({type:"searchUseId" , payload : e.target.value})}}
+                        />
                         <div>
-                            <select id="managementInfoTableSearchSelect" >
+                            <select id="managementInfoTableSearchSelect" onChange={(e)=>{dispatch({type:"searchOption" , payload : e.target.value})}}>
                                 <option value="all">전체 상태</option>
-                                <option value="normal">처리 대기</option>
-                                <option value="stop">처리 완료</option>
-                                <option value="delete">반려</option>
+                                <option value="stop">처리 대기</option>
+                                <option value="success">처리 완료</option>
+                                <option value="normal">반려</option>
                             </select>
-                            <button id="managementInfoTableSearchButton">검색</button>
+                            <button id="managementInfoTableSearchButton" onClick={()=>{selectDeclaration(1)}}>검색</button>
                         </div>
                     </div>
                     {/*  위 css 가져와야 함 */}
@@ -139,7 +180,8 @@ const AdminDeclarationManagement = () =>{
                                     <td>{info.userDeclarationA.userDeclarationOption.replaceAll("/",",")}</td>
                                     <td>{info.userName}</td>
                                     <td>{info?.userDeclarationA?.userDeclarationCreate?.substring(0, 10)}</td>
-                                    <td>{info.userDeclarationA.userDeclarationBoo}</td>
+                                    <td ><span id={info.userDeclarationA.userDeclarationBoo === "처리대기" ? "modalStateYellow" 
+                                    : info.userDeclarationA.userDeclarationBoo === "처리완료" ? "modalStateGreen" : "modalStateRed"}>{info.userDeclarationA.userDeclarationBoo}</span></td>
                                 </tr>
                                 )
                             })}

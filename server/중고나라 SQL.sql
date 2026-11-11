@@ -1,15 +1,81 @@
-	
+DELIMITER //			/*  함수 지피티가 만들어 준거 정지된 아이디가 해당 날짜가 되면 풀리기 전에 백업 데이터 만들고 풀리기  */
+CREATE EVENT event_userStopReset
+ON SCHEDULE
+    EVERY 1 DAY
+    STARTS TIMESTAMP(CURRENT_DATE + INTERVAL 1 DAY)
+DO
+BEGIN
 
-select * from JGUserInfo;
+    -- 1. 정지 해제 대상자 정보 백업
+    INSERT INTO JGUserInfoBack (
+        userCode,
+        userPwd,
+        userImg,
+        userName,
+        userAddress,
+        userAddressDetail,
+        userUpdate,
+        userInfo,
+        userStopDate,
+        userStopLooseDate
+    )
+    SELECT
+        userCode,
+        userPwd,
+        userImg,
+        userName,
+        addressData,
+        userAddressDetail,
+        userUpdate,
+        userInfo,
+        userStopDate,
+        NOW()
+    FROM JGUserInfo
+    WHERE
+        userStopYn = TRUE
+        AND userStopDate IS NOT NULL
+        AND userStopDate <= NOW();
 
-update JGUserInfo
-set userManager = 2
-where userCode = 1;
+    -- 2. 정지 해제
+    UPDATE JGUserInfo
+    SET
+        userStopYn = FALSE,
+        userStopDate = NULL
+    WHERE
+        userStopYn = TRUE
+        AND userStopDate IS NOT NULL
+        AND userStopDate <= NOW();
 
+END //
+DELIMITER ;
 
-select * from categorystatemajor;
+/* 테스트 1 */
+UPDATE JGUserInfo
+SET
+    userStopYn = TRUE,
+    userStopDate = DATE_SUB(NOW(), INTERVAL 1 DAY)
+WHERE userCode = 3;
 
-select * from notificationmanagement;
+/* 테스트 2 */
+ALTER EVENT event_userStopReset
+ON SCHEDULE EVERY 1 MINUTE;
+
+/* 테스트 3 */
+select * from JGUserInfo
+WHERE userCode = 3;
+
+/* 테스트 4 */
+SELECT *
+FROM JGUserInfoBack
+WHERE userCode = 3;
+
+/* 테스트 5 */
+ALTER EVENT event_userStopReset
+ON SCHEDULE
+EVERY 1 DAY
+STARTS TIMESTAMP(CURRENT_DATE + INTERVAL 1 DAY);
+
+/* 끝 */
 
 /* 노트북에 추가해야할 정보 */ 
 INSERT INTO JGUserInfo (
@@ -343,7 +409,7 @@ CREATE TABLE JGUserInfo(
   userManager int default 1, /*사용자 등급 1은 일반사용자, 2는 관리자*/
   userYn boolean default true, /*사용유무*/
   userStopYn boolean default false, /*사용자 신고 유무*/
-  userStopDate date , /*사용자 신고 누적 시 날짜 적용*/
+  userStopDate datetime , /*사용자 신고 누적 시 날짜 적용*/
   userTotalPointer integer, /*사요앚 총 포인트*/
   addressData varchar(10), /* 사용자 주소 */
   addressDetailData varchar(10), /* 사용자 주소 */
@@ -351,12 +417,26 @@ CREATE TABLE JGUserInfo(
   /*2026-10-19 이후로 추가 됨*/
   userInfo varchar(255) default null /*사용자 자기소개*/
 );
+
+SHOW VARIABLES LIKE 'event_scheduler';
+
+
+select * from jguserinfo;
+
+update jguserinfo
+set userStopDate = null
+where userCode = 1;
+
+/* date -> datetime */
+alter table JGUserInfo
+modify column userStopDate datetime;
+
 select * from JGUserInfoBack
 where userCode = 1 and userDelete !=n;
 /*사용자 백업정보*/
 CREATE TABLE JGUserInfoBack(
   userCode int not null, /*외래키로 사용할 예정*/ 
-  userPwd varchar(30) default null, /*사용자 비밀번호*/ 
+  userPwd varchar(150) default null, /*사용자 비밀번호*/ 
   userImg varchar(255)  default null, /*사용자 이미지*/ 
   userName varchar(20)  default null, /*사용자 이름*/ 
   userAddress varchar(10)  default null, /* 사용자 주소 */
@@ -366,8 +446,8 @@ CREATE TABLE JGUserInfoBack(
   
   /* 추가됨 [ 서버에도 추가해야 함 ]*/
   -- userYn boolean default true, 					/* 사용유무 : 정지나 삭제했을 떄 사용할 예정 */
-  userStopDate date default null,				/* 정지된 날짜 */
-  userStopLooseDate date default null,			/* 정지 풀린 날짜 */
+  userStopDate datetime default null,				/* 정지된 날짜 */
+  userStopLooseDate datetime default null,			/* 정지 풀린 날짜 */
   userDelete date default null,					/* 삭제된 날짜 */
   userDeleteLoose date default null					/* 삭제 풀린 날짜 */
 );
@@ -379,7 +459,7 @@ drop table JGUserInfoBack;
 insert into JGUserInfoBack(userCode,userDelete, userDeleteLoose)
 value(9929, now(), now());
 
-select * from JGUserInfoBack;
+select * from JGUserInfo;
 
 update JGUserInfo
 set userDelete = now()
@@ -428,7 +508,7 @@ CREATE TABLE JGNotice(
   JGNoticeProductPrice varchar(255) not null, /*게시글 제품 가격 */
   JGNoticeProductTypeMajor varchar(255) not null, /*게시글 제품 구분 */ 
   JGNoticeProductTypeMinor varchar(255) not null, /*게시글 제품 구분 */ 
-  JGNoticeProductTypeMinorList varchar(255) not null, /*게시글 제품 구분 */ 
+  JGNoticeProductTypeMinorList varchar(255), /*게시글 제품 구분 */ 
   userCode integer not null, /*사용자 정보 [외래키로 사용]*/ 
   JGNoticeCreate datetime default CURRENT_TIMESTAMP, /*게시글 생성날짜*/ 
   JGNoticeUpdate datetime default null, /*게시글 수정날짜*/ 
@@ -436,20 +516,6 @@ CREATE TABLE JGNotice(
   JGNoticeSaleBoo boolean default false, /* 상품 판매 여부 확인용*/
   JGNoticeSaleUserCode varchar(10) default null /* 상품을 구매한 사람 코드 */
 );
-
-update JGNotice
-set JGNoticeSaleUserCode = null , JGNoticeSaleBoo = false
-where JGNoticeCode = 23;
-
-/* 오늘 집에서 할꺼면 추가하고 안할꺼면 추가하지마 */
-ALTER TABLE JGNotice
-MODIFY COLUMN JGNoticeSaleUserCode INT DEFAULT NULL;
-
-select * from JGNotice;
-
-update JGNotice
-set JGNoticeSaleUserCode = 1 , JGNoticeSaleBoo = 1
-where JGNoticeCode = 1;
 
 
 /* 게시글 구독 or 좋아요 */
@@ -506,15 +572,27 @@ CREATE TABLE UserDeclarationA(
   userDeclarationType varchar(10) not null, /* 신고타입 ex)댓글이냐 게시글이냐 */
   userDeclarationOption varchar(40), /*신고 사유*/ 
   userDeclarationText varchar(255), /*신고 내용*/ 
+  userDeclarationTextComment varchar(255) default null, /* 신고 내용에 대한 코멘트 */
+  userDeclarationStateBoo varchar(255) default null, /* 신고 상태 [ 이용정지냐,신고반려냐,대상 컨텐츠삭제냐 */
+  userDeclarationProcessUser integer default null,	/* 신고처리자 */
   userDeclarationCreate datetime default CURRENT_TIMESTAMP, /*신고 생성날짜*/ 
-  userDeclarationBoo varchar(10) default "처리대기"/*신고 접수?*/ 
+  userDeclarationBoo varchar(10) default "처리대기"/*신고 접수*/ 
 );
-drop table UserDeclarationA;
+select * from jguserinfo;
+
+UPDATE JGUserInfo
+SET userStopDate = TIMESTAMP(DATE_ADD(curdate(), INTERVAL 7 DAY))
+WHERE userCode = 2;
 
 alter table UserDeclarationA
-add column noticeCode integer;
+add column userDeclarationProcessUser integer default null;
 
-select * from UserDeclarationA;
+select * from UserDeclarationA
+where userDeclarationBoo = "처리대기"; 
+
+update UserDeclarationA
+set userDeclarationBoo = "처리완료" , userDeclarationTextComment = "사용자의 의견을 반영하여 처리했습니다." ,userDeclarationStateBoo = "작성자 이용 정지",userDeclarationProcessUser = 1
+where userDeclarationCode = 1;
 
 
 update UserDeclarationA

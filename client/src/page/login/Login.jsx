@@ -43,7 +43,11 @@ const Login = () =>{
             "userPwd" : userPwd
         }
         const result = await userLoginAPI(data)
-        
+        if(result.data === "stop"){
+            alert("현재 정지된 아이디 입니다.")
+            return;
+        }
+
         if(result.data === false || result.data === "false"){
             alert("아이디와 비밀번호가 틀립니다.")
         }else{

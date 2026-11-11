@@ -45,9 +45,7 @@ public class UserController {
     @PostMapping("userIdCreate")
     public boolean UserIdCreate(@RequestBody JGUserInfo jgUserInfo){
         // 여기서 아이디 체크하고 있으면 닉네임 바꾸게 변경 고고뚠
-        log.info("1. 데이터 확인하기 : " + jgUserInfo);
         String result =userService.nicknameCheck(jgUserInfo.getUserNickname());
-        log.info("2. 데이터 확인하기 : " + result);
         if(result == null || result.isEmpty()){
             // 비어있거나 널이면 없다는거니깐 생성완료
             userService.UserIdCreate(jgUserInfo);
@@ -63,8 +61,10 @@ public class UserController {
     public String UserLogin(@RequestBody JGUserInfo jgUserInfo){
 
         JGUserInfo info = userService.IdSelectAPI(jgUserInfo.getUserId());
-        log.info("데이터 확인하기 : "  + info);
 
+        if(info.isUserStopYn()){
+            return "stop";
+        }
         // 데이터가 존재하지 않으며 null
         if(info == null){
             return "false";

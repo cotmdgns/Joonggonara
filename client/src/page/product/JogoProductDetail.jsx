@@ -38,7 +38,7 @@ const JogoProductDetail = () =>{
     useEffect(()=>{
         selectProductData();
         ubscribeNoticeSelect()
-    },[])
+    },[])   
     // 찜 상태  [ 정상작동중.. get으로 body 보냈다가 왜 안되는지 15분간 뻘짓함 ]
     const ubscribeNoticeSelect = async () =>{
         const data = {
@@ -48,6 +48,7 @@ const JogoProductDetail = () =>{
         const result = await subscribeNoticeSelectAPI(data)
         dispatch({type : "subscribeState", payload : result.data})
     }
+
     
     // 찜하기 [ 저장하기 ]
     const subscribe = async () => {
@@ -212,6 +213,11 @@ const JogoProductDetail = () =>{
                     : 
                     state.noticeDetilData.jgnoticeSaleBoo ? 
                     <>
+                        {state.subscribeState ? 
+                        <div id="buttonCreate" onClick={()=>{subscribe()}}><FaRegHeart/>저장하기</div> 
+                        :
+                        <div className="buttonCreateFalse" onClick={()=>{subscribeFalse()}}><FaHeart/>취소하기</div> 
+                        }
                         <div id="buttonInsert">판매완료</div>                     
                     </>
                     : 

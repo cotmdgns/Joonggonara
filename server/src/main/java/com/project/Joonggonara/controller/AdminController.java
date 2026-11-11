@@ -136,13 +136,24 @@ public class AdminController {
 
 
     // @@@@@@@@@@@@@@@@@@@@@@@@@@@ 신고현황 관리 페이지@@@@@@@@@@@@@@@@@@@@@@@@
-    @GetMapping("selectDeclaration/{code}")
-    public DeclarationPagingDTO selectDeclaration(@PathVariable("code")int code, Criteria cri){
+    // 신고 전체 리스트
+    @GetMapping("selectDeclaration")
+    public DeclarationPagingDTO selectDeclaration(
+            @RequestParam(defaultValue = "1") int code,
+            @RequestParam String searchUserId,
+            @RequestParam String searchOption,
+            Criteria cri){
 
         cri.setPageNum(code);
 
+        DeclarationDTO declarationDTO = DeclarationDTO.builder()
+                .cri(cri)
+                .searchUserId(searchUserId)
+                .searchOption(searchOption)
+                .build();
+
         List<DeclarationDTO> dtoList = new ArrayList<>();
-        List<UserDeclarationA> list = adminService.selectDeclaration(cri);
+        List<UserDeclarationA> list = adminService.selectDeclaration(declarationDTO);
         for(UserDeclarationA a : list){
             String name = adminService.selectName(a.getUserCode());
             String noticeName = adminService.noticeSelectName(a.getNoticeUserCode());
@@ -154,7 +165,7 @@ public class AdminController {
             dtoList.add(dto);
         }
 
-        int total = adminService.selectDeclarationTotal();
+        int total = adminService.selectDeclarationTotal(declarationDTO);
         PageMakerDTO pageMake = new PageMakerDTO(cri, total);
 
         DeclarationPagingDTO declarationPagingDTO = DeclarationPagingDTO.builder()
@@ -164,6 +175,40 @@ public class AdminController {
 
         return declarationPagingDTO;
     };
+
+    // 신고 처리하기
+    @PostMapping("updateDeclaration")
+    public void updateDeclaration(@RequestBody UpdateDeclarationDTO updateDeclarationDTO){
+        // cantentDelete = 대상 컨텐츠 삭제    -> 처리완료
+        // userStateStop = 작성자 이용 정지    -> 처리완료
+        // singoBack = 신고 반려              -> 반려
+        if(updateDeclarationDTO.getCheckBooText().equals("cantentDelete")){
+            updateDeclarationDTO.setUserDeclarationBoo("처리완료");
+        }else if(updateDeclarationDTO.getCheckBooText().equals("userStateStop")){
+            updateDeclarationDTO.setUserDeclarationBoo("처리완료");
+            // 여기서 또 로지 하나 돌기
+            adminService.updateUserInfo(updateDeclarationDTO);   // 사용자 데이터에서 삭제날짜 등록
+        }else if(updateDeclarationDTO.getCheckBooText().equals("singoBack")){
+            updateDeclarationDTO.setUserDeclarationBoo("반려");
+        }
+
+        adminService.updateDeclaration(updateDeclarationDTO);
+    }
+    // 신고 전체리스트 total
+    @GetMapping("selectDeclarationTotalList")
+    public DeclarationDTO selectDeclarationTotalList(){
+        // 1. 정상 리스트(total)
+        // 2. 처리대기(total)
+        // 3. 조치완료(total)
+        // 4. 반려(total)
+        DeclarationDTO dto = DeclarationDTO.builder()
+                .selectTotal(adminService.selectTotal())                         // 전체 리스트 토탈
+                .selectStopTotal(adminService.selectStopTotal())                     // 처리 대기 토탈
+                .selectSuccessTotal(adminService.selectSuccessTotal())                  // 처리 완료 토탈
+                .selectBackTotal(adminService.selectBackTotal())                     // 반려
+                .build();
+        return dto;
+    }
 
 
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 공지사항 관리 페이지 @@@@@@@@@@@@@@@@@@@@@@@/

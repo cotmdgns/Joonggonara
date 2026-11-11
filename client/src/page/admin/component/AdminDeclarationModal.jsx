@@ -22,9 +22,7 @@ const AdminDeclarationModal = ({adminModalClose,singoCreateButton,state,dispatch
                                 <div>신고 일자: <span>{state.detailData?.userDeclarationA?.userDeclarationCreate?.substring(0,10)}</span></div>
                                 <div>신고자 ID: <span>{state.detailData.userName}</span></div>
                                 <div>처리 상태: 
-                                    
-                                    <span id={state.detailData.userDeclarationA.userDeclarationBoo === "처리대기" ? "modalStateYellow" 
-                                    : state.detailData.userDeclarationA.userDeclarationBoo === "처리완료" ? "modalStateGreen" : "modalStateRed"}>[{state.detailData.userDeclarationA.userDeclarationBoo}]</span>
+                                    <span >[{state.detailData.userDeclarationA.userDeclarationBoo}]</span>
                                 </div>
                             </div>
                         </div>
@@ -56,31 +54,59 @@ const AdminDeclarationModal = ({adminModalClose,singoCreateButton,state,dispatch
                         <div id="declarationDiv">
                             <div id="declarationDivH1">관리자 조치 처리</div>
                             <div id="declarationDivInfo4">
+                                
                                 <div id="infoBox">
                                     <div id="infoBoxH1">조치 결과 선택</div>
+                                    {state.detailData.userDeclarationA.userDeclarationBoo === "처리대기" && 
+                                    <>
                                     <div id="infoBox2">
-                                        <input type="checkbox"></input>
+                                        <input type="checkbox" onClick={()=>{
+                                            dispatch({type:"checkBoo" , payload : "cantentDelete"})
+                                        }} checked={state.checkBoo == "cantentDelete" ? true : false}></input>
                                         <div>대상 컨텐츠 삭제</div>
                                     </div>
                                     <div id="infoBox2">
-                                        <input type="checkbox"></input>
+                                        <input type="checkbox" onClick={()=>{
+                                            dispatch({type:"checkBoo" , payload : "userStateStop"})
+                                        }} checked={state.checkBoo == "userStateStop" ? true : false}></input>
                                         <div>작성자 이용 정지</div>
-                                        <select>
-                                            <option>1일</option>
-                                            <option>7일</option>
-                                            <option>15일</option>
-                                            <option>30일</option>
-                                            <option>영구정지</option>
+                                        <select onChange={(e)=>{
+                                            dispatch({type:"selectOption", payload : e.target.value})
+                                        }}>
+                                            <option value="1">1일</option>
+                                            <option value="7">7일</option>
+                                            <option value="15">15일</option>
+                                            <option value="30">30일</option>
+                                            <option value="9999">영구정지</option>
                                         </select>
                                     </div>
                                     <div id="infoBox2">
-                                        <input type="checkbox"></input>
+                                        <input type="checkbox" onClick={()=>{
+                                            dispatch({type:"checkBoo" , payload : "singoBack"})
+                                        }} checked={state.checkBoo == "singoBack" ? true : false}></input>
                                         <div>신고 반려</div>
                                     </div>
+                                    </>
+                                   }
+                                   {(state.detailData.userDeclarationA.userDeclarationBoo === "처리완료" || 
+                                   state.detailData.userDeclarationA.userDeclarationBoo === "반려") &&
+                                    <>
+                                    <div id="infoBox2">
+                                        <div>
+                                        {state.detailData.userDeclarationA.userDeclarationStateBoo === "cantentDelete" ? "컨텐츠 삭제" :
+                                        state.detailData.userDeclarationA.userDeclarationStateBoo === "userStateStop" ? "사용자 정지" : "반려"
+                                        }
+                                        </div>
+                                    </div>
+                                    </>
+                                    }
+
                                 </div>
                                 <div id="infoBox">
                                     <div id="infoBoxH1">처리 의견</div>
-                                    <textarea></textarea>
+                                    <textarea onChange={(e)=>{
+                                        dispatch({type:"textState" , payload : e.target.value})
+                                    }}></textarea>
                                 </div>
                             </div>
                         </div>

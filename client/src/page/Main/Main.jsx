@@ -35,22 +35,18 @@ const Main = () => {
     navigate(`/notification/notificationDetail/${code}`);
   };
 
-  // 임시방편임 이거 나중에 지울꺼임
-  const notices = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-  // 내 지역으로 해서 주변 상품 뽑아주기  [ 작동 못하고 있음 ]
+  // 내 지역으로 해서 주변 상품 뽑아주기  [ 정상 작동 함 ]
   const userAddressSelect = async () => {
-    
     const result = await userAddressSelectAPI(userCode);
-    console.log("내 지역 상품");
-    console.log(result.data);
     dispath({ type: "userAddressSelect", payload: result.data });
   };
+
 
   // 일주일안으로 생성된 데이터 확인하기 [ 정상 작동하는 중 ]
   const newNotificationSelect = async () => {
     // 이건 DB에서 현재 날짜에서 -7일 해서 계속 가져다주기
-    const result = await newNotificationSelectAPI();
+    const result = await newNotificationSelectAPI(userCode);
     dispath({ type: "newNotificationSelect", payload: result.data });
   };
 
@@ -64,6 +60,7 @@ const Main = () => {
     newNotificationSelect();
     userAddressSelect();
   }, []);
+  console.log(userAddressSelectList.length)
 
   return (
     <>
@@ -78,6 +75,9 @@ const Main = () => {
         {userCode != undefined && 
           <div id="mainNoticeInfo">
           <div id="mainNoticeH1">우리 동네 상품</div>
+          {userAddressSelectList.length <= 1 && 
+            <div id="searchAddressBox">해당 동네로 검색된 결과가 없습니다..</div>
+          }
           <div id="mainNoticeBox">
             {userAddressSelectList.map((list, index) => (
               <MainNotice

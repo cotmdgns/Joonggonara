@@ -92,36 +92,8 @@ const JogoProductCreate = ({ productCreateClose }) => {
 
   // 게시글 생성하기
   const createNotice = async () => {
-    // 서버에서 DTO로 받을 예정
-    // 어떤 카테고리인지 확인하기
-    const data = new FormData();
-    data.append("code", sessionStorage.getItem("userCode")); // 사용자 코드
-    data.append("categoryMajor", state.textState); // 게시글 메이져 카테고리
-    data.append("categoryMinor", state.categoryMinorCode); // 게시글 마이너 카테고리
-    data.append("categoryMinorList", state.categoryMinorListCode); // 게시글 마이너 리스트 ( 이거 이름을 어떻게 지어야할지 모르겠음; )
-    data.append("productName", state.productName); // 상품 이름
-    data.append("productPrice", state.productPrice); // 상품 가격
-    data.append("productFree", state.productCheck); // 상품 무료로 나눌꺼냐의 대한 조건
-    // data.append("zonecode" , state.zonecode)                        // 지번?
-    // data.append("roadAddress" , state.roadAddress)                  // 검색주소
-    // data.append("detailAddress" , state.addressDetail)              // 상세주소
-    data.append("productInfo", state.productInfo); // 상품설명란
-    Array.from(imgList).forEach((img) => {
-      data.append("imgs", img);
-    });
-
-    console.log(data.get("code"));
-    console.log(data.get("categoryMajor"));
-    console.log(data.get("categoryMinor"));
-    console.log(data.get("categoryMinorList"));
-    console.log(data.get("productName"));
-    console.log(data.get("productPrice"));
-    console.log(data.get("productFree"));
-    console.log(data.get("productInfo"));
-
     if (
       state.productName == "" ||
-      state.productPrice == "" ||
       state.productInfo == ""
     ) {
       alert("입력란에 기재해주세요.");
@@ -131,6 +103,32 @@ const JogoProductCreate = ({ productCreateClose }) => {
       alert("사진 최소 한장이라도 넣어주세요.");
       return;
     }
+    if(!state.productCheck && state.productPrice <= 0){
+      alert("금액을 설정해주세요.");
+      return;
+    }
+    // 서버에서 DTO로 받을 예정
+    // 어떤 카테고리인지 확인하기
+    const data = new FormData();
+    data.append("code", sessionStorage.getItem("userCode")); // 사용자 코드
+    data.append("categoryMajor", state.textState); // 게시글 메이져 카테고리
+    data.append("categoryMinor", state.categoryMinorCode); // 게시글 마이너 카테고리
+    data.append("categoryMinorList", state.categoryMinorListCode); // 게시글 마이너 리스트 ( 이거 이름을 어떻게 지어야할지 모르겠음; )
+    data.append("productName", state.productName); // 상품 이름
+    if(state.productCheck){
+      state.productPrice = 0
+    }
+    data.append("productPrice", state.productPrice); // 상품 가격
+    data.append("productFree", state.productCheck); // 상품 무료로 나눌꺼냐의 대한 조건
+    // data.append("zonecode" , state.zonecode)                        // 지번?
+    // data.append("roadAddress" , state.roadAddress)                  // 검색주소
+    // data.append("detailAddress" , state.addressDetail)              // 상세주소
+    data.append("productInfo", state.productInfo); // 상품설명란
+    Array.from(imgList).forEach((img) => {
+      data.append("imgs", img);
+    });
+  
+
 
     await noticeCreateAPI(data);
     alert("생성 되었습니다.");

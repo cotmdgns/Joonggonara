@@ -48,8 +48,8 @@ export const initiaJogoProductReduser = {
     type:"",                    // 게시글이냐 댓글이냐
     singoText : "",             // 신고내용
 
+    subscribeState: true,
 
-    // 댓글 상태관리
 }
 
 export const JogoProductReduser = (state, action) =>{

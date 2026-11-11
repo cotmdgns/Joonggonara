@@ -1,8 +1,6 @@
 package mapper;
 
-import com.project.Joonggonara.model.dto.FormDataDTO;
-import com.project.Joonggonara.model.dto.NotificationManagementDTO;
-import com.project.Joonggonara.model.dto.UserInfoPagingDTO;
+import com.project.Joonggonara.model.dto.*;
 import com.project.Joonggonara.model.vo.*;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -40,10 +38,20 @@ public interface AdminMapper {
     List<JGUserInfoBack> deleteHistory(int code);                       // 삭제 이력 조회
     List<JGUserInfoBack> stopHistory(int code);                         // 정지 이력 조회
     //*********************** 신고 관리 페이지
-    List<UserDeclarationA> selectDeclaration(Criteria criteria);                 // 신고 전체 리스트
-    int selectDeclarationTotal();                                   // 신고 토탈
+    List<UserDeclarationA> selectDeclaration(DeclarationDTO declarationDTO);                 // 신고 전체 리스트
+    void updateDeclaration(UpdateDeclarationDTO dto);
+    void updateUserInfo(UpdateDeclarationDTO dto);
+    int selectDeclarationTotal(DeclarationDTO declarationDTO);                                   // 신고 토탈
+
     String  selectName(int code);                               // 사용자 코드로 이름 찾기
     String  noticeSelectName(int code);                               // 게시글 사용자 코드로 이름 찾기
+
+
+    // 포탙 4개
+    int selectTotal();
+    int selectStopTotal();
+    int selectSuccessTotal();
+    int selectBackTotal();
 
 
     //*********************** 공지사항 관리 페이지

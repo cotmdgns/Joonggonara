@@ -23,6 +23,7 @@ public class NoticeDTO {
     private String jGNoticeUpdate; /*게시글 수정날짜*/
     private String jGNoticeDelect; /*게시글 삭제날짜*/
     private Boolean JGNoticeSaleBoo; /* 상품 판매 확인용도 */
-    private String firstImgName;
-    private int firstImgCode;
+    private String firstImgName;    /* 첫번째 이미지 이름 */
+    private int firstImgCode;       /* 첫번째 이미지 코드 */
+    private Boolean checkBoo;   /* 구독 체크하기 */
 }
