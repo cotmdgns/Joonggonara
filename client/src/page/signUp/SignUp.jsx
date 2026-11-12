@@ -8,7 +8,7 @@ import "./css/SignUp.scss"
 import { RiKakaoTalkFill } from "react-icons/ri"; // 카카오
 import { FaGoogle } from "react-icons/fa"; // 구글
 import { SiNaver } from "react-icons/si"; // 네이보
-
+import AddressOpenAPI from "../../component/AddressOpenAPI";
 //sign api
 import { addressAPI,addressDetailAPI, IdCheckAPI, userIdCreateAPI } from "./api/SignUpAPI";
 
@@ -27,18 +27,17 @@ const SignUp = () =>{
     // 회원가입 전역관리 리듀서
     const [state,dispatch] = useReducer(SignUpReduser,initiaSignUpReduser)
     const {
-        addressArr,
-        addressDetailArr,
-
+        // 주소 데이터
         addressData,            // 주소 데이터
         addressDetailData,      // 주소 상세 데이터
+        userAddress ,/* 사용자 주소 (상세) ex) 헤안대로..  */ 
+        userAddressDetail ,       // 사용자 상세 주소
         // 회원 정보
         userId,                 // 사용자 아이디
         userPwd,                // 사용자 패스워드
         userName ,              // 사용자 이름
         userNickName,           // 사용자 닉네임
         userEmail ,             // 시용자 이메일
-        userAddressDetail ,       // 사용자 상세 주소
         userIdCheck ,           // 사용자 아이디 체크
 
         // 정규표현식 조건 여부
@@ -67,20 +66,6 @@ const SignUp = () =>{
         navigate("/")
     }
 
-    // DB에 있는 주소 데이터 [ 정상작동중 ]
-    const DBAddressInfo = async () =>{
-        const result = await addressAPI()
-        dispatch({type:"addressArr", payload:result.data})
-    }
-    // 옵션값 체인지 했을 떄 반응하기 [ 정상작동중 ]
-    const OptiononChange = async (name) =>{
-        const result = await addressDetailAPI(name)
-        if(name != 0){
-          dispatch({type:"addressDetailArr", payload:result.data})
-        }else{
-          dispatch({type:"addressDetailArrDefault"})
-        }
-    }
 
     // 아이디 중복체크  [ 정상 작동 ]
     const IdCheckButtonAPI = async () =>{
@@ -103,7 +88,8 @@ const SignUp = () =>{
         "userName" : userName ,   
         "userNickname" : userNickName,           
         "userEmail" : userEmail ,            
-        "userAddressDetail" : userAddressDetail,       
+        "userAddressDetail" : userAddressDetail,     
+        "userAddress" : userAddress,  
         "addressData" : addressData,
         "addressDetailData" : addressDetailData,           
         }
@@ -136,7 +122,6 @@ const SignUp = () =>{
             }
         }
 
-        
         // 최종적으로 되면 바로 나가기 [ 정상 작동 ]
         if(window.confirm("정말로 생성하시겠습니까?")){
             const result = await userIdCreateAPI(data);
@@ -153,7 +138,6 @@ const SignUp = () =>{
 
     // 페이지 로딩 시작
     useEffect(()=>{
-        DBAddressInfo()
     },[])
 
 
@@ -266,22 +250,8 @@ const SignUp = () =>{
                                 }
                             </div>
                         <div id="addressBox">
-                            <select id="address" onChange={(e) => {OptiononChange(e.target.value),dispatch({type:"addressData" , payload:e.target.value})}}>
-                                <option value="0">선택</option>
-                                {addressArr.map((arr,index)=>(
-                                    <option value={arr.addressName} key={index}>{arr.addressName}</option>
-                                ))}
-                            </select>
-                            <div id="addressSpace"></div>
-                            <select id="address" onChange={(e) => dispatch({type:"addressDetailData" , payload:e.target.value})}>
-                                {addressDetailArr.length > 0 ? 
-                                addressDetailArr.map((arr,index)=>(
-                                    <option value={arr.addressDetailName} key={index}>{arr.addressDetailName}</option>
-                                ))
-                                :
-                                    <option>------</option>
-                                }
-                            </select>
+                            <InputTag WText={"260px"}PHText={userAddress == null ? "주소를 검색해주세요." : userAddress} onClick={() => document.getElementById("addressAPI").click()}></InputTag>
+                            <div id="addressButton"><AddressOpenAPI addressAPI="addressAPI" state={state} dispatch={dispatch}></AddressOpenAPI></div>
                         </div>
                         <div id="addressCheck"
                         ><InputTag 
@@ -292,16 +262,7 @@ const SignUp = () =>{
                                     dispatch({type:"userAddressSava",payload:e.target.value})
                                 }}
                                 />
-                                {
-                                userAddressDetailBoo !== null ? 
-                                <></> 
-                                    :
-                                userAddressDetailBoo ? 
-                                    <div id="check"></div> 
-                                :
-                                    <div id="check" style={userAddressDetailBoo ? null:{color : "red"}}>{userAddressDetailText}</div>
-                                }
-                            </div>
+                        </div>
                     </div>
                     <div id="createButton" onClick={() => createUser()}>Create</div>   
                     <div id="signUpText" onClick={loginPage}>Login</div>

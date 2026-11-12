@@ -23,7 +23,33 @@
     <!-- @@@@@@@@@@@@@@@@@@@ 사용자 관리 페이지 @@@@@@@@@@@@@@@@@@@  -->
     <!-- 사용자 전체 가져오기 -->
     <select id="userALlSelect" parameterType="UserInfoPagingDTO" resultType="JGUserInfo">
-        select * from JGUserInfo
+        select
+            userCode,
+            userId,
+            userPwd,
+            userImg,
+            userNickname,
+            userName,
+            userCreate,
+            userUpdate,
+            userDelete,
+            userManager,
+            userYn,
+            userStopYn,
+            userStopDate,
+            LEAST(
+            100,
+            userTotalPointer + (
+            SELECT IFNULL(SUM(userPointer), 0)
+            FROM JGUserInfoPointer
+            WHERE userCode = JGUserInfo.userCode
+            )
+            ) AS userTotalPointer,
+            addressData,
+            addressDetailData,
+            userAddressDetail,
+            userInfo
+        from JGUserInfo
         <where>
             <!-- 이름 널이 아니면서 값이 존재하면 아이디 검색-->
             <if test="userId != null and userId != ''">
@@ -141,7 +167,11 @@
         where userCode = #{int};
     </update>
 
-
+    <!-- 사용자 포인트 생성 -->
+    <insert id="createPointer" parameterType="JGUserInfoPointer">
+        insert into JGUserInfoPointer(userCode,userPointer,pointerReason)
+        value(#{userCode},#{userPointer},#{pointerReason});
+    </insert>
 
     <!-- 사용자 정지 이력 -->
     <select id="deleteHistory" parameterType="int" resultType="JGUserInfoBack">

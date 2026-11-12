@@ -7,6 +7,7 @@ import com.project.Joonggonara.model.vo.JGUserInfo;
 import com.project.Joonggonara.service.AddressService;
 import com.project.Joonggonara.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,6 +18,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
@@ -39,16 +43,41 @@ public class UserController {
     @Autowired
     private JwtUtil jwtUtil;
 
+    private String userFile = "C:\\github\\img\\userProfile\\";
+    private String defaultImg =  "C:\\github\\img\\default\\";;
 
     // 사용자 회원가입 [ 정상 작동 , 폴더생성 없는 찐빠있음 ]
     @ResponseBody
     @PostMapping("userIdCreate")
     public boolean UserIdCreate(@RequestBody JGUserInfo jgUserInfo){
+        log.info("데이터 확인하기 : " + jgUserInfo);
+
         // 여기서 아이디 체크하고 있으면 닉네임 바꾸게 변경 고고뚠
         String result =userService.nicknameCheck(jgUserInfo.getUserNickname());
         if(result == null || result.isEmpty()){
-            // 비어있거나 널이면 없다는거니깐 생성완료
-            userService.UserIdCreate(jgUserInfo);
+
+
+
+            Path directoryPath = Paths.get(userFile + jgUserInfo.getUserId() + "\\");
+
+            try {
+                Files.createDirectories(directoryPath);
+
+                int number = (int) (Math.random() * 5) + 1;
+
+                File file = new File(defaultImg + "default"+ number + ".jpg");
+                File newFile = new File(userFile + jgUserInfo.getUserId() + "\\userProfile\\default"+ number + ".jpg");
+                FileUtils.copyFile(file, newFile);
+
+                // 비밀번호 암호화
+                jgUserInfo.setUserImg("default" + number +".jpg");
+                PasswordEncoder encoder = new BCryptPasswordEncoder();
+                jgUserInfo.setUserPwd(encoder.encode(jgUserInfo.getUserPwd()));
+                userService.UserIdCreate(jgUserInfo);
+
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
             return true;
         }else{
             // 닉네임 있다는거니깐 생성불가능하게
@@ -107,7 +136,7 @@ public class UserController {
         return addressInfo;
     }
 
-
+    // 사용자 이미지 변경할 때 사용할 메서드
     public String fileUpload(MultipartFile file, int noticeCode, String url) throws IOException {
         // 랜덤한 이름값
         UUID uuid = UUID.randomUUID();

@@ -73,7 +73,7 @@ const AdminNotificationManagement = () => {
   // 페이징 버튼 만드는 함수
   const createButton = () => {
     const result = [];
-    for (let i = 1; i <= pagingData.endPage; i++) {
+    for (let i = pagingData.startPage; i <= pagingData.endPage; i++) {
       if (pageNum === i) {
         result.push(
           <div

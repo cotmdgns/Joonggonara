@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 public class UpdateDeclarationDTO {
 
     private int userCode;               // 사용자 코드
+    private int noticeUserCode;
+    private int noticeCode;
     private int declarationCode;        // 신고 PK키
     private String checkBooText;        // 체크여부 글자
     private int selectOption;           // 정지할 떄 사용할 데이터

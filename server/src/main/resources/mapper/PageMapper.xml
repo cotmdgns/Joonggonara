@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="mapper.PageMapper">
+
+    <select id="selectUserInfo" parameterType="int" resultType="JGUserInfo">
+        <!--  사용자 정보  -->
+        select
+            userCode,
+            userId,
+            userPwd,
+            userImg,
+            userNickname,
+            userName,
+            userCreate,
+            userUpdate,
+            userDelete,
+            userManager,
+            userYn,
+            userStopYn,
+            userStopDate,
+            LEAST(
+                100,
+                userTotalPointer + (
+                SELECT IFNULL(SUM(userPointer), 0)
+                FROM JGUserInfoPointer
+                WHERE userCode = JGUserInfo.userCode
+                )
+            ) AS userTotalPointer,
+            addressData,
+            addressDetailData,
+            userAddressDetail,
+            userInfo
+        from jguserinfo
+        where userCode = #{code};
+    </select>
+
+    <select id="selectUserProduct" parameterType="int" resultType="JGNotice">
+        <!--    /* 전체 상품 */-->
+        select * from JGNotice
+        where userCode = #{code};
+    </select>
+
+    <select id="purchaseHistoryProduct"  parameterType="int" resultType="JGNotice">
+        <!--    /* 구메 내역 */-->
+        select * from JGNotice
+        where JGNoticeSaleUserCode = #{code};
+    </select>
+    <select id="interestProduct" parameterType="int" resultType="JGNotice">
+        <!--    /* 관심 상품 */-->
+        select * from JGNotice
+        where JGNoticeCode IN (
+        select JGNoticeCode from JGNoticeSubcribe
+        where userCode = #{code}
+        );
+    </select>
+    <select id="saleProduct" parameterType="int" resultType="JGNotice">
+        <!--    /* 판매 중 */-->
+        select * from JGNotice
+        where userCode = #{code} and JGNoticeSaleUserCode is null and JGNoticeProductPrice != 0;
+    </select>
+    <select id="buyProduct" parameterType="int" resultType="JGNotice">
+        <!--    /* 구매 완료 */-->
+        select * from JGNotice
+        where userCode = #{code} and JGNoticeSaleUserCode is not null;
+    </select>
+    <select id="freeProduct" parameterType="int" resultType="JGNotice">
+        <!--    /* 무료 나눔 */-->
+        select * from JGNotice
+        where JGNoticeProductPrice = 0 AND userCode = #{code};
+    </select>
+
+</mapper>

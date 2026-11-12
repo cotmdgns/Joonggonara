@@ -51,15 +51,18 @@ const AdminDeclarationManagement = () =>{
     }
 
     // 신고 처리완료 버튼
-    const singoCreateButton = async ()=>{
+    const singoCreateButton = async (list)=>{
         const data = {
             userCode : sessionStorage.getItem("userCode"),
+            noticeUserCode : list.noticeUserCode,
+            noticeCode : list.noticeCode,
             declarationCode : state.detailData.userDeclarationA.userDeclarationCode,
             checkBooText : state.checkBoo,
             selectOption : state.selectOption,
             textState : state.textState
         }
-        console.log(data)
+
+        
         if(data.checkBoo == ""){
             alert("조치 결과 선택해주세요.")
             return;
@@ -88,7 +91,7 @@ const AdminDeclarationManagement = () =>{
 
     const createButton = () => {
         const result = [];
-        for (let i = 1; i <= state.declarationPaging.endPage; i++) {
+        for (let i = state.declarationPaging.startPage; i <= state.declarationPaging.endPage; i++) {
         if (pageNum === i) {
             result.push(
             <div

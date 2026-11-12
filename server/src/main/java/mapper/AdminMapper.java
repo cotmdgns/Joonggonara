@@ -14,9 +14,8 @@ public interface AdminMapper {
 
     //*********************** 사용자 관리 페이지
     List<JGUserInfo> userALlSelect(UserInfoPagingDTO dto);          /* 전체 사용자 가져오기 */
-//    List<JGUserInfo> userNormalSelect(JGUserInfo jgUserInfo);          /* 정상 사용자 가져오기 */
-//    List<JGUserInfo> userStopSelect(JGUserInfo jgUserInfo);         /* 전체 사용자 가져오기 */
-//    List<JGUserInfo> userDeleteSelect(JGUserInfo jgUserInfo);       /* 전체 사용자 가져오기 */
+
+    void createPointer(JGUserInfoPointer jgUserInfoPointer);
 
     // 사용자 관리 페이지 [ 페이징 전용 데이터 ]
     int userALLTotalPage(UserInfoPagingDTO dto);

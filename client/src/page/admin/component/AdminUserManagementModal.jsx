@@ -27,7 +27,6 @@ const AdminUserManagementModal = ({
             stopHistoryList,
         } = state;
 
-
     // 삭제이력
     const deleteHistory = async (code) =>{
         const result = await deleteHistoryAPI(code)
@@ -115,7 +114,8 @@ const AdminUserManagementModal = ({
                         <div><span>이름</span><span id="box">{infoState.userName}</span></div>
                         <div><span>이메일</span><span id="box">{infoState.userEmail}</span></div>
                         <div><span>등급</span><span id="box">{infoState.userManager == 1 ? "일반 사용자" : "관리자"}</span></div>
-                        <div><span>자기소개</span><span id="box">{infoState.userInfo    }</span></div>
+                        <div><span>자기소개</span><span id="box">{infoState.userInfo}</span></div>
+                        <div><span>매너온도</span><span id="box">{infoState.userTotalPointer}</span></div>
                     </div>
                 </div>
                 }

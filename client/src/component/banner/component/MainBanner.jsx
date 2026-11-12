@@ -1,5 +1,4 @@
 import { GoArrowRight } from "react-icons/go";
-import imgwww from "../../../img/default1.jpg"
 import { SwiperSlide,Swiper } from "swiper/react"; 
 import "../css/Banner.scss"
 

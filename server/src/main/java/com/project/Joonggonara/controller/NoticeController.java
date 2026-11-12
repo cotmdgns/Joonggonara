@@ -170,6 +170,7 @@ public class NoticeController {
     // 신고 하기    [ 클라이언트에서 데이터까지 받음 ]
     @PostMapping("createDeclarationButton")
     public boolean createDeclarationButton(@RequestBody DeclarationDTO dto){
+
         int result = noticeService.createDeclarationButton(dto);
         if(result == 1){
             return true;
@@ -187,27 +188,27 @@ public class NoticeController {
     };
 
 
-    //<!--    댓글 조회 , 게시글 코드 받고 -->
-    @GetMapping("selectComment/{code}")
-    public JGNoticeComment selectComment(@PathVariable("code") int code){
-        return noticeService.selectComment(code);
-    };
-    //<!--  댓글 생성  -->
-    @PostMapping("createComment")
-    public void createComment(@RequestBody JGNoticeComment jgNoticeComment){
-        noticeService.createComment(jgNoticeComment);
-    };
-    //<!--  댓글 수정  -->
-    @PostMapping("updateComment")
-    public void updateComment(@RequestBody JGNoticeComment jgNoticeComment){
-        noticeService.updateComment(jgNoticeComment);
-    };
-    //<!--  댓글 삭제  -->
-    @PostMapping("deleteComment/{code}")
-    public void deleteComment(@PathVariable("code") int code){
-        noticeService.deleteComment(code);
-    };
-
+//    //<!--    댓글 조회 , 게시글 코드 받고 -->
+//    @GetMapping("selectComment/{code}")
+//    public JGNoticeComment selectComment(@PathVariable("code") int code){
+//        return noticeService.selectComment(code);
+//    };
+//    //<!--  댓글 생성  -->
+//    @PostMapping("createComment")
+//    public void createComment(@RequestBody JGNoticeComment jgNoticeComment){
+//        noticeService.createComment(jgNoticeComment);
+//    };
+//    //<!--  댓글 수정  -->
+//    @PostMapping("updateComment")
+//    public void updateComment(@RequestBody JGNoticeComment jgNoticeComment){
+//        noticeService.updateComment(jgNoticeComment);
+//    };
+//    //<!--  댓글 삭제  -->
+//    @PostMapping("deleteComment/{code}")
+//    public void deleteComment(@PathVariable("code") int code){
+//        noticeService.deleteComment(code);
+//    };
+//
 
 
 

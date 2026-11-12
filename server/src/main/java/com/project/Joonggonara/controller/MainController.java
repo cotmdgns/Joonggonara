@@ -146,13 +146,6 @@ public class MainController {
                 }
             }
 
-
-
-
-
-
-
-
             NoticeDTO noticeDTO = NoticeDTO.builder()
                     .jGNoticeCode(data.getJGNoticeCode())
                     .jGNoticeTitle(data.getJGNoticeTitle())

@@ -2,7 +2,6 @@ import "../css/AdminDeclarationManagement.scss"
 
 
 const AdminDeclarationModal = ({adminModalClose,singoCreateButton,state,dispatch,gotoLink}) =>{
-    console.log(state.detailData)
 
     return (
         <>
@@ -112,7 +111,7 @@ const AdminDeclarationModal = ({adminModalClose,singoCreateButton,state,dispatch
                         </div>
                     </div>
                     <div id="declarationModalFooter">
-                        <div id="button" onClick={singoCreateButton}>처리완료</div>
+                        <div id="button" onClick={()=>{singoCreateButton(state.detailData.userDeclarationA)}}>처리완료</div>
                         <div id="button" onClick={adminModalClose}>창 닫기</div>
                     </div>
                 </div>

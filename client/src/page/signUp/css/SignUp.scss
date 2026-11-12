@@ -116,17 +116,25 @@
         #addressBox{
             width: 100%;
             display: flex;
-            align-items: flex-start;
-            #address{
-                width: 100%;
-                padding: 10px;
-                border-radius: 5px;
-                border: 1px solid  rgb(168, 168, 168);
-                margin-bottom: 10px;
+            #addressButton{
+                button{
+                    padding: 10px;
+                    width: 100%;
+                    height: 38px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 5px;
+                    border: none;
+                    margin-left: 4px;
+                    background: #85b2f1;
+                    color: white;
+                }
+                button:hover{
+                    background: #366db9;
+                }
             }
-            #addressSpace{
-                width: 10px ;
-            }
+
         }
         #createButton{
             width: 100%;

@@ -143,13 +143,13 @@ const AdminUserManagement = () =>{
         const result = await userALlSelectlAPI(data);
         dispatch({type:"userALlSelect" ,payload:result.data})
     }
-
+    
 
     const [searchParams,setSearchParams] = useSearchParams();
     const pageNum = Number(searchParams.get("pageNum") || 1);
     const createButton = () =>{
         const result = []
-        for (let i = 1; i <= pageMake.endPage; i++) {
+        for (let i = pageMake.startPage; i <= pageMake.endPage; i++) {
             if(pageNum === i){
              result.push(
                 <button
@@ -303,14 +303,18 @@ const AdminUserManagement = () =>{
                     {/* 페이지네이션 */}
                     <div className="pagination">
                         {pageMake.prev &&
-                        <button type="button" className="pageArrow">
+                        <button type="button" className="pageArrow"
+                                                onClick={() => {setSearchParams({ pageNum: String(state.pageMake.startPage - 1) }),userALlSelect(state.pageMake.startPage - 1)}}
+                        >
                             &lt;
                         </button>
                         }
                         {/* 여기에 버튼함수 만들어야 함 페이징 ㅇㅇ */}
                         {createButton()}
                         {pageMake.next &&
-                        <button type="button" className="pageArrow">
+                        <button type="button" className="pageArrow"
+                        onClick={() => {setSearchParams({ pageNum: String(state.pageMake.endPage + 1) }),userALlSelect(state.pageMake.endPage + 1)}}
+                        >
                             &gt; 
                         </button>
                         }

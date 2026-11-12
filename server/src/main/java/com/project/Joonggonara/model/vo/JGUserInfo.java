@@ -25,9 +25,10 @@ public class JGUserInfo {
     private boolean userYn; /*사용유무*/
     private boolean userStopYn; /*사용자 신고 유무*/
     private String userStopDate; /*사용자 신고 누적 시 날짜 적용*/
-    private int userTotalPointer; /*사용자 총 포인트*/
+    private Double userTotalPointer; /*사용자 총 포인트*/
     private String addressData;  // 사용자 주소                      [2026-10-21 추가됨]
     private String addressDetailData; // 사용자 주소 상세             [2026-10-21 추가됨]
+    private String userAddress;
     private String userAddressDetail; // 사용자 주소 정보
     private String userInfo; // 사용자 자기소개                       [ 2026-10-19 이후로 추가 됨 ]
 }

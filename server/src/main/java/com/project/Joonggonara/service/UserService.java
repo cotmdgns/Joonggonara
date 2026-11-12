@@ -17,15 +17,6 @@ public class UserService {
 
     // 사용자 계정 생성
     public int UserIdCreate(JGUserInfo jgUserInfo){
-        // 사용자 이미지 칼럼에 랜덤값인 이미지 넣기
-        int number = (int) (Math.random() * 5) + 1;
-        jgUserInfo.setUserImg("../resources/static/img/default" + number +".jpg");
-
-        // 폴더 생성해야하는데.. 씁
-
-        // 비밀번호 암호화
-        PasswordEncoder encoder = new BCryptPasswordEncoder();
-        jgUserInfo.setUserPwd(encoder.encode(jgUserInfo.getUserPwd()));
 
         return userMapper.userIdCreate(jgUserInfo);
     }

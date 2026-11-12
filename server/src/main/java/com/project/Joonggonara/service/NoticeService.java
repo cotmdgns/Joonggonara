@@ -36,23 +36,26 @@ public class NoticeService {
         mapper.saleJGNotice(jgNotice);
     };
 
+    public void deleteNotice(int code){
+        mapper.deleteNotice(code);
+    };
 
-
-    //<!--    댓글 조회 , 게시글 코드 받고 -->
-    public JGNoticeComment selectComment(int code){
-        return mapper.selectComment(code);
-    };
-    //<!--  댓글 생성  -->
-    public void createComment(JGNoticeComment jgNoticeComment){
-        mapper.createComment(jgNoticeComment);
-    };
-    //<!--  댓글 수정  -->
-    public void updateComment(JGNoticeComment jgNoticeComment){
-        mapper.updateComment(jgNoticeComment);
-    };
-    //<!--  댓글 삭제  -->
-    public void deleteComment(int code){
-        mapper.deleteComment(code);
-    };
+//
+//    //<!--    댓글 조회 , 게시글 코드 받고 -->
+//    public JGNoticeComment selectComment(int code){
+//        return mapper.selectComment(code);
+//    };
+//    //<!--  댓글 생성  -->
+//    public void createComment(JGNoticeComment jgNoticeComment){
+//        mapper.createComment(jgNoticeComment);
+//    };
+//    //<!--  댓글 수정  -->
+//    public void updateComment(JGNoticeComment jgNoticeComment){
+//        mapper.updateComment(jgNoticeComment);
+//    };
+//    //<!--  댓글 삭제  -->
+//    public void deleteComment(int code){
+//        mapper.deleteComment(code);
+//    };
 
 }

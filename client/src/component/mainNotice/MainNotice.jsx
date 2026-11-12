@@ -1,7 +1,6 @@
 import "./css/MainNotice.scss";
 
 // 이미지
-import imgwww from "../../img/default1.jpg";
 
 // 아이콘
 import { FaRegHeart } from "react-icons/fa"; // 빈하트

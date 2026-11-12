@@ -11,9 +11,11 @@ export const initiaSignUpReduser = {
     userNickName : "",          // 사용자 닉네임
     userEmail : "",             // 시용자 이메일
     userAddressDetail : "",       // 사용자 상세 주소
-    userIdCheck : false,        // 사용자 아이디 체크 
+    userAddress : "",           // 사용자 주소
+    userIdCheck : false,        // 사용자 아이디 체크    
     addressData : "",           // 주소 데이터
     addressDetailData : "",     // 주소 상세 데이터
+    
 
     // 정규표현식 조건 여부
     userIdBoo : null,                // 사용자 아이디 조건여부
@@ -139,17 +141,14 @@ export const SignUpReduser = (state,action) =>{
                 ...state,
                 userIdCheck : false
             }
-        case "addressData" :    // 주소 데이터
+        case "addressInfo" :    // 주소 데이터
             return {
                 ...state,
-                addressData : action.payload
+                addressData : action.payload.sido,
+                addressDetailData : action.payload.sigungu,
+                userAddress : action.payload.roadAddress,
             }
-        case "addressDetailData" :  // 주소 상세 데이터
-            return {
-                ...state,
-                addressDetailData : action.payload
-            }    
-            
+
 
     }
 }

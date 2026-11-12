@@ -1,18 +1,8 @@
 import { useReducer } from "react";
 import InputTag from "../../../component/inputTag/InputTag";
-import imgwww from "../../../img/default1.jpg";
 import { initiaMyPageReduser, MyPageReduser } from "../reduser/MyPageReduser";
 
-const MyPageProfile = ({profileCloseButton}) => {
-  // myPage 리듀서
-  const [state, dispatch] = useReducer  (MyPageReduser, initiaMyPageReduser);
-  const { profileState }  = state;
-
-  // 임시더미데이터
-    const arr1 = ["서울","서울","서울","서울","서울","서울","서울","서울","서울"]
-    const arr2 = ["서울","서울","서울","서울","서울","서울","서울","서울","서울"]
-
-
+const MyPageProfile = ({profileCloseButton,state,dispatch}) => {
 
   // 변경사항 수정버튼
   // 변경하고 새로고침
@@ -25,13 +15,16 @@ const MyPageProfile = ({profileCloseButton}) => {
   // 이미지 변경
   // 변경하고 새로고침
   const userImgUpdate = () => {}
+
+  console.log(state.userInfo)
+
   return (
     <>
       <div id="myPageBox">
         <div id="profileBox">
           <div id="profileImg">
-            <img src={imgwww} id="img"></img>
-            <div id="imgUpdate">사진 변경</div>
+            <img src={`http://localhost:8080/userProfile/${state.userInfo.userId}/userProfile/${state.userInfo.userImg}`} id="img"></img>
+            <div id="imgUpdate">프로필 사진 변경</div>
             <div id="imgDefault">기본이미지로 변경</div>
           </div>
           <div id="profileInfo">
@@ -44,27 +37,7 @@ const MyPageProfile = ({profileCloseButton}) => {
             <div id="profileAddressDefailBox">
               <div id="textBox">비밀번호</div>
               <div id="input">
-                <InputTag PHText="여기에 DB에 저장된 비밀번호 들어갈 자리"/>
-              </div>
-            </div>
-            <div id="profileAddressBox">
-              <div id="textBox">지역</div>
-              <div id="addressSelct">
-                  <select id="address">
-                      {arr1.map((arr,index)=>(
-                          <option key={index}>{arr}</option>
-                      ))}
-                  </select>
-                  <div id="addressSpace"></div>
-                  <select id="address">
-                      {arr2 != null ? 
-                      arr2.map((arr,index)=>(
-                          <option  key={index}>{arr}</option>
-                      ))
-                      :
-                      <option>------</option>
-                      }
-                  </select>
+                <InputTag PHText="여기에 DB에 저장된 비밀번호 들어갈 자리" TText={"password"}/>
               </div>
             </div>
             <div id="profileAddressDefailBox">

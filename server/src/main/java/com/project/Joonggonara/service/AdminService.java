@@ -34,6 +34,10 @@ public class AdminService {
         return mapper.userALLTotalPage(dto);
     };
 
+    public void createPointer(JGUserInfoPointer jgUserInfoPointer){
+        mapper.createPointer(jgUserInfoPointer);
+    };
+
     public int userALLTotal(){
         return mapper.userALLTotal();
     };

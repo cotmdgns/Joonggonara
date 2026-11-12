@@ -50,6 +50,11 @@
         where JGNoticeCode = #{JGNoticeCode};
     </insert>
 
+    <update id="deleteNotice" parameterType="int">
+        update jgnotice
+        set JGNoticeDelect = now()
+        where JGNoticeCode = #{code};
+    </update>
 
 
 

@@ -3,6 +3,7 @@ package com.project.Joonggonara.controller;
 import com.project.Joonggonara.model.dto.*;
 import com.project.Joonggonara.model.vo.*;
 import com.project.Joonggonara.service.AdminService;
+import com.project.Joonggonara.service.NoticeService;
 import com.project.Joonggonara.service.UserService;
 import jakarta.websocket.server.PathParam;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +33,8 @@ public class AdminController {
     @Autowired
     private UserService userService;
 
-
+    @Autowired
+    private NoticeService noticeService;
 
 
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 메인 관리 페이지 @@@@@@@@@@@@@@@@@@@@@@@/
@@ -61,6 +63,8 @@ public class AdminController {
         dto.setCri(cri);
 
         List<JGUserInfo> list =  adminService.userALlSelect(dto);
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 나중에 여기에 포인트 넣을 예정 @@@@@@@@@@@@@@@@@@@@/
         // 필요한 준비물 : 리스트와 포탈정보
         int total = adminService.userALLTotalPage(dto);
         dto.setJgUserInfoList(list);
@@ -182,16 +186,27 @@ public class AdminController {
         // cantentDelete = 대상 컨텐츠 삭제    -> 처리완료
         // userStateStop = 작성자 이용 정지    -> 처리완료
         // singoBack = 신고 반려              -> 반려
+
+        JGUserInfoPointer jgUserInfoPointer = new JGUserInfoPointer();
+        jgUserInfoPointer.setUserCode(updateDeclarationDTO.getNoticeUserCode());
+
         if(updateDeclarationDTO.getCheckBooText().equals("cantentDelete")){
+            jgUserInfoPointer.setUserPointer(-0.7);
+            jgUserInfoPointer.setPointerReason("게시글 삭제");
             updateDeclarationDTO.setUserDeclarationBoo("처리완료");
+            noticeService.deleteNotice(updateDeclarationDTO.getNoticeCode());
         }else if(updateDeclarationDTO.getCheckBooText().equals("userStateStop")){
+            jgUserInfoPointer.setUserPointer(-1.0);
+            jgUserInfoPointer.setPointerReason("사용자 정지" + updateDeclarationDTO.getSelectOption() + "일");
             updateDeclarationDTO.setUserDeclarationBoo("처리완료");
             // 여기서 또 로지 하나 돌기
             adminService.updateUserInfo(updateDeclarationDTO);   // 사용자 데이터에서 삭제날짜 등록
         }else if(updateDeclarationDTO.getCheckBooText().equals("singoBack")){
+            jgUserInfoPointer.setUserPointer(0.0);
+            jgUserInfoPointer.setPointerReason("반려");
             updateDeclarationDTO.setUserDeclarationBoo("반려");
         }
-
+        adminService.createPointer(jgUserInfoPointer);
         adminService.updateDeclaration(updateDeclarationDTO);
     }
     // 신고 전체리스트 total

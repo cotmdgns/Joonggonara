@@ -5,8 +5,19 @@
 <mapper namespace="mapper.UserMapper">
     <!-- 회원가입인데 어쩌피 나중에 다시 만들어야 함 -->
     <insert id="userIdCreate"  parameterType="JGUserInfo">
-        insert into JGUserInfo (userId, userPwd, userImg,userNickname, userName, userUpdate, userTotalPointer, addressData,addressDetailData, userAddressDetail)
-        value (#{userId}, #{userPwd}, #{userImg},#{userNickname}, #{userName}, NOW(), #{userTotalPointer}, #{addressData},#{addressDetailData} ,#{userAddressDetail})
+        insert into JGUserInfo (
+        userId,
+        userPwd,
+        userImg,
+        userNickname,
+        userName,
+        userUpdate,
+        addressData,
+        addressDetailData,
+        userAddress,
+        userAddressDetail
+        )
+        value (#{userId}, #{userPwd}, #{userImg},#{userNickname}, #{userName}, NOW(), #{addressData},#{addressDetailData},#{userAddress} ,#{userAddressDetail})
     </insert>
 
     <!-- 아이디 체크하기 -->

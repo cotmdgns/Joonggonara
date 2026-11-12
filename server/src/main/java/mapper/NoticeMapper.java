@@ -16,7 +16,7 @@ public interface NoticeMapper {
     int createDeclarationButton(DeclarationDTO dto);           // 신고하기
 
     void saleJGNotice(JGNotice jgNotice);                       //<!--  구매하기  -->
-
+    void deleteNotice(int code);                                // 게시글 삭제
 
 
     JGNoticeComment selectComment(int code);                    //<!--    댓글 조회 , 게시글 코드 받고 -->

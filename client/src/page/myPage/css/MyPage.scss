@@ -205,8 +205,10 @@
           }
         }
         #myPageRegistrationCenter {
-          padding: 10px;
+          padding-top: 10px;
           display: flex;
+          flex-wrap: wrap; 
+          gap: 6px;
         }
       }
     }
