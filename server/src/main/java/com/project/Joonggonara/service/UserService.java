@@ -17,7 +17,6 @@ public class UserService {
 
     // 사용자 계정 생성
     public int UserIdCreate(JGUserInfo jgUserInfo){
-
         return userMapper.userIdCreate(jgUserInfo);
     }
 

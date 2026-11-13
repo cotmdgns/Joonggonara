@@ -1,5 +1,6 @@
 package com.project.Joonggonara.service;
 
+import com.project.Joonggonara.model.dto.UserProfileDTO;
 import com.project.Joonggonara.model.vo.JGNotice;
 import com.project.Joonggonara.model.vo.JGUserInfo;
 import mapper.PageMapper;
@@ -36,5 +37,13 @@ public class PageService {
     public List<JGNotice> freeProduct(int code){
         return mapper.freeProduct(code);
     };
+
+    public JGUserInfo pwdCheck(int code){
+        return mapper.pwdCheck(code);
+    };
+    public void userIdUpdate(UserProfileDTO dto){
+        mapper.userIdUpdate(dto);
+    };
+
 
 }

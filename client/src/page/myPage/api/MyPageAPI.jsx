@@ -50,3 +50,9 @@
     export const freeProductAPI = async (code)=>{
         return await instance.get(`/freeProduct/${code}`)
     }
+
+
+    // /* 사용자 정보 업데이트  */
+    export const userProfileUpdateAPI = async (data)=>{
+        return await instance.post("/userProfileUpdate" , data)
+    }

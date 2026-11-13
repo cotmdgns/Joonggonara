@@ -1,6 +1,7 @@
 package com.project.Joonggonara.controller;
 
 import com.project.Joonggonara.jwt.JwtUtil;
+import com.project.Joonggonara.model.dto.UserProfileDTO;
 import com.project.Joonggonara.model.vo.AddressInfo;
 import com.project.Joonggonara.model.vo.AddressInfoDetail;
 import com.project.Joonggonara.model.vo.JGUserInfo;
@@ -56,9 +57,7 @@ public class UserController {
         String result =userService.nicknameCheck(jgUserInfo.getUserNickname());
         if(result == null || result.isEmpty()){
 
-
-
-            Path directoryPath = Paths.get(userFile + jgUserInfo.getUserId() + "\\");
+            Path directoryPath = Paths.get(userFile + jgUserInfo.getUserCode() + "\\");
 
             try {
                 Files.createDirectories(directoryPath);
@@ -135,6 +134,9 @@ public class UserController {
         List<AddressInfoDetail> addressInfo =  addressService.addressDetailAPI(code);
         return addressInfo;
     }
+
+
+
 
     // 사용자 이미지 변경할 때 사용할 메서드
     public String fileUpload(MultipartFile file, int noticeCode, String url) throws IOException {

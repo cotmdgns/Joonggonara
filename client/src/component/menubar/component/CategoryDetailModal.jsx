@@ -9,21 +9,19 @@ const CategoryDetailModal = ({
 
     // 네비
     const navigate = useNavigate()
-    const param = useParams();
 
-    const {textState} = state;
 
     // 상품페이지 이동
     const gotoCategory = (product) =>{
         // / 이거때문에 경로가 이상해짐 넘어갈 때 변경해줘야 함
-        let majorText = textState.replaceAll("/","&");
+        let majorText = state.textState.replaceAll("/","&");
         let text = product.replaceAll("/","&")
         navigate(`/jogoProduct/${majorText}/${text}`);
     }
     // 상품 - 상품페이지 이동
     const gotoCategoryCategory = (product,product2) =>{
         // / 이거때문에 경로가 이상해짐 넘어갈 때 변경해줘야 함
-        let majorText = textState.replaceAll("/","&");
+        let majorText = state.textState.replaceAll("/","&");
         let text = product.replaceAll("/","&")
         let text2 = product2.replaceAll("/","&")
         navigate(`/jogoProduct/${majorText}/${text}/${text2}`);

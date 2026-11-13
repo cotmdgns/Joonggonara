@@ -132,7 +132,7 @@ const JogoProductCreate = ({ productCreateClose }) => {
 
     await noticeCreateAPI(data);
     alert("생성 되었습니다.");
-    productCreateClose();
+    // productCreateClose();
   };
 
   return (

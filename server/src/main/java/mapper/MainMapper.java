@@ -17,6 +17,7 @@ public interface MainMapper {
     void insertNotice(JGNotice notice);                         // <!-- 생성 게시글 하나 생성하기 -->
     void createImg(List<JGNoticeImg> list);                     // <!-- 이미지 만들기 -->
     List<JGNotice> searchNoticeSelect(SearchDTO dto);           // 상세 리스트 가져오기 ( 검색도 가능함 , 페이징 걸고 한페이지 50개 )
+    int searchNoticeSelectTotal(SearchDTO dto);
     List<JGNoticeImg> searchNoticeSelectImg(int code);          // 상세 리스트 가져올 때 같이 줘야 할 이미지
     List<JGNotice> selectNoticeDATE();                          // 현재날짜로 일주일치 최신 게시글 가져오기
     List<JGNotice> selectUserAddressNotification(int code);     // 사용자 정보로 근처 상품들 찾기

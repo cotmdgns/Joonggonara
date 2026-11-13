@@ -102,11 +102,9 @@ CREATE TABLE JGUserInfo(
   userInfo varchar(255) default null /*사용자 자기소개*/
 );
 
-select * from JGUserInfo
-order by userCode desc;
-
-
-
+select * from jguserinfo
+order by userCode = 1
+limit 0,10;
 
 
 SHOW VARIABLES LIKE 'event_scheduler';

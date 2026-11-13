@@ -29,17 +29,19 @@ const JogoProduct = () => {
   // 페이징 넣어야 함
   const searchNoticeSelect = async () => {
     const data = {
-      search: "", // 검색용
+      num: 1, // 검색용
       title1: category ?? "",
       title2: category2 ?? "",
       title3: category3 ?? "",
       price1: "", // 금액에서 ~
       price2: "", // ~ 금액까지
-      address1: "", // 지역 (서울, 경기도, 대전, 대구... )
-      address2: "", // 지역 (강남, 서초, 성남 ... )
+      address1: "", // 지역 (서울, 경기도, 대전, 대구... )  // 이거는 사용자들이 저장한 위치에 따라
+      address2: "", // 지역 (강남, 서초, 성남 ... )        // 이거는 사용자들이 저장한 위치에 따라
     };
     const result = await searchNoticeSelectAPI(data);
-    dispatch({ type: "selectNotificationList", payload: result.data });
+    console.log(result.data)
+    dispatch({ type: "selectNotificationList", payload: result.data.noticeDTOS });
+    dispatch({ type: "paging", payload: result.data.pageMake });
   };
 
 

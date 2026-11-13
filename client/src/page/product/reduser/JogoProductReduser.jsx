@@ -49,6 +49,7 @@ export const initiaJogoProductReduser = {
     singoText : "",             // 신고내용
 
     subscribeState: true,
+    paging : "",
 
 }
 
@@ -158,6 +159,11 @@ export const JogoProductReduser = (state, action) =>{
             return{
                 ...state,
                 selectNotificationList : action.payload,
+            }
+        case "paging":  // 상세 종합 데이터
+            return{
+                ...state,
+                paging : action.payload,
             }
 
         /////////////////////////////// 

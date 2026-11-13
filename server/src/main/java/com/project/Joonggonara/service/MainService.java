@@ -39,6 +39,9 @@ public class MainService {
     public List<JGNotice> searchNoticeSelect(SearchDTO dto){
         return mainMapper.searchNoticeSelect(dto);
     }
+    public int searchNoticeSelectTotal(SearchDTO dto){
+        return mainMapper.searchNoticeSelectTotal(dto);
+    }
 
     public List<JGNoticeImg> searchNoticeSelectImg(int code){
         return mainMapper.searchNoticeSelectImg(code);

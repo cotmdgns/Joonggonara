@@ -75,17 +75,22 @@ public class NoticeController {
         // 끝
     }
 
-
+    // 여기에 페이징 저장하고
     // 상품 검색하기  [ 페이징도 적용해야 함 ]
     @PostMapping("searchNoticeSelect")
-    public List<NoticeDTO> searchNoticeSelect(@RequestBody SearchDTO dto){
-        // 검색 후 데이터
-        log.info("1. 데이터 확인하기 dto : " + dto);
+    public SynthesisDTO searchNoticeSelect(@RequestBody SearchDTO dto){
+        // 초기세팅
+        Criteria cri = new Criteria(1,30);
+        cri.setPageNum(dto.getNum());
+        dto.setCri(cri);
+
         List<JGNotice> list = mainService.searchNoticeSelect(dto);
-        log.info("2. 데이터 확인하기 list : " + list);
-        // 데이터 담기 위한 리스트
         List<NoticeDTO> result = new ArrayList<>();
         // 반복문
+
+        int total = mainService.searchNoticeSelectTotal(dto);
+        PageMakerDTO pageMake = new PageMakerDTO(cri, total);
+
         for(JGNotice data : list){
             // 코드로 이미지들 가져오고
             List<JGNoticeImg> img = mainService.searchNoticeSelectImg(data.getJGNoticeCode());
@@ -107,8 +112,12 @@ public class NoticeController {
                     .build();
             result.add(noticeDTO);
         }
+        SynthesisDTO synthesisDTO = SynthesisDTO.builder()
+                .noticeDTOS(result)
+                .pageMake(pageMake)
+                .build();
 
-        return result;
+        return synthesisDTO;
     }
 
     // @@@@@@@@@@@@@@@@@@ 디테일 페이지 데이터 가져오기

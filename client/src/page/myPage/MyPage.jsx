@@ -1,9 +1,6 @@
 //css
 import "./css/MyPage.scss";
 
-
-
-
 // 아이콘
 import { FaLocationDot } from "react-icons/fa6"; // 주소
 import { CiStar } from "react-icons/ci"; // 별
@@ -187,13 +184,13 @@ const MyPage = () => {
               <div id="myPageProfileBox">
                 <div id="myPageProfileBoxInfo">
                   <div id="myPageProfileBoxInfo2">
-                    <img id="myPageProfileBoxImg" src={`http://localhost:8080/userProfile/${state.userInfo.userId}/userProfile/${state.userInfo.userImg}`}></img>
+                    <img id="myPageProfileBoxImg" src={`http://localhost:8080/userProfile/${state.userInfo.userCode}/${state.userInfo.userImg}`}></img>
                     <div id="myPageProfileBoxInfo3">
                       <div id="myPageProfileBoxInfoName">
-                        {state.userInfo.userName}
+                        {state.userInfo.userNickname}
                       </div>
                       <div id="myPageProfileBoxInfoAddress">
-                        <FaLocationDot></FaLocationDot>{state.userInfo.addressData},{state.userInfo.addressDetailData} <span>{state.userInfo.userAddressDetail}</span>
+                        <FaLocationDot></FaLocationDot><span>{state.userInfo.userAddress},{state.userInfo.userAddressDetail}</span>
                       </div> 
                       <div id="myPageProfileBoxInfoPoint">
                         <span id="icon">
@@ -240,7 +237,6 @@ const MyPage = () => {
                 <div id="myPageRegistration">
                   <div id="myPageRegistrationHeader">
                     <div id="myPageRegistrationH1">전체상품</div>
-                    <div id="myPageRegistrationButton">전체보기</div>
                   </div>
                   <div id="myPageRegistrationCenter">
                     {state.result1.map((result,index)=>{
@@ -259,7 +255,6 @@ const MyPage = () => {
                 <div id="myPageRegistration">
                   <div id="myPageRegistrationHeader">
                     <div id="myPageRegistrationH1">거래 내역</div>
-                    <div id="myPageRegistrationButton">전체보기</div>
                   </div>
                   <div id="myPageRegistrationCenter">
                     {state.result2.map((result,index)=>{
@@ -278,7 +273,6 @@ const MyPage = () => {
                 <div id="myPageRegistration">
                   <div id="myPageRegistrationHeader">
                     <div id="myPageRegistrationH1">관심상품</div>
-                    <div id="myPageRegistrationButton">전체보기</div>
                   </div>
                   <div id="myPageRegistrationCenter">
                     {state.result3.map((result,index)=>{
@@ -297,7 +291,6 @@ const MyPage = () => {
                 <div id="myPageRegistration">
                   <div id="myPageRegistrationHeader">
                     <div id="myPageRegistrationH1">판매중</div>
-                    <div id="myPageRegistrationButton">전체보기</div>
                   </div>
                   <div id="myPageRegistrationCenter">
                     {state.result4.map((result,index)=>{
@@ -316,7 +309,6 @@ const MyPage = () => {
                 <div id="myPageRegistration">
                   <div id="myPageRegistrationHeader">
                     <div id="myPageRegistrationH1">구매완료</div>
-                    <div id="myPageRegistrationButton">전체보기</div>
                   </div>
                   <div id="myPageRegistrationCenter">
                     {state.result5.map((result,index)=>{
@@ -335,7 +327,6 @@ const MyPage = () => {
                 <div id="myPageRegistration">
                   <div id="myPageRegistrationHeader">
                     <div id="myPageRegistrationH1">나눔상품</div>
-                    <div id="myPageRegistrationButton">전체보기</div>
                   </div>
                   <div id="myPageRegistrationCenter">
                     {state.result6.map((result,index)=>{
@@ -358,6 +349,8 @@ const MyPage = () => {
         profileCloseButton={profileCloseButton}
         state={state}
         dispatch={dispatch}
+        categoryUpdate={categoryUpdate}
+        selectUserInfo={selectUserInfo}
         ></MyPageProfile>
       )}
     </>

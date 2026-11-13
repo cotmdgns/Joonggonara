@@ -1,5 +1,6 @@
 package mapper;
 
+import com.project.Joonggonara.model.dto.UserProfileDTO;
 import com.project.Joonggonara.model.vo.JGNotice;
 import com.project.Joonggonara.model.vo.JGUserInfo;
 import org.apache.ibatis.annotations.Mapper;
@@ -16,5 +17,8 @@ public interface PageMapper {
     List<JGNotice> saleProduct(int code);
     List<JGNotice> buyProduct(int code);
     List<JGNotice> freeProduct(int code);
+
+    JGUserInfo pwdCheck(int code);
+    void userIdUpdate(UserProfileDTO dto);
 
 }

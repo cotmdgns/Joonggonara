@@ -32,6 +32,7 @@ const CategoryModal = ({state,dispatch,navi}) =>{
     // 상품페이지 이동
     const gotoCategory = (product) =>{
         // / 이거때문에 경로가 이상해짐 넘어갈 때 변경해줘야 함
+        console.log(1)
         let text = product.replaceAll("/","&")
         navi(`/jogoProduct/${text}`);
     }
@@ -42,6 +43,10 @@ const CategoryModal = ({state,dispatch,navi}) =>{
 
     useEffect(() => {
     if (categoryMajorList.length > 0) {
+        dispatch({
+            type: "textState",
+            payload: categoryMajorList[0].categoryStateMajorText
+        });
         categoryMinor(categoryMajorList[0].categoryStateMajorCode);
     }
     }, [categoryMajorList]);

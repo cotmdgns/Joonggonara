@@ -1,21 +1,25 @@
 package com.project.Joonggonara.controller;
 
 import com.project.Joonggonara.model.dto.NoticeDTO;
+import com.project.Joonggonara.model.dto.UserProfileDTO;
 import com.project.Joonggonara.model.vo.JGNotice;
 import com.project.Joonggonara.model.vo.JGNoticeImg;
 import com.project.Joonggonara.model.vo.JGNoticeSubcribe;
 import com.project.Joonggonara.model.vo.JGUserInfo;
-import com.project.Joonggonara.service.AdminService;
-import com.project.Joonggonara.service.MainService;
-import com.project.Joonggonara.service.NoticeService;
-import com.project.Joonggonara.service.PageService;
+import com.project.Joonggonara.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -34,6 +38,11 @@ public class PageController {
 
     @Autowired
     private NoticeService noticeService;
+
+    @Autowired
+    private UserService userService;
+
+
     /* 사용자 정보 가져오기 [ 분명 다른 컨트롤에서 사용하고 있을게 있을 거같은데 귀찮~]  */
     @PostMapping("selectUserInfo/{code}")
     public JGUserInfo selectUserInfo(@PathVariable("code")int code){
@@ -120,5 +129,59 @@ public class PageController {
         return result;
     }
 
+    private String url = "C:\\github\\img\\userProfile\\";
+
+    @PostMapping("userProfileUpdate")
+    public String userProfileUpdate(UserProfileDTO dto){
+        // 1. 클라이언트에서 받은 코드로 사용자 가져오기
+        log.info("데이터 확인하기 : "+ dto);
+        JGUserInfo info = pageService.pwdCheck(dto.getUserCode());
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        if(dto.getUserOldPwd() != null && !dto.getUserOldPwd().isEmpty()) {
+            if(!encoder.matches(dto.getUserOldPwd(), info.getUserPwd())) {
+                return "notPassword";
+            }
+            // 새 비밀번호
+            dto.setUserNewPwd(encoder.encode(dto.getUserNewPwd()));
+        }
+
+        try {
+            String fileName = "";
+            if(dto.getUserProfile() != null){
+                fileName = fileUpload(dto.getUserProfile(),dto.getUserCode(),url);
+            }
+            dto.setUserProfileName(fileName);
+            JGUserInfo vo = userService.selectUserInfo(dto.getUserCode());
+            // 안에 존재하냐
+            // 값이 널이 아니지?
+            if(!vo.getUserImg().isEmpty() && vo.getUserImg()!=null){
+                log.info("삭제까지 들어오는가?");
+                // 그럼 이 주소로 해서
+                File imgDelete = new File(url + vo.getUserCode() + File.separator + vo.getUserImg());
+                // 지울게
+                imgDelete.delete();
+            }
+            pageService.userIdUpdate(dto);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        // 가져온 파일 이름으로
+
+
+        return null;
+    }
+
+    public String fileUpload(MultipartFile file, int code, String url) throws IOException {
+        UUID uuid = UUID.randomUUID();
+        String fileName = uuid.toString()+"_"+file.getOriginalFilename();
+        File dir = new File(url + File.separator + code);
+        if (!dir.exists()) {
+            dir.mkdirs(); // 없으면 생성
+        }
+        File copyFile = new File(dir, fileName);
+        file.transferTo(copyFile);
+        return fileName;
+    }
 
 }

@@ -31,11 +31,49 @@
             ) AS userTotalPointer,
             addressData,
             addressDetailData,
+            userAddress,
             userAddressDetail,
             userInfo
         from jguserinfo
         where userCode = #{code};
     </select>
+
+<!--    사용자 비밀번호 체크하기-->
+    <select id="pwdCheck" parameterType="int" resultType="jguserinfo">
+        select * from jguserinfo
+        where userCode = #{code}
+    </select>
+<!--    사용자 정보 업데이트 하기-->
+    <update id="userIdUpdate" parameterType="UserProfileDTO">
+        UPDATE jguserinfo
+        <set>
+            <if test="userProfileName != null">
+                userImg = #{userProfileName},
+            </if>
+            <if test="userNickName != null ">
+                userNickname = #{userNickName},
+            </if>
+            <if test="userNewPwd != null">
+                userPwd = #{userNewPwd},
+            </if>
+            <if test="userAddress != null">
+                userAddress = #{userAddress},
+            </if>
+            <if test="userAddressDetail != null">
+                userAddressDetail = #{userAddressDetail},
+            </if>
+            <if test="addressData != null">
+                addressData = #{addressData},
+            </if>
+            <if test="addressDetailData != null">
+                addressDetailData = #{addressDetailData},
+            </if>
+            <if test="userInfoData != null">
+                userInfo = #{userInfoData},
+            </if>
+        </set>
+        where userCode = #{userCode}
+    </update>
 
     <select id="selectUserProduct" parameterType="int" resultType="JGNotice">
         <!--    /* 전체 상품 */-->

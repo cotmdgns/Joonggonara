@@ -89,6 +89,47 @@
             </if>
         </where>
         order by notice.JGNoticeCreate desc
+        limit #{cri.pageNum},#{cri.amount}
+    </select>
+
+<!--    전체 토탈값-->
+    <select id="searchNoticeSelectTotal" parameterType="SearchDTO" resultType="int">
+        select count(*) from JGNotice notice
+        Join jguserinfo user ON notice.userCode= user.userCode
+        <where>
+            JGNoticeDelect is null
+            <if test="search != null and search != ''">
+                AND notice.JGNoticeText LIKE CONCAT('%', #{search}, '%')
+            </if>
+
+            <if test="title1 != null and title1 != ''">
+                AND notice.JGNoticeProductTypeMajor = #{title1}
+            </if>
+
+            <if test="title2 != null and title2 != ''">
+                AND notice.JGNoticeProductTypeMinor = #{title2}
+            </if>
+
+            <if test="title3 != null and title3 != ''">
+                AND notice.JGNoticeProductTypeMinorList = #{title3}
+            </if>
+
+            <if test="address1 != null and address1 != ''">
+                AND user.addressData = #{address1}
+            </if>
+
+            <if test="address2 != null and address2 != ''">
+                AND user.addressDetailData = #{address2}
+            </if>
+
+            <if test="price1 != null and price1 != ''">
+                AND CAST(REPLACE(notice.JGNoticeProductPrice, ',', '') AS UNSIGNED) >= #{price1}
+            </if>
+
+            <if test="price2 != null and price2 != ''">
+                AND CAST(REPLACE(notice.JGNoticeProductPrice, ',', '') AS UNSIGNED) &lt;= #{price2}
+            </if>
+        </where>
     </select>
 
     <!-- 검색할 때 이미지도 필요해서 하나 보내줘여함 -->
