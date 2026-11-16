@@ -26,4 +26,6 @@ public class NoticeDTO {
     private String firstImgName;    /* 첫번째 이미지 이름 */
     private int firstImgCode;       /* 첫번째 이미지 코드 */
     private Boolean checkBoo;   /* 구독 체크하기 */
+    private String address1;
+    private String address2;
 }

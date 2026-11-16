@@ -72,7 +72,7 @@ public class MainController {
         List<NoticeDTO> result = new ArrayList<>();
         for(JGNotice data : list){
             // 코드로 이미지들 가져오고
-            List<JGNoticeImg> img = mainService.searchNoticeSelectImg(data.getJGNoticeCode());
+            List<JGNoticeImg> img = mainService.    searchNoticeSelectImg(data.getJGNoticeCode());
 
             // 내 코드로 저장되어있는게 있는지 확인하기
             JGNoticeSubcribe jgNoticeSubcribe = JGNoticeSubcribe.builder()

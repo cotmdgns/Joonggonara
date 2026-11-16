@@ -5,14 +5,35 @@ import "./css/MainNotice.scss";
 // 아이콘
 import { FaRegHeart } from "react-icons/fa"; // 빈하트
 import { FaHeart } from "react-icons/fa"; // 하트
+import { subscribeNoticeCreateAPI, subscribeNoticeDeleteAPI } from "../../page/product/api/productAPI";
 
 
-const MainNotice = ({ list, gotoDetailProduct }) => {
+const MainNotice = ({ list, gotoDetailProduct ,pageNum,searchNoticeSelect}) => {
+
   // 좋아요 누르기 버튼
-  const noticeLike = () => {
-    alert(list.jgnoticeCode);
+  const noticeLike = async (www) => {
+    const data = {
+        jGNoticeCode : list.jgnoticeCode,
+        userCode : sessionStorage.getItem("userCode"),
+    }
+    console.log(data)
+    console.log(www)
+    await subscribeNoticeCreateAPI(data)
+    await searchNoticeSelect(pageNum)
   };
-  // 상품 디테일 페이지 이동 [ 하트 누르면 같이 넘어가니깐 이거 정리 ]
+
+  const noticeLikeFalse = async (www) => {
+    const data = {
+        jGNoticeCode : list.jgnoticeCode,
+        userCode : sessionStorage.getItem("userCode"),
+    }
+    console.log(data)
+    console.log(www)
+    await subscribeNoticeDeleteAPI(data)
+    await searchNoticeSelect(pageNum)
+  };
+
+
   return (
     <>
       <div
@@ -28,15 +49,25 @@ const MainNotice = ({ list, gotoDetailProduct }) => {
         <>
           <div id="mainNoticeText">{list.jgnoticeTitle}</div>
           <div id="mainNoticePrice">{list.jgnoticeProductPrice}</div>
-          <div id="mainNoticeTime">5시간 전</div>
-          <div id="mainNoticeIcon" onClick={(e)=>{
-            noticeLike();
-            e.stopPropagation();
-          }}>
-            {list.checkBoo ? 
-            <FaHeart style={{"color":"red"}}/>
-            :
-            <FaRegHeart style={{"color":"red"}}/>
+          <div id="mainNoticeTime">{list.jgnoticeCreate?.substring(0,10)}</div>
+          <div id="mainNoticeTime">{list.address1} {list.address2}</div>
+          <div id="mainNoticeIcon">
+            {sessionStorage.getItem("userCode") !== String(list.userCode) ? 
+              list.checkBoo ? 
+              <>
+                            <FaRegHeart style={{"color":"red"}} onClick={(e)=>{
+                noticeLike(list.jgnoticeCode);
+                e.stopPropagation();
+               }}/>
+              </>
+
+              :
+                <FaHeart style={{"color":"red"}} onClick={(e)=>{
+                noticeLikeFalse(list.jgnoticeCode);
+                e.stopPropagation();  
+              }}/>
+              :
+              <></>
             }
           </div>
         </> 

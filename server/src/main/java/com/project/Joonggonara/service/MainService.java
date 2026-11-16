@@ -1,10 +1,7 @@
 package com.project.Joonggonara.service;
 
 import com.project.Joonggonara.model.dto.SearchDTO;
-import com.project.Joonggonara.model.vo.JGNotice;
-import com.project.Joonggonara.model.vo.JGNoticeImg;
-import com.project.Joonggonara.model.vo.JGUserInfo;
-import com.project.Joonggonara.model.vo.NotificationManagement;
+import com.project.Joonggonara.model.vo.*;
 import mapper.MainMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -71,5 +68,21 @@ public class MainService {
     // 사용자 정보로 근처 상품들 찾기
     public List<JGNotice> selectUserAddressNotification(int code){
         return mainMapper.selectUserAddressNotification(code);
+    };
+
+    public JGNoticeSubcribe checkBoo(SearchDTO searchDTO){
+        return mainMapper.checkBoo(searchDTO);
+    };
+
+    // 주소
+    public List<String> address1(){
+        return mainMapper.address1();
+    };
+    public List<String> address2(String str){
+        return mainMapper.address2(str);
+    };
+
+    public JGUserInfo selectAddress(int code){
+        return mainMapper.selectAddress(code);
     };
 }

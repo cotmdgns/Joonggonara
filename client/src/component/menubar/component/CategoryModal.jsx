@@ -34,7 +34,7 @@ const CategoryModal = ({state,dispatch,navi}) =>{
         // / 이거때문에 경로가 이상해짐 넘어갈 때 변경해줘야 함
         console.log(1)
         let text = product.replaceAll("/","&")
-        navi(`/jogoProduct/${text}`);
+        navi(`/jogoProduct/category/${text}??pageNum=1`);
     }
 
     useEffect(()=>{

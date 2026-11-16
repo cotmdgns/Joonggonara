@@ -75,12 +75,23 @@ public class NoticeController {
         // 끝
     }
 
+    @GetMapping("address1")
+    public List<String> address1(){
+        return mainService.address1();
+    };
+    @GetMapping("address2/{str}")
+    public List<String> address1(@PathVariable("str") String str){
+        return mainService.address2(str);
+    };
+
     // 여기에 페이징 저장하고
     // 상품 검색하기  [ 페이징도 적용해야 함 ]
     @PostMapping("searchNoticeSelect")
     public SynthesisDTO searchNoticeSelect(@RequestBody SearchDTO dto){
+
+        log.info("데이터 확인하기 : " + dto);
         // 초기세팅
-        Criteria cri = new Criteria(1,30);
+        Criteria cri = new Criteria(1,24);
         cri.setPageNum(dto.getNum());
         dto.setCri(cri);
 
@@ -89,11 +100,20 @@ public class NoticeController {
         // 반복문
 
         int total = mainService.searchNoticeSelectTotal(dto);
-        PageMakerDTO pageMake = new PageMakerDTO(cri, total);
+        PageMakerDTO pageMake = new PageMakerDTO(dto.getCri(), total);
 
         for(JGNotice data : list){
             // 코드로 이미지들 가져오고
             List<JGNoticeImg> img = mainService.searchNoticeSelectImg(data.getJGNoticeCode());
+            JGUserInfo info = mainService.selectAddress(data.getUserCode());
+
+            dto.setJgNoticeCode(data.getJGNoticeCode());
+            JGNoticeSubcribe jgNoticeSubcribe = mainService.checkBoo(dto);
+
+            log.info("1 데이터 확인하기  getUserCode: " + dto.getUserCode());
+            log.info("2 데이터 확인하기  getJgNoticeCode: " + dto.getJgNoticeCode());
+            log.info("3 데이터 확인하기  jgNoticeSubcribe: " + jgNoticeSubcribe);
+
             NoticeDTO noticeDTO = NoticeDTO.builder()
                     .jGNoticeCode(data.getJGNoticeCode())
                     .jGNoticeTitle(data.getJGNoticeTitle())
@@ -109,6 +129,9 @@ public class NoticeController {
                     .JGNoticeSaleBoo(data.getJGNoticeSaleBoo())
                     .firstImgName(img.get(0).getJGNoticeImg())
                     .firstImgCode(img.get(0).getJGNoticeImgCode())
+                    .address1(info.getAddressData())
+                    .address2(info.getAddressDetailData())
+                    .checkBoo(jgNoticeSubcribe == null)
                     .build();
             result.add(noticeDTO);
         }

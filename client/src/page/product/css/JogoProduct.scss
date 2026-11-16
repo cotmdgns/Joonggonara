@@ -14,7 +14,7 @@
         display: flex;
         align-items: center;   
         gap: 8px;
-        font-size: 25px;
+        font-size: 14px;
         font-weight: bold;
         padding-bottom: 20px;
         svg {
@@ -429,3 +429,138 @@ label{
     }
 }
 
+
+
+#searchBox{
+    background-color: rgb(248, 250, 255);
+    border-radius: 5px;
+    border: 1px solid rgb(201, 201, 201);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    #searchBoxLeft{
+        display: flex;
+        gap: 10px;
+        margin: 0px 10px;
+        width: 100%;
+        font-size: 12px;
+        #searchBoxLeftDiv{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            #leftH3{
+                padding-bottom: 5px;
+                font-weight: bold;
+            }
+            #leftInput{
+                padding: 3px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 5px;
+                input{
+                    width: 110px;
+                    padding: 5px 10px;
+                    border : 1px solid rgb(164, 164, 164);
+                    border-radius: 5px;
+                }
+            }
+            select{
+                width: 110px;
+                padding: 5px 10px;
+                border : 1px solid rgb(164, 164, 164);
+                border-radius: 5px;
+                margin-top: -1px;
+            }
+        }
+    }
+    #searchBoxRight{
+        display: flex;
+        width: 100%;
+        gap: 10px;
+        padding: 0px 10px;
+        border-left: 1px solid rgb(194, 193, 193);
+        font-weight: bold;
+        font-size: 14px;
+        #searchBoxRightSearch{
+            background-color: rgb(255, 255, 255);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            padding: 10px 0px;
+            width: 100%;
+            border-radius: 5px;
+            border: 1px solid rgb(157, 156, 156);
+            cursor: pointer;
+        }
+        #searchBoxRightSearch:hover{
+            background-color: rgb(204, 203, 203);
+        }
+        #searchBoxRightRollback{
+            background-color: rgb(46, 86, 218);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 0px;
+            gap: 5px;
+            width: 100%;
+            color: white;
+            border-radius: 5px;
+            border: 1px solid rgb(157, 156, 156);
+            cursor: pointer;
+        }
+        #searchBoxRightRollback:hover{
+            background-color: rgb(37, 66, 164);
+        }
+    }
+}
+
+.pagination {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 16px;
+                min-height: 68px;
+                padding: 12px 18px;
+                border-top: 1px solid #edf1f6;
+
+                button {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    min-width: 34px;
+                    height: 34px;
+                    padding: 0 8px;
+                    border: 1px solid #e2e8f0;
+                    border-radius: 6px;
+                    background-color: #fff;
+                    color: #475569;
+                    font-size: 13px;
+                    cursor: pointer;
+                    transition: all 0.2s;
+
+                    &:hover {
+                        border-color: #3478f6;
+                        color: #3478f6;
+                    }
+
+                    &.active {
+                        border-color: #3478f6;
+                        background-color: #3478f6;
+                        color: #fff;
+                        font-weight: 600;
+                    }
+
+                    &.pageArrow {
+                        font-size: 16px;
+                    }
+                }
+
+                .pageDots {
+                    padding: 0 3px;
+                    color: #94a3b8;
+                }
+            }

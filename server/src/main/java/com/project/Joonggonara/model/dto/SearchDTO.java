@@ -11,7 +11,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class SearchDTO {
-    private int num;
+
+    private int userCode;
+    private int jgNoticeCode;
+
+
+    private String type;            // 타입으로 부분해서 데이터 가져오기
+    private int num;                // 검색페이징용도
     private String search;          // 검색용
     private String title1;          // Major title
     private String title2;          // Minor title1

@@ -11,7 +11,7 @@
 
     <!--    찜 생성하기-->
     <insert id="subscribeNoticeCreate" parameterType="JGNoticeSubcribe">
-            insert into JGNoticeSubcribe(JGNoticeCode,userCode)
+        insert into JGNoticeSubcribe(JGNoticeCode,userCode)
         value(#{jGNoticeCode}, #{userCode});
     </insert>
 

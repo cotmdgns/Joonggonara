@@ -1,10 +1,7 @@
 package mapper;
 
 import com.project.Joonggonara.model.dto.SearchDTO;
-import com.project.Joonggonara.model.vo.JGNotice;
-import com.project.Joonggonara.model.vo.JGNoticeImg;
-import com.project.Joonggonara.model.vo.JGUserInfo;
-import com.project.Joonggonara.model.vo.NotificationManagement;
+import com.project.Joonggonara.model.vo.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -25,4 +22,12 @@ public interface MainMapper {
     JGUserInfo selectUserInfoData(int code);                    //  <!--  디테일 페이지에서 사용할 상세 유저 정보 -->
     String lastSaleNotice(int code);                            //  <!--    /* 전체리스트에서 최근에 판매된 */-->
     int totalSaleNotice(int code);                              // <!-- 총 판매한  -->
+
+
+    JGNoticeSubcribe checkBoo(SearchDTO searchDTO);
+    //주소
+    List<String> address1();
+    List<String> address2(String str);
+
+    JGUserInfo selectAddress(int code);
 }

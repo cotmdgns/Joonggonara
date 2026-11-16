@@ -72,11 +72,11 @@
                 AND notice.JGNoticeProductTypeMinorList = #{title3}
             </if>
 
-            <if test="address1 != null and address1 != ''">
+            <if test="address1 != '전체'">
                 AND user.addressData = #{address1}
             </if>
 
-            <if test="address2 != null and address2 != ''">
+            <if test="address2 != '전체'">
                 AND user.addressDetailData = #{address2}
             </if>
 
@@ -89,7 +89,7 @@
             </if>
         </where>
         order by notice.JGNoticeCreate desc
-        limit #{cri.pageNum},#{cri.amount}
+        limit #{cri.skip},#{cri.amount}
     </select>
 
 <!--    전체 토탈값-->
@@ -114,11 +114,11 @@
                 AND notice.JGNoticeProductTypeMinorList = #{title3}
             </if>
 
-            <if test="address1 != null and address1 != ''">
+            <if test="address1 != '전체'">
                 AND user.addressData = #{address1}
             </if>
 
-            <if test="address2 != null and address2 != ''">
+            <if test="address2 != '전체'">
                 AND user.addressDetailData = #{address2}
             </if>
 
@@ -130,6 +130,37 @@
                 AND CAST(REPLACE(notice.JGNoticeProductPrice, ',', '') AS UNSIGNED) &lt;= #{price2}
             </if>
         </where>
+    </select>
+<!--    체크 여부 -->
+    <select id="checkBoo" parameterType="SearchDTO" resultType="JGNoticeSubcribe">
+        select * from JGNoticeSubcribe
+        where userCode = #{userCode} and JGNoticeCode = #{jgNoticeCode};
+    </select>
+<!--    주소 찾기-->
+    <select id="selectAddress" parameterType="int" resultType="JGUserInfo">
+        select * from JGUserInfo
+        where userCode = #{code}
+    </select>
+    <select id="address1" resultType="String">
+        select addressData from (
+        SELECT
+        addressData,
+        COUNT(*) AS addressCount
+        FROM jguserinfo
+        GROUP BY addressData
+        ORDER BY addressCount DESC
+        ) A;
+    </select>
+    <select id="address2" parameterType="String" resultType="String">
+        select addressDetailData from (
+        select
+        addressDetailData,
+        count(*) as addressDetailDataCount
+        from jguserinfo
+        where addressData = #{str}
+        group by addressDetailData
+        order by addressDetailData DESC
+        ) B;
     </select>
 
     <!-- 검색할 때 이미지도 필요해서 하나 보내줘여함 -->

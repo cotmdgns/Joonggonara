@@ -50,10 +50,22 @@ const Main = () => {
     dispath({ type: "newNotificationSelect", payload: result.data });
   };
 
-  // 상세페이지 이동
+  // 상세페이지 이동``
   const gotoDetailProduct = (code) => {
     navigate(`jogoProductDetail/product/${code}`);
   };
+
+  // 상세페이지 이동 [ 내 동네 추천 상품 ]
+  const gotoDetailRecommendProduct = () => {
+    navigate(`jogoProduct/recommend?pageNum=1`);
+  };
+
+  // 상세페이지 이동 [ 이번 주 등록 된 상품 ]
+  const gotoDetailWeeklyProduct = () => {
+    navigate(`jogoProduct/weekly?pageNum=1`);
+  };
+
+
 
   useEffect(() => {
     mainBannerSelect();
@@ -88,7 +100,7 @@ const Main = () => {
             ))}
           </div>
           {userAddressSelectList.length >= 11 ? (
-            <div id="noticeDetailLink">더보기</div>
+            <div id="noticeDetailLink" onClick={()=>[gotoDetailWeeklyProduct()]}>더보기</div>
           ) : (
             <></>
           )}
@@ -108,7 +120,7 @@ const Main = () => {
             ))}
           </div>
           {userAddressSelectList.length >= 12 ? (
-            <div id="noticeDetailLink">더보기</div>
+            <div id="noticeDetailLink" onClick={()=>[gotoDetailRecommendProduct()]}>더보기</div>
           ) : (
             <></>
           )}

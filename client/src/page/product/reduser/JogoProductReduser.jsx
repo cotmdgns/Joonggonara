@@ -26,8 +26,8 @@ export const initiaJogoProductReduser = {
     search : "",
     price1 : "",
     price2 : "",
-    address1 : "",
-    address2 : "",
+    address1 : "전체",          // 주소1
+    address2 : "전체",          // 주소2
 
     // 상세페이지 종합 리스트 데이터
     selectNotificationList : [],
@@ -49,8 +49,11 @@ export const initiaJogoProductReduser = {
     singoText : "",             // 신고내용
 
     subscribeState: true,
-    paging : "",
+    pageMake : "",
 
+
+    address1Data : [],      // 배열 데이터
+    address2Data : [],      // 배열 데이터
 }
 
 export const JogoProductReduser = (state, action) =>{
@@ -239,8 +242,70 @@ export const JogoProductReduser = (state, action) =>{
                     item => item !== action.payload
                 )
             };
+        case "pageMake":
+            return {
+                ...state,
+                pageMake : action.payload,
+            };
 
 
+
+
+        ///////////// 주소 데이터
+        case "resetButton" :{          // 리셋버튼
+            return {
+                ...state,
+                search : "",
+                price1 : "",
+                price2 : "",
+                address1 : "전체",
+                address2 : "전체",
+                address2Data : [],
+                }   
+            }
+        case "search" :{          // 검색
+            return {
+                ...state,
+                search : action.payload,
+                }   
+            }
+        case "price1" :{          // 금액
+            return {
+                ...state,
+                price1 : action.payload,
+                }   
+            }
+        case "price2" :{          // 금액
+            return {
+                ...state,
+                price2 : action.payload,
+                }   
+            }
+        case "address1" :{          // 서울, 경기 등등..
+            return {
+                ...state,
+                address1 : action.payload,
+                address2 : "전체",
+                }   
+            }
+        case "address2" :{          // 위에 관련된 주소
+            return {
+                ...state,
+                address2 : action.payload,
+                }   
+            }
+        case "address1Data" :{          // 서울, 경기 등등..
+            return {
+                ...state,
+                address1Data : action.payload,
+                }   
+            }
+        case "address2Data" :{          // 위에 관련된 주소
+            return {
+                ...state,
+                address2Data : action.payload,
+                }   
+            }
         default:
             return state;
     }

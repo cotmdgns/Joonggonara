@@ -62,11 +62,15 @@ export const saleJGNoticeAPI = async (data) =>{
   return await instance.post("/saleJGNotice",data);
 }
 
-// 댓글 생성
+// 주소1
+export const address1API = async () =>{
+  return await instance.get(`/address1`);
+}
 
-// 댓글 조회
+export const address2API = async (data) =>{
+  return await instance.get(`/address2/${data}`);
+}
 
-// 댓글 수정
 
-// 댓글 삭제
+// 주소2
 

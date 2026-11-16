@@ -103,8 +103,26 @@ CREATE TABLE JGUserInfo(
 );
 
 select * from jguserinfo
-order by userCode = 1
-limit 0,10;
+limit 0	 , 10;
+
+select addressData from (
+SELECT
+    addressData,
+    COUNT(*) AS addressCount
+FROM jguserinfo
+GROUP BY addressData
+ORDER BY addressCount DESC
+) A;
+
+select addressDetailData from (
+	select 
+		addressDetailData,
+		count(*) as addressDetailDataCount
+		from jguserinfo
+	where addressData = "경기도"
+	group by addressDetailData
+	order by addressDetailData DESC
+) B;
 
 
 SHOW VARIABLES LIKE 'event_scheduler';
@@ -192,10 +210,13 @@ CREATE TABLE JGNoticeSubcribe(
   userCode integer /*유저 코드 [ 외래키 ]*/ 
 );
 
-select * from JGNoticeSubcribe;
 
-select * from JGNoticeSubcribe
-where JGNoticeCode = 23 AND userCode = 1;
+
+
+delete from JGNoticeSubcribe
+where JGNoticeSubcribeCode = 58;
+
+select * from JGNoticeSubcribe;
         
 
 /*게시글 댓글  [ 폐기 예정 ]  */ 
