@@ -5,6 +5,7 @@ const CategoryDetailModal = ({
     categoryMinorList,
     categoryMinorListList,
     categoryMinorListData,
+    dispatchPro,
     state}) =>{
 
     // 네비
@@ -16,7 +17,8 @@ const CategoryDetailModal = ({
         // / 이거때문에 경로가 이상해짐 넘어갈 때 변경해줘야 함
         let majorText = state.textState.replaceAll("/","&");
         let text = product.replaceAll("/","&")
-        navigate(`/jogoProduct/category/${majorText}/${text}?pageNum=1`);
+        dispatchPro({type : "resetButton"})
+        navigate(`/jogoProduct/category/${majorText}/${text}?pageNum=1&search=`);
     }
     // 상품 - 상품페이지 이동
     const gotoCategoryCategory = (product,product2) =>{
@@ -24,7 +26,8 @@ const CategoryDetailModal = ({
         let majorText = state.textState.replaceAll("/","&");
         let text = product.replaceAll("/","&")
         let text2 = product2.replaceAll("/","&")
-        navigate(`/jogoProduct/category/${majorText}/${text}/${text2}?pageNum=1`);
+        dispatchPro({type : "resetButton"})
+        navigate(`/jogoProduct/category/${majorText}/${text}/${text2}?pageNum=1&search=`);
     }
 
     return (

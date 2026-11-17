@@ -39,7 +39,7 @@ export const initiaJogoProductReduser = {
     noticeDetilDataImg:[],
     total : 0,
     lastSaleDay : null,
-
+    subTotal : 0,
 
     // 신고하기에서 사용할 예정
     arr : ["욕설 및 비방","스팸 및 광고","음란성 컨텐츠","불법정보 포함","사기 및 협박"],
@@ -195,7 +195,11 @@ export const JogoProductReduser = (state, action) =>{
                 ...state,
                 lastSaleDay : action.payload,
             }
-
+        case "subTotal":  // 총 거래수
+            return{
+                ...state,
+                subTotal : action.payload,
+            }
 
         case "modalTrue":  // 모달 true
             return{

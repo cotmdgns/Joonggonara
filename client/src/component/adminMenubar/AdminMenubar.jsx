@@ -75,7 +75,7 @@ const AdminMenubar = () =>{
                     {/* <div onClick={()=>{categoryStateButton(1)}} id={isActive("/layoutAdmin") && "categoyTrue"}><GrHostMaintenance></GrHostMaintenance>메인페이지</div> */}
                     <div onClick={()=>{categoryStateButton(2)}} id={isActive("/layoutAdmin") && "categoyTrue"}><FaUserFriends></FaUserFriends>사용자 관리</div>
                     <div onClick={()=>{categoryStateButton(3)}} id={isActive("adminNotificationManagement") && "categoyTrue"}><AiOutlineNotification></AiOutlineNotification>공지사항 관리</div>
-                    <div onClick={()=>{categoryStateButton(4)}} id={isActive("adminDeclarationManagement") && "categoyTrue"}><GrUserPolice></GrUserPolice>신고현황 관리 [게시글 있어야 가능]</div>
+                    <div onClick={()=>{categoryStateButton(4)}} id={isActive("adminDeclarationManagement") && "categoyTrue"}><GrUserPolice></GrUserPolice>신고현황 관리</div>
                     {/* <div onClick={()=>{categoryStateButton(5)}} id={categoryState == 5 && "categoyTrue"}><SiNotion></SiNotion>게시글 관리</div> */}
                     <div onClick={()=>{categoryStateButton(6)}} id={isActive("adminCategoryManagement") && "categoyTrue"}><ImList></ImList>카테고리 관리</div>
                     <div onClick={()=>{categoryStateButton(7)}} ><IoHomeOutline></IoHomeOutline>관리자페이지에서 나가기</div>

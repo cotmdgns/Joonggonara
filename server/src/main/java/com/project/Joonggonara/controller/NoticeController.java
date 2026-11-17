@@ -155,12 +155,15 @@ public class NoticeController {
         String lastDay = mainService.lastSaleNotice(notice.getUserCode());
         int total = mainService.totalSaleNotice(notice.getUserCode());
 
+
+
         NoticeDetailDTO dto = NoticeDetailDTO.builder()
                 .notice(notice)
                 .jgUserInfo(info)
                 .noticeImgs(img)
                 .lastSale(lastDay)
                 .saleTotal(total)
+                .subTotal(noticeService.subTotal(notice.getJGNoticeCode()))
                 .build();
 
         return dto;

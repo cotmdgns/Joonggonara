@@ -33,6 +33,7 @@ const JogoProductDetail = () =>{
         dispatch({type:"noticeDetilDataImg" , payload : result.data.noticeImgs})
         dispatch({type:"total" , payload : result.data.saleTotal})
         dispatch({type:"lastSaleDay" , payload : result.data.lastSale})
+        dispatch({type:"subTotal" , payload : result.data.subTotal})
     }
 
     useEffect(()=>{
@@ -57,6 +58,7 @@ const JogoProductDetail = () =>{
             userCode : sessionStorage.getItem("userCode"),
         }
         await subscribeNoticeCreateAPI(data)
+        selectProductData()
         ubscribeNoticeSelect()
     }
     // 찜 취소하기 [ 정상작동 ]
@@ -66,6 +68,7 @@ const JogoProductDetail = () =>{
             userCode : sessionStorage.getItem("userCode"),
         }
         await subscribeNoticeDeleteAPI(data)
+        selectProductData()
         ubscribeNoticeSelect()
     }
 
@@ -145,6 +148,8 @@ const JogoProductDetail = () =>{
         }
     }
 
+    console.log()
+
     return (
         <>
             <div id="JogoProductDetailBody">
@@ -199,6 +204,7 @@ const JogoProductDetail = () =>{
                         <div id="JogoProductDetailInfoDate">사용자 이름 : {state.noticeDetilUesrData.userNickname}</div>
                         <div id="JogoProductDetailInfoDate">마지막 거래일 : {state.lastSaleDay == null ? "없음" : state.lastSaleDay}</div>
                         <div id="JogoProductDetailInfoDate">총거래 : {state.total}</div>
+                        <div id="JogoProductDetailInfoDate">지역 : {state.noticeDetilUesrData.addressData} {state.noticeDetilUesrData.addressDetailData}</div>
                     </div>
                     <div id="JogoProductDetailBody2">
                         <div id="JogoProductDetailInfoTitle">상품설명</div>
@@ -214,18 +220,18 @@ const JogoProductDetail = () =>{
                     state.noticeDetilData.jgnoticeSaleBoo ? 
                     <>
                         {state.subscribeState ? 
-                        <div id="buttonCreate" onClick={()=>{subscribe()}}><FaRegHeart/>저장하기</div> 
+                        <div id="buttonCreate" onClick={()=>{subscribe()}}>{state.subTotal}<FaRegHeart/>저장하기</div> 
                         :
-                        <div className="buttonCreateFalse" onClick={()=>{subscribeFalse()}}><FaHeart/>취소하기</div> 
+                        <div className="buttonCreateFalse" onClick={()=>{subscribeFalse()}}>{state.subTotal}<FaHeart/>취소하기</div> 
                         }
                         <div id="buttonInsert">판매완료</div>                     
                     </>
                     : 
                     <>
                         {state.subscribeState ? 
-                        <div id="buttonCreate" onClick={()=>{subscribe()}}><FaRegHeart/>저장하기</div> 
+                        <div id="buttonCreate" onClick={()=>{subscribe()}}>{state.subTotal}<FaRegHeart/>저장하기</div> 
                         :
-                        <div className="buttonCreateFalse" onClick={()=>{subscribeFalse()}}><FaHeart/>취소하기</div> 
+                        <div className="buttonCreateFalse" onClick={()=>{subscribeFalse()}}>{state.subTotal}<FaHeart/>취소하기</div> 
                         }
                         
                         <div id="buttonDelete" onClick={() =>{singoButtonModalTrue("게시글")}}>신고하기</div> 

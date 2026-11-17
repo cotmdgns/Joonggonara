@@ -48,14 +48,14 @@ const MainNotice = ({ list, gotoDetailProduct ,pageNum,searchNoticeSelect}) => {
         />
         <>
           <div id="mainNoticeText">{list.jgnoticeTitle}</div>
-          <div id="mainNoticePrice">{list.jgnoticeProductPrice}</div>
+          <div id="mainNoticePrice">{list.jgnoticeProductPrice <= 0 ? "무료 나눔":list.jgnoticeProductPrice }</div>
           <div id="mainNoticeTime">{list.jgnoticeCreate?.substring(0,10)}</div>
           <div id="mainNoticeTime">{list.address1} {list.address2}</div>
           <div id="mainNoticeIcon">
             {sessionStorage.getItem("userCode") !== String(list.userCode) ? 
               list.checkBoo ? 
               <>
-                            <FaRegHeart style={{"color":"red"}} onClick={(e)=>{
+              <FaRegHeart style={{"color":"red"}} onClick={(e)=>{
                 noticeLike(list.jgnoticeCode);
                 e.stopPropagation();
                }}/>

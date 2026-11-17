@@ -9,6 +9,12 @@
         where JGNoticeCode = #{jGNoticeCode} AND userCode = #{userCode}
     </select>
 
+    <!--  상품 구독 총 토탈  -->
+    <select id="subTotal" parameterType="int" resultType="int">
+        select count(*) from JGNoticeSubcribe
+        where JGNoticeCode = #{code}
+    </select>
+
     <!--    찜 생성하기-->
     <insert id="subscribeNoticeCreate" parameterType="JGNoticeSubcribe">
         insert into JGNoticeSubcribe(JGNoticeCode,userCode)

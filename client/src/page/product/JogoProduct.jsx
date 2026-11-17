@@ -13,6 +13,11 @@ import { CiSearch } from "react-icons/ci";
 import { CiRedo } from "react-icons/ci";
 
 const JogoProduct = () => {
+    // 파라미터 페이지
+  const [searchParams,setSearchParams] = useSearchParams();
+  const pageNum = Number(searchParams.get("pageNum") || 1);
+  const pageStr = searchParams.get("search") || "";
+  
   const navigate = useNavigate();
   // 아니 이거 상상이상으로 편한데;;
   // 이걸로 api 호출해서 데이터 가져온 다음 전역관리하기
@@ -35,8 +40,8 @@ const JogoProduct = () => {
     console.log(code)
     const data = {
       userCode : sessionStorage.getItem("userCode"),
-      search : state.search,
-      num: code, // 검색용
+      search: state.search.trim() || pageStr,
+      num: code == undefined ? 1 : code, // 검색용
       title1: category ?? "",
       title2: category2 ?? "",
       title3: category3 ?? "",
@@ -45,6 +50,12 @@ const JogoProduct = () => {
       address1: state.address1, // 지역 (서울, 경기도, 대전, 대구... )  // 이거는 사용자들이 저장한 위치에 따라
       address2: state.address2, // 지역 (강남, 서초, 성남 ... )        // 이거는 사용자들이 저장한 위치에 따라
     };
+
+    const params = new URLSearchParams(searchParams);
+
+    params.set("pageNum", String(data.num));
+    params.set("search", data.search.trim());
+    setSearchParams(params);
 
     if(Number(state.price1) > Number(state.price2)){
       alert("최소 금액이 최대 금액보다 높습니다.")
@@ -60,7 +71,13 @@ const JogoProduct = () => {
 
   useEffect(() => {
     searchNoticeSelect(pageNum);
+    resetButton()
   }, [category, category2, category3]);
+
+  
+  useEffect(() => {
+    searchNoticeSelect(pageNum);
+  }, [pageNum, pageStr]);
 
   useEffect(()=>{
     address1()
@@ -81,11 +98,11 @@ const JogoProduct = () => {
   // 초기화
   const resetButton = () =>{
     dispatch({type : "resetButton"})
+    searchNoticeSelect()
   }
 
 
-    const [searchParams,setSearchParams] = useSearchParams();
-    const pageNum = Number(searchParams.get("pageNum") || 1);
+
     const createButton = () =>{
         const result = []
         for (let i = state.pageMake.startPage; i <= state.pageMake.endPage; i++) {
@@ -95,7 +112,7 @@ const JogoProduct = () => {
                     type="button"
                     key={i}
                     className="active"
-                    onClick={() => {setSearchParams({ pageNum: String(i) }),searchNoticeSelect(i)}}
+                    onClick={() => {setSearchParams({ pageNum: String(i)}),searchNoticeSelect(i)}}
                 >
                     {i}
                 </button>

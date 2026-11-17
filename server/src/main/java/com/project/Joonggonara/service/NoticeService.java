@@ -40,6 +40,12 @@ public class NoticeService {
         mapper.deleteNotice(code);
     };
 
+    public int subTotal(int code){
+        return mapper.subTotal(code);
+    };
+
+
+
 //
 //    //<!--    댓글 조회 , 게시글 코드 받고 -->
 //    public JGNoticeComment selectComment(int code){

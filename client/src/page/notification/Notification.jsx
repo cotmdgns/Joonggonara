@@ -23,7 +23,7 @@ const Notification = () =>{
 
     // 공지사항 상세 디테일
     const notificationButton = (code) => {
-        navigate(`/notification/notificationDetail/${code}`);
+        navigate(`/notification/notificationDetail/${code}?pageNum=`+pageNum);
     };
 
 

@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import "../css/Menubar.scss"
 import { categoryMajorListAPI, categoryMinorListAPI } from "../../../page/Main/api/MainAPI";
 
-const CategoryModal = ({state,dispatch,navi}) =>{
+const CategoryModal = ({state,dispatch,navi,dispatchPro,statePro}) =>{
    
     // 리듀서
     const{
@@ -34,7 +34,9 @@ const CategoryModal = ({state,dispatch,navi}) =>{
         // / 이거때문에 경로가 이상해짐 넘어갈 때 변경해줘야 함
         console.log(1)
         let text = product.replaceAll("/","&")
-        navi(`/jogoProduct/category/${text}??pageNum=1`);
+        console.log(statePro.search)
+        dispatchPro({type : "resetButton"})
+        navi(`/jogoProduct/category/${text}?pageNum=1&search=`);
     }
 
     useEffect(()=>{
@@ -80,6 +82,7 @@ const CategoryModal = ({state,dispatch,navi}) =>{
                     categoryMinorList={categoryMinorList}
                     categoryMinorListList={categoryMinorListList}
                     state={state}
+                    dispatchPro={dispatchPro}
                 />
             </div>
         </>

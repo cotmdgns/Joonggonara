@@ -101,6 +101,16 @@
                 }
                 #headerText{
                     font-size: 13px;
+                    position: relative;
+                    #alramBox{
+                        background-color: red;
+                        position: absolute;
+                        width: 400px;
+                        height: 300px;
+                        top: 20px;
+                        right: 0px;
+                        z-index: 99999;
+                    }
                 }
             }
         }

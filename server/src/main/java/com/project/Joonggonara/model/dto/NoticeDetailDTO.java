@@ -22,5 +22,6 @@ public class NoticeDetailDTO {
 
     private int saleTotal;      //  총 거래수
     private String lastSale;    // 마지막 거래
+    private int subTotal;       // 구독 총 갯수
 
 }

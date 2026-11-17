@@ -31,16 +31,6 @@ const MyNotice = ({ list, gotoDetailProduct }) => {
           <div id="mainNoticeText">{list.jgnoticeTitle}</div>
           <div id="mainNoticePrice">{list.jgnoticeProductPrice <= 0 ? "무료 나눔":list.jgnoticeProductPrice }</div>
           <div id="mainNoticeTime">{list?.jgnoticeCreate?.substring(0,10)}</div>
-          <div id="mainNoticeIcon" onClick={(e)=>{
-            noticeLike();
-            e.stopPropagation();
-          }}>
-            {list.checkBoo ? 
-            <FaHeart style={{"color":"red"}}/>
-            :
-            <FaRegHeart style={{"color":"red"}}/>
-            }
-          </div>
         </> 
         {list.jgnoticeDelect != null ? <div id="saleBox">삭제됨</div> : list.jgnoticeSaleBoo && <div id="saleBox">판매완료</div>}
       </div>

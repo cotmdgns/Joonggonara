@@ -9,8 +9,8 @@ const Footer = () =>{
                 <div id="footerInfoFirst">
                     <div id="footerH1">프로젝트</div>
                     <div id="footerInfoBox">
-                        <div>시작 : 2026-09-28</div>
-                        <div>끝 : 2026-10-14</div>
+                        <div>시작 : 2026-10-01</div>
+                        <div>끝 : 2026-11-17</div>
                         <div>인원 총 1명</div>
                         <div>채승훈</div>
                     </div>
@@ -37,7 +37,6 @@ const Footer = () =>{
                         <div>게시글 CRUD</div>
                         <div>게시글 좋아요</div>
                         <div>게시글 찜</div>
-                        <div>댓글 CRUD</div>
                         <div>사용자 경기 및 정지</div>
                         <div>팝업기능</div>
                     </div>

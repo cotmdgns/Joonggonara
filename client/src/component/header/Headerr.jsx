@@ -28,6 +28,8 @@ import {
   initiaMenubarReduser,
   MenubarReduser,
 } from "../menubar/reduser/MenubarReduser";
+import { searchNoticeSelectAPI } from "../../page/product/api/productAPI";
+import Alram from "../Alram";
 
 /* 데이터는 전역관리로 사용할 예정 */
 const Headerr = () => {
@@ -66,10 +68,6 @@ const Headerr = () => {
   const userInfoPage = () => {
     navigate("/myPage");
   };
-  // 통합 검색
-  const searchBox = () => {
-    alert("검색");
-  };
   // 알림
   const alram = () => {
     alert("알람");
@@ -80,13 +78,9 @@ const Headerr = () => {
   };
 
   // 상세 검색
-  const searchButton = () => {};
-
-  // 검색 api 호출
-  const searchAPIButton = () => {};
-  // 안심 거래 캠페인 네비
-  const nav = (code) => {
-
+  const searchButton =  () => {
+      navigate(`/jogoProduct?pageNum=1&search=${encodeURIComponent(state.search)}`);
+      dispatch({type : "searchButton" , payload : ""})
   };
 
   useEffect(()=>{
@@ -111,12 +105,21 @@ const Headerr = () => {
         </div>
 
         <div id="headerBoxC">
-          <div id="headerSearch" onClick={searchButton}>
+          <div id="headerSearch">
             <FaSearch />
             <input
               type="text"
               id="headerSearchInput"
               placeholder="상세 검색.."
+              value={state.search}
+              onChange={(e)=>{
+                dispatch({type : "searchButton" , payload : e.target.value})
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  searchButton();
+                }
+              }}
             />
           </div>
         </div>
@@ -150,11 +153,17 @@ const Headerr = () => {
                 </div>
                 <div id="headerText">내 정보</div>
               </div>
-              <div id="headerInfo" onClick={alram}>
+              <div id="headerInfo" onClick={() =>{alram()}}>
                 <div id="headerFont">
                   <CiAlarmOn />
                 </div>
-                <div id="headerText">알림</div>
+                <div id="headerText" onClick={(e)=>{
+                    e.stopPropagation()
+                  }}>
+                  알림
+                  {/* <Alram ></Alram> */}
+                </div>
+                
               </div>
               {managerState === "managerState" && 
                 <div id="headerInfo" onClick={admin}>

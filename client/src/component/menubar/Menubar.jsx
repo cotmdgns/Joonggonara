@@ -18,9 +18,15 @@ import { useNavigate } from "react-router-dom";
 
 // 리듀서
 import { MenubarReduser, initiaMenubarReduser } from "./reduser/MenubarReduser";
+import { initiaJogoProductReduser, JogoProductReduser } from "../../page/product/reduser/JogoProductReduser";
 const Menubar = () => {
   //모달창 상태값
   const [state, dispatch] = useReducer(MenubarReduser, initiaMenubarReduser);
+  const [statePro, dispatchPro] = useReducer(
+    JogoProductReduser,
+    initiaJogoProductReduser,
+  );
+
   const { categoryModalBoo,productModalState,stepState } = state;
 
   const navi = useNavigate();
@@ -42,6 +48,7 @@ const Menubar = () => {
   ////
   // 공지사항 페이지 이동하기
     const gotoMoveNotification = () =>{
+      
       navi("/notification?pageNum=1")
   }
   return (
@@ -61,6 +68,8 @@ const Menubar = () => {
             <CategoryModal 
               state={state}
               dispatch={dispatch}
+              dispatchPro={dispatchPro}
+              statePro={statePro}
               navi={navi}
             />
             }

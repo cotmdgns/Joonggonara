@@ -3,6 +3,7 @@ import Editor from "../../admin/component/Editor";
 import { selectNotificationDetailAPI } from "../api/NotificationAPI";
 import { useParams } from "react-router-dom";
 import ReactQuill from "react-quill-new";
+import Notification from "../Notification";
 
 const NotificationDetail = () =>{
 
@@ -17,6 +18,9 @@ const NotificationDetail = () =>{
     useEffect(()=>{
         selectNotificationDetail()
     },[])
+    useEffect(()=>{ 
+        selectNotificationDetail()
+    },[param.code])
     return (
         <div id="notificationDetail">
         <div id="notificationDetailBox">
@@ -34,6 +38,7 @@ const NotificationDetail = () =>{
                     />
             </div>
         </div>
+        <Notification></Notification>
         </div>
     )
 }

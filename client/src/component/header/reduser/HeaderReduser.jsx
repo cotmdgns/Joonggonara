@@ -12,7 +12,8 @@ export const initiaHeaderReduser = {
     // 사용자 로그인 여부
     loginBoo : false,
     // 사용자 등급 상태
-    managerState : null
+    managerState : null,
+    search : "",
 }
 
 export const HeaderResuser = (state,action) =>{
@@ -77,5 +78,10 @@ export const HeaderResuser = (state,action) =>{
                 loginBoo : false,
                 managerState : null,
             }  
+        case "searchButton" : 
+            return {
+                ...state,
+                search : action.payload
+            }
     }
 }

@@ -100,6 +100,7 @@ public class PageController {
                     .userCode(code)
                     .build();
 
+
             JGNoticeSubcribe boo = noticeService.subscribeNoticeSelect(jgNoticeSubcribe);
 
             Boolean check = false;
