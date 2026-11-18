@@ -10,7 +10,10 @@ import "./css/Main.scss";
 
 import { useNavigate } from "react-router-dom";
 import { initiaMainReduser, MainReduser } from "./component/MainReduser";
-import { initiaJogoProductReduser, JogoProductReduser } from "../product/reduser/JogoProductReduser";
+import {
+  initiaJogoProductReduser,
+  JogoProductReduser,
+} from "../product/reduser/JogoProductReduser";
 
 const Main = () => {
   // 네비게이션
@@ -35,13 +38,11 @@ const Main = () => {
     navigate(`/notification/notificationDetail/${code}`);
   };
 
-
   // 내 지역으로 해서 주변 상품 뽑아주기  [ 정상 작동 함 ]
   const userAddressSelect = async () => {
     const result = await userAddressSelectAPI(userCode);
     dispath({ type: "userAddressSelect", payload: result.data });
   };
-
 
   // 일주일안으로 생성된 데이터 확인하기 [ 정상 작동하는 중 ]
   const newNotificationSelect = async () => {
@@ -65,14 +66,12 @@ const Main = () => {
     navigate(`jogoProduct/weekly?pageNum=1`);
   };
 
-
-
   useEffect(() => {
     mainBannerSelect();
     newNotificationSelect();
     userAddressSelect();
   }, []);
-  console.log(userAddressSelectList.length)
+  console.log(userAddressSelectList.length);
 
   return (
     <>
@@ -84,32 +83,43 @@ const Main = () => {
       />
       {/* 배너 */}
       <div id="mainBox">
-        {userCode != undefined && 
+        {userCode != undefined && (
           <div id="mainNoticeInfo">
-          <div id="mainNoticeH1">우리 동네 상품</div>
-          {userAddressSelectList.length <= 1 && 
-            <div id="searchAddressBox">해당 동네로 검색된 결과가 없습니다..</div>
-          }
-          <div id="mainNoticeBox">
-            {userAddressSelectList.map((list, index) => (
-              <MainNotice
-                key={index}
-                list={list}
-                gotoDetailProduct={gotoDetailProduct}
-              />
-            ))}
+            <div id="mainNoticeH1">우리 동네 상품</div>
+            {userAddressSelectList.length <= 1 && (
+              <div id="searchAddressBox">
+                해당 동네로 검색된 결과가 없습니다..
+              </div>
+            )}
+            <div id="mainNoticeBox">
+              {userAddressSelectList.map((list, index) => (
+                <MainNotice
+                  key={index}
+                  list={list}
+                  gotoDetailProduct={gotoDetailProduct}
+                />
+              ))}
+            </div>
+            {userAddressSelectList.length >= 11 ? (
+              <div
+                id="noticeDetailLink"
+                onClick={() => [gotoDetailWeeklyProduct()]}
+              >
+                더보기
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
-          {userAddressSelectList.length >= 11 ? (
-            <div id="noticeDetailLink" onClick={()=>[gotoDetailWeeklyProduct()]}>더보기</div>
-          ) : (
-            <></>
-          )}
-        </div>
-        }
-
+        )}
 
         <div id="mainNoticeInfo">
           <div id="mainNoticeH1">추천 상품</div>
+          {newNotificationSelectList.length <= 1 && (
+            <div id="searchAddressBox">
+              해당 동네로 검색된 결과가 없습니다..
+            </div>
+          )}
           <div id="mainNoticeBox">
             {newNotificationSelectList.map((list, index) => (
               <MainNotice
@@ -120,7 +130,12 @@ const Main = () => {
             ))}
           </div>
           {userAddressSelectList.length >= 12 ? (
-            <div id="noticeDetailLink" onClick={()=>[gotoDetailRecommendProduct()]}>더보기</div>
+            <div
+              id="noticeDetailLink"
+              onClick={() => [gotoDetailRecommendProduct()]}
+            >
+              더보기
+            </div>
           ) : (
             <></>
           )}

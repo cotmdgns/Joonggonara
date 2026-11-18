@@ -1,202 +1,221 @@
 //
 import { useEffect } from "react";
 import { useReducer } from "react";
-import { categoryMajorCreateAPI, categoryMajorDeleteAPI, categoryMajorUpdateAPI, categoryMinorCreateAPI, categoryMinorDeleteAPI, categoryMinorListCreateAPI, categoryMinorListDeleteAPI, CategoryMinorListSelectAPI, CategoryMinorSelectAPI, categoryStateAPI } from "./api/AdminPageAPI";
-import "./css/AdminCategoryManagement.scss"
-import { AdminCategoryReduser, initiaAdminCategoryReduser } from "./reduser/AdminCategoryReduser";
+import {
+  categoryMajorCreateAPI,
+  categoryMajorDeleteAPI,
+  categoryMajorUpdateAPI,
+  categoryMinorCreateAPI,
+  categoryMinorDeleteAPI,
+  categoryMinorListCreateAPI,
+  categoryMinorListDeleteAPI,
+  CategoryMinorListSelectAPI,
+  CategoryMinorSelectAPI,
+  categoryStateAPI,
+} from "./api/AdminPageAPI";
+import "./css/AdminCategoryManagement.scss";
+import {
+  AdminCategoryReduser,
+  initiaAdminCategoryReduser,
+} from "./reduser/AdminCategoryReduser";
 import AdminCategoryModal from "./component/AdminCategoryModal";
 import AdminModalCreate from "./component/AdminModalCreate";
 
 // 관리자 페이지 [ 카테고리 관리 ]
 const AdminCategoryManagement = () => {
-    const [state,dispatch] = useReducer(AdminCategoryReduser,initiaAdminCategoryReduser)
-    const {
-        categoryStateData,
-        modalState,
-        modalCreateState,
-        categoryMajorCodeM,
-        categoryMajorTextM,
-        categoryMinorCodeM,
-        categoryMinorTextM,
-        categoryMinorText,
-        categoryMinorListText,
-        backUpData,
-    } = state;
+  const [state, dispatch] = useReducer(
+    AdminCategoryReduser,
+    initiaAdminCategoryReduser,
+  );
+  const {
+    categoryStateData,
+    modalState,
+    modalCreateState,
+    categoryMajorCodeM,
+    categoryMajorTextM,
+    categoryMinorCodeM,
+    categoryMinorTextM,
+    categoryMinorText,
+    categoryMinorListText,
+    backUpData,
+  } = state;
 
+  // 모달창(생성) 열기    [ 생성창은 끝 ]
+  const modalCreateOpen = () => {
+    dispatch({ type: "modalCreateOpen" });
+  };
+  // 모달창(생성) 닫기 [ 생성창은 끝 ]
+  const modalCreateClose = () => {
+    dispatch({ type: "modalCreateClose" });
+    dispatch({ type: "categoryMinorStateText", payload: "" });
+  };
 
-    // 모달창(생성) 열기    [ 생성창은 끝 ]
-    const modalCreateOpen = () =>{
-        dispatch({type:"modalCreateOpen"})      
+  // 모달창(수정) 열기
+  const categoryModalUp = (data) => {
+    dispatch({ type: "categoryModalOpen", payload: data });
+  };
+  // 모달창(수정) 닫기
+  const categoryModalDown = () => {
+    dispatch({ type: "categoryModalClose" });
+    dispatch({ type: "minorCreateStateFalse" });
+    dispatch({ type: "categoryMinorStateText", payload: "" });
+  };
+
+  // 카테고리 메이저 생성하기 [ 정상 작동함 ]
+  const categoryMajorCreate = async (text) => {
+    console.log(state.categoryMajorText == "");
+    if (state.categoryMajorText == null || state.categoryMajorText == "") {
+      alert("내용을 적어주세요.");
+      return;
     }
-    // 모달창(생성) 닫기 [ 생성창은 끝 ]
-    const modalCreateClose = () =>{
-        dispatch({type:"modalCreateClose"})  
-        dispatch({type: "categoryMinorStateText" , payload:""})    
+    if (window.confirm("생성하시겠습니까?")) {
+      await categoryMajorCreateAPI(text);
+      dispatch({ type: "categoryMajorTextDelete" });
+      categoryState();
+      modalCreateClose();
     }
-
-    // 모달창(수정) 열기
-    const categoryModalUp = (data) =>{
-        dispatch({type:"categoryModalOpen", payload:data})
+  };
+  // 카테고리 메이저 삭제하기 [ 정상 작동함 ]
+  const categoryMajorDelete = async (code) => {
+    if (window.confirm("정말로 삭제하시겠습니다?")) {
+      await categoryMajorDeleteAPI(code);
+      categoryState();
     }
-    // 모달창(수정) 닫기
-    const categoryModalDown = () =>{
-        dispatch({type:"categoryModalClose"})       
-        dispatch({type:"minorCreateStateFalse"}) 
-        dispatch({type: "categoryMinorStateText" , payload:""})
-    }
+  };
 
-    // 카테고리 메이저 생성하기 [ 정상 작동함 ]
-    const categoryMajorCreate = async (text) =>{
-        if(window.confirm("생성하시겠습니다?")){
-            await categoryMajorCreateAPI(text)
-            categoryState()
-            modalCreateClose()
-        }
-    }
-    // 카테고리 메이저 삭제하기 [ 정상 작동함 ]
-    const categoryMajorDelete = async (code) =>{
-        if(window.confirm("정말로 삭제하시겠습니다?")){
-            await categoryMajorDeleteAPI(code)      
-            categoryState()
-        }
-    }
+  // 카테고리 메이저 수정 [정상 작동]
+  const categoryTextUpdate = async () => {
+    let data = {
+      categoryStateMajorText: categoryMajorTextM,
+      categoryStateMajorCode: categoryMajorCodeM,
+    };
+    await categoryMajorUpdateAPI(data);
+    categoryModalDown(); // 모찰창 닫기
+    categoryModalUp(); // 닫으면서 상태 최신화
+  };
 
-    // 카테고리 메이저 수정 [정상 작동]
-    const categoryTextUpdate = async () =>{
-        let data = {
-            "categoryStateMajorText" : categoryMajorTextM,
-            "categoryStateMajorCode" : categoryMajorCodeM,
-        }
-        await categoryMajorUpdateAPI(data)
-        categoryModalDown(); // 모찰창 닫기
-        categoryModalUp(); // 닫으면서 상태 최신화
-    }
+  // 카테고리 마이너 생성하기 [ 정상 작동 ]
+  const categoryMinorCreate = async () => {
+    let data = {
+      categoryStateMajorCode: categoryMajorCodeM,
+      categoryStateMinorText: categoryMinorText,
+    };
+    await categoryMinorCreateAPI(data);
+    await categoryMinorSelect();
+    dispatch({ type: "minorCreateStateFalse" });
+  };
 
+  // 카테고리 마이너 삭제하기 [ 정상 작동 ]
+  const categoryMinorDelete = async (code) => {
+    await categoryMinorDeleteAPI(code);
+    await categoryMinorSelect();
+  };
 
-        // 카테고리 마이너 생성하기 [ 정상 작동 ]
-    const categoryMinorCreate = async () =>{
-        let data = {
-            "categoryStateMajorCode" : categoryMajorCodeM,
-            "categoryStateMinorText" : categoryMinorText
-        }
-        await categoryMinorCreateAPI(data)
-        await categoryMinorSelect()
-        dispatch({type:"minorCreateStateFalse"})
-    }
+  // 카테고리 정보들 가져오기 [ 정상 작동 ]
+  const categoryState = async () => {
+    const result = await categoryStateAPI();
+    dispatch({ type: "categoryStateData", payload: result.data });
+  };
 
+  // 마이너 데이터 확인하기  [ 정상 작동 ]
+  const categoryMinorSelect = async () => {
+    const result = await CategoryMinorSelectAPI(categoryMajorCodeM);
+    dispatch({ type: "categoryMinorDataState", payload: result.data });
+  };
 
-    // 카테고리 마이너 삭제하기 [ 정상 작동 ]
-    const categoryMinorDelete = async (code) =>{
-        await categoryMinorDeleteAPI(code);
-        await categoryMinorSelect()
-    }
+  // 이거 3개 만들면 진짜 관리자 카테고리 페이지는 끝나는데 개귀찮아아ㅏㅏㅏ
+  // 마이너 리스트 리스트 조회하기 [ 정상 작동 ]
+  const categoryMinorListSelect = async (code) => {
+    const result = await CategoryMinorListSelectAPI(code);
+    console.log("마이너 리스트 확인하기 : " + result.data);
+    dispatch({ type: "categoryMinorListDataState", payload: result.data });
+  };
 
-    // 카테고리 정보들 가져오기 [ 정상 작동 ]
-    const categoryState = async () =>{
-        const result = await categoryStateAPI();
-        dispatch({type:"categoryStateData" , payload : result.data})
-    }
+  // 카테고리 마이너 셀프 코드 생성   [ 정상 작동 ]
+  const categoryMinorListCreate = async () => {
+    let data = {
+      categoryStateMinorCode: categoryMinorCodeM,
+      categoryStateMajorCode: categoryMajorCodeM,
+      categoryStateMinorText: categoryMinorListText,
+    };
+    await categoryMinorListCreateAPI(data);
+    await categoryMinorListSelect(categoryMinorCodeM);
+    await categoryMinorSelect();
+    dispatch({ type: "minorListCreateStateFalse" });
+  };
 
-    // 마이너 데이터 확인하기  [ 정상 작동 ]
-    const categoryMinorSelect = async () =>{
-        const result = await CategoryMinorSelectAPI(categoryMajorCodeM);
-        dispatch({type:"categoryMinorDataState",payload: result.data})
-    } 
+  // 카테고리 마이너 삭제하기 [ 정상 작동 ]
+  const categoryMinorListDelete = async (code) => {
+    await categoryMinorListDeleteAPI(code);
+    await categoryMinorListSelect(categoryMinorCodeM);
+  };
 
+  useEffect(() => {
+    categoryState();
+  }, []);
 
+  return (
+    <>
+      <div id="categoryBody">
+        <div id="categoryH1">카테고리 관리하기</div>
+        {/* ---------------- 모달창 영역 ---------------- */}
+        {modalState && (
+          <AdminCategoryModal
+            state={state}
+            dispatch={dispatch}
+            categoryModalDown={categoryModalDown}
+            categoryState={categoryState}
+            categoryTextUpdate={categoryTextUpdate}
+            categoryMinorCreate={categoryMinorCreate}
+            categoryMinorDelete={categoryMinorDelete}
+            categoryMinorSelect={categoryMinorSelect}
+            categoryMinorListCreate={categoryMinorListCreate}
+            categoryMinorListSelect={categoryMinorListSelect}
+            categoryMinorListDelete={categoryMinorListDelete}
+          ></AdminCategoryModal>
+        )}
+        {modalCreateState && (
+          <AdminModalCreate
+            state={state}
+            dispatch={dispatch}
+            modalCreateClose={modalCreateClose}
+            categoryMajorCreate={categoryMajorCreate}
+          ></AdminModalCreate>
+        )}
 
+        {/* ------------------------------------------- */}
 
-    // 이거 3개 만들면 진짜 관리자 카테고리 페이지는 끝나는데 개귀찮아아ㅏㅏㅏ
-    // 마이너 리스트 리스트 조회하기 [ 정상 작동 ]
-    const categoryMinorListSelect = async (code) =>{
-        const result = await CategoryMinorListSelectAPI(code);
-        console.log("마이너 리스트 확인하기 : " + result.data)
-        dispatch({type:"categoryMinorListDataState",payload: result.data})
-    } 
-
-    // 카테고리 마이너 셀프 코드 생성   [ 정상 작동 ]
-    const categoryMinorListCreate = async () =>{
-        let data = {
-            "categoryStateMinorCode" : categoryMinorCodeM,
-            "categoryStateMajorCode" : categoryMajorCodeM,
-            "categoryStateMinorText" : categoryMinorListText
-        }
-        await categoryMinorListCreateAPI(data)
-        await categoryMinorListSelect(categoryMinorCodeM)
-        await categoryMinorSelect()
-        dispatch({type:"minorListCreateStateFalse"})
-    }
-
-        // 카테고리 마이너 삭제하기 [ 정상 작동 ]
-    const categoryMinorListDelete = async (code) =>{
-        await categoryMinorListDeleteAPI(code);
-        await categoryMinorListSelect(categoryMinorCodeM)
-    }
-
-
-    useEffect(()=>{
-        categoryState()
-    },[])
-
-    return (
-        <>
-            <div id="categoryBody">
-                <div id="categoryH1">카테고리 관리하기</div>
-                {/* ---------------- 모달창 영역 ---------------- */}
-                {modalState && (
-                    <AdminCategoryModal 
-                        state={state} 
-                        dispatch={dispatch} 
-                        categoryModalDown={categoryModalDown}
-                        categoryState = {categoryState}
-                        categoryTextUpdate={categoryTextUpdate}
-                        categoryMinorCreate={categoryMinorCreate}
-                        categoryMinorDelete={categoryMinorDelete}
-                        categoryMinorSelect ={categoryMinorSelect}
-                        categoryMinorListCreate={categoryMinorListCreate}
-                        categoryMinorListSelect={categoryMinorListSelect}
-                        categoryMinorListDelete={categoryMinorListDelete}
-                        ></AdminCategoryModal>
-                )}
-                {modalCreateState && (
-                    <AdminModalCreate 
-                        state={state} 
-                        dispatch={dispatch}
-                        modalCreateClose={modalCreateClose} 
-                        categoryMajorCreate={categoryMajorCreate}
-                    ></AdminModalCreate>
-                )}
-
-                {/* ------------------------------------------- */}
-
-                <div id="categoryBox">
-                    <div id="bigCategory">
-                        <div id="bigCategoryH2">대분류</div>
-                        <div id="categoryCreateButoon"
-                            onClick={() => modalCreateOpen()}
-                        >
-                        생성
-                        </div>
-                    </div>
-                {categoryStateData.map((category,index)=>(
-                    <div className="categoryUpBox"  key={index} >
-                        <div className="categoryUp">
-                            <div>{category.categoryStateMajorText}</div>
-                            <div id="button-list">
-                                <div id="UpButton" onClick={() => categoryModalUp(category)}>✎</div>
-                                <div id="UpButton" onClick={() => {categoryMajorDelete(category.categoryStateMajorCode)}}>X</div>
-                            </div>
-
-                        </div>
-                    </div>
-                ))}
-                </div>
+        <div id="categoryBox">
+          <div id="bigCategory">
+            <div id="bigCategoryH2">대분류</div>
+            <div id="categoryCreateButoon" onClick={() => modalCreateOpen()}>
+              생성
             </div>
-        </>
-    )
-}
-
-
-
+          </div>
+          {categoryStateData.map((category, index) => (
+            <div className="categoryUpBox" key={index}>
+              <div className="categoryUp">
+                <div>{category.categoryStateMajorText}</div>
+                <div id="button-list">
+                  <div id="UpButton" onClick={() => categoryModalUp(category)}>
+                    ✎
+                  </div>
+                  <div
+                    id="UpButton"
+                    onClick={() => {
+                      categoryMajorDelete(category.categoryStateMajorCode);
+                    }}
+                  >
+                    X
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
+  );
+};
 
 export default AdminCategoryManagement;

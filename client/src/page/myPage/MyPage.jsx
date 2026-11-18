@@ -22,7 +22,15 @@ import MyPageProfile from "./component/MyPageProfile";
 
 // myPage 전역관리
 import { MyPageReduser, initiaMyPageReduser } from "./reduser/MyPageReduser";
-import { buyProductAPI, freeProductAPI, interestProductAPI, purchaseHistoryProductAPI, saleProductAPI, selectUserInfoAPI, selectUserProductAPI } from "./api/MyPageAPI";
+import {
+  buyProductAPI,
+  freeProductAPI,
+  interestProductAPI,
+  purchaseHistoryProductAPI,
+  saleProductAPI,
+  selectUserInfoAPI,
+  selectUserProductAPI,
+} from "./api/MyPageAPI";
 import { useNavigate } from "react-router-dom";
 
 const MyPage = () => {
@@ -34,13 +42,13 @@ const MyPage = () => {
   };
 
   // 리듀서 [ 이걸로 변경할 예정 ] [ 정상작동 중 ]
-  const [state, dispatch] = useReducer  (MyPageReduser, initiaMyPageReduser);
+  const [state, dispatch] = useReducer(MyPageReduser, initiaMyPageReduser);
 
   const navigate = useNavigate();
 
   // 마이페이지 수정으로 변경 [ 정상작동 중 ]
   const profileUpdate = () => {
-    dispatch({type:"myPageProfileState"})
+    dispatch({ type: "myPageProfileState" });
   };
   // 상세 상품페이지로 이동  [ 정상작동 중 ]
   const gotoDetailProduct = (code) => {
@@ -48,40 +56,44 @@ const MyPage = () => {
   };
 
   // 사용자 정보 가져와야 함 [ 총합 포인트 점수도 같이 가져와야 함]
-  const selectUserInfo = async () =>{
-    const code = sessionStorage.getItem("userCode")
+  const selectUserInfo = async () => {
+    const code = sessionStorage.getItem("userCode");
     const result = await selectUserInfoAPI(code);
-    dispatch({type:"userInfo", payload : result.data})
-    console.log(result.data)
-  }
+    dispatch({ type: "userInfo", payload: result.data });
+    console.log(result.data);
+  };
 
   // 종합 데이터 가져오기 [ 정상작동 중 ]
-  const totalProudctList = async ()=>{
-    const result1 = await selectUserProductAPI(sessionStorage.getItem("userCode"));
-    const result2 = await purchaseHistoryProductAPI(sessionStorage.getItem("userCode"));
-    const result3 = await interestProductAPI(sessionStorage.getItem("userCode"));
+  const totalProudctList = async () => {
+    const result1 = await selectUserProductAPI(
+      sessionStorage.getItem("userCode"),
+    );
+    const result2 = await purchaseHistoryProductAPI(
+      sessionStorage.getItem("userCode"),
+    );
+    const result3 = await interestProductAPI(
+      sessionStorage.getItem("userCode"),
+    );
     const result4 = await saleProductAPI(sessionStorage.getItem("userCode"));
     const result5 = await buyProductAPI(sessionStorage.getItem("userCode"));
     const result6 = await freeProductAPI(sessionStorage.getItem("userCode"));
-    dispatch({type : "result1" , payload : result1.data})
-    dispatch({type : "result2" , payload : result2.data})
-    dispatch({type : "result3" , payload : result3.data})
-    dispatch({type : "result4" , payload : result4.data})
-    dispatch({type : "result5" , payload : result5.data})
-    dispatch({type : "result6" , payload : result6.data})
-  }
-  useEffect(()=>{
-    totalProudctList()
-    selectUserInfo()
-  },[])
+    dispatch({ type: "result1", payload: result1.data });
+    dispatch({ type: "result2", payload: result2.data });
+    dispatch({ type: "result3", payload: result3.data });
+    dispatch({ type: "result4", payload: result4.data });
+    dispatch({ type: "result5", payload: result5.data });
+    dispatch({ type: "result6", payload: result6.data });
+  };
+  useEffect(() => {
+    totalProudctList();
+    selectUserInfo();
+  }, []);
 
   //// 프로필변경 함수
   // 취소버튼 [ 정상작동 중 ]
   const profileCloseButton = () => {
-    dispatch({type : "myPageState"})
+    dispatch({ type: "myPageState" });
   };
-
-  
 
   return (
     <>
@@ -184,14 +196,21 @@ const MyPage = () => {
               <div id="myPageProfileBox">
                 <div id="myPageProfileBoxInfo">
                   <div id="myPageProfileBoxInfo2">
-                    <img id="myPageProfileBoxImg" src={`http://localhost:8080/userProfile/${state.userInfo.userCode}/${state.userInfo.userImg}`}></img>
+                    <img
+                      id="myPageProfileBoxImg"
+                      src={`http://localhost:8080/userProfile/${state.userInfo.userId}/userProfile/${state.userInfo.userImg}`}
+                    ></img>
                     <div id="myPageProfileBoxInfo3">
                       <div id="myPageProfileBoxInfoName">
                         {state.userInfo.userNickname}
                       </div>
                       <div id="myPageProfileBoxInfoAddress">
-                        <FaLocationDot></FaLocationDot><span>{state.userInfo.userAddress},{state.userInfo.userAddressDetail}</span>
-                      </div> 
+                        <FaLocationDot></FaLocationDot>
+                        <span>
+                          {state.userInfo.userAddress},
+                          {state.userInfo.userAddressDetail}
+                        </span>
+                      </div>
                       <div id="myPageProfileBoxInfoPoint">
                         <span id="icon">
                           <FaStar />
@@ -201,7 +220,9 @@ const MyPage = () => {
                     </div>
                   </div>
                   <div id="myPageProfileBoxUserInfo">
-                    {state.userInfo.userInfo == null ? "내용이 없습니다." : state.userInfo.userInfo}
+                    {state.userInfo.userInfo == null
+                      ? "내용이 없습니다."
+                      : state.userInfo.userInfo}
                   </div>
                 </div>
                 <div
@@ -239,14 +260,14 @@ const MyPage = () => {
                     <div id="myPageRegistrationH1">전체상품</div>
                   </div>
                   <div id="myPageRegistrationCenter">
-                    {state.result1.map((result,index)=>{
-                      return(
+                    {state.result1.map((result, index) => {
+                      return (
                         <MyNotice
-                            key={index}
-                            list={result}
-                            gotoDetailProduct={gotoDetailProduct}
+                          key={index}
+                          list={result}
+                          gotoDetailProduct={gotoDetailProduct}
                         ></MyNotice>
-                      )
+                      );
                     })}
                   </div>
                 </div>
@@ -257,14 +278,14 @@ const MyPage = () => {
                     <div id="myPageRegistrationH1">거래 내역</div>
                   </div>
                   <div id="myPageRegistrationCenter">
-                    {state.result2.map((result,index)=>{
-                      return(
+                    {state.result2.map((result, index) => {
+                      return (
                         <MyNotice
-                            key={index}
-                            list={result}
-                            gotoDetailProduct={gotoDetailProduct}
+                          key={index}
+                          list={result}
+                          gotoDetailProduct={gotoDetailProduct}
                         ></MyNotice>
-                      )
+                      );
                     })}
                   </div>
                 </div>
@@ -275,14 +296,14 @@ const MyPage = () => {
                     <div id="myPageRegistrationH1">관심상품</div>
                   </div>
                   <div id="myPageRegistrationCenter">
-                    {state.result3.map((result,index)=>{
-                      return(
+                    {state.result3.map((result, index) => {
+                      return (
                         <MyNotice
-                            key={index}
-                            list={result}
-                            gotoDetailProduct={gotoDetailProduct}
+                          key={index}
+                          list={result}
+                          gotoDetailProduct={gotoDetailProduct}
                         ></MyNotice>
-                      )
+                      );
                     })}
                   </div>
                 </div>
@@ -293,14 +314,14 @@ const MyPage = () => {
                     <div id="myPageRegistrationH1">판매중</div>
                   </div>
                   <div id="myPageRegistrationCenter">
-                    {state.result4.map((result,index)=>{
-                      return(
+                    {state.result4.map((result, index) => {
+                      return (
                         <MyNotice
-                            key={index}
-                            list={result}
-                            gotoDetailProduct={gotoDetailProduct}
+                          key={index}
+                          list={result}
+                          gotoDetailProduct={gotoDetailProduct}
                         ></MyNotice>
-                      )
+                      );
                     })}
                   </div>
                 </div>
@@ -311,14 +332,14 @@ const MyPage = () => {
                     <div id="myPageRegistrationH1">구매완료</div>
                   </div>
                   <div id="myPageRegistrationCenter">
-                    {state.result5.map((result,index)=>{
-                      return(
+                    {state.result5.map((result, index) => {
+                      return (
                         <MyNotice
-                            key={index}
-                            list={result}
-                            gotoDetailProduct={gotoDetailProduct}
+                          key={index}
+                          list={result}
+                          gotoDetailProduct={gotoDetailProduct}
                         ></MyNotice>
-                      )
+                      );
                     })}
                   </div>
                 </div>
@@ -329,14 +350,14 @@ const MyPage = () => {
                     <div id="myPageRegistrationH1">나눔상품</div>
                   </div>
                   <div id="myPageRegistrationCenter">
-                    {state.result6.map((result,index)=>{
-                      return(
+                    {state.result6.map((result, index) => {
+                      return (
                         <MyNotice
-                            key={index}
-                            list={result}
-                            gotoDetailProduct={gotoDetailProduct}
+                          key={index}
+                          list={result}
+                          gotoDetailProduct={gotoDetailProduct}
                         ></MyNotice>
-                      )
+                      );
                     })}
                   </div>
                 </div>
@@ -345,12 +366,12 @@ const MyPage = () => {
           </div>
         </div>
       ) : (
-        <MyPageProfile 
-        profileCloseButton={profileCloseButton}
-        state={state}
-        dispatch={dispatch}
-        categoryUpdate={categoryUpdate}
-        selectUserInfo={selectUserInfo}
+        <MyPageProfile
+          profileCloseButton={profileCloseButton}
+          state={state}
+          dispatch={dispatch}
+          categoryUpdate={categoryUpdate}
+          selectUserInfo={selectUserInfo}
         ></MyPageProfile>
       )}
     </>

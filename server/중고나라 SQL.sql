@@ -6,6 +6,7 @@ ON SCHEDULE
 DO
 BEGIN
 
+
     -- 1. 정지 해제 대상자 정보 백업
     INSERT INTO JGUserInfoBack (
         userCode,
@@ -76,6 +77,8 @@ EVERY 1 DAY
 STARTS TIMESTAMP(CURRENT_DATE + INTERVAL 1 DAY);
 
 /* 끝 */
+
+
 
 /*사용자 정보*/
 CREATE TABLE JGUserInfo(
@@ -207,6 +210,8 @@ CREATE TABLE categoryStateMajor(
     categoryStateMajorText varchar(20),							/* 카테고리 메이저 이름 */
     categoryStateMajorCreate datetime default CURRENT_TIMESTAMP	/* 카테고리 메이저 생성날짜 */
 );
+
+
 CREATE TABLE categoryStateMinor(
 	categoryStateMinorCode integer auto_increment primary key,  /* 카테고리 마이너 코드 */
     categoryStateMajorCode integer,								/* 카테고리 메이저 외래키 */
@@ -225,7 +230,7 @@ CREATE TABLE categoryStateMinor(
 --     addressName varchar(10) /* 주소 정보 */	
 -- );
 
--- /* 주소 정보 디테일 */
+/* 주소 정보 디테일 */
 -- CREATE TABLE addressInfodetail(
 -- 	addressDetailCode integer auto_increment primary key, /* 주소 디테일 코드 */
 --     addressCode integer, /* Address_Info의 addressCode 참조 */
