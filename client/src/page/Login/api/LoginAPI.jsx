@@ -4,6 +4,11 @@ const instance = axios.create({
   baseURL: "http://localhost:8080/api/userInfo",
 });
 
+const instanceAPI = axios.create({
+  baseURL: "http://localhost:8080/api/login",
+});
+
+
 instance.interceptors.request.use(
   (config) => {
     const token = sessionStorage.getItem("token");
@@ -21,3 +26,8 @@ instance.interceptors.request.use(
 export const userLoginAPI = async (data) => {
   return await instance.post("/userLogin",data);
 };
+
+
+export const naverLoginButtonAPI = async () =>{
+  return await instanceAPI.get("/naver/login")
+}
