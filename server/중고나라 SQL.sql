@@ -79,6 +79,7 @@ STARTS TIMESTAMP(CURRENT_DATE + INTERVAL 1 DAY);
 /* 끝 */
 
 
+select * from JGUserInfo;
 
 /*사용자 정보*/
 CREATE TABLE JGUserInfo(
@@ -140,8 +141,8 @@ CREATE TABLE JGUserInfoPointer(
 /* 게시글 정보 */
 CREATE TABLE JGNotice(
   JGNoticeCode integer auto_increment primary key, /*게시글 코드*/ 
-  JGNoticeTitle varchar(20) not null, /*게시글 제목*/ 
-  JGNoticeText varchar(255) not null, /*게시글 내용*/ 
+  JGNoticeTitle varchar(255) not null, /*게시글 제목*/ 
+  JGNoticeText TEXT NOT NULL, /*게시글 내용*/ 
   JGNoticeProductPrice varchar(255) not null, /*게시글 제품 가격 */
   JGNoticeProductTypeMajor varchar(255) not null, /*게시글 제품 구분 */ 
   JGNoticeProductTypeMinor varchar(255) not null, /*게시글 제품 구분 */ 
@@ -154,6 +155,11 @@ CREATE TABLE JGNotice(
   JGNoticeSaleUserCode varchar(10) default null /* 상품을 구매한 사람 코드 */
 );
 
+/*이거 변경해야한다 승훈아.*/
+ALTER TABLE JGNotice
+modify column JGNoticeTitle varchar(255) not null;
+ALTER TABLE JGNotice
+modify column JGNoticeTitle TEXT NOT NULL;
 
 /* 게시글 구독 or 좋아요 */
 CREATE TABLE JGNoticeSubcribe(

@@ -56,15 +56,16 @@ const Login = () => {
       sessionStorage.setItem("userId", payloads.userId);
       sessionStorage.setItem("userManager", payloads.userManager);
       sessionStorage.setItem("userCode", payloads.userCode);
+      sessionStorage.setItem("userAddress", payloads.userAddress);
       navigate("/");
     }
   };
 
   // 카카오 로그인
   // 네이버 로그인
-  const naverLoginButton = () =>{
-     window.location.href = "http://localhost:8080/api/login/naver/login";
-  }
+  const naverLoginButton = () => {
+    window.location.href = "http://localhost:8080/api/login/naver/login";
+  };
   // 구글 로그인
   return (
     <>
@@ -110,7 +111,7 @@ const Login = () => {
               <FaGoogle />
             </div>
             <div>
-              <SiNaver onClick={naverLoginButton}/>
+              <SiNaver onClick={naverLoginButton} />
             </div>
           </div>
           <div id="signUpText" onClick={signUpPage}>

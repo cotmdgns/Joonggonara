@@ -89,8 +89,16 @@ public class NoticeController {
     @PostMapping("searchNoticeSelect")
     public SynthesisDTO searchNoticeSelect(@RequestBody SearchDTO dto){
 
-        log.info("데이터 확인하기 : " + dto);
+        log.info("데이터 확인하기 1 : " + dto);
         // 초기세팅
+        String t1 = dto.getTitle1().replace("&","/");
+        String t2 = dto.getTitle2().replace("&","/");
+        String t3 = dto.getTitle3().replace("&","/");
+        dto.setTitle1(t1);
+        dto.setTitle2(t2);
+        dto.setTitle3(t3);
+        log.info("데이터 확인하기 2 : " + dto);
+
         Criteria cri = new Criteria(1,24);
         cri.setPageNum(dto.getNum());
         dto.setCri(cri);

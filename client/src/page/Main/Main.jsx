@@ -85,8 +85,10 @@ const Main = () => {
       <div id="mainBox">
         {userCode != undefined && (
           <div id="mainNoticeInfo">
-            <div id="mainNoticeH1">우리 동네 상품</div>
-            {userAddressSelectList.length <= 1 && (
+            <div id="mainNoticeH1">
+              우리 동네 상품 [{sessionStorage.getItem("userAddress")}]
+            </div>
+            {userAddressSelectList.length < 1 && (
               <div id="searchAddressBox">
                 해당 동네로 검색된 결과가 없습니다..
               </div>
@@ -115,7 +117,7 @@ const Main = () => {
 
         <div id="mainNoticeInfo">
           <div id="mainNoticeH1">추천 상품</div>
-          {newNotificationSelectList.length <= 1 && (
+          {newNotificationSelectList.length < 1 && (
             <div id="searchAddressBox">
               해당 동네로 검색된 결과가 없습니다..
             </div>

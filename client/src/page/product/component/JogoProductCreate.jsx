@@ -92,10 +92,7 @@ const JogoProductCreate = ({ productCreateClose }) => {
 
   // 게시글 생성하기
   const createNotice = async () => {
-    if (
-      state.productName == "" ||
-      state.productInfo == ""
-    ) {
+    if (state.productName == "" || state.productInfo == "") {
       alert("입력란에 기재해주세요.");
       return;
     }
@@ -103,7 +100,7 @@ const JogoProductCreate = ({ productCreateClose }) => {
       alert("사진 최소 한장이라도 넣어주세요.");
       return;
     }
-    if(!state.productCheck && state.productPrice <= 0){
+    if (!state.productCheck && state.productPrice <= 0) {
       alert("금액을 설정해주세요.");
       return;
     }
@@ -115,8 +112,8 @@ const JogoProductCreate = ({ productCreateClose }) => {
     data.append("categoryMinor", state.categoryMinorCode); // 게시글 마이너 카테고리
     data.append("categoryMinorList", state.categoryMinorListCode); // 게시글 마이너 리스트 ( 이거 이름을 어떻게 지어야할지 모르겠음; )
     data.append("productName", state.productName); // 상품 이름
-    if(state.productCheck){
-      state.productPrice = 0
+    if (state.productCheck) {
+      state.productPrice = 0;
     }
     data.append("productPrice", state.productPrice); // 상품 가격
     data.append("productFree", state.productCheck); // 상품 무료로 나눌꺼냐의 대한 조건
@@ -127,12 +124,10 @@ const JogoProductCreate = ({ productCreateClose }) => {
     Array.from(imgList).forEach((img) => {
       data.append("imgs", img);
     });
-  
-
 
     await noticeCreateAPI(data);
     alert("생성 되었습니다.");
-    // productCreateClose();
+    productCreateClose();
   };
 
   return (

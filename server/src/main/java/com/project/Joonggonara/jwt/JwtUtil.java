@@ -28,7 +28,8 @@ public class JwtUtil {
                         "userCode", userInfo.getUserCode(),
                         "userName", userInfo.getUserName(),
                         "userManager",userInfo.getUserManager(),
-                        "userId", userInfo.getUserId()
+                        "userId", userInfo.getUserId(),
+                        "userAddress", userInfo.getAddressDetailData()
                 ))
                 .setIssuedAt(new Date())
                 .setExpiration(Date.from(Instant.now().plus(1, ChronoUnit.DAYS)))

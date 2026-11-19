@@ -37,14 +37,14 @@ const Headerr = () => {
 
   // 헤더 전역관리 리듀서
   const [state, dispatch] = useReducer(HeaderResuser, initiaHeaderReduser);
-  const { addressToggle, priceToggle, categoryToggle,managerState, loginBoo } = state;
+  const { addressToggle, priceToggle, categoryToggle, managerState, loginBoo } =
+    state;
 
   // 마이페이지 전역관리 리듀서
   const [stateMyPage, dispatchMyPage] = useReducer(
     MenubarReduser,
     initiaMenubarReduser,
   );
-
 
   // 로고 버튼 ( 메인페이지 )
   const logoBuuton = () => {
@@ -56,8 +56,8 @@ const Headerr = () => {
   };
   // 로그아웃 버튼
   const logoutButton = () => {
-    dispatch({type:"logout"})
-    navigate("/")
+    dispatch({ type: "logout" });
+    navigate("/");
     alert("정상적으로 로그아웃 되었습니다.");
   };
   // 회원가입
@@ -74,25 +74,27 @@ const Headerr = () => {
   };
   // 관리자
   const admin = () => {
-    navigate("/layoutAdmin")
+    navigate("/layoutAdmin");
   };
 
   // 상세 검색
-  const searchButton =  () => {
-      navigate(`/jogoProduct?pageNum=1&search=${encodeURIComponent(state.search)}`);
-      dispatch({type : "searchButton" , payload : ""})
+  const searchButton = () => {
+    navigate(
+      `/jogoProduct?pageNum=1&search=${encodeURIComponent(state.search)}`,
+    );
+    dispatch({ type: "searchButton", payload: "" });
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     const token = sessionStorage.getItem("token");
     const userManager = sessionStorage.getItem("userManager");
-    if(token != null){
-      dispatch({type:"loginBoo"})
+    if (token != null) {
+      dispatch({ type: "loginBoo" });
     }
-    if(userManager == 2){
-      dispatch({type:"managerState"})
+    if (userManager == 2) {
+      dispatch({ type: "managerState" });
     }
-  },[])
+  }, []);
 
   return (
     <>
@@ -112,8 +114,8 @@ const Headerr = () => {
               id="headerSearchInput"
               placeholder="상세 검색.."
               value={state.search}
-              onChange={(e)=>{
-                dispatch({type : "searchButton" , payload : e.target.value})
+              onChange={(e) => {
+                dispatch({ type: "searchButton", payload: e.target.value });
               }}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
@@ -153,7 +155,7 @@ const Headerr = () => {
                 </div>
                 <div id="headerText">내 정보</div>
               </div>
-              <div id="headerInfo" onClick={() =>{alram()}}>
+              {/* <div id="headerInfo" onClick={() =>{alram()}}>
                 <div id="headerFont">
                   <CiAlarmOn />
                 </div>
@@ -161,19 +163,17 @@ const Headerr = () => {
                     e.stopPropagation()
                   }}>
                   알림
-                  {/* <Alram ></Alram> */}
+                  <Alram ></Alram>
                 </div>
-                
-              </div>
-              {managerState === "managerState" && 
+              </div> */}
+              {managerState === "managerState" && (
                 <div id="headerInfo" onClick={admin}>
                   <div id="headerFont">
                     <RiAdminFill />
                   </div>
                   <div id="headerText">관리자</div>
-                </div>              
-              }
-
+                </div>
+              )}
             </div>
           )}
         </div>
