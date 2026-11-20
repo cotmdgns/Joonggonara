@@ -73,6 +73,7 @@ export const HeaderResuser = (state,action) =>{
             sessionStorage.removeItem("userId")
             sessionStorage.removeItem("userManager")
             sessionStorage.removeItem("userCode")
+            sessionStorage.removeItem("userAddress")
             return {
                 ...state,
                 loginBoo : false,

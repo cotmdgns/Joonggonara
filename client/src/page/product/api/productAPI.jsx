@@ -22,6 +22,11 @@ export const noticeCreateAPI = async (data) => {
   return await instance.post("/noticeCreate",data);
 };
 
+// 상품 등록하기
+export const noticeDelteAPI = async (code) => {
+  return await instance.post("/noticeDelete",code);
+};
+
 // 상세 상품 검색하기 searchNoticeSelect
 export const searchNoticeSelectAPI = async (data) => {
   return await instance.post("/searchNoticeSelect",data);
@@ -36,6 +41,8 @@ export const selectProductDataAPI = async (code) =>{
 export const createDeclarationButtonAPI = async (data) =>{
   return await instance.post("/createDeclarationButton",data);
 }
+
+
 
 // 찜 상태값 [ 정상작동 ]
 export const subscribeNoticeSelectAPI = async (data) =>{

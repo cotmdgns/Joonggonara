@@ -79,7 +79,9 @@ STARTS TIMESTAMP(CURRENT_DATE + INTERVAL 1 DAY);
 /* 끝 */
 
 
-select * from JGUserInfo;
+
+
+
 
 /*사용자 정보*/
 CREATE TABLE JGUserInfo(
@@ -103,8 +105,20 @@ CREATE TABLE JGUserInfo(
   userAddress varchar(50),/* 사용자 주소 (상세) ex) 헤안대로..  */ 
   userAddressDetail varchar(60), /* 사용자 주소 (상세) ex) 상세주소 X층 X호 */ 
   /*2026-10-19 이후로 추가 됨*/
-  userInfo varchar(255) default null /*사용자 자기소개*/
+  userInfo varchar(255) default null ,/*사용자 자기소개*/
+  
+  naverAPI varchar(50) default null,				/*네이버 연동*/
+  kakaoAPI varchar(50) default null,				/*카카오 연동*/
+  googleAPI varchar(50) default null				/*구글 연동*/
 );
+alter table JGUserInfo
+add column naverAPI varchar(50) default null;
+alter table JGUserInfo
+add column kakaoAPI varchar(50) default null;
+alter table JGUserInfo
+add column googleAPI varchar(50) default null;
+
+
 
 SHOW VARIABLES LIKE 'event_scheduler';
 
@@ -155,11 +169,11 @@ CREATE TABLE JGNotice(
   JGNoticeSaleUserCode varchar(10) default null /* 상품을 구매한 사람 코드 */
 );
 
-/*이거 변경해야한다 승훈아.*/
-ALTER TABLE JGNotice
-modify column JGNoticeTitle varchar(255) not null;
-ALTER TABLE JGNotice
-modify column JGNoticeTitle TEXT NOT NULL;
+
+
+
+
+
 
 /* 게시글 구독 or 좋아요 */
 CREATE TABLE JGNoticeSubcribe(
@@ -168,6 +182,7 @@ CREATE TABLE JGNoticeSubcribe(
   JGNoticeSubcribeCreate datetime default CURRENT_TIMESTAMP,  /*구독 생성날자*/ 
   userCode integer /*유저 코드 [ 외래키 ]*/ 
 );
+
 
 
 /*게시글 사진정보*/ 
@@ -218,6 +233,7 @@ CREATE TABLE categoryStateMajor(
 );
 
 
+
 CREATE TABLE categoryStateMinor(
 	categoryStateMinorCode integer auto_increment primary key,  /* 카테고리 마이너 코드 */
     categoryStateMajorCode integer,								/* 카테고리 메이저 외래키 */
@@ -226,39 +242,3 @@ CREATE TABLE categoryStateMinor(
     categoryStateMinorCodeMinor integer default null			/* 카테고리 마이너 코드 셀프조인 */
 );
 
-
-
-
-/* 삭제할 예정 */
--- /* 주소 정보 */
--- CREATE TABLE addressInfo(
--- 	addressCode integer auto_increment primary key, /* 주소 코드 */
---     addressName varchar(10) /* 주소 정보 */	
--- );
-
-/* 주소 정보 디테일 */
--- CREATE TABLE addressInfodetail(
--- 	addressDetailCode integer auto_increment primary key, /* 주소 디테일 코드 */
---     addressCode integer, /* Address_Info의 addressCode 참조 */
---     addressDetailName varchar(10) /* 주소 디테일 정보 */
--- );
-
--- 안쓸꺼임
--- /*어드민 전용 관리 페이지*/ 
--- CREATE TABLE MeunOptionA(
---   meunOptionCode integer auto_increment primary key, /*메뉴판 코드 관리*/ 
---   meunOptionName varchar(30), /*메뉴판 이름*/ 
---   meunOptionCreate datetime default CURRENT_TIMESTAMP, /*메뉴판 관리 생성날짜*/ 
---   meunOptionCalssCheack boolean, /*등급 [ 어드민 포함 or 미포함 체크 여부]*/ 
---   meunOptionCodeSub integer /*메뉴판 코드 관리 [ 외래키 ]*/ 
--- );
--- drop table MeunOptionA;
-
-/*게시글 댓글  [ 폐기 예정 ]  */ 
--- CREATE TABLE JGNoticeComment(
---   JGNoticeCommentCode integer auto_increment primary key, /*게시글 댓글*/ 
---   userCode integer, /*사용자 코드 [ 외래키 ]*/ 
---   JGNoticeCode integer, /*게시글 코드 [ 외래키 ]*/ 
---   JGNoticeText varchar(255), /*게시글 댓글*/ 
---   JGNoticeCreate datetime default CURRENT_TIMESTAMP /*댓글 생성날짜*/ 
--- );

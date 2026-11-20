@@ -12,6 +12,7 @@ import { FaHeart } from "react-icons/fa"; // 하트
 import { GoChevronRight } from "react-icons/go";
 import {
   createDeclarationButtonAPI,
+  noticeDelteAPI,
   saleJGNoticeAPI,
   selectProductDataAPI,
   subscribeNoticeCreateAPI,
@@ -64,6 +65,11 @@ const JogoProductDetail = () => {
 
   // 찜하기 [ 저장하기 ]
   const subscribe = async () => {
+    if(sessionStorage.getItem("token") == null || sessionStorage.getItem("token") == undefined){
+      alert("로그인을 해주세요.")
+      navigate("/login")
+      return
+    }
     const data = {
       jGNoticeCode: param.code,
       userCode: sessionStorage.getItem("userCode"),
@@ -74,6 +80,11 @@ const JogoProductDetail = () => {
   };
   // 찜 취소하기 [ 정상작동 ]
   const subscribeFalse = async () => {
+    if(sessionStorage.getItem("token") == null || sessionStorage.getItem("token") == undefined){
+      alert("로그인을 해주세요.")
+      navigate("/login")
+      return
+    }
     const data = {
       jGNoticeCode: param.code,
       userCode: sessionStorage.getItem("userCode"),
@@ -85,6 +96,11 @@ const JogoProductDetail = () => {
 
   // 구매하기
   const buyProduct = async () => {
+    if(sessionStorage.getItem("token") == null || sessionStorage.getItem("token") == undefined){
+      alert("로그인을 해주세요.")
+      navigate("/login")
+      return
+    }
     const data = {
       jGNoticeCode: param.code,
       userCode: sessionStorage.getItem("userCode"),
@@ -94,8 +110,29 @@ const JogoProductDetail = () => {
     alert("구매완료");
   };
 
+  // 상품 삭제하기
+  const deleteProduct = async () =>{
+    if(sessionStorage.getItem("token") == null || sessionStorage.getItem("token") == undefined){
+      alert("로그인을 해주세요.")
+      navigate("/login")
+      return
+    }
+    if(window.confirm("정말로 삭제하시겠습니까?")){
+      const data = {
+        jGNoticeCode: param.code,
+        userCode: sessionStorage.getItem("userCode"),
+      };
+      console.log(data)
+      await noticeDelteAPI(data);
+      navigate("/")
+    }
+  }
+
+
+
   // 신고하기 [ 정상작동 함 ]
   const singoButton = async () => {
+    
     let arr = "";
     for (let i = 0; i < state.checkList.length; i++) {
       arr += state.checkList[i] + "/";
@@ -131,6 +168,11 @@ const JogoProductDetail = () => {
   };
   // 신고하기 [ 모달 열기 ]
   const singoButtonModalTrue = (type) => {
+    if(sessionStorage.getItem("token") == null || sessionStorage.getItem("token") == undefined){
+      alert("로그인을 해주세요.")
+      navigate("/login")
+      return
+    }
     dispatch({ type: "modalTrue", payload: type });
   };
   // 신고하기 [ 모달 닫기 ]
@@ -144,25 +186,25 @@ const JogoProductDetail = () => {
     switch (code) {
       case 1:
         navigate(
-          "/jogoProduct/" + state.noticeDetilData.jgnoticeProductTypeMajor,
+          "/jogoProduct/category/" + state.noticeDetilData.jgnoticeProductTypeMajor.replace("/","&") + "?pageNum=1&search="
         );
         return;
       case 2:
         navigate(
-          "/jogoProduct/" +
-            state.noticeDetilData.jgnoticeProductTypeMajor +
+          "/jogoProduct/category/" +
+            state.noticeDetilData.jgnoticeProductTypeMajor.replace("/","&") +
             "/" +
-            state.noticeDetilData.jgnoticeProductTypeMinor,
+            state.noticeDetilData.jgnoticeProductTypeMinor.replace("/","&")  + "?pageNum=1&search="
         );
         return;
       case 3:
         navigate(
-          "/jogoProduct/" +
-            state.noticeDetilData.jgnoticeProductTypeMajor +
+          "/jogoProduct/category/" +
+            state.noticeDetilData.jgnoticeProductTypeMajor.replace("/","&") +
             "/" +
-            state.noticeDetilData.jgnoticeProductTypeMinor +
+            state.noticeDetilData.jgnoticeProductTypeMinor.replace("/","&") +
             "/" +
-            state.noticeDetilData.jgnoticeProductTypeMinorList,
+            state.noticeDetilData.jgnoticeProductTypeMinorList.replace("/","&")  + "?pageNum=1&search="
         );
         return;
     }
@@ -266,6 +308,7 @@ const JogoProductDetail = () => {
             sessionStorage.getItem("userCode") ? (
               <>
                 <div id="buttonInsert">본인상품</div>
+                <div id="buttonDelete" onClick={deleteProduct}>상품삭제</div>
               </>
             ) : state.noticeDetilData.jgnoticeSaleBoo ? (
               <>

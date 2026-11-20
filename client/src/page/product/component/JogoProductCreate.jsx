@@ -72,7 +72,7 @@ const JogoProductCreate = ({ productCreateClose }) => {
       );
     }
   };
-
+  console.log(state.categoryMinorListAndList)
   const categoryMinorCheck = (code, categoryMinorList) => {
     const result = categoryMinorList.find(
       (arr) =>
@@ -81,7 +81,7 @@ const JogoProductCreate = ({ productCreateClose }) => {
 
     dispatch({
       type: "categoryMinorListCode",
-      payload: result.categoryStateMinorSmall[0].categoryStateMinorCode,
+      payload: result.categoryStateMinorSmall[0]?.categoryStateMinorCode ?? 0,
     });
 
     dispatch({

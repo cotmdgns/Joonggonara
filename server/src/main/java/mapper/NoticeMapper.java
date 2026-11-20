@@ -18,6 +18,7 @@ public interface NoticeMapper {
     void saleJGNotice(JGNotice jgNotice);                       //<!--  구매하기  -->
     void deleteNotice(int code);                                // 게시글 삭제
 
+
     int subTotal(int code);
 
     JGNoticeComment selectComment(int code);                    //<!--    댓글 조회 , 게시글 코드 받고 -->

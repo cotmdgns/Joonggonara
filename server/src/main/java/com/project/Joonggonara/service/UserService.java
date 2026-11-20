@@ -23,6 +23,7 @@ public class UserService {
     // 사용자 아이디 체크하기
     public boolean IdCheckAPI(String str){
         JGUserInfo jgUserInfo = userMapper.IdCheckAPI(str);
+        log.info("데이터 확인하기 jgUserInfo : "  + jgUserInfo);
         if(jgUserInfo == null){
             return false;
         }else{

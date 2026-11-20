@@ -34,5 +34,5 @@ export const userIdCreateAPI = async (data) => {
 
 // 아이디 체크 API [ 정상작동 ]
 export const IdCheckAPI = async (userId) =>{
-  return await instance.post("/idCheckAPI",{userId:userId})
+  return await instance.post("/idCheckAPI",userId)
 }

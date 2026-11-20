@@ -114,8 +114,9 @@ public class UserController {
     // 아이디 체크하기 [ 정상작동함 ]
     @PostMapping("idCheckAPI")
     public boolean IdCheckAPI(@RequestBody String userId){
-        log.info("데이터 확인하기 : "  + userId);
-        Boolean boo = userService.IdCheckAPI(userId);
+        log.info("데이터 확인하기 : "  + userId.replace("=",""));
+        Boolean boo = userService.IdCheckAPI(userId.replace("=",""));
+
         return boo;
     }
 

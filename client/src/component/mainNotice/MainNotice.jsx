@@ -9,36 +9,75 @@ import {
   subscribeNoticeCreateAPI,
   subscribeNoticeDeleteAPI,
 } from "../../page/product/api/productAPI";
+import { useNavigate } from "react-router-dom";
 
 const MainNotice = ({
   list,
   gotoDetailProduct,
   pageNum,
   searchNoticeSelect,
+  userAddressSelect,
+  newNotificationSelect,
 }) => {
+    const navigate = useNavigate();
+
   // 좋아요 누르기 버튼
-  const noticeLike = async (www) => {
+  const noticeLike = async () => {
+    if(sessionStorage.getItem("token") == null || sessionStorage.getItem("token") == undefined){
+      alert("로그인을 해주세요.")
+      navigate("/login")
+      return
+    }
     const data = {
       jGNoticeCode: list.jgnoticeCode,
       userCode: sessionStorage.getItem("userCode"),
     };
-    console.log(data);
-    console.log(www);
     await subscribeNoticeCreateAPI(data);
-    await searchNoticeSelect(pageNum);
-  };
 
-  const noticeLikeFalse = async (www) => {
+    
+    if (typeof userAddressSelect === "function") {
+        await userAddressSelect();
+    }
+
+    if (typeof newNotificationSelect === "function") {
+        await newNotificationSelect();
+    }
+
+    if(pageNum != null){
+      // 이건 페이징 
+      await searchNoticeSelect(pageNum);
+    }
+
+
+  };
+  // 좋아요 삭제
+  const noticeLikeFalse = async () => {
+    if(sessionStorage.getItem("token") == null || sessionStorage.getItem("token") == undefined){
+      alert("로그인을 해주세요.")
+      navigate("/login")
+      return
+    }
     const data = {
       jGNoticeCode: list.jgnoticeCode,
       userCode: sessionStorage.getItem("userCode"),
     };
-    console.log(data);
-    console.log(www);
     await subscribeNoticeDeleteAPI(data);
-    await searchNoticeSelect(pageNum);
-  };
 
+
+    if (typeof userAddressSelect === "function") {
+        await userAddressSelect();
+    }
+
+    if (typeof newNotificationSelect === "function") {
+        await newNotificationSelect();
+    }
+    
+    if(pageNum != null){
+      await searchNoticeSelect(pageNum);
+    }
+
+  };
+  
   return (
     <>
       <div
@@ -64,7 +103,7 @@ const MainNotice = ({
           </div>
           <div id="mainNoticeIcon">
             {sessionStorage.getItem("userCode") !== String(list.userCode) ? (
-              !list.checkBoo ? (
+              list.checkBoo ? (
                 <>
                   <FaRegHeart
                     style={{ color: "red" }}

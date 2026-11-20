@@ -155,7 +155,7 @@ const AdminNotification = () => {
               <div id="bannerBoo">
                 <div id="bannerH1">메인 배너</div>
                 <div id="notificationDetailBanner">
-                  <img id="bannerImg" src={`http://localhost:8080/${notificationDetail.notificationManagementCode}/${notificationDetail.notificationManagementImg}`}></img>
+                  <img id="bannerImg" src={`http://localhost:8080/banner/${notificationDetail.notificationManagementCode}/${notificationDetail.notificationManagementImg}`}></img>
                 </div>
               </div>
             }

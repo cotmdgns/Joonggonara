@@ -235,6 +235,7 @@ const JogoProduct = () => {
               key={index}
               list={list}
               pageNum={pageNum}
+              
               searchNoticeSelect={searchNoticeSelect}
               gotoDetailProduct={gotoDetailProduct}
             />

@@ -74,7 +74,12 @@ public class NoticeController {
         }
         // 끝
     }
-
+    // 상품 삭제하기
+    @PostMapping("noticeDelete")
+    public void noticeDelete(@RequestBody JGNotice jgNotice) {
+        log.info("데이터 확인하기 jgNotice : " + jgNotice);
+        noticeService.deleteNotice(jgNotice.getJGNoticeCode());
+    }
     @GetMapping("address1")
     public List<String> address1(){
         return mainService.address1();

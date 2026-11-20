@@ -1,12 +1,14 @@
 package com.project.Joonggonara.service;
 
 import com.project.Joonggonara.model.dto.DeclarationDTO;
+import com.project.Joonggonara.model.dto.NoticeStateDTO;
 import com.project.Joonggonara.model.vo.JGNotice;
 import com.project.Joonggonara.model.vo.JGNoticeComment;
 import com.project.Joonggonara.model.vo.JGNoticeSubcribe;
 import mapper.NoticeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Service
 public class NoticeService {
@@ -36,6 +38,7 @@ public class NoticeService {
         mapper.saleJGNotice(jgNotice);
     };
 
+    // 상품 삭제하기
     public void deleteNotice(int code){
         mapper.deleteNotice(code);
     };
@@ -43,7 +46,6 @@ public class NoticeService {
     public int subTotal(int code){
         return mapper.subTotal(code);
     };
-
 
 
 //

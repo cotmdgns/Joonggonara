@@ -60,7 +60,9 @@ const AdminUserManagementModal = ({
             <div className="modalDataBody">
                 <div className="modalBodyLetf">
                     <div className="modalBodyLetfUp">
-                        <img id="img"/>
+                        <img id="img" 
+                        src={`http://localhost:8080/userProfile/${infoState.userId}/userProfile/${infoState.userImg}`}
+                        />
                         <div id="info">
                             <div><span id="id">{infoState.userId}</span></div>
                             <div><span id="nicknmae">{infoState.userNickname}</span><span id="name">{infoState.userName}</span></div>

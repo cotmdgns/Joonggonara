@@ -82,9 +82,9 @@ public class MainController {
 
             JGNoticeSubcribe boo = noticeService.subscribeNoticeSelect(jgNoticeSubcribe);
 
-            Boolean check = false;
+            Boolean check = true;
             if(boo != null){
-                check = true;
+                check = false;
             }
 
             NoticeDTO noticeDTO = NoticeDTO.builder()
@@ -128,7 +128,7 @@ public class MainController {
             // 코드로 이미지들 가져오고
             List<JGNoticeImg> img = mainService.searchNoticeSelectImg(data.getJGNoticeCode());
 
-
+            Boolean check = true;
             if(code != null){
                 // 내 코드로 저장되어있는게 있는지 확인하기
                 JGNoticeSubcribe jgNoticeSubcribe = JGNoticeSubcribe.builder()
@@ -139,10 +139,8 @@ public class MainController {
                         .build();
 
                 JGNoticeSubcribe boo = noticeService.subscribeNoticeSelect(jgNoticeSubcribe);
-
-                Boolean check = false;
                 if(boo != null){
-                    check = true;
+                    check = false;
                 }
             }
 
@@ -161,6 +159,7 @@ public class MainController {
                     .JGNoticeSaleBoo(data.getJGNoticeSaleBoo())
                     .firstImgName(img.get(0).getJGNoticeImg())
                     .firstImgCode(img.get(0).getJGNoticeImgCode())
+                    .checkBoo(check)
                     .build();
             result.add(noticeDTO);
         }

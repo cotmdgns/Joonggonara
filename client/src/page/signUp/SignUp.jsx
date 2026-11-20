@@ -69,14 +69,29 @@ const SignUp = () =>{
 
     // 아이디 중복체크  [ 정상 작동 ]
     const IdCheckButtonAPI = async () =>{
+        
+   
+        // console.log(userIdBoo)
+        if(userIdBoo == null || !userIdBoo){
+             dispatch({type:"idCheckBooFalse"}) 
+            alert("양식에 맞게 만들어주세요")
+            return
+        }
         const result = await IdCheckAPI(userId);
+        console.log("userIdBoo : " + userIdBoo)
+        console.log("result.data : " + result.data)
+
+        if(userIdBoo && result.data){
+            dispatch({type:"idCheckBooFalse"})
+            alert("사용중인 아이디입니다.")
+            return
+        }    
         if(userIdBoo && !result.data){
             dispatch({type:"idCheckBooTrue"})
             alert("사용 가능한 아이디 입니다.")
-        }else{
-            dispatch({type:"idCheckBooFalse"})
-            alert("제대로 입력 후 눌러주세요")
-        }    
+            return
+        }
+
     }
 
     // 회원가입하기 [ 정상 작동 ]

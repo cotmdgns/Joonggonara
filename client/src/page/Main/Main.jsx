@@ -49,7 +49,9 @@ const Main = () => {
     // 이건 DB에서 현재 날짜에서 -7일 해서 계속 가져다주기
     const result = await newNotificationSelectAPI(userCode);
     dispath({ type: "newNotificationSelect", payload: result.data });
-  };
+  };  
+
+
 
   // 상세페이지 이동``
   const gotoDetailProduct = (code) => {
@@ -71,7 +73,7 @@ const Main = () => {
     newNotificationSelect();
     userAddressSelect();
   }, []);
-  console.log(userAddressSelectList.length);
+
 
   return (
     <>
@@ -88,7 +90,7 @@ const Main = () => {
             <div id="mainNoticeH1">
               우리 동네 상품 [{sessionStorage.getItem("userAddress")}]
             </div>
-            {userAddressSelectList.length < 1 && (
+            {state.userAddressSelectList.length < 1 && (
               <div id="searchAddressBox">
                 해당 동네로 검색된 결과가 없습니다..
               </div>
@@ -98,11 +100,12 @@ const Main = () => {
                 <MainNotice
                   key={index}
                   list={list}
+                  userAddressSelect={userAddressSelect}
                   gotoDetailProduct={gotoDetailProduct}
                 />
               ))}
             </div>
-            {userAddressSelectList.length >= 11 ? (
+            {state.userAddressSelectList.length >= 11 ? (
               <div
                 id="noticeDetailLink"
                 onClick={() => [gotoDetailWeeklyProduct()]}
@@ -123,15 +126,16 @@ const Main = () => {
             </div>
           )}
           <div id="mainNoticeBox">
-            {newNotificationSelectList.map((list, index) => (
+            {state.newNotificationSelectList.map((list, index) => (
               <MainNotice
                 key={index}
                 list={list}
+                newNotificationSelect={newNotificationSelect}
                 gotoDetailProduct={gotoDetailProduct}
               />
             ))}
           </div>
-          {userAddressSelectList.length >= 12 ? (
+          {state.newNotificationSelectList.length >= 12 ? (
             <div
               id="noticeDetailLink"
               onClick={() => [gotoDetailRecommendProduct()]}

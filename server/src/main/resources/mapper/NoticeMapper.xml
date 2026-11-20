@@ -27,6 +27,7 @@
         where JGNoticeCode = #{jGNoticeCode} and userCode = #{userCode};
     </delete>
 
+
     <!--  신고하기  -->
     <insert id="createDeclarationButton" parameterType="DeclarationDTO">
         insert into UserDeclarationA(
