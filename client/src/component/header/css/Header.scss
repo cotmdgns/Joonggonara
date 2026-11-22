@@ -1,118 +1,108 @@
 // 헤더
-#headerBox{
+#headerBox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  width: 900px;
+  margin: auto;
+
+  // 로고쪽 css
+  #headerBoxL {
     display: flex;
-    justify-content: space-between;
+    justify-content: start;
     align-items: center;
-    margin-bottom: 10px;
-    width: 900px;
-    margin: auto;
-
-    // 로고쪽 css
-    #headerBoxL{
-
-        display: flex;
-        justify-content: start;
-        align-items: center;
-        cursor: pointer;
-        width: 200px;
-        #headerLogo{
-            width: 50px;
-            height: 50px;
-        }
-        #headerLogoText{
-            font-size: 25px;
-            font-weight: bold;
-        }
+    cursor: pointer;
+    width: 200px;
+    #headerLogo {
+      width: 50px;
+      height: 50px;
     }
-    #headerBoxC{
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    #headerLogoText {
+      font-size: 25px;
+      font-weight: bold;
+    }
+  }
+  #headerBoxC {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(236, 236, 236);
+    padding: 2px;
+    border-radius: 7px;
+    width: 400px;
+    #gobun {
+      color: gray;
+      font-size: 12px;
+    }
+    #headerSearch {
+      color: gray;
+      padding: 0px 10px;
+      cursor: pointer;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      #headerSearchText {
+        font-size: 13px;
+        width: 80px;
+        font-weight: bold;
+      }
+      #headerSearchData {
+        min-width: 70px;
+        width: 100%;
+        font-size: 12px;
+        text-align: right;
+      }
+      #headerSearchInput {
+        border: none;
+        outline: none;
+        height: 20px;
+        width: 500px;
         background-color: rgb(236, 236, 236);
-        padding: 2px;
-        border-radius: 7px;
-        width: 400px;
-        #gobun{
-            color: gray;
-            font-size: 12px;
-        }
-        #headerSearch{
-            color: gray;
-            padding: 0px 10px;
-            cursor: pointer;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            #headerSearchText{
-                font-size: 13px;
-                width: 80px;
-                font-weight: bold;
-            }
-            #headerSearchData{
-                min-width: 70px;
-                width: 100%;
-                font-size: 12px;
-                text-align: right;
-            }
-            #headerSearchInput{
-                border: none;
-                outline: none;
-                height: 20px;
-                width: 500px;
-                background-color: rgb(236, 236, 236);
-                padding: 15px;
-                font-size: 12px;
-            }
-        }
-        #headerSearchBox{
-            font-size: 12px;
-            background-color: rgb(66, 164, 250);
-            padding: 10px;
-            border-radius: 7px;
-            cursor: pointer;
-            color: white;
-        }
-        #headerSearchBox:hover{
-            background-color: rgb(24, 112, 189);
-        }
+        padding: 15px;
+        font-size: 12px;
+      }
     }
+    #headerSearchBox {
+      font-size: 12px;
+      background-color: rgb(66, 164, 250);
+      padding: 10px;
+      border-radius: 7px;
+      cursor: pointer;
+      color: white;
+    }
+    #headerSearchBox:hover {
+      background-color: rgb(24, 112, 189);
+    }
+  }
 
-    #headerBoxR{
-        width: 300px;
+  #headerBoxR {
+    width: 300px;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    #headerInfoBox {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      #headerInfo {
+        cursor: pointer;
         display: flex;
-        justify-content: end;
+        padding: 5px;
         align-items: center;
-        #headerInfoBox{
-            display: flex;
-            justify-content: center;
-            align-items: center;  
-            #headerInfo{
-                cursor: pointer;
-                display: flex;
-                padding: 5px;
-                align-items: center;
-                flex-direction: column;
-                justify-content: center;
-                margin-left: 10px;
-                font-weight: bold;
-                #headerFont{
-                    font-size: 20px;
-                }
-                #headerText{
-                    font-size: 13px;
-                    position: relative;
-                    #alramBox{
-                        background-color: red;
-                        position: absolute;
-                        width: 400px;
-                        height: 300px;
-                        top: 20px;
-                        right: 0px;
-                        z-index: 99999;
-                    }
-                }
-            }
+        flex-direction: column;
+        justify-content: center;
+        margin-left: 10px;
+        font-weight: bold;
+        #headerFont {
+          font-size: 20px;
         }
+        #headerText {
+          font-size: 13px;
+          position: relative;
+        }
+      }
     }
+  }
 }

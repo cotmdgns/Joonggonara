@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="mapper.AlramMapper">
+
+<!--    사용자 코드로 알람 정보 가져오기-->
+    <select id="selectAlram" parameterType="int" resultType="Alram">
+        select * from Alram
+        where userCode = #{code}
+    </select>
+
+<!--    알람 생성하기-->
+    <insert id="insertAlram" parameterType="Alram">
+        insert into alram(
+            alramTitle,
+            alramTitleCode,
+            userCode
+        )
+        value(
+            #{alramTitle},
+            #{alramTitleCode},
+            #{userCode}
+        );
+    </insert>
+
+</mapper>

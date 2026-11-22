@@ -1,0 +1,71 @@
+// 모달창
+#alramBox {
+  background-color: red;
+  position: absolute;
+  width: 400px;
+  height: 300px;
+  top: 20px;
+  right: 0px;
+  z-index: 99999;
+}
+
+// 페이지
+#alramPage {
+  width: 900px;
+  margin: auto;
+  padding: 10px;
+  // 헤더
+  #alramBodyHeader {
+    #alramBodyH1 {
+      font-size: 30px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    #alramBodyH1Info {
+      font-size: 12px;
+      font-weight: bold;
+      color: gray;
+    }
+  }
+  // 바디
+  #alramBody {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      padding: 10px;
+      background-color: rgb(229, 229, 229);
+      margin: 10px;
+      border-radius: 10px;
+      color: rgb(47, 47, 47);
+      font-weight: bold;
+      cursor: pointer;
+    }
+    div:hover {
+      background-color: rgb(185, 185, 185);
+    }
+  }
+
+  // 페이징
+  #alramPaging {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    #alramPaging1 {
+      display: flex;
+      align-items: center;
+      #alramPagingImg {
+        padding: 10px;
+        margin-right: 20px;
+        width: 70px;
+        height: 70px;
+        background-color: red;
+      }
+    }
+  }
+}

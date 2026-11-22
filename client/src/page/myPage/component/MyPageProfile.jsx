@@ -55,14 +55,14 @@ const MyPageProfile = ({
 
     const result = await userProfileUpdateAPI(formdata);
 
-    if (result.data == "notPassword") {
-      alert("비밀번호가 틀렸습니다.");
-      return;
-    }
+    // if (result.data == "notPassword") {
+    //   alert("비밀번호가 틀렸습니다.");
+    //   return;
+    // }
 
-    alert("변경되었습니다.");
-    selectUserInfo();
-    profileCloseButton();
+    // alert("변경되었습니다.");
+    // selectUserInfo();
+    // profileCloseButton();
   };
   console.log(state.userInfo);
   return (

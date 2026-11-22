@@ -41,4 +41,10 @@ public class AlramController {
         );
     }
 
+    // 전체리스트
+
+    // 클릭 시 확인했다는거 api
+
+
+
 }

@@ -19,7 +19,7 @@ import { RiAdminFill } from "react-icons/ri";
 // api
 
 // 리액트
-import { useReducer, useEffect } from "react";
+import { useReducer, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // 전역관리 리듀서
@@ -29,12 +29,13 @@ import {
   MenubarReduser,
 } from "../menubar/reduser/MenubarReduser";
 import { searchNoticeSelectAPI } from "../../page/product/api/productAPI";
-import Alram from "../Alram";
+import AlramModal from "../../page/alram/component/AlramModal";
 
 /* 데이터는 전역관리로 사용할 예정 */
 const Headerr = () => {
   const navigate = useNavigate();
 
+  const [boo, setBoo] = useState(false);
   // 헤더 전역관리 리듀서
   const [state, dispatch] = useReducer(HeaderResuser, initiaHeaderReduser);
   const { addressToggle, priceToggle, categoryToggle, managerState, loginBoo } =
@@ -68,9 +69,14 @@ const Headerr = () => {
   const userInfoPage = () => {
     navigate("/myPage");
   };
-  // 알림
-  const alram = () => {
-    alert("알람");
+
+  // (알림)모달창 열기
+  const alramOpen = () => {
+    dispatch({ type: "alramModelOpen" });
+  };
+  // (알림)모달창 닫기
+  const alramClose = () => {
+    dispatch({ type: "alramModelClose" });
   };
   // 관리자
   const admin = () => {
@@ -155,17 +161,26 @@ const Headerr = () => {
                 </div>
                 <div id="headerText">내 정보</div>
               </div>
-              {/* <div id="headerInfo" onClick={() =>{alram()}}>
+              <div
+                id="headerInfo"
+                onClick={() => {
+                  if (!state.alramModel) {
+                    alramOpen();
+                  } else {
+                    alramClose();
+                  }
+                }}
+              >
                 <div id="headerFont">
                   <CiAlarmOn />
                 </div>
-                <div id="headerText" onClick={(e)=>{
-                    e.stopPropagation()
-                  }}>
+                <div id="headerText">
                   알림
-                  <Alram ></Alram>
+                  {state.alramModel && (
+                    <AlramModal alramClose={alramClose}></AlramModal>
+                  )}
                 </div>
-              </div> */}
+              </div>
               {managerState === "managerState" && (
                 <div id="headerInfo" onClick={admin}>
                   <div id="headerFont">

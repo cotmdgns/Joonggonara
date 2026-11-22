@@ -135,7 +135,7 @@ public class PageController {
     @PostMapping("userProfileUpdate")
     public String userProfileUpdate(UserProfileDTO dto){
         // 1. 클라이언트에서 받은 코드로 사용자 가져오기
-        log.info("데이터 확인하기 : "+ dto);
+        log.info("1. 데이터 확인하기 프로필 데이터 확인하기 : "+ dto);
         JGUserInfo info = pageService.pwdCheck(dto.getUserCode());
         PasswordEncoder encoder = new BCryptPasswordEncoder();
 
@@ -154,12 +154,17 @@ public class PageController {
             }
             dto.setUserProfileName(fileName);
             JGUserInfo vo = userService.selectUserInfo(dto.getUserCode());
+            // 위에 조건문 안걸리면 파일도 안생기고 하니깐 상관없음 [ 이게 null값이 들어가니깐 프로필이 쌩하고 사라짐 ]
+            if(dto.getUserProfileName() == null){
+                dto.setUserProfileName(vo.getUserImg());
+            }
+            log.info("2. 데이터 확인하기 프로필 데이터 확인하기 : "+ dto);
             // 안에 존재하냐
             // 값이 널이 아니지?
             if(!vo.getUserImg().isEmpty() && vo.getUserImg()!=null){
                 log.info("삭제까지 들어오는가?");
                 // 그럼 이 주소로 해서
-                File imgDelete = new File(url + vo.getUserCode() + File.separator + vo.getUserImg());
+                File imgDelete = new File(url + vo.getUserId() + File.separator + vo.getUserImg());
                 // 지울게
                 imgDelete.delete();
             }

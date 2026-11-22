@@ -2,6 +2,7 @@ package com.project.Joonggonara.controller;
 
 import com.project.Joonggonara.model.dto.*;
 import com.project.Joonggonara.model.vo.*;
+import com.project.Joonggonara.service.AlramService;
 import com.project.Joonggonara.service.MainService;
 import com.project.Joonggonara.service.NoticeService;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,9 @@ public class NoticeController {
 
     @Autowired
     private MainService mainService;
+
+    @Autowired
+    private AlramService alramService;
 
     private String laptop = "C:\\github\\img\\notice\\";
 
@@ -205,6 +209,15 @@ public class NoticeController {
     // 찜 생성 [ 정상작동 ]
     @PostMapping("subscribeNoticeCreate")
     public void subscribeNoticeCreate(@RequestBody JGNoticeSubcribe jgNoticeSubcribe){
+
+        // 여기서 생성하기 [ 알람 ]
+        Alram alram = Alram.builder()
+                .userCode(jgNoticeSubcribe.getUserCode())
+                .alramTitle("좋아요")
+                .alramTitleCode(jgNoticeSubcribe.getJGNoticeCode())
+                .build();
+        alramService.insertAlram(alram);
+        
         log.info("생성 데이터 확인하기 : " + jgNoticeSubcribe);
         noticeService.subscribeNoticeCreate(jgNoticeSubcribe);
     };
@@ -219,7 +232,18 @@ public class NoticeController {
     @PostMapping("createDeclarationButton")
     public boolean createDeclarationButton(@RequestBody DeclarationDTO dto){
 
+
+        // 구매 생성하기 [ 게시글 ]
         int result = noticeService.createDeclarationButton(dto);
+
+        // 여기서 생성하기 [ 알람 ]
+        Alram alram = Alram.builder()
+                .userCode(dto.getUserCode())
+                .alramTitle("신고")
+                .alramTitleCode(dto.getNoticeCode())
+                .build();
+        alramService.insertAlram(alram);
+
         if(result == 1){
             return true;
         }else{
@@ -232,6 +256,16 @@ public class NoticeController {
     public void saleJGNotice(@RequestBody JGNotice jgNotice){
         jgNotice.setJGNoticeSaleBoo(true);
         log.info("구매하기 데이터 확인하기 : " + jgNotice);
+        
+        // 여기서 생성하기 [ 알람 ]
+        Alram alram = Alram.builder()
+                .userCode(jgNotice.getUserCode())
+                .alramTitle("게시글")
+                .alramTitleCode(jgNotice.getJGNoticeCode())
+                .build();
+        alramService.insertAlram(alram);
+
+        // 구매 변경하기 [ 게시글 ]
         noticeService.saleJGNotice(jgNotice);
     };
 

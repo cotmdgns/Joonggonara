@@ -8,8 +8,12 @@ import DeclarationModal from "../../component/declarationModal/DeclarationModal"
 // 아이콘
 import { FaRegHeart } from "react-icons/fa"; // 빈하트
 import { FaHeart } from "react-icons/fa"; // 하트
-
 import { GoChevronRight } from "react-icons/go";
+
+import { CiLocationOn } from "react-icons/ci";
+import { IoMdTime } from "react-icons/io";
+import { IoEyeOutline } from "react-icons/io5";
+
 import {
   createDeclarationButtonAPI,
   noticeDelteAPI,
@@ -65,10 +69,13 @@ const JogoProductDetail = () => {
 
   // 찜하기 [ 저장하기 ]
   const subscribe = async () => {
-    if(sessionStorage.getItem("token") == null || sessionStorage.getItem("token") == undefined){
-      alert("로그인을 해주세요.")
-      navigate("/login")
-      return
+    if (
+      sessionStorage.getItem("token") == null ||
+      sessionStorage.getItem("token") == undefined
+    ) {
+      alert("로그인을 해주세요.");
+      navigate("/login");
+      return;
     }
     const data = {
       jGNoticeCode: param.code,
@@ -80,10 +87,13 @@ const JogoProductDetail = () => {
   };
   // 찜 취소하기 [ 정상작동 ]
   const subscribeFalse = async () => {
-    if(sessionStorage.getItem("token") == null || sessionStorage.getItem("token") == undefined){
-      alert("로그인을 해주세요.")
-      navigate("/login")
-      return
+    if (
+      sessionStorage.getItem("token") == null ||
+      sessionStorage.getItem("token") == undefined
+    ) {
+      alert("로그인을 해주세요.");
+      navigate("/login");
+      return;
     }
     const data = {
       jGNoticeCode: param.code,
@@ -96,10 +106,13 @@ const JogoProductDetail = () => {
 
   // 구매하기
   const buyProduct = async () => {
-    if(sessionStorage.getItem("token") == null || sessionStorage.getItem("token") == undefined){
-      alert("로그인을 해주세요.")
-      navigate("/login")
-      return
+    if (
+      sessionStorage.getItem("token") == null ||
+      sessionStorage.getItem("token") == undefined
+    ) {
+      alert("로그인을 해주세요.");
+      navigate("/login");
+      return;
     }
     const data = {
       jGNoticeCode: param.code,
@@ -111,28 +124,28 @@ const JogoProductDetail = () => {
   };
 
   // 상품 삭제하기
-  const deleteProduct = async () =>{
-    if(sessionStorage.getItem("token") == null || sessionStorage.getItem("token") == undefined){
-      alert("로그인을 해주세요.")
-      navigate("/login")
-      return
+  const deleteProduct = async () => {
+    if (
+      sessionStorage.getItem("token") == null ||
+      sessionStorage.getItem("token") == undefined
+    ) {
+      alert("로그인을 해주세요.");
+      navigate("/login");
+      return;
     }
-    if(window.confirm("정말로 삭제하시겠습니까?")){
+    if (window.confirm("정말로 삭제하시겠습니까?")) {
       const data = {
         jGNoticeCode: param.code,
         userCode: sessionStorage.getItem("userCode"),
       };
-      console.log(data)
+      console.log(data);
       await noticeDelteAPI(data);
-      navigate("/")
+      navigate("/");
     }
-  }
-
-
+  };
 
   // 신고하기 [ 정상작동 함 ]
   const singoButton = async () => {
-    
     let arr = "";
     for (let i = 0; i < state.checkList.length; i++) {
       arr += state.checkList[i] + "/";
@@ -155,12 +168,11 @@ const JogoProductDetail = () => {
       alert("내용을 입력해주세요.");
       return;
     }
-    console.log(data);
 
     const result = await createDeclarationButtonAPI(data);
     if (result.data) {
       alert("정상적으로 생생 되었습니다.");
-      // singoButtonModalFalse()
+      singoButtonModalFalse();
     } else {
       alert("오류 발생.");
     }
@@ -168,10 +180,13 @@ const JogoProductDetail = () => {
   };
   // 신고하기 [ 모달 열기 ]
   const singoButtonModalTrue = (type) => {
-    if(sessionStorage.getItem("token") == null || sessionStorage.getItem("token") == undefined){
-      alert("로그인을 해주세요.")
-      navigate("/login")
-      return
+    if (
+      sessionStorage.getItem("token") == null ||
+      sessionStorage.getItem("token") == undefined
+    ) {
+      alert("로그인을 해주세요.");
+      navigate("/login");
+      return;
     }
     dispatch({ type: "modalTrue", payload: type });
   };
@@ -186,25 +201,32 @@ const JogoProductDetail = () => {
     switch (code) {
       case 1:
         navigate(
-          "/jogoProduct/category/" + state.noticeDetilData.jgnoticeProductTypeMajor.replace("/","&") + "?pageNum=1&search="
+          "/jogoProduct/category/" +
+            state.noticeDetilData.jgnoticeProductTypeMajor.replace("/", "&") +
+            "?pageNum=1&search=",
         );
         return;
       case 2:
         navigate(
           "/jogoProduct/category/" +
-            state.noticeDetilData.jgnoticeProductTypeMajor.replace("/","&") +
+            state.noticeDetilData.jgnoticeProductTypeMajor.replace("/", "&") +
             "/" +
-            state.noticeDetilData.jgnoticeProductTypeMinor.replace("/","&")  + "?pageNum=1&search="
+            state.noticeDetilData.jgnoticeProductTypeMinor.replace("/", "&") +
+            "?pageNum=1&search=",
         );
         return;
       case 3:
         navigate(
           "/jogoProduct/category/" +
-            state.noticeDetilData.jgnoticeProductTypeMajor.replace("/","&") +
+            state.noticeDetilData.jgnoticeProductTypeMajor.replace("/", "&") +
             "/" +
-            state.noticeDetilData.jgnoticeProductTypeMinor.replace("/","&") +
+            state.noticeDetilData.jgnoticeProductTypeMinor.replace("/", "&") +
             "/" +
-            state.noticeDetilData.jgnoticeProductTypeMinorList.replace("/","&")  + "?pageNum=1&search="
+            state.noticeDetilData.jgnoticeProductTypeMinorList.replace(
+              "/",
+              "&",
+            ) +
+            "?pageNum=1&search=",
         );
         return;
     }
@@ -239,7 +261,7 @@ const JogoProductDetail = () => {
         </Swiper>
 
         <div id="JogoProductDetailInfo">
-          <div>
+          <div id="JogoProductDetailInfo2">
             <div id="JogoProductDetailInfoH2">
               {state.noticeDetilData.jgnoticeProductTypeMajor != null && (
                 <>
@@ -280,9 +302,30 @@ const JogoProductDetail = () => {
             <div id="JogoProductDetailInfoPrice">
               {state.noticeDetilData.jgnoticeProductPrice}원
             </div>
-            <div id="JogoProductDetailInfoDate">
-              생성날짜 :{" "}
-              {state?.noticeDetilData?.jgnoticeCreate?.substring(0, 10)}
+            <div id="productDetailInfoBox">
+              <div id="productDetailInfoBox1">
+                <div id="productDetailInfoIcon">
+                  <CiLocationOn />
+                </div>
+                <div>
+                  <div>지역이름</div>
+                  <div>
+                    {state.noticeDetilUesrData.addressData}{" "}
+                    {state.noticeDetilUesrData.addressDetailData}
+                  </div>
+                </div>
+              </div>
+              <div id="productDetailInfoBox1">
+                <div id="productDetailInfoIcon">
+                  <IoMdTime />
+                </div>
+                <div>
+                  <div>등록일</div>
+                  <div>
+                    {state?.noticeDetilData?.jgnoticeCreate?.substring(0, 10)}
+                  </div>
+                </div>
+              </div>
             </div>
             <div id="JogoProductDetailInfoDate">
               사용자 이름 : {state.noticeDetilUesrData.userNickname}
@@ -292,10 +335,6 @@ const JogoProductDetail = () => {
               {state.lastSaleDay == null ? "없음" : state.lastSaleDay}
             </div>
             <div id="JogoProductDetailInfoDate">총거래 : {state.total}</div>
-            <div id="JogoProductDetailInfoDate">
-              지역 : {state.noticeDetilUesrData.addressData}{" "}
-              {state.noticeDetilUesrData.addressDetailData}
-            </div>
           </div>
           <div id="JogoProductDetailBody2">
             <div id="JogoProductDetailInfoTitle">상품설명</div>
@@ -308,7 +347,9 @@ const JogoProductDetail = () => {
             sessionStorage.getItem("userCode") ? (
               <>
                 <div id="buttonInsert">본인상품</div>
-                <div id="buttonDelete" onClick={deleteProduct}>상품삭제</div>
+                <div id="buttonDelete" onClick={deleteProduct}>
+                  상품삭제
+                </div>
               </>
             ) : state.noticeDetilData.jgnoticeSaleBoo ? (
               <>

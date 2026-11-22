@@ -207,143 +207,141 @@
         #myPageRegistrationCenter {
           padding-top: 10px;
           display: flex;
-          flex-wrap: wrap; 
+          flex-wrap: wrap;
           gap: 6px;
         }
       }
     }
   }
-
 }
-#textBox{
+#textBox {
   width: 100px;
   font-size: 17px;
   font-weight: bold;
 }
-#input{
-    width: 100%;
-    height: 38px;
+#input {
+  width: 100%;
+  height: 38px;
 }
 
-  // 프로필 수정하기
-  #profileBox{
-    width: 900px;
-    margin: auto;
-    // 프로필 수정 헤더
-    #profileBoxHeader{
-      padding-bottom: 10px;
+// 프로필 수정하기
+#profileBox {
+  width: 900px;
+  margin: auto;
+  // 프로필 수정 헤더
+  #profileBoxHeader {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgb(201, 201, 201);
+    #profileBoxHeaderH1 {
+      font-size: 27px;
+      font-weight: bold;
       margin-bottom: 10px;
-      border-bottom: 1px solid rgb(201, 201, 201);
-      #profileBoxHeaderH1{
-        font-size: 27px;
-        font-weight: bold;
-        margin-bottom: 10px;
-        
-      }
-      #profileBoxHeaderH1Info{
-        font-size: 13px;
-        color: rgb(81, 79, 79);
-      }
     }
-    /////////////////
-    // 프로필 바디
-    #profileBoxBody{
-      display: flex;
-      padding: 5px;
-      #profileBoxInfo{
-        width: 200px;
-        display: flex;
-        align-items: center;
-        justify-content: start;
-        font-size: 17px;
-        font-weight: bold;
-      }
-      #profileBoxInfo2{
-        display: flex;
-        align-items: center;
-        justify-content: start;
-        #profileBoxInfo2Address{
-          #profileBoxInfo2Address2{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-          }
-        }
-        button{
-          padding: 8px;
-          border: 1px solid rgb(200, 200, 200);
-          background-color: rgba(70, 73, 255, 0.835); 
-          color: white;
-          border-radius: 5px;
-          cursor: pointer;
-        }
-        img{
-          width: 100px;
-          height: 100px;
-          border-radius: 50%;
-        }
-        #info2Box{
-          padding: 30px;
-          label{
-            cursor: pointer;
-            #profile{
-              padding: 10px 15px;
-              border-radius: 10px;
-              margin-bottom: 10px;
-              border: 1px solid rgb(185, 184, 184);
-            }
-          }
-          #profileImg{
-            display: none;
-          }
-          #info2BoxInfo{
-            color: rgb(175, 175, 175);
-            font-size: 12px;
-          }
-        }
-
-
-        input{
-          width: 550px;
-          padding: 10px;
-          border-radius: 5px;
-          border: 1px solid rgb(159, 157, 157);
-          margin: 5px;
-        }
-        #infoText{
-          color: rgb(162, 162, 162);
-          font-size: 12px;
-          padding-left: 10px;
-        }
-      }
+    #profileBoxHeaderH1Info {
+      font-size: 13px;
+      color: rgb(81, 79, 79);
     }
-    /////////////////
-    /// 버튼
-    #profileBoxButton{
+  }
+  /////////////////
+  // 프로필 바디
+  #profileBoxBody {
+    display: flex;
+    padding: 5px;
+    #profileBoxInfo {
+      width: 200px;
       display: flex;
-      justify-content: center;
       align-items: center;
-      div{
-        padding: 10px 70px;
-        margin: 5px;
-        border-radius: 10px;
-        font-size: 14px;
-        font-weight: bold;
-        border: 1px solid rgb(182, 181, 181);
+      justify-content: start;
+      font-size: 17px;
+      font-weight: bold;
+    }
+    #profileBoxInfo2 {
+      display: flex;
+      align-items: center;
+      justify-content: start;
+      #profileBoxInfo2Address {
+        #profileBoxInfo2Address2 {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+      button {
+        padding: 8px;
+        border: 1px solid rgb(200, 200, 200);
+        background-color: rgba(70, 73, 255, 0.835);
+        color: white;
+        border-radius: 5px;
         cursor: pointer;
       }
-      #buttonClose{
+      img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
       }
-      #buttonClose:hover{
-        background-color: rgb(220, 220, 220);
+      #info2Box {
+        padding: 30px;
+        label {
+          cursor: pointer;
+          #profile {
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border: 1px solid rgb(185, 184, 184);
+          }
+        }
+        #profileImg {
+          display: none;
+        }
+        #info2BoxInfo {
+          color: rgb(175, 175, 175);
+          font-size: 12px;
+        }
       }
-      #buttonUpdate{
-        background-color: rgba(70, 73, 255, 0.835); 
-        color: white;
+
+      input {
+        width: 550px;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid rgb(159, 157, 157);
+        margin: 5px;
       }
-      #buttonUpdate:hover{
-        background-color: rgba(23, 26, 179, 0.835); 
+      #infoText {
+        color: rgb(162, 162, 162);
+        font-size: 12px;
+        padding-left: 10px;
       }
     }
-    ///////////
   }
+
+  /////////////////
+  /// 버튼
+  #profileBoxButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    div {
+      padding: 10px 70px;
+      margin: 5px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: bold;
+      border: 1px solid rgb(182, 181, 181);
+      cursor: pointer;
+    }
+    #buttonClose {
+    }
+    #buttonClose:hover {
+      background-color: rgb(220, 220, 220);
+    }
+    #buttonUpdate {
+      background-color: rgba(70, 73, 255, 0.835);
+      color: white;
+    }
+    #buttonUpdate:hover {
+      background-color: rgba(23, 26, 179, 0.835);
+    }
+  }
+  ///////////
+}

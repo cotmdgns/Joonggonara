@@ -200,7 +200,7 @@ CREATE TABLE UserDeclarationA(
   noticeUserCode integer,	/* 게시글 유저코드 */
   noticeCode integer,		/* 게시글 코드 */
   userCode integer, /*사용자 코드 [ 외래키 ]*/ 
-  noticeText varchar(100),		/* 게시글 제목 */
+  noticeText text,		/* 게시글 제목 */
   userDeclarationType varchar(10) not null, /* 신고타입 ex)댓글이냐 게시글이냐 */
   userDeclarationOption varchar(40), /*신고 사유*/ 
   userDeclarationText varchar(255), /*신고 내용*/ 
@@ -211,6 +211,8 @@ CREATE TABLE UserDeclarationA(
   userDeclarationBoo varchar(10) default "처리대기"/*신고 접수*/ 
 );
 
+alter table UserDeclarationA
+modify column noticeText text;
 
 /* 관리자 공지사항 관리 */
 CREATE TABLE notificationManagement(
@@ -241,4 +243,33 @@ CREATE TABLE categoryStateMinor(
     categoryStateMinorCreate datetime default CURRENT_TIMESTAMP,	/* 카테고리 마이너 생성날짜 */
     categoryStateMinorCodeMinor integer default null			/* 카테고리 마이너 코드 셀프조인 */
 );
+
+
+
+
+/* 추가된 알람 */
+CREATE TABLE alram(
+	alramCode integer auto_increment primary key,  /* 알람 코드 */
+    alramTitle varchar(10),  /* 알람 제목 (게시글인지, 신고인지, 공지사항인지) */
+	alramTitleCode varchar(100),  /* 알람 제목 코드  */
+    alramCreate datetime default CURRENT_TIMESTAMP,  /* 알람 생성날짜 */
+    alramState boolean default false,  /* 알람 코드 */
+     userCode integer /*사용자 코드 [ 외래키 ]*/ 
+);
+
+select * from jgNotice;
+select * from alram;
+
+/*
+[ 설명란 ]
+1. 저장할 땐 어디서 저장하는지에 따라서 title에 게시글인지,공지사항인지 저장
+2. 생성할 떄 해당 타이틀에 대한 코드를 titleCode에 넣기
+3. 서버에서 title과 titleCode로 필요한 정보단 가져와서 DTO로 서버로 보내기
+*/
+
+
+
+
+
+
 

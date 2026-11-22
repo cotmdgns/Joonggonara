@@ -1,5 +1,8 @@
 package com.project.Joonggonara.service;
 
+import com.project.Joonggonara.model.vo.Alram;
+import mapper.AlramMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
@@ -9,6 +12,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class AlramService {
+
+    @Autowired
+    private AlramMapper mapper;
 
     private final Map<Integer, SseEmitter> emitterMap =
             new ConcurrentHashMap<>();
@@ -50,5 +56,10 @@ public class AlramService {
             }
         }
     }
+
+    // 생성
+    public void insertAlram(Alram alram){
+        mapper.insertAlram(alram);
+    };
 
 }
