@@ -30,6 +30,7 @@ import {
 } from "../menubar/reduser/MenubarReduser";
 import { searchNoticeSelectAPI } from "../../page/product/api/productAPI";
 import AlramModal from "../../page/alram/component/AlramModal";
+import { alramTotalAPI, selectAlramAPI } from "../../page/alram/api/AlramAPI";
 
 /* 데이터는 전역관리로 사용할 예정 */
 const Headerr = () => {
@@ -78,6 +79,10 @@ const Headerr = () => {
   const alramClose = () => {
     dispatch({ type: "alramModelClose" });
   };
+  const selectAlram = async () =>{
+    const result = await alramTotalAPI(sessionStorage.getItem("userCode"));
+    dispatch({ type: "selectAlramTotal" , payload : result.data});
+  }
   // 관리자
   const admin = () => {
     navigate("/layoutAdmin");
@@ -91,6 +96,9 @@ const Headerr = () => {
     dispatch({ type: "searchButton", payload: "" });
   };
 
+  useEffect(()=>{
+    selectAlram();
+  },[])
   useEffect(() => {
     const token = sessionStorage.getItem("token");
     const userManager = sessionStorage.getItem("userManager");
@@ -176,8 +184,10 @@ const Headerr = () => {
                 </div>
                 <div id="headerText">
                   알림
+                  <div id="headerTotal">{state.selectAlramTotal}</div>
                   {state.alramModel && (
-                    <AlramModal alramClose={alramClose}></AlramModal>
+                    <AlramModal alramClose={alramClose} selectAlram={selectAlram}
+                    ></AlramModal>
                   )}
                 </div>
               </div>

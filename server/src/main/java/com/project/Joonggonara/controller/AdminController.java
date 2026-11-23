@@ -3,6 +3,7 @@ package com.project.Joonggonara.controller;
 import com.project.Joonggonara.model.dto.*;
 import com.project.Joonggonara.model.vo.*;
 import com.project.Joonggonara.service.AdminService;
+import com.project.Joonggonara.service.AlramService;
 import com.project.Joonggonara.service.NoticeService;
 import com.project.Joonggonara.service.UserService;
 import jakarta.websocket.server.PathParam;
@@ -36,6 +37,8 @@ public class AdminController {
     @Autowired
     private NoticeService noticeService;
 
+    @Autowired
+    private AlramService alramService;
 
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 메인 관리 페이지 @@@@@@@@@@@@@@@@@@@@@@@/
     @GetMapping("mainSelectUseAll") /* <!-- 전체사용자 [ 정상 작동함 ]  --> */
@@ -187,6 +190,16 @@ public class AdminController {
         // userStateStop = 작성자 이용 정지    -> 처리완료
         // singoBack = 신고 반려              -> 반려
 
+        // 여기서 생성하기 [ 알람 ]
+        Alram alram = Alram.builder()
+                .userCode(updateDeclarationDTO.getNoticeUserCode())
+                .alramTitle("신고")
+                .whoUserCode(updateDeclarationDTO.getUserCode())
+                .alramTitleCode(updateDeclarationDTO.getNoticeCode())
+                .build();
+        alramService.insertAlram(alram);
+
+
         JGUserInfoPointer jgUserInfoPointer = new JGUserInfoPointer();
         jgUserInfoPointer.setUserCode(updateDeclarationDTO.getNoticeUserCode());
 
@@ -264,6 +277,9 @@ public class AdminController {
     public boolean notificationManagementCreate(FormDataDTO formDataDTO){
 
         log.info("데이터 확인하기 유저코드 어딨니 : " + formDataDTO);
+        //여기서 공지알람 하나 만들자
+
+
 
         try {
             if(formDataDTO.getBannerBooState()){
@@ -282,8 +298,18 @@ public class AdminController {
                 }
 
                 adminService.notificationManagementCreate(notificationManagement);
+                // 이게 리턴값 ( PK )
                 int code = notificationManagement.getNotificationManagementCode();
-//            log.info("데이터 확인하기 [code] : " + code);
+                // 전체코드에 뿌려줄껏
+                List<Integer> codeList = alramService.selectUserCode();
+                AlramDTO alramDTO = AlramDTO.builder()
+                        .alramTitleCode(code)       // 어떤 공지사항코드인지
+                        .userCode(formDataDTO.getUserCode())    // 누가 만들었는지
+                        .codeList(codeList)         // 사용자 코드 모음 [ 누굴껄 처리했는지 ]
+                        .build();
+                alramService.insertAlramList(alramDTO);
+
+
                 String fileName = fileUpload(file,code,laptop);
 
                 FormDataDTO dto = FormDataDTO.builder()
@@ -303,6 +329,16 @@ public class AdminController {
                 notificationManagement.setNotificationManagementImg("null");
 
                 adminService.notificationManagementCreate(notificationManagement);
+                // 이게 리턴값 ( PK )
+                int code = notificationManagement.getNotificationManagementCode();
+                // 전체코드에 뿌려줄껏
+                List<Integer> codeList = alramService.selectUserCode();
+                AlramDTO alramDTO = AlramDTO.builder()
+                        .alramTitleCode(code)       // 어떤 공지사항코드인지
+                        .userCode(formDataDTO.getUserCode())    // 누가 만들었는지
+                        .codeList(codeList)         // 사용자 코드 모음 [ 누굴껄 처리했는지 ]
+                        .build();
+                alramService.insertAlramList(alramDTO);
             }
 
 

@@ -53,6 +53,7 @@ const JogoProductDetail = () => {
     dispatch({ type: "subTotal", payload: result.data.subTotal });
   };
 
+
   useEffect(() => {
     selectProductData();
     ubscribeNoticeSelect();
@@ -67,6 +68,7 @@ const JogoProductDetail = () => {
     dispatch({ type: "subscribeState", payload: result.data });
   };
 
+
   // 찜하기 [ 저장하기 ]
   const subscribe = async () => {
     if (
@@ -78,8 +80,9 @@ const JogoProductDetail = () => {
       return;
     }
     const data = {
-      jGNoticeCode: param.code,
+      noticeCode: param.code,
       userCode: sessionStorage.getItem("userCode"),
+      whoUserCode : state.noticeDetilUesrData.userCode,
     };
     await subscribeNoticeCreateAPI(data);
     selectProductData();
@@ -115,8 +118,9 @@ const JogoProductDetail = () => {
       return;
     }
     const data = {
-      jGNoticeCode: param.code,
+      noticeCode: param.code,
       userCode: sessionStorage.getItem("userCode"),
+      whoUserCode : state.noticeDetilUesrData.userCode,
     };
     await saleJGNoticeAPI(data);
     selectProductData();

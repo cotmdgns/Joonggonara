@@ -37,13 +37,10 @@ public class NoticeController {
     // 상품 게시글 생성하기
     @PostMapping("noticeCreate")
     public void noticeCreate(@ModelAttribute NoticeStateDTO dto){
-        log.info("데이터 확인하기 : " + dto);
 
         // 클라이언트에서 받은 데이터로 가져오기
         String minor = mainService.selectCategoryMinor(dto.getCategoryMinor());
         String minorList = mainService.selectCategoryMinor(dto.getCategoryMinorList());
-        log.info("데이터 확인하기 : " + minor);
-        log.info("데이터 확인하기 : " + minorList);
 
         // 게시글 따로 저장하기
         JGNotice notice = JGNotice.builder()
@@ -98,7 +95,6 @@ public class NoticeController {
     @PostMapping("searchNoticeSelect")
     public SynthesisDTO searchNoticeSelect(@RequestBody SearchDTO dto){
 
-        log.info("데이터 확인하기 1 : " + dto);
         // 초기세팅
         String t1 = dto.getTitle1().replace("&","/");
         String t2 = dto.getTitle2().replace("&","/");
@@ -106,7 +102,6 @@ public class NoticeController {
         dto.setTitle1(t1);
         dto.setTitle2(t2);
         dto.setTitle3(t3);
-        log.info("데이터 확인하기 2 : " + dto);
 
         Criteria cri = new Criteria(1,24);
         cri.setPageNum(dto.getNum());
@@ -127,9 +122,6 @@ public class NoticeController {
             dto.setJgNoticeCode(data.getJGNoticeCode());
             JGNoticeSubcribe jgNoticeSubcribe = mainService.checkBoo(dto);
 
-            log.info("1 데이터 확인하기  getUserCode: " + dto.getUserCode());
-            log.info("2 데이터 확인하기  getJgNoticeCode: " + dto.getJgNoticeCode());
-            log.info("3 데이터 확인하기  jgNoticeSubcribe: " + jgNoticeSubcribe);
 
             NoticeDTO noticeDTO = NoticeDTO.builder()
                     .jGNoticeCode(data.getJGNoticeCode())
@@ -208,16 +200,21 @@ public class NoticeController {
 
     // 찜 생성 [ 정상작동 ]
     @PostMapping("subscribeNoticeCreate")
-    public void subscribeNoticeCreate(@RequestBody JGNoticeSubcribe jgNoticeSubcribe){
+    public void subscribeNoticeCreate(@RequestBody NoticeSubcribeDTO dto){
 
         // 여기서 생성하기 [ 알람 ]
         Alram alram = Alram.builder()
-                .userCode(jgNoticeSubcribe.getUserCode())
                 .alramTitle("좋아요")
-                .alramTitleCode(jgNoticeSubcribe.getJGNoticeCode())
+                .userCode(dto.getUserCode()) // 이건 상대방의 코드
+                .whoUserCode(dto.getWhoUserCode())  // 이건 누군가 상대방에게
+                .alramTitleCode(dto.getNoticeCode())
                 .build();
         alramService.insertAlram(alram);
-        
+
+        JGNoticeSubcribe jgNoticeSubcribe = JGNoticeSubcribe.builder()
+                .jGNoticeCode(dto.getNoticeCode())
+                .userCode(dto.getUserCode())
+                .build();
         log.info("생성 데이터 확인하기 : " + jgNoticeSubcribe);
         noticeService.subscribeNoticeCreate(jgNoticeSubcribe);
     };
@@ -232,17 +229,7 @@ public class NoticeController {
     @PostMapping("createDeclarationButton")
     public boolean createDeclarationButton(@RequestBody DeclarationDTO dto){
 
-
-        // 구매 생성하기 [ 게시글 ]
         int result = noticeService.createDeclarationButton(dto);
-
-        // 여기서 생성하기 [ 알람 ]
-        Alram alram = Alram.builder()
-                .userCode(dto.getUserCode())
-                .alramTitle("신고")
-                .alramTitleCode(dto.getNoticeCode())
-                .build();
-        alramService.insertAlram(alram);
 
         if(result == 1){
             return true;
@@ -253,15 +240,23 @@ public class NoticeController {
 
     // 구매하기 [ 딱히 대단한 작업은 없음, 게시글에 있는거 조건만 변경하기 ]
     @PostMapping("saleJGNotice")
-    public void saleJGNotice(@RequestBody JGNotice jgNotice){
+    public void saleJGNotice(@RequestBody NoticeSubcribeDTO dto){ //JGNotice jgNotice
+
+        JGNotice jgNotice =JGNotice.builder()
+                .jGNoticeCode(dto.getNoticeCode())
+                .userCode(dto.getUserCode())
+                .build();
+
         jgNotice.setJGNoticeSaleBoo(true);
+        log.info("구매하기 데이터 확인하기 : " + dto);
         log.info("구매하기 데이터 확인하기 : " + jgNotice);
         
         // 여기서 생성하기 [ 알람 ]
         Alram alram = Alram.builder()
-                .userCode(jgNotice.getUserCode())
+                .userCode(dto.getUserCode())
+                .whoUserCode(dto.getWhoUserCode())
                 .alramTitle("게시글")
-                .alramTitleCode(jgNotice.getJGNoticeCode())
+                .alramTitleCode(dto.getNoticeCode())
                 .build();
         alramService.insertAlram(alram);
 

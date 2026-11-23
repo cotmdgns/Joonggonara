@@ -4,11 +4,62 @@
 
 
 <mapper namespace="mapper.AlramMapper">
-
-<!--    사용자 코드로 알람 정보 가져오기-->
-    <select id="selectAlram" parameterType="int" resultType="Alram">
+    <!--    사용자 코드로 알람 정보 가져오기 ( 모달전용임 )-->
+    <select id="selectAlramModal" parameterType="int" resultType="Alram">
         select * from Alram
-        where userCode = #{code}
+        <where>
+            whoUserCode = #{code}
+        </where>
+        order by alramCreate DESC
+        limit 0,20
+    </select>
+<!--    사용자 코드로 알람 정보 가져오기 (페이징 적용해야 함) -->
+    <select id="selectAlram" parameterType="AlramDTO" resultType="Alram">
+        select * from Alram
+        <where>
+            whoUserCode = #{userCode}
+            <if test="title != ''">
+                AND alramTitle = #{title}
+            </if>
+        </where>
+        order by alramCreate DESC
+        limit #{cri.skip},#{cri.amount}
+    </select>
+
+    <select id="selectAlramTotal" parameterType="AlramDTO" resultType="int">
+        select count(*) from Alram
+        <where>
+            whoUserCode = #{userCode}
+            <if test="title != ''">
+                AND alramTitle = #{title}
+            </if>
+        </where>
+        order by alramCreate DESC
+    </select>
+
+
+<!--    사용자 게시글 알람 전체 데이터-->
+    <select id="noticeTotal" parameterType="int" resultType="int">
+        select count(*) from alram
+        where whoUserCode = #{code} AND alramTitle = "게시글"
+    </select>
+
+<!--    사용자 게시글 알람 전체 데이터-->
+    <select id="noticeSubTotal" parameterType="int" resultType="int">
+        select count(*) from alram
+        where whoUserCode = #{code} AND alramTitle = "좋아요"
+    </select>
+<!--    사용자 신고 알람 전체 데이터-->
+    <select id="singoTotal" parameterType="int" resultType="int">
+        select count(*) from alram
+        where whoUserCode = #{code} AND alramTitle = "신고"
+    </select>
+
+<!--    사용자 공지사항 알람 전체 데이터-->
+    <select id="gonggiTotal" parameterType="int" resultType="int">
+        select count(*) from alram
+        where whoUserCode = #{code} AND alramTitle = "공지사항"
+        order by alramCreate DESC
     </select>
 
 <!--    알람 생성하기-->
@@ -16,13 +67,80 @@
         insert into alram(
             alramTitle,
             alramTitleCode,
+            whoUserCode,
             userCode
         )
         value(
             #{alramTitle},
             #{alramTitleCode},
+            #{whoUserCode},
             #{userCode}
         );
     </insert>
+    <!--    알람(공지사항 따로 전용) 생성하기-->
+    <insert id="insertAlramList" parameterType="AlramDTO">
+        insert into alram(
+            alramTitle,
+            alramTitleCode,
+            userCode,
+            whoUserCode
+        )
+        value
+        <foreach collection="codeList" item="code" separator=",">
+        (
+            "공지사항",
+            #{alramTitleCode},
+            #{userCode},
+            #{code}
+        )
+        </foreach>
+    </insert>
+    <!--    알람(공지사항 따로 전용) 사용자 토탈 코드-->
+    <select id="selectUserCode" resultType="int">
+        select userCode from jguserinfo
+    </select>
 
+
+<!-- 사용자가 알람 확인 했을 때 업데이트 -->
+    <update id="stateUpadate" parameterType="int">
+        update alram
+        set alramState = true
+        where alramCode = #{code}
+    </update>
+
+
+<!-- 헤더로 보낼 데이터 총남은 갯수 확인용도 시빠 [ 이럴땐 VUE가 그립네 양방향 바인딩? 때문에 ]-->
+    <select id="alramTotal" parameterType="int" resultType="int">
+        select count(*) from alram
+        where whoUserCode = #{code} and alramState = false;
+    </select>
+
+
+<!--    여기는 데이터를 찾기 위한 데이터 모음-->
+<!--    게시글일 경우 제목과 이미지 하나 찾기-->
+    <select id="selectNoticeData" parameterType="int" resultType="AlramDTO">
+        select JGnoticeTitle as alramTitle,jgnoticeimg as alramImg from jgnotice notice
+        join jgnoticeImg img ON notice.JGNoticeCode = img.JGNoticeCode
+        where notice.JGNoticeCode = #{code}
+        limit 1;
+    </select>
+
+<!--    좋아요일 경우 제목만 하나 가져오기-->
+    <select id="selectSubNoticeData" parameterType="int" resultType="AlramDTO">
+        select JGnoticeTitle as alramTitle from jgnoticesubcribe sub
+        join jgnotice notice ON sub.JGNoticeCode = notice.JGNoticeCode
+        where sub.JGNoticeCode = #{code}
+    </select>
+
+<!--    공지사항일 경우 제목만 찾기-->
+    <select id="selectGongGiData" parameterType="int" resultType="AlramDTO">
+        select notificationManagementTitle as alramTitle from alram as ram
+        join notificationManagement as noti ON ram.alramTitleCode = noti.notificationManagementCode
+        where ram.alramCode = #{code};
+    </select>
+
+    <select id="selectUserName" parameterType="int" resultType="String">
+        select userNickname from jguserinfo
+        where userCode = #{code}
+    </select>
 </mapper>

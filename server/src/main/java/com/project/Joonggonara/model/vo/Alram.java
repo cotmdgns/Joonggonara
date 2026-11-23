@@ -19,5 +19,6 @@ public class Alram {
     private String alramCreate; /* 알람 생성날짜 */
     private boolean alramState; /* 알람 코드 */
     private int userCode;
+    private int whoUserCode;
 
 }

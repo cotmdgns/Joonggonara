@@ -101,6 +101,16 @@
         #headerText {
           font-size: 13px;
           position: relative;
+          #headerTotal{
+            position: absolute;
+            color: white;
+            background-color: red;
+            border-radius: 20px;
+            padding: 2px;
+            font-size: 8px;
+            top: -25px;
+            right: -2px;
+          }
         }
       }
     }

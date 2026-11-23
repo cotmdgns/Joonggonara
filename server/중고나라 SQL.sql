@@ -246,7 +246,9 @@ CREATE TABLE categoryStateMinor(
 
 
 
-
+qweqwe = 378 이 사람이
+awdawd = 1 의 게시글을 신고했다 
+그리면 누구한게 신고가 접수됬다는걸 알려줘야곗느냐
 /* 추가된 알람 */
 CREATE TABLE alram(
 	alramCode integer auto_increment primary key,  /* 알람 코드 */
@@ -254,11 +256,48 @@ CREATE TABLE alram(
 	alramTitleCode varchar(100),  /* 알람 제목 코드  */
     alramCreate datetime default CURRENT_TIMESTAMP,  /* 알람 생성날짜 */
     alramState boolean default false,  /* 알람 코드 */
-     userCode integer /*사용자 코드 [ 외래키 ]*/ 
+	userCode integer, /*사용자 코드 [ 외래키 ]		 이건 사용자 코드,*/ 		
+    whoUserCode integer /*사용자 코드 [ 외래키 ] 	 이건 누구꺼를 처리해줬냐*/
 );
 
+/* 설계가 잘못됬음 ㅅㅂ */
+select JGnoticeTitle,jgnoticeimg from jgnotice notice
+join jgnoticeImg img ON notice.JGNoticeCode = img.JGNoticeCode
+where notice.JGNoticeCode = 26
+limit 1;
+
+
+select JGnoticeTitle from jgnoticesubcribe sub
+join jgnotice notice ON sub.JGNoticeCode = notice.JGNoticeCode
+where sub.JGNoticeCode = 7;
+
+select * from UserDeclarationA;
+select count(*) from alram
+where whoUserCode = 1 and alramState = false;
+
+
+select notificationManagementTitle from alram as ram
+join notificationManagement as noti ON ram.alramTitleCode = noti.notificationManagementCode
+where ram.alramCode = 37;
+
+
+select userNickname from jguserinfo
+where userCode = 1;
+
+
+select count(*) from alram
+where whoUserCode = 1 AND alramTitle = "좋아요"
+order by alramCreate DESC;
+
 select * from jgNotice;
-select * from alram;
+
+
+select * from alram
+where whoUserCode = 1 AND alramTitle = "게시글"
+
+
+
+order by alramCreate DESC;
 
 /*
 [ 설명란 ]

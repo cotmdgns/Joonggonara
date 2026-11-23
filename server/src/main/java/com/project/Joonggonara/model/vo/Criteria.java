@@ -1,5 +1,6 @@
 package com.project.Joonggonara.model.vo;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data

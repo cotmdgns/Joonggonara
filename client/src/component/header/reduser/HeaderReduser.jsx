@@ -14,6 +14,9 @@ export const initiaHeaderReduser = {
   managerState: null,
   search: "",
   alramModel: false,
+
+
+  selectAlramTotal : 0,
 };
 
 export const HeaderResuser = (state, action) => {
@@ -94,6 +97,11 @@ export const HeaderResuser = (state, action) => {
       return {
         ...state,
         alramModel: false,
+      };
+    case "selectAlramTotal":
+      return {
+        ...state,
+        selectAlramTotal: action.payload,
       };
   }
 };

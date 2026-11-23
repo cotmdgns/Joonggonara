@@ -51,6 +51,7 @@ const AdminDeclarationManagement = () =>{
     }
 
     // 신고 처리완료 버튼
+
     const singoCreateButton = async (list)=>{
         const data = {
             userCode : sessionStorage.getItem("userCode"),
@@ -61,6 +62,9 @@ const AdminDeclarationManagement = () =>{
             selectOption : state.selectOption,
             textState : state.textState
         }
+
+        console.log("데이터 확인하기")
+        console.log(list)
 
         
         if(data.checkBoo == ""){

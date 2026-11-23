@@ -29,8 +29,9 @@ const MainNotice = ({
       return
     }
     const data = {
-      jGNoticeCode: list.jgnoticeCode,
+      noticeCode: list.jgnoticeCode,
       userCode: sessionStorage.getItem("userCode"),
+      whoUserCode : list.userCode,
     };
     await subscribeNoticeCreateAPI(data);
 
