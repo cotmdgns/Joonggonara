@@ -1,5 +1,7 @@
 package com.project.Joonggonara.controller;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.project.Joonggonara.model.dto.*;
 import com.project.Joonggonara.model.vo.*;
 import com.project.Joonggonara.service.AdminService;
@@ -16,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Slf4j
@@ -39,6 +42,10 @@ public class AdminController {
 
     @Autowired
     private AlramService alramService;
+
+    @Autowired
+    private Cloudinary cloudinary;
+
 
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 메인 관리 페이지 @@@@@@@@@@@@@@@@@@@@@@@/
     @GetMapping("mainSelectUseAll") /* <!-- 전체사용자 [ 정상 작동함 ]  --> */
@@ -273,81 +280,168 @@ public class AdminController {
 
 
 
-    @PostMapping("notificationManagementCreate") /* <!-- 공지사항 생성  [ 정상 작동함 ] --> */
-    public boolean notificationManagementCreate(FormDataDTO formDataDTO){
-
-        log.info("데이터 확인하기 유저코드 어딨니 : " + formDataDTO);
-        //여기서 공지알람 하나 만들자
-
-
-
-        try {
-            if(formDataDTO.getBannerBooState()){
-                // 배너 true로 되어 있고 만약 생성한다면 따로
-                MultipartFile file = formDataDTO.getBannerFile();
-
-                NotificationManagement notificationManagement = new NotificationManagement();
-                // 1. 이걸로 DB에 저장하기
-                if (file != null && !file.isEmpty()) {
-                    notificationManagement.setNotificationManagementCode(formDataDTO.getUserCode());
-                    notificationManagement.setNotificationManagementTitle(formDataDTO.getTitle());
-                    notificationManagement.setNotificationManagementBannerBoo(formDataDTO.getBannerBooState());
-                    notificationManagement.setNotificationManagementText(formDataDTO.getTextEditor());
-                    notificationManagement.setUserCode(formDataDTO.getUserCode());
-                    notificationManagement.setNotificationManagementImg("");
-                }
-
-                adminService.notificationManagementCreate(notificationManagement);
-                // 이게 리턴값 ( PK )
-                int code = notificationManagement.getNotificationManagementCode();
-                // 전체코드에 뿌려줄껏
-                List<Integer> codeList = alramService.selectUserCode();
-                AlramDTO alramDTO = AlramDTO.builder()
-                        .alramTitleCode(code)       // 어떤 공지사항코드인지
-                        .userCode(formDataDTO.getUserCode())    // 누가 만들었는지
-                        .codeList(codeList)         // 사용자 코드 모음 [ 누굴껄 처리했는지 ]
-                        .build();
-                alramService.insertAlramList(alramDTO);
-
-
-                String fileName = fileUpload(file,code,laptop);
-
-                FormDataDTO dto = FormDataDTO.builder()
-                        .code(notificationManagement.getNotificationManagementCode())
-                        .fileName(fileName)
-                        .build();
+//    @PostMapping("notificationManagementCreate") /* <!-- 공지사항 생성  [ 정상 작동함 ] --> */
+//    public boolean notificationManagementCreate(FormDataDTO formDataDTO){
+//
+//        log.info("데이터 확인하기 유저코드 어딨니 : " + formDataDTO);
+//        //여기서 공지알람 하나 만들자
+//
+//        try {
+//            if(formDataDTO.getBannerBooState()){
+//                // 배너 true로 되어 있고 만약 생성한다면 따로
+//                MultipartFile file = formDataDTO.getBannerFile();
+//
+//                NotificationManagement notificationManagement = new NotificationManagement();
+//                // 1. 이걸로 DB에 저장하기
+//                if (file != null && !file.isEmpty()) {
+//                    notificationManagement.setNotificationManagementCode(formDataDTO.getUserCode());
+//                    notificationManagement.setNotificationManagementTitle(formDataDTO.getTitle());
+//                    notificationManagement.setNotificationManagementBannerBoo(formDataDTO.getBannerBooState());
+//                    notificationManagement.setNotificationManagementText(formDataDTO.getTextEditor());
+//                    notificationManagement.setUserCode(formDataDTO.getUserCode());
+//                    notificationManagement.setNotificationManagementImg("");
+//                }
+//                adminService.notificationManagementCreate(notificationManagement);
+//
+//                // 이게 리턴값 ( PK )
+//                int code = notificationManagement.getNotificationManagementCode();
+//
+//                String fileName = fileUpload(file,code,laptop);
+//
+//                FormDataDTO dto = FormDataDTO.builder()
+//                        .code(notificationManagement.getNotificationManagementCode())
+//                        .fileName(fileName)
+//                        .build();
 //            log.info("데이터 확인하기 [dto] : " + dto);
-                adminService.notificationManagementImgNameUpdate(dto);
-            }else{
-                // 배너 false 이면 파일복사와 폴더를 만들 필요없음으로 따로 로직 간단하게 돌리기
-                NotificationManagement notificationManagement = new NotificationManagement();
+//                adminService.notificationManagementImgNameUpdate(dto);
+//
+//
+//                // @@@@@@@@@@@@@@@@@@@@@@@@ 알람 부분이라 여긴 상관없
+//                // 전체코드에 뿌려줄껏
+//                List<Integer> codeList = alramService.selectUserCode();
+//                AlramDTO alramDTO = AlramDTO.builder()
+//                        .alramTitleCode(code)       // 어떤 공지사항코드인지
+//                        .userCode(formDataDTO.getUserCode())    // 누가 만들었는지
+//                        .codeList(codeList)         // 사용자 코드 모음 [ 누굴껄 처리했는지 ]
+//                        .build();
+//                alramService.insertAlramList(alramDTO);
+//            }else{
+//                // 배너 false 이면 파일복사와 폴더를 만들 필요없음으로 따로 로직 간단하게 돌리기
+//                NotificationManagement notificationManagement = new NotificationManagement();
+//                notificationManagement.setNotificationManagementCode(formDataDTO.getUserCode());
+//                notificationManagement.setNotificationManagementTitle(formDataDTO.getTitle());
+//                notificationManagement.setNotificationManagementBannerBoo(formDataDTO.getBannerBooState());
+//                notificationManagement.setNotificationManagementText(formDataDTO.getTextEditor());
+//                notificationManagement.setUserCode(formDataDTO.getUserCode());
+//                notificationManagement.setNotificationManagementImg("null");
+//
+//                adminService.notificationManagementCreate(notificationManagement);
+//                // 이게 리턴값 ( PK )
+//                int code = notificationManagement.getNotificationManagementCode();
+//                // 전체코드에 뿌려줄껏
+//                List<Integer> codeList = alramService.selectUserCode();
+//                AlramDTO alramDTO = AlramDTO.builder()
+//                        .alramTitleCode(code)       // 어떤 공지사항코드인지
+//                        .userCode(formDataDTO.getUserCode())    // 누가 만들었는지
+//                        .codeList(codeList)         // 사용자 코드 모음 [ 누굴껄 처리했는지 ]
+//                        .build();
+//                alramService.insertAlramList(alramDTO);
+//            }
+//
+//
+//            return true;
+//        }catch (Exception e){
+//            e.printStackTrace();
+//            return false;
+//        }
+//    };
+
+@PostMapping("notificationManagementCreate") /* <!-- 공지사항 생성  [ 정상 작동함 ] --> */
+public boolean notificationManagementCreate(FormDataDTO formDataDTO){
+
+    log.info("데이터 확인하기 유저코드 어딨니 : " + formDataDTO);
+    //여기서 공지알람 하나 만들자
+
+    try {
+        if(formDataDTO.getBannerBooState()){
+            // 배너 true로 되어 있고 만약 생성한다면 따로
+            MultipartFile file = formDataDTO.getBannerFile();
+
+            NotificationManagement notificationManagement = new NotificationManagement();
+            // 1. 이걸로 DB에 저장하기
+            if (file != null && !file.isEmpty()) {
                 notificationManagement.setNotificationManagementCode(formDataDTO.getUserCode());
                 notificationManagement.setNotificationManagementTitle(formDataDTO.getTitle());
                 notificationManagement.setNotificationManagementBannerBoo(formDataDTO.getBannerBooState());
                 notificationManagement.setNotificationManagementText(formDataDTO.getTextEditor());
                 notificationManagement.setUserCode(formDataDTO.getUserCode());
-                notificationManagement.setNotificationManagementImg("null");
-
-                adminService.notificationManagementCreate(notificationManagement);
-                // 이게 리턴값 ( PK )
-                int code = notificationManagement.getNotificationManagementCode();
-                // 전체코드에 뿌려줄껏
-                List<Integer> codeList = alramService.selectUserCode();
-                AlramDTO alramDTO = AlramDTO.builder()
-                        .alramTitleCode(code)       // 어떤 공지사항코드인지
-                        .userCode(formDataDTO.getUserCode())    // 누가 만들었는지
-                        .codeList(codeList)         // 사용자 코드 모음 [ 누굴껄 처리했는지 ]
-                        .build();
-                alramService.insertAlramList(alramDTO);
+                notificationManagement.setNotificationManagementImg("");
             }
+            adminService.notificationManagementCreate(notificationManagement);
 
+            // 이게 리턴값 ( PK )
+            int code = notificationManagement.getNotificationManagementCode();
 
-            return true;
-        }catch (Exception e){
-            e.printStackTrace();
-            return false;
+            // 저장할 파일 위치
+            String cloudFile = "joonggonara/banner/" + code;
+
+            // Cloudinary에 기본 이미지 업로드
+            Map uploadResult = cloudinary.uploader().upload(
+                    formDataDTO.getBannerFile().getBytes(),
+                    ObjectUtils.asMap(
+                            "asset_folder", cloudFile,
+                            "public_id", "profile"
+                    )
+            );
+
+            String imageUrl = (String) uploadResult.get("secure_url");
+
+            FormDataDTO dto = FormDataDTO.builder()
+                    .code(notificationManagement.getNotificationManagementCode())
+                    .fileName(imageUrl)
+                    .build();
+//            log.info("데이터 확인하기 [dto] : " + dto);
+            adminService.notificationManagementImgNameUpdate(dto);
+
+            // @@@@@@@@@@@@@@@@@@@@@@@@ 알람 부분이라 여긴 상관없
+            // 전체코드에 뿌려줄껏
+            List<Integer> codeList = alramService.selectUserCode();
+            AlramDTO alramDTO = AlramDTO.builder()
+                    .alramTitleCode(code)       // 어떤 공지사항코드인지
+                    .userCode(formDataDTO.getUserCode())    // 누가 만들었는지
+                    .codeList(codeList)         // 사용자 코드 모음 [ 누굴껄 처리했는지 ]
+                    .build();
+            alramService.insertAlramList(alramDTO);
+        }else{
+            // 배너 false 이면 파일복사와 폴더를 만들 필요없음으로 따로 로직 간단하게 돌리기
+            NotificationManagement notificationManagement = new NotificationManagement();
+            notificationManagement.setNotificationManagementCode(formDataDTO.getUserCode());
+            notificationManagement.setNotificationManagementTitle(formDataDTO.getTitle());
+            notificationManagement.setNotificationManagementBannerBoo(formDataDTO.getBannerBooState());
+            notificationManagement.setNotificationManagementText(formDataDTO.getTextEditor());
+            notificationManagement.setUserCode(formDataDTO.getUserCode());
+            notificationManagement.setNotificationManagementImg("null");
+
+            adminService.notificationManagementCreate(notificationManagement);
+            // 이게 리턴값 ( PK )
+            int code = notificationManagement.getNotificationManagementCode();
+            // 전체코드에 뿌려줄껏
+            List<Integer> codeList = alramService.selectUserCode();
+            AlramDTO alramDTO = AlramDTO.builder()
+                    .alramTitleCode(code)       // 어떤 공지사항코드인지
+                    .userCode(formDataDTO.getUserCode())    // 누가 만들었는지
+                    .codeList(codeList)         // 사용자 코드 모음 [ 누굴껄 처리했는지 ]
+                    .build();
+            alramService.insertAlramList(alramDTO);
         }
-    };
+
+
+        return true;
+    }catch (Exception e){
+        e.printStackTrace();
+        return false;
+    }
+};
 
     @PostMapping("notificationManagementUpdate") /* <!-- 공지사항 수정 --> */
     public void notificationManagementUpdate(FormDataDTO formDataDTO){

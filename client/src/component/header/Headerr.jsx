@@ -97,7 +97,9 @@ const Headerr = () => {
   };
 
   useEffect(()=>{
-    selectAlram();
+    if(sessionStorage.getItem("userCode") != null){
+      selectAlram();
+    }
   },[])
   useEffect(() => {
     const token = sessionStorage.getItem("token");

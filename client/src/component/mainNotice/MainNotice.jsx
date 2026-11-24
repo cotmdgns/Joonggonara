@@ -21,6 +21,8 @@ const MainNotice = ({
 }) => {
     const navigate = useNavigate();
 
+
+    console.log()
   // 좋아요 누르기 버튼
   const noticeLike = async () => {
     if(sessionStorage.getItem("token") == null || sessionStorage.getItem("token") == undefined){
@@ -88,7 +90,7 @@ const MainNotice = ({
         }}
       >
         <img
-          src={`http://localhost:8080/notice/${list.jgnoticeCode}/${list.firstImgName}`}
+          src={list.firstImgName}
           id="mainNoticeImg"
         />
         <>

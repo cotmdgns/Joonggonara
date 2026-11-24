@@ -198,7 +198,7 @@ const MyPage = () => {
                   <div id="myPageProfileBoxInfo2">
                     <img
                       id="myPageProfileBoxImg"
-                      src={`http://localhost:8080/userProfile/${state.userInfo.userId}/userProfile/${state.userInfo.userImg}`}
+                      src={state.userInfo.userImg}
                     ></img>
                     <div id="myPageProfileBoxInfo3">
                       <div id="myPageProfileBoxInfoName">

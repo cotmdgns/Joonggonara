@@ -12,7 +12,7 @@ const MainBannerInfo = ({ list, gotoNotificationPage }) => {
         }}
       >
         <img
-          src={`http://localhost:8080/banner/${list.notificationManagementCode}/${list.notificationManagementImg}`}
+          src={list.notificationManagementImg}
           id="MainBannerImg"
         />
         <div id="MainBannerInfo">

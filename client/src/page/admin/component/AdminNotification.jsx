@@ -34,34 +34,43 @@ const AdminNotification = () => {
     navigate(`/layoutAdmin/adminNotificationManagement`);
   };
   // 생성하기 [ 정상작동 ]
+  const [loading,setLoading] = useState(false)
   const notificationCreate = async () => {
-    const userCode = sessionStorage.getItem("userCode");
 
-    const formData = new FormData();
+    if(loading) return;
+    try{
+      setLoading(true)
 
-    if(bannerBooState){
-      formData.append("userCode", userCode);
-      formData.append("title", title);
-      formData.append("textEditor", textEditor);
-      formData.append("bannerBooState", bannerBooState);
-      formData.append("bannerFile", bannerFile);
-    }else{
-      formData.append("userCode", userCode);
-      formData.append("title", title);
-      formData.append("textEditor", textEditor);
-      formData.append("bannerBooState", bannerBooState);
+      const userCode = sessionStorage.getItem("userCode");
+      const formData = new FormData();
+      if(bannerBooState){
+        formData.append("userCode", userCode);
+        formData.append("title", title);
+        formData.append("textEditor", textEditor);
+        formData.append("bannerBooState", bannerBooState);
+        formData.append("bannerFile", bannerFile);
+      }else{
+        formData.append("userCode", userCode);
+        formData.append("title", title);
+        formData.append("textEditor", textEditor);
+        formData.append("bannerBooState", bannerBooState);
+      }
+      if(title == null || title == ""){
+        alert("제목을 입력해주세요.")
+        return;
+      }
+      if(textEditor == null || textEditor == ""){
+        alert("내용을 입력해주세요.")
+        return;
+      }
+      await notificationManagementCreateAPI(formData);
+      // 생성 후 페이지 이동
+      navigate(`/layoutAdmin/adminNotificationManagement`);
+    }catch{
+
+    }finally{
+      setLoading(false)
     }
-    if(title == null || title == ""){
-      alert("제목을 입력해주세요.")
-      return;
-    }
-    if(textEditor == null || textEditor == ""){
-      alert("내용을 입력해주세요.")
-      return;
-    }
-    await notificationManagementCreateAPI(formData);
-    // 생성 후 페이지 이동
-    navigate(`/layoutAdmin/adminNotificationManagement`);
   };
   // 공지사항 삭제하기  [ 정상작동 ]
   const notificationDelete = async () => {
@@ -155,7 +164,7 @@ const AdminNotification = () => {
               <div id="bannerBoo">
                 <div id="bannerH1">메인 배너</div>
                 <div id="notificationDetailBanner">
-                  <img id="bannerImg" src={`http://localhost:8080/banner/${notificationDetail.notificationManagementCode}/${notificationDetail.notificationManagementImg}`}></img>
+                  <img id="bannerImg" src={notificationDetail.notificationManagementImg}></img>
                 </div>
               </div>
             }
@@ -222,7 +231,7 @@ const AdminNotification = () => {
               <div id="bannerBoo">
                 <div id="bannerH1">메인 배너</div>
                 <div id="notificationDetailBanner">
-                  <img id="bannerImg" src={`http://localhost:8080/${notificationDetail.notificationManagementCode}/${notificationDetail.notificationManagementImg}`}></img>
+                  <img id="bannerImg" src={notificationDetail.notificationManagementImg}></img>
                 </div>
               </div>
             ) : (
@@ -336,7 +345,7 @@ const AdminNotification = () => {
                 notificationCreate();
               }}
             >
-              생성하기
+              {loading ? "생성 중.." : "생성하기"}
             </div>
           </div>
         </div>

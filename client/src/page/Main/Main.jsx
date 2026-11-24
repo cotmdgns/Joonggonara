@@ -71,9 +71,10 @@ const Main = () => {
   useEffect(() => {
     mainBannerSelect();
     newNotificationSelect();
-    userAddressSelect();
+    if(sessionStorage.getItem("userCode") != null){
+      userAddressSelect();
+    }
   }, []);
-
 
   return (
     <>

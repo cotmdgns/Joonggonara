@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import "../alram/scss/Alram.scss";
-import { selectAlramAPI } from "./api/AlramAPI";
+import { selectAlramAPI, stateUpadateAPI } from "./api/AlramAPI";
 import { useSearchParams } from "react-router-dom";
+
 import { HiOutlineSpeakerphone } from "react-icons/hi"; // 공지사항 아이콘
 import { GiPoliceOfficerHead } from "react-icons/gi"; // 신고 접수 아이콘
 import { BsCartCheck } from "react-icons/bs";         // 상품 구매 아이콘
@@ -33,6 +34,10 @@ const Alram = () => {
     selectAlram();
   },[])
 
+    const stateUpadate = async (code) =>{
+      await stateUpadateAPI(code)
+      selectAlram();
+    }
 
 
     const createButton = () => {
@@ -82,20 +87,85 @@ const Alram = () => {
           {list.map((data,index)=>{
             return(
               <>
-            <div id="alramPaging">
+              {data.alramList.alramTitle == "게시글" ? 
+              <>
+              <div key={index} id={!data.alramList.alramState ? "alramPaging" : "alramPagingFalse"}  onClick={()=>{ if(!data.alramList.alramState ) stateUpadate(data.alramList.alramCode)}}>
                 <div id="alramPaging1">
-                  <div id="alramPagingImg">이미지?</div>
-                  <div>
-                    <div>내가 올린 상품에 좋아요가 생겼어요!</div>
-                    <div>[상품제목] 게시글에 또 다른 사용자가 좋요아 눌렀어요!</div>
-                    <div>좋아요 알림</div>
+                  <div id="alramPagingImg">
+                    <img
+                      src={`http://localhost:8080/notice/${data.alramList.alramTitleCode}/${data.alramImg}`}
+                      id="noticeImg"
+                    />
+                  </div>
+                  <div id="alramPagingInfo">
+                    <div id="alramH1">상품이 구매 됬습니다.</div>
+                    <div id="alramH2">{data.userName}님께서 <span id="redText">[{data.alramTitle}]</span>를 구매하셨습니다!</div>
+                    <div id="title">{data.alramList.alramTitle} 알림</div>
                   </div>
                 </div>
                 <div id="alramPaging1">
-                  <div>몇시간전</div>
-                  <div>이미지</div>
+                  <div id="time">{data.alramList.alramCreate?.substring(0,10)}</div>
                 </div>
               </div>
+              </>
+               : 
+               data.alramList.alramTitle == "좋아요" ? 
+               <>
+              <div key={index} id={!data.alramList.alramState ? "alramPaging" : "alramPagingFalse"}  onClick={()=>{ if(!data.alramList.alramState ) stateUpadate(data.alramList.alramCode)}}>
+                <div id="alramPaging1">
+                  <div id="alramPagingImg">
+                    <div id="good"><FaRegThumbsUp/></div>
+                  </div>
+                  <div id="alramPagingInfo">
+                    <div id="alramH1">내가 올린 상품에 좋아요가 생겼어요!</div>
+                    <div id="alramH2">{data.userName}님께서 상품 [{data.alramTitle}]에 <span id="redText">좋아요</span>를 누르셨어요!</div>
+                    <div id="title">{data.alramList.alramTitle} 알림</div>
+                  </div>
+                </div>
+                <div id="alramPaging1">
+                  <div id="time">{data.alramList.alramCreate?.substring(0,10)}</div>
+                </div>
+              </div>
+               </>
+                : 
+               data.alramList.alramTitle == "공지사항" ? 
+               <>
+              <div key={index} id={!data.alramList.alramState ? "alramPaging" : "alramPagingFalse"}  onClick={()=>{ if(!data.alramList.alramState ) stateUpadate(data.alramList.alramCode)}}>
+                <div id="alramPaging1">
+                  <div id="alramPagingImg">
+                    <div id="gongi"><HiOutlineSpeakerphone/></div>
+                  </div>
+                  <div id="alramPagingInfo">
+                    <div id="alramH1">새로운 공지사항이 올라왔어요!</div>
+                    <div id="alramH2"><span id="redText">{data.alramTitle}</span> 새로은 공지가 올라왔습니다.</div>
+                    <div id="title">{data.alramList.alramTitle} 알림</div>
+                  </div>
+                </div>
+                <div id="alramPaging1">
+                  <div id="time">{data.alramList.alramCreate?.substring(0,10)}</div>
+                </div>
+              </div>
+               </> 
+               : 
+               data.alramList.alramTitle == "신고" && 
+               <>
+              <div key={index} id={!data.alramList.alramState ? "alramPaging" : "alramPagingFalse"}  onClick={()=>{ if(!data.alramList.alramState ) stateUpadate(data.alramList.alramCode)}}>
+                <div id="alramPaging1">
+                  <div id="alramPagingImg">
+                    <div id="singo"><GiPoliceOfficerHead/></div>
+                  </div>
+                  <div id="alramPagingInfo">
+                    <div id="alramH1">사용자분이 접수해주신 신고가 접수 됬습니다.</div>
+                    <div id="alramH2">운영자분께서 정상적으로 {data.alramTitle}</div>
+                    <div id="title">{data.alramList.alramTitle} 알림</div>
+                  </div>
+                </div>
+                <div id="alramPaging1">
+                  <div id="time">{data.alramList.alramCreate?.substring(0,10)}</div>
+                </div>
+              </div>
+               </>
+               }
               </>
             )
           })}

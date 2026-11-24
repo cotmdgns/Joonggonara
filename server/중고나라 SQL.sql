@@ -88,7 +88,7 @@ CREATE TABLE JGUserInfo(
   userCode integer auto_increment primary key, /*사용자 코드*/
   userId varchar(20) not null unique, /*사용자 아이디*/
   userPwd varchar(150) not null, /*사용자 비밀번호*/
-  userImg varchar(255) , /*사용자 이미지*/
+  userImg text , /*사용자 이미지*/
   userNickname varchar(50) not null unique, /* 사용자 닉네임*/
   userName varchar(20) not null, /*사용자 이름*/
   userCreate datetime default CURRENT_TIMESTAMP, /*생성 날짜*/
@@ -100,10 +100,10 @@ CREATE TABLE JGUserInfo(
   userStopDate datetime , /*사용자 신고 누적 시 날짜 적용*/
   userTotalPointer DECIMAL(4,1) default 50.0, /*사요앚 총 포인트*/	
   /* 주소 모음 */
-  addressData varchar(10), /* 사용자 주소 ex) 서울 */
-  addressDetailData varchar(10), /* 사용자 주소 ex) 강남구*/
+  addressData varchar(50), /* 사용자 주소 ex) 서울 */
+  addressDetailData varchar(50), /* 사용자 주소 ex) 강남구*/
   userAddress varchar(50),/* 사용자 주소 (상세) ex) 헤안대로..  */ 
-  userAddressDetail varchar(60), /* 사용자 주소 (상세) ex) 상세주소 X층 X호 */ 
+  userAddressDetail varchar(255), /* 사용자 주소 (상세) ex) 상세주소 X층 X호 */ 
   /*2026-10-19 이후로 추가 됨*/
   userInfo varchar(255) default null ,/*사용자 자기소개*/
   
@@ -111,13 +111,13 @@ CREATE TABLE JGUserInfo(
   kakaoAPI varchar(50) default null,				/*카카오 연동*/
   googleAPI varchar(50) default null				/*구글 연동*/
 );
-alter table JGUserInfo
-add column naverAPI varchar(50) default null;
-alter table JGUserInfo
-add column kakaoAPI varchar(50) default null;
-alter table JGUserInfo
-add column googleAPI varchar(50) default null;
+drop table JGUserInfo;
 
+select * from JGUserInfo;
+
+update JGUserInfo
+set	userManager = 2s
+where userCode = 1;
 
 
 SHOW VARIABLES LIKE 'event_scheduler';
@@ -126,10 +126,10 @@ SHOW VARIABLES LIKE 'event_scheduler';
 CREATE TABLE JGUserInfoBack(
   userCode int not null, /*외래키로 사용할 예정*/ 
   userPwd varchar(150) default null, /*사용자 비밀번호*/ 
-  userImg varchar(255)  default null, /*사용자 이미지*/ 
+  userImg text  default null, /*사용자 이미지*/ 
   userName varchar(20)  default null, /*사용자 이름*/ 
-  userAddress varchar(10)  default null, /* 사용자 주소 */
-  userAddressDetail varchar(10)  default null, /* 사용자 주소 (상세) */ 
+  userAddress varchar(50)  default null, /* 사용자 주소 */
+  userAddressDetail varchar(250)  default null, /* 사용자 주소 (상세) */ 
   userUpdate datetime  default null, /*변경 날짜*/ 
   userInfo varchar(255) default null,
   
@@ -142,6 +142,7 @@ CREATE TABLE JGUserInfoBack(
 );
 
 
+
 /*사용자 포인트*/
 CREATE TABLE JGUserInfoPointer(
   pointerCode integer auto_increment primary key, /* pk */
@@ -150,6 +151,7 @@ CREATE TABLE JGUserInfoPointer(
   pointerReason varchar(50), /* 포인트 사유 */
   userPointerCreate datetime default CURRENT_TIMESTAMP /*생성날짜*/ 
 );
+
 
 
 /* 게시글 정보 */
@@ -169,8 +171,19 @@ CREATE TABLE JGNotice(
   JGNoticeSaleUserCode varchar(10) default null /* 상품을 구매한 사람 코드 */
 );
 
+/*게시글 사진정보*/ 
+CREATE TABLE JGNoticeImg(
+  JGNoticeImgCode integer auto_increment primary key, /*게시글 이미지 코드*/ 
+  JGNoticeImg text, /*게시글 이미지*/
+  JGNoticeImgCreate datetime default CURRENT_TIMESTAMP, /*게시글 이미지 생살날짜*/
+  JGNoticeCode integer /*게시글 코드 [ 외래키 ]*/ 
+);
 
+delete from JGNotice
+where jgnoticeCode = 2;
 
+select * from JGNotice;
+select * from JGNoticeImg;
 
 
 
@@ -185,13 +198,6 @@ CREATE TABLE JGNoticeSubcribe(
 
 
 
-/*게시글 사진정보*/ 
-CREATE TABLE JGNoticeImg(
-  JGNoticeImgCode integer auto_increment primary key, /*게시글 이미지 코드*/ 
-  JGNoticeImg varchar(255), /*게시글 이미지*/
-  JGNoticeImgCreate datetime default CURRENT_TIMESTAMP, /*게시글 이미지 생살날짜*/
-  JGNoticeCode integer /*게시글 코드 [ 외래키 ]*/ 
-);
 
 
 /*사용자 신고 누적*/ 
@@ -211,8 +217,6 @@ CREATE TABLE UserDeclarationA(
   userDeclarationBoo varchar(10) default "처리대기"/*신고 접수*/ 
 );
 
-alter table UserDeclarationA
-modify column noticeText text;
 
 /* 관리자 공지사항 관리 */
 CREATE TABLE notificationManagement(
@@ -225,6 +229,7 @@ CREATE TABLE notificationManagement(
     notificationManagementImg varchar(255),/* 공지사항 이미지 */
     notificationManagementCreate datetime default CURRENT_TIMESTAMP /*공지사항 생성날짜*/ 
 );
+
 
 
 /* 관리자 카테고리 관리 */
@@ -245,10 +250,6 @@ CREATE TABLE categoryStateMinor(
 );
 
 
-
-qweqwe = 378 이 사람이
-awdawd = 1 의 게시글을 신고했다 
-그리면 누구한게 신고가 접수됬다는걸 알려줘야곗느냐
 /* 추가된 알람 */
 CREATE TABLE alram(
 	alramCode integer auto_increment primary key,  /* 알람 코드 */
@@ -260,44 +261,7 @@ CREATE TABLE alram(
     whoUserCode integer /*사용자 코드 [ 외래키 ] 	 이건 누구꺼를 처리해줬냐*/
 );
 
-/* 설계가 잘못됬음 ㅅㅂ */
-select JGnoticeTitle,jgnoticeimg from jgnotice notice
-join jgnoticeImg img ON notice.JGNoticeCode = img.JGNoticeCode
-where notice.JGNoticeCode = 26
-limit 1;
 
-
-select JGnoticeTitle from jgnoticesubcribe sub
-join jgnotice notice ON sub.JGNoticeCode = notice.JGNoticeCode
-where sub.JGNoticeCode = 7;
-
-select * from UserDeclarationA;
-select count(*) from alram
-where whoUserCode = 1 and alramState = false;
-
-
-select notificationManagementTitle from alram as ram
-join notificationManagement as noti ON ram.alramTitleCode = noti.notificationManagementCode
-where ram.alramCode = 37;
-
-
-select userNickname from jguserinfo
-where userCode = 1;
-
-
-select count(*) from alram
-where whoUserCode = 1 AND alramTitle = "좋아요"
-order by alramCreate DESC;
-
-select * from jgNotice;
-
-
-select * from alram
-where whoUserCode = 1 AND alramTitle = "게시글"
-
-
-
-order by alramCreate DESC;
 
 /*
 [ 설명란 ]

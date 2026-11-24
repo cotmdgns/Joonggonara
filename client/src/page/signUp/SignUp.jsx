@@ -14,7 +14,7 @@ import { addressAPI,addressDetailAPI, IdCheckAPI, userIdCreateAPI } from "./api/
 
 // 리액트
 import { useNavigate } from "react-router-dom";
-import { useEffect ,useReducer} from "react";
+import { useEffect ,useReducer, useState} from "react";
 
 // 컴포넌트
 import InputTag from "../../component/inputTag/InputTag";
@@ -93,59 +93,70 @@ const SignUp = () =>{
         }
 
     }
+    // 연속 생성 막기
+    const[loading,setLoading] = useState(false)
+
 
     // 회원가입하기 [ 정상 작동 ]
     const createUser = async () =>{
-        // 회원가입 로그인 관리
-        const data ={
-        "userId" : userId,                
-        "userPwd" : userPwd,                
-        "userName" : userName ,   
-        "userNickname" : userNickName,           
-        "userEmail" : userEmail ,            
-        "userAddressDetail" : userAddressDetail,     
-        "userAddress" : userAddress,  
-        "addressData" : addressData,
-        "addressDetailData" : addressDetailData,           
-        }
-        // boo 조건 관리
-        const dataBoo = {
-            "userIdBoo" : userIdBoo,               
-            "userPwdBoo" : userPwdBoo,              
-            "userNameBoo" : userNameBoo,              
-            "userEmailBoo" : userEmailBoo,             
-            "userNcikNameBoo" : userNcikNameBoo,
-            "userAddressDetailBoo" : userAddressDetailBoo,      
-        }
+        if(loading) return;
 
+        try{
+            setLoading(true)
+            // 회원가입 로그인 관리
+            const data ={
+            "userId" : userId,                
+            "userPwd" : userPwd,                
+            "userName" : userName ,   
+            "userNickname" : userNickName,           
+            "userEmail" : userEmail ,            
+            "userAddressDetail" : userAddressDetail,     
+            "userAddress" : userAddress,  
+            "addressData" : addressData,
+            "addressDetailData" : addressDetailData,           
+            }
+            // boo 조건 관리
+            const dataBoo = {
+                "userIdBoo" : userIdBoo,               
+                "userPwdBoo" : userPwdBoo,              
+                "userNameBoo" : userNameBoo,              
+                "userEmailBoo" : userEmailBoo,             
+                "userNcikNameBoo" : userNcikNameBoo,
+                "userAddressDetailBoo" : userAddressDetailBoo,      
+            }
 
-        // 1차 조건
-        if(!userIdCheck){
-            return alert("아이디 중복체크 해주세요.");
-        }
-        // 2차 조건
-        for (const i in data) {
-            if (!data[i] || data[i].trim() === "") {
-                console.log(data[i])
-                return alert("빈칸없이 입력해주세요");
+            // 1차 조건
+            if(!userIdCheck){
+                return alert("아이디 중복체크 해주세요.");
             }
-        }
-        // 3차 조건
-        for (const i in dataBoo) {
-            if (!dataBoo[i]) {
-                return alert("조건에 맞지 않습니다.");
+            // 2차 조건
+            for (const i in data) {
+                if (!data[i] || data[i].trim() === "") {
+                    console.log(data[i])
+                    return alert("빈칸없이 입력해주세요");
+                }
             }
-        }
+            // 3차 조건
+            for (const i in dataBoo) {
+                if (!dataBoo[i]) {
+                    return alert("조건에 맞지 않습니다.");
+                }
+            }
 
-        // 최종적으로 되면 바로 나가기 [ 정상 작동 ]
-        if(window.confirm("정말로 생성하시겠습니까?")){
-            const result = await userIdCreateAPI(data);
-            if(result.data){
-                alert("가입 승인")
-                navigate("/login")
-            }else{
-                alert("존재하는 아이디 입니다.")
+            // 최종적으로 되면 바로 나가기 [ 정상 작동 ]
+            if(window.confirm("정말로 생성하시겠습니까?")){
+                const result = await userIdCreateAPI(data);
+                if(result.data){
+                    alert("가입 승인")
+                    navigate("/login")
+                }else{
+                    alert("존재하는 아이디 입니다.")
+                }
             }
+        }catch{
+
+        }finally{
+            setLoading(false)
         }
 
 
@@ -279,7 +290,7 @@ const SignUp = () =>{
                                 />
                         </div>
                     </div>
-                    <div id="createButton" onClick={() => createUser()}>Create</div>   
+                    <div id="createButton" onClick={() => createUser()}>{loading ? "loading..." : "Create"}</div>   
                     <div id="signUpText" onClick={loginPage}>Login</div>
                     <div id="homeText" onClick={homePage}>Home</div>
                 </div>

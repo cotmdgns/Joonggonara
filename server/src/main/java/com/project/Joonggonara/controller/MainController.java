@@ -23,7 +23,6 @@ import java.util.UUID;
 public class MainController {
 
 
-           // 내 파일 위치
 
     @Autowired
     private MainService mainService;

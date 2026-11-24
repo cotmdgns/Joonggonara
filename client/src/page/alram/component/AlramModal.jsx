@@ -25,6 +25,7 @@ const AlramModal = ({ alramClose,selectAlram }) => {
     setList(result.data)
     
   }  
+
   const stateUpadate = async (code) =>{
     await stateUpadateAPI(code)
      selectAlramModal()
@@ -69,7 +70,7 @@ const AlramModal = ({ alramClose,selectAlram }) => {
         {list.map((data,index)=>{
           return(
           <>
-            <div id={data.alramList.alramState ? "alramData" : "alramDataFalse"} 
+            <div id={!data.alramList.alramState ? "alramData" : "alramDataFalse"} 
               onClick={()=>{stateUpadate(data.alramList.alramCode)}}
             key={index}>  
                 {data.alramList.alramTitle == "좋아요" ? 

@@ -1,5 +1,7 @@
 package com.project.Joonggonara.controller;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.project.Joonggonara.model.dto.*;
 import com.project.Joonggonara.model.vo.*;
 import com.project.Joonggonara.service.AlramService;
@@ -14,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Slf4j
@@ -31,17 +34,17 @@ public class NoticeController {
     @Autowired
     private AlramService alramService;
 
-    private String laptop = "C:\\github\\img\\notice\\";
+    @Autowired
+    private Cloudinary cloudinary;
 
+    private String laptop = "C:\\github\\img\\notice\\";
 
     // 상품 게시글 생성하기
     @PostMapping("noticeCreate")
     public void noticeCreate(@ModelAttribute NoticeStateDTO dto){
-
         // 클라이언트에서 받은 데이터로 가져오기
         String minor = mainService.selectCategoryMinor(dto.getCategoryMinor());
         String minorList = mainService.selectCategoryMinor(dto.getCategoryMinorList());
-
         // 게시글 따로 저장하기
         JGNotice notice = JGNotice.builder()
                 .userCode(dto.getCode())
@@ -52,29 +55,101 @@ public class NoticeController {
                 .JGNoticeProductTypeMinor(minor)             // 이거는 코드로 받고 있어서 따로 카테고리 불러와야 함
                 .JGNoticeProductTypeMinorList(minorList)         // 이것도 코드로 받고 있음
                 .build();
-
         // 1단계 가공된 데이터를 DB에 전송하고 저장하기
+        // 아 뿌듯하다 승훈아. 여기는 깔끔하게 잘 정리해놨구나
         mainService.insertNotice(notice);
         int noticeCode = notice.getJGNoticeCode();
 
-        // 이미지 따로 저장하기   [ 게시글 생성 후 키 따로 반납 받은다음 그걸로 생성하기 ]
+        // 2단계 코드로 폴더 생성하기
+        // 저장할 파일 위치
+        String cloudFile = "joonggonara/notice/" + noticeCode;
+
+        // Cloudinary에 기본 이미지 업로드
         try {
+            List<MultipartFile> imgList =  dto.getImgs();           // 이미지 리스트  [ 반복문 용도 ]
+            List<String> fileUrl = new ArrayList<>();               // 파일url 리스트 [ 반복문 용도 ]
+            for (int i = 0; i < imgList.size(); i++) {
+                Map uploadResult = cloudinary.uploader().upload(
+                    imgList.get(i).getBytes(),
+                    ObjectUtils.asMap(
+                            "asset_folder", cloudFile,
+                            "public_id", "product_" + noticeCode + "_" + i
+                    )
+                );
+                fileUrl.add((String) uploadResult.get("secure_url"));
+            }
+
+            // 이미지 따로 저장하기   [ 게시글 생성 후 키 따로 반납 받은다음 그걸로 생성하기 ]
             List<JGNoticeImg> list = new ArrayList<>();
-            for(MultipartFile file : dto.getImgs()){
-                String fileName= fileUpload(file,noticeCode,laptop);
+            for(String file : fileUrl){
                 JGNoticeImg img = JGNoticeImg.builder()
                         .jGNoticeCode(notice.getJGNoticeCode())   // 위에있는 데이터가 정상적으로 생성 후 사용될 예정 [ 아직 코드 없음 ]
-                        .jGNoticeImg(fileName)
+                        .jGNoticeImg(file)
                         .build();
                 list.add(img);
             }
             // 2단계 가공 후 이미지이름을 DB에 저장하고 이미지파일은 따로 드라이브 어딘가에 저장하기.
             mainService.createImg(list);
         }catch (Exception e){
-            log.info(""+ e);
+
         }
-        // 끝
+
+        // 3단계 이미지 주소 url DB에 만들기
+
+
+
+
+
+
+
+
     }
+
+//    private String laptop = "C:\\github\\img\\notice\\";
+
+//    // 상품 게시글 생성하기 [ localhost 에서 사용되는 메서드 ]
+//    @PostMapping("noticeCreate")
+//    public void noticeCreate(@ModelAttribute NoticeStateDTO dto){
+//
+//        // 클라이언트에서 받은 데이터로 가져오기
+//        String minor = mainService.selectCategoryMinor(dto.getCategoryMinor());
+//        String minorList = mainService.selectCategoryMinor(dto.getCategoryMinorList());
+//
+//        // 게시글 따로 저장하기
+//        JGNotice notice = JGNotice.builder()
+//                .userCode(dto.getCode())
+//                .jGNoticeProductPrice(dto.isProductFree() ? "0" : dto.getProductPrice())
+//                .jGNoticeText(dto.getProductInfo())
+//                .jGNoticeTitle(dto.getProductName())
+//                .JGNoticeProductTypeMajor(dto.getCategoryMajor())
+//                .JGNoticeProductTypeMinor(minor)             // 이거는 코드로 받고 있어서 따로 카테고리 불러와야 함
+//                .JGNoticeProductTypeMinorList(minorList)         // 이것도 코드로 받고 있음
+//                .build();
+//
+//        // 1단계 가공된 데이터를 DB에 전송하고 저장하기
+//        mainService.insertNotice(notice);
+//        int noticeCode = notice.getJGNoticeCode();
+//
+//        // 이미지 따로 저장하기   [ 게시글 생성 후 키 따로 반납 받은다음 그걸로 생성하기 ]
+//        try {
+//            List<JGNoticeImg> list = new ArrayList<>();
+//            for(MultipartFile file : dto.getImgs()){
+//                String fileName= fileUpload(file,noticeCode,laptop);
+//                JGNoticeImg img = JGNoticeImg.builder()
+//                        .jGNoticeCode(notice.getJGNoticeCode())   // 위에있는 데이터가 정상적으로 생성 후 사용될 예정 [ 아직 코드 없음 ]
+//                        .jGNoticeImg(fileName)
+//                        .build();
+//                list.add(img);
+//            }
+//            // 2단계 가공 후 이미지이름을 DB에 저장하고 이미지파일은 따로 드라이브 어딘가에 저장하기.
+//            mainService.createImg(list);
+//        }catch (Exception e){
+//            log.info(""+ e);
+//        }
+//        // 끝
+//    }
+
+
     // 상품 삭제하기
     @PostMapping("noticeDelete")
     public void noticeDelete(@RequestBody JGNotice jgNotice) {
@@ -117,6 +192,7 @@ public class NoticeController {
         for(JGNotice data : list){
             // 코드로 이미지들 가져오고
             List<JGNoticeImg> img = mainService.searchNoticeSelectImg(data.getJGNoticeCode());
+
             JGUserInfo info = mainService.selectAddress(data.getUserCode());
 
             dto.setJgNoticeCode(data.getJGNoticeCode());

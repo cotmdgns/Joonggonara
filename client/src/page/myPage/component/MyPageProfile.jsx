@@ -7,6 +7,7 @@ const MyPageProfile = ({
   profileCloseButton,
   state,
   dispatch,
+  selectUserInfo,
   categoryUpdate,
 }) => {
   // 사용자 프로필 변경하기
@@ -55,14 +56,14 @@ const MyPageProfile = ({
 
     const result = await userProfileUpdateAPI(formdata);
 
-    // if (result.data == "notPassword") {
-    //   alert("비밀번호가 틀렸습니다.");
-    //   return;
-    // }
+    if (result.data == "notPassword") {
+      alert("비밀번호가 틀렸습니다.");
+      return;
+    }
 
-    // alert("변경되었습니다.");
-    // selectUserInfo();
-    // profileCloseButton();
+    alert("변경되었습니다.");
+    selectUserInfo();
+    profileCloseButton();
   };
   console.log(state.userInfo);
   return (
@@ -81,7 +82,7 @@ const MyPageProfile = ({
               <img
                 src={
                   state.userProfile == null
-                    ? `http://localhost:8080/userProfile/${state.userInfo.userId}/userProfile/${state.userInfo.userImg}`
+                    ? state.userInfo.userImg
                     : URL.createObjectURL(state.userProfile)
                 }
                 id="img"

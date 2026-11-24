@@ -16,9 +16,14 @@ public class UserService {
     private UserMapper userMapper;
 
     // 사용자 계정 생성
-    public int UserIdCreate(JGUserInfo jgUserInfo){
-        return userMapper.userIdCreate(jgUserInfo);
+    public void UserIdCreate(JGUserInfo jgUserInfo){
+        userMapper.userIdCreate(jgUserInfo);
     }
+
+    // 이미지 업데이트
+    public  void userImgUpdate(JGUserInfo jgUserInfo){
+        userMapper.userImgUpdate(jgUserInfo);
+    };
 
     // 사용자 아이디 체크하기
     public boolean IdCheckAPI(String str){

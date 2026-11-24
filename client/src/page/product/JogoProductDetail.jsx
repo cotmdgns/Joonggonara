@@ -256,7 +256,7 @@ const JogoProductDetail = () => {
                 <SwiperSlide key={index}>
                   <img
                     id="img"
-                    src={`http://localhost:8080/notice/${img.jgnoticeCode}/${img.jgnoticeImg}`}
+                    src={img.jgnoticeImg}
                   />
                 </SwiperSlide>
               </>
