@@ -85,6 +85,7 @@
 
 
 GPT랑 같이 하나하나 해보면서 풀어가는 중
+ㅁ ERD [ 사이트 : https://dbdiagram.io/ ]
 
 ㅁ 이미지 저장은 Cloudinary 이쪽으로 [ 플랫폼 : cloudinary, 사이트 : https://console.cloudinary.com/ ]
 
