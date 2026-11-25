@@ -9,6 +9,7 @@
     <select id="mainBannerSelect" parameterType="NotificationManagement">
         select * from notificationManagement
         where notificationManagementBannerBoo = 1 and notificationManagementBoo != 0
+        order by notificationManagementCode DESC
     </select>
     <!-- 카테고리 마이너 코드로 카테고리 이름 찾아내기 -->
     <select id="selectCategoryMinor" parameterType="int" resultType="String">

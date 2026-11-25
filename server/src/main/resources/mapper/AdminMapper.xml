@@ -74,6 +74,7 @@
                 AND userDelete is not null
             </if>
         </where>
+        order by userCode desc
         limit #{cri.skip} ,#{cri.amount};
     </select>
     <!-- 사용자 관리 페이지 [ 페이징 전용 토탈 데이터 ]  -->
@@ -208,6 +209,7 @@
                 AND userDeclarationBoo = "처리완료"
             </if>
         </where>
+        order by userDeclarationCode desc
         limit #{cri.skip} ,#{cri.amount};
     </select>
     <!-- 신고 전체 리스트 -->
@@ -285,17 +287,20 @@
     <!-- [ 괸리자 ]공지사항 조회(ALL)하기 [정상작동] -->
     <select id="adminNotificationManagementSelect" parameterType="Criteria" resultType="NotificationManagementDTO">
         select * from notificationManagement
+        order by notificationManagementCode desc
         limit #{skip} ,#{amount};
     </select>
     <!-- [ 괸리자,일반 ]공지사항 디테일 조회하기 -->
     <select id="notificationManagementSelectDetail" parameterType="int" resultType="NotificationManagementDTO">
         select * from notificationManagement
         where notificationManagementCode = #{code}
+        order by notificationManagementCode desc
     </select>
     <!-- [ 일반 ]공지사항 조회(ALL)하기 [정상작동] -->
     <select id="notificationManagementSelect" resultType="NotificationManagementDTO">
         select * from notificationManagement
         where notificationManagementBoo != false
+        order by notificationManagementCode desc
     </select>
     <!-- 페이징 전용 전체 토탈 데이터 -->
     <select id="totalPage" resultType="int">
@@ -352,6 +357,7 @@
     <select id="selectCategoryMajor" resultType="CategoryStateMajor">
         select categoryStateMajorCode,categoryStateMajorText
         from categoryStateMajor
+        order by categoryStateMajorCode DESC
     </select>
 
     <!--  카테고리 메이저 생성하기 [ 정상 작동 ] -->
@@ -377,6 +383,7 @@
         select categoryStateMinorCode,categoryStateMinorText
         from categoryStateMinor
         where categoryStateMajorCode = ${code} and categoryStateMinorCodeMinor is null
+        order by categoryStateMinorCode DESC
     </select>
 
     <!--  카테고리 마이너 생성하기  -->
@@ -396,6 +403,7 @@
         select categoryStateMinorCode,categoryStateMinorText
         from categoryStateMinor
         where categoryStateMinorCodeMinor = ${code}
+        order by categoryStateMinorCode DESC
     </select>
 
     <!--  카테고리 마이너 리스트 생성하기  -->
