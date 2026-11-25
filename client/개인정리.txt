@@ -92,24 +92,6 @@
 GPT랑 같이 하나하나 해보면서 풀어가는 중
 
 ㅁ 이미지 저장은 Cloudinary 이쪽으로 [ 플랫폼 : cloudinary, 사이트 : https://console.cloudinary.com/ ]
-1. 회원가입은 기존 폴더 생성방식과 다름
-    ㄴ GPT가 업로드방식 가져오고 그게 궁금해서 공식문서 봤는데 무슨뜻인지 하나도 모르겠네
-    
-    이미지 정리해야할 체크리스트
-    [ 서버 ]
-    1. 계정생성 메서드                              check
-    2. 계정업데이트 메서드                           check
-    3. 게시글 생성 메서드                           check
-    4. 공지사항 메서드                              check
-
-    [ 클라이언트 이미지 url ]
-    1. 마이페이지                                   check
-    2. 마이페이지 수정                               check
-    3. 메인페이지                                    check   
-    4. 상세페이지                                   check
-    5. 디테일페이지                                  check   
-    6. 어드민 페이지 (공지사항, 사용자관리 이미지)      check        
-
 
 ㅁ 데이터베이스 [ 플랫폼 : TiBD cloud, 사이트 : https://tidbcloud.com/]
 
