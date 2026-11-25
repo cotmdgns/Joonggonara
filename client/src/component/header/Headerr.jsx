@@ -1,4 +1,4 @@
-import imgLogo from "../../img/LogImg.png";
+import imgLogo from "../../img/logImg.png";
 
 // jsx import
 import Menubar from "../menubar/Menubar";

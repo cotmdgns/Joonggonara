@@ -2,8 +2,7 @@
 import loginImg from "../../img/loginImg.png";
 
 // scss
-import "./css/Login.scss";
-
+import "../login/css/Login.scss";
 // 아이콘
 import { RiKakaoTalkFill } from "react-icons/ri"; // 카카오
 import { FaGoogle } from "react-icons/fa"; // 구글
