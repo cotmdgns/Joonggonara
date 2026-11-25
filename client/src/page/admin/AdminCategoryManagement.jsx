@@ -1,5 +1,5 @@
 //
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useReducer } from "react";
 import {
   categoryMajorCreateAPI,
@@ -61,19 +61,33 @@ const AdminCategoryManagement = () => {
     dispatch({ type: "categoryMinorStateText", payload: "" });
   };
 
+    const [loading,setLoading] = useState(false);
+
   // 카테고리 메이저 생성하기 [ 정상 작동함 ]
   const categoryMajorCreate = async (text) => {
-    console.log(state.categoryMajorText == "");
-    if (state.categoryMajorText == null || state.categoryMajorText == "") {
-      alert("내용을 적어주세요.");
-      return;
+
+    if(loading) return;
+
+    try{
+      setLoading(true)
+
+      if (state.categoryMajorText == null || state.categoryMajorText == "") {
+        alert("내용을 적어주세요.");
+        return;
+      }
+      if (window.confirm("생성하시겠습니까?")) {
+        await categoryMajorCreateAPI(text);
+        dispatch({ type: "categoryMajorTextDelete" });
+        categoryState();
+        modalCreateClose();
+      }
+    }catch{
+
+    }finally{
+      setLoading(false)
     }
-    if (window.confirm("생성하시겠습니까?")) {
-      await categoryMajorCreateAPI(text);
-      dispatch({ type: "categoryMajorTextDelete" });
-      categoryState();
-      modalCreateClose();
-    }
+
+
   };
   // 카테고리 메이저 삭제하기 [ 정상 작동함 ]
   const categoryMajorDelete = async (code) => {
@@ -85,24 +99,49 @@ const AdminCategoryManagement = () => {
 
   // 카테고리 메이저 수정 [정상 작동]
   const categoryTextUpdate = async () => {
-    let data = {
-      categoryStateMajorText: categoryMajorTextM,
-      categoryStateMajorCode: categoryMajorCodeM,
-    };
-    await categoryMajorUpdateAPI(data);
-    categoryModalDown(); // 모찰창 닫기
-    categoryModalUp(); // 닫으면서 상태 최신화
+    
+    if(loading) return;
+
+    try{
+      setLoading(true)
+      let data = {
+        categoryStateMajorText: categoryMajorTextM,
+        categoryStateMajorCode: categoryMajorCodeM,
+      };
+      await categoryMajorUpdateAPI(data);
+      categoryModalDown(); // 모찰창 닫기
+      categoryModalUp(); // 닫으면서 상태 최신화
+
+    }catch{
+
+    }finally{
+      setLoading(false)
+    }
   };
 
   // 카테고리 마이너 생성하기 [ 정상 작동 ]
   const categoryMinorCreate = async () => {
-    let data = {
-      categoryStateMajorCode: categoryMajorCodeM,
-      categoryStateMinorText: categoryMinorText,
-    };
-    await categoryMinorCreateAPI(data);
-    await categoryMinorSelect();
-    dispatch({ type: "minorCreateStateFalse" });
+
+    if(loading) return;
+
+    try{
+      setLoading(true)
+
+      let data = {
+        categoryStateMajorCode: categoryMajorCodeM,
+        categoryStateMinorText: categoryMinorText,
+      };
+      await categoryMinorCreateAPI(data);
+      await categoryMinorSelect();
+      dispatch({ type: "minorCreateStateFalse" });
+
+    }catch{
+
+    }finally{
+      setLoading(false)
+    }
+
+
   };
 
   // 카테고리 마이너 삭제하기 [ 정상 작동 ]
@@ -133,15 +172,28 @@ const AdminCategoryManagement = () => {
 
   // 카테고리 마이너 셀프 코드 생성   [ 정상 작동 ]
   const categoryMinorListCreate = async () => {
-    let data = {
-      categoryStateMinorCode: categoryMinorCodeM,
-      categoryStateMajorCode: categoryMajorCodeM,
-      categoryStateMinorText: categoryMinorListText,
-    };
-    await categoryMinorListCreateAPI(data);
-    await categoryMinorListSelect(categoryMinorCodeM);
-    await categoryMinorSelect();
-    dispatch({ type: "minorListCreateStateFalse" });
+
+    if(loading) return;
+
+    try{
+      setLoading(true)
+      
+      let data = {
+        categoryStateMinorCode: categoryMinorCodeM,
+        categoryStateMajorCode: categoryMajorCodeM,
+        categoryStateMinorText: categoryMinorListText,
+      };
+      await categoryMinorListCreateAPI(data);
+      await categoryMinorListSelect(categoryMinorCodeM);
+      await categoryMinorSelect();
+      dispatch({ type: "minorListCreateStateFalse" });
+    }catch{
+
+    }finally{
+      setLoading(false)
+    }
+
+
   };
 
   // 카테고리 마이너 삭제하기 [ 정상 작동 ]

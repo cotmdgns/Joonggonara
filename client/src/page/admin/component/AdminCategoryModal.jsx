@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { AdminCategoryReduser, initiaAdminCategoryReduser } from "../reduser/AdminCategoryReduser";
 import { 
     categoryMinorCreateAPI,
@@ -18,6 +18,8 @@ const AdminCategoryModal = ({
     dispatch,
     categoryMinorSelect,
 }) =>{
+
+
 
     const {
         categoryMajorCodeM, // 여기에 메이저 코드 있음
