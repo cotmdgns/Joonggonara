@@ -1,7 +1,8 @@
     import axios from "axios";
 
     const instance = axios.create({
-    baseURL: "http://localhost:8080/api/myPage",
+    // baseURL: "http://localhost:8080/api/myPage",
+       baseURL: "https://joonggonara.onrender.com/api/myPage",        // render 주소
     });
 
     instance.interceptors.request.use(

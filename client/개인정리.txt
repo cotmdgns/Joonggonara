@@ -114,8 +114,10 @@ GPT랑 같이 하나하나 해보면서 풀어가는 중
 ㅁ 데이터베이스 [ 플랫폼 : TiBD cloud, 사이트 : https://tidbcloud.com/]
 
 ㅁ 서버 [ 플랫폼 : render,  사이트 : https://render.com/]
+    ㄴ 스프링부트 ( 자바 애플리케이션 ) 이라 따로 DorketFile을 만들어서 환경설정 해줘여 함
 
-ㅁ 클라이언트  [ 플랫폼 : ]
+ㅁ 클라이언트  [ 플랫폼 : render,  사이트 : https://render.com/]
+    ㄴ 리액트도 여기 render에서 static site로 열 수 있음
 
 
 내일까지 완료할 체크리스트

@@ -1,11 +1,13 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "http://localhost:8080/api/userInfo",
+  // baseURL: "http://localhost:8080/api/userInfo",
+    baseURL: "https://joonggonara.onrender.com/api/userInfo",        // render 주소
 });
 
 const instanceAPI = axios.create({
-  baseURL: "http://localhost:8080/api/login",
+  // baseURL: "http://localhost:8080/api/login",
+    baseURL: "https://joonggonara.onrender.com/api/login",        // render 주소
 });
 
 

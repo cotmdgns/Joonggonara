@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "http://localhost:8080/api/notification",
+//   baseURL: "http://localhost:8080/api/notification",
+      baseURL: "https://joonggonara.onrender.com/api/notification",        // render 주소
 });
 
 // 공지사항 리스트 가져오기

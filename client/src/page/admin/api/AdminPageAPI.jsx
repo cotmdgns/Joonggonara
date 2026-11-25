@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "http://localhost:8080/api/admin",
+  // baseURL: "http://localhost:8080/api/admin",                 // local 호스트 세팅
+  baseURL: "https://joonggonara.onrender.com/api/admin",        // render 주소
 });
 
 instance.interceptors.request.use(
