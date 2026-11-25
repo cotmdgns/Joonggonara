@@ -113,7 +113,7 @@ GPT랑 같이 하나하나 해보면서 풀어가는 중
 
 ㅁ 데이터베이스 [ 플랫폼 : TiBD cloud, 사이트 : https://tidbcloud.com/]
 
-ㅁ 서버 [ 플랫폼 : ]
+ㅁ 서버 [ 플랫폼 : render,  사이트 : https://render.com/]
 
 ㅁ 클라이언트  [ 플랫폼 : ]
 
