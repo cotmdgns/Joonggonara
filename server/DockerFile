@@ -1,0 +1,21 @@
+
+WORKDIR /app
+
+COPY . .
+
+RUN chmod +x ./gradlew
+RUN ./gradlew clean bootJar -x test
+
+# 실행용 JAR만 선택
+RUN find build/libs -maxdepth 1 -type f -name '*.jar' ! -name '*-plain.jar' -exec cp {} app.jar \;
+
+# 2. Java 21 실행 환경
+FROM eclipse-temurin:21-jre
+
+WORKDIR /app
+
+COPY --from=build /app/app.jar app.jar
+
+EXPOSE 10000
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
