@@ -85,18 +85,18 @@ const AdminUserManagementModal = ({
                     <div id="UGbosu">관리</div>
                     <div id={infoState.userManager == 1 ? "managerUpdate" : "managerUpdateAdmin"} onClick={()=>{rankUpdate()}}><FaUserFriends/>{infoState.userManager == 1 ? "관리자로 변경" : "일반 사용자로 변경"}</div>
                    
-                   {infoState.userStopDate == null ? 
-                    <div id="delete" onClick={()=>{userStop()}}><AiOutlineStop/>정지하기</div>
-                   :
-                    <div id="deleteRollBack" onClick={()=>{userStopRollBack()}}><AiOutlineStop/>복구하기</div>
-                   }
-                    
-                    
-                    
-                    {infoState.userDelete == null ? 
-                    <div id="delete" onClick={()=>{userDelete()}}><FaTrashAlt/>삭제하기</div>  
-                    :
-                    <div id="deleteRollBack" onClick={()=>{userDeleteRollBack()}}><AiOutlineStop/>복구하기</div>
+                    {infoState.userManager == 1 && 
+                    infoState.userStopDate == null ? 
+                        <div id="delete" onClick={()=>{userStop()}}><AiOutlineStop/>정지하기</div>
+                        :
+                        <div id="deleteRollBack" onClick={()=>{userStopRollBack()}}><AiOutlineStop/>복구하기</div>
+                    }
+
+                    {infoState.userManager == 1 && 
+                    infoState.userDelete == null ? 
+                        <div id="delete" onClick={()=>{userDelete()}}><FaTrashAlt/>삭제하기</div>  
+                        :
+                        <div id="deleteRollBack" onClick={()=>{userDeleteRollBack()}}><AiOutlineStop/>복구하기</div>
                     }
                     
                 </div>
