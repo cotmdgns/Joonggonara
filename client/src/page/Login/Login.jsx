@@ -2,7 +2,8 @@
 import loginImg from "../../img/loginImg.png";
 
 // scss
-import "../login/css/Login.scss";
+import "../Login/css/Login.scss";
+
 // 아이콘
 import { RiKakaoTalkFill } from "react-icons/ri"; // 카카오
 import { FaGoogle } from "react-icons/fa"; // 구글
@@ -14,8 +15,8 @@ import { useReducer } from "react";
 
 // 컴포넌트
 import InputTag from "../../component/inputTag/InputTag";
-import { initiaLoginReduser, LoginReduser } from "./reduser/LoginReduser";
-import { naverLoginButtonAPI, userLoginAPI } from "./api/LoginAPI";
+import { initiaLoginReduser, LoginReduser } from "../Login/reduser/LoginReduser";
+import { naverLoginButtonAPI, userLoginAPI } from "../Login/api/LoginAPI";
 import { jwtDecode } from "jwt-decode";
 
 const Login = () => {

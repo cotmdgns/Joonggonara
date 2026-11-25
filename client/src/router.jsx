@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Layout from "./component/Layout";
 import Main from "./page/Main/Main";
-import Login from "./page/login/Login.jsx";
+import Login from "./page/Login/Login.jsx";
 import SignUp from "./page/signUp/SignUp.jsx";
 import MyPage from "./page/myPage/MyPage.jsx";
 import JogoProductDetail from "./page/product/JogoProductDetail";
