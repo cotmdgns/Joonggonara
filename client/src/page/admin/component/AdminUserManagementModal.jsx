@@ -48,8 +48,7 @@ const AdminUserManagementModal = ({
         }
     }, [infoState]);
 
-
-
+    console.log(infoState)
     return(
         <>
         <div className={`modalBody ${modalState ? "active" : ""}`}>
@@ -85,18 +84,22 @@ const AdminUserManagementModal = ({
                     <div id="UGbosu">관리</div>
                     <div id={infoState.userManager == 1 ? "managerUpdate" : "managerUpdateAdmin"} onClick={()=>{rankUpdate()}}><FaUserFriends/>{infoState.userManager == 1 ? "관리자로 변경" : "일반 사용자로 변경"}</div>
                    
-                    {infoState.userManager == 1 && 
+                    {infoState.userManager == 1 ? 
                     infoState.userStopDate == null ? 
                         <div id="delete" onClick={()=>{userStop()}}><AiOutlineStop/>정지하기</div>
                         :
                         <div id="deleteRollBack" onClick={()=>{userStopRollBack()}}><AiOutlineStop/>복구하기</div>
+                        :
+                        <><div id="deleteRollBack"><AiOutlineStop/>권한없음</div></>
                     }
 
-                    {infoState.userManager == 1 && 
+                    {infoState.userManager == 1 ?
                     infoState.userDelete == null ? 
                         <div id="delete" onClick={()=>{userDelete()}}><FaTrashAlt/>삭제하기</div>  
                         :
                         <div id="deleteRollBack" onClick={()=>{userDeleteRollBack()}}><AiOutlineStop/>복구하기</div>
+                        :
+                        <><div id="deleteRollBack"><AiOutlineStop/>권한없음</div></>
                     }
                     
                 </div>
@@ -108,6 +111,7 @@ const AdminUserManagementModal = ({
                     <div id={bodyHeaderState === 3 ? "HeaderTrue" : ""} onClick={()=>{dispatch({type:"bodyHeaderState",payload : 3})}}>삭제 이력</div>
                 </div>
                 {bodyHeaderState === 1 &&
+                
                 <div className="modalDataBodysInfo">
                     <div id="modalDataBodysInfoHeader">상세 정보</div>
                     <div id="modalDataBodysInfoBody">
@@ -118,6 +122,8 @@ const AdminUserManagementModal = ({
                         <div><span>등급</span><span id="box">{infoState.userManager == 1 ? "일반 사용자" : "관리자"}</span></div>
                         <div><span>자기소개</span><span id="box">{infoState.userInfo}</span></div>
                         <div><span>매너온도</span><span id="box">{infoState.userTotalPointer}</span></div>
+                        <div><span>주소</span><span id="box">{infoState.addressData} {infoState.addressDetailData}</span></div>
+                        <div><span>상세 주소</span><span id="box">{infoState.userAddressDetail}</span></div>
                     </div>
                 </div>
                 }

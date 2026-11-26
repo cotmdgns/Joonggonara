@@ -95,6 +95,11 @@ const Login = () => {
                 chage={(e) => {
                   dispatch({ type: "pwdData", payload: e.target.value });
                 }}
+                onKeyDown={(e)=>{
+                  if(e.key =="Enter"){
+                    logingButton()
+                  }
+                }}
               />
             </div>
           </div>

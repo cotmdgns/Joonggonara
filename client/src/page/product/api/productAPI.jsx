@@ -1,8 +1,10 @@
 import axios from "axios";
+import UrlState from "../../../component/UrlState";
 
 const instance = axios.create({
   // baseURL: "http://localhost:8080/api/notice",
-        baseURL: "https://joonggonara.onrender.com/api/notice",        // render 주소
+        // baseURL: "https://joonggonara.onrender.com/api/notice",        // render 주소
+    baseURL: `${UrlState.url}/api/notice`, 
 });
 
 instance.interceptors.request.use(

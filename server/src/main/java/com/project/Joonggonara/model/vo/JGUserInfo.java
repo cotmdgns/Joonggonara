@@ -17,7 +17,7 @@ public class JGUserInfo {
     private String userImg; /*사용자 이미지*/
     private String userName; /*사용자 이름*/
     private String userNickname; /*사용자 닉네임*/
-    private String userEmail; /*사용자 이름*/
+    private String userEmail; /*사용자 주소*/
     private String userCreate; /*생성 날짜*/
     private String userUpdate; /*변경 날짜*/
     private String userDelete; /*삭제 날짜*/

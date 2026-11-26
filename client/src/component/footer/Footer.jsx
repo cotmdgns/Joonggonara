@@ -47,6 +47,12 @@ const Footer = () =>{
                         <div>모달창 띄우기</div>
                     </div>
                 </div>
+                <div id="footerInfo">
+                    <div id="footerH1">ERD</div>
+                    <div id="footerInfoBox">
+                        <div>모달창 띄우기</div>
+                    </div>
+                </div>
             </div>
         </div>
            

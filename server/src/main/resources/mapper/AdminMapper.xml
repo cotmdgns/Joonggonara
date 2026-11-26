@@ -29,6 +29,7 @@
             userPwd,
             userImg,
             userNickname,
+            userEmail,
             userName,
             userCreate,
             userUpdate,

@@ -39,7 +39,7 @@ const AdminModalCreate = ({
                   onKeyDown={(e) => {
                     console.log(e.key);
                     if (e.key == "Enter") {
-                      categoryMajorCreate();
+                      categoryMajorCreate(categoryMajorText);
                     }
                   }}
                 />

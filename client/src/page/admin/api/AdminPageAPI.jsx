@@ -1,8 +1,13 @@
 import axios from "axios";
+import UrlState from "../../../component/UrlState";
 
 const instance = axios.create({
+  // 이전엔 하나하나 변경해줬어야 했지만
   // baseURL: "http://localhost:8080/api/admin",                 // local 호스트 세팅
-  baseURL: "https://joonggonara.onrender.com/api/admin",        // render 주소
+  // baseURL: "https://joonggonara.onrender.com/api/admin",        // render 주소
+
+  // 지금은 UrlState에서 딸깍으로 변경하기
+  baseURL: `${UrlState.url}/api/admin`,        
 });
 
 instance.interceptors.request.use(

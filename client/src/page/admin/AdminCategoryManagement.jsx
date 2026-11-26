@@ -52,6 +52,7 @@ const AdminCategoryManagement = () => {
 
   // 모달창(수정) 열기
   const categoryModalUp = (data) => {
+    console.log(data)
     dispatch({ type: "categoryModalOpen", payload: data });
   };
   // 모달창(수정) 닫기
@@ -104,14 +105,15 @@ const AdminCategoryManagement = () => {
 
     try{
       setLoading(true)
-      let data = {
+      const data = {
         categoryStateMajorText: categoryMajorTextM,
         categoryStateMajorCode: categoryMajorCodeM,
       };
+      console.log("여기서 문제인가")
+      console.log(data)
       await categoryMajorUpdateAPI(data);
       categoryModalDown(); // 모찰창 닫기
-      categoryModalUp(); // 닫으면서 상태 최신화
-
+      categoryState()
     }catch{
 
     }finally{

@@ -1,8 +1,11 @@
 import axios from "axios";
+import UrlState from "../../../component/UrlState";
 
 const instance = axios.create({
   // baseURL: "http://localhost:8080/api/alram",
-    baseURL: "https://joonggonara.onrender.com/api/alram",        // render 주소
+    // baseURL: "https://joonggonara.onrender.com/api/alram",        // render 주소
+
+      baseURL: `${UrlState.url}/api/alram`,     
 });
 
 // 모달에서 사용하는 데이터 리스트 [[ 정상작동 ]]

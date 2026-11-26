@@ -38,6 +38,8 @@ export const AdminCategoryReduser = (state, action) => {
       return {
         ...state,
         modalState: false,
+        categoryMajorCodeM: 0,
+        categoryMajorTextM: "",
       };
     case "categoryMinorDataState": /// 모달창 열때 데이터를 관리 안함.
       return {

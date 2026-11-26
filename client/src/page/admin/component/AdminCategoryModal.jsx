@@ -63,6 +63,11 @@ const AdminCategoryModal = ({
                             onChange={(e) => {
                                 dispatch({type:"categoryMajorTextMUpdate",payload:e.target.value})
                             }}
+                            onKeyDown={(e)=>{
+                                if(e.key == "Enter"){
+                                    categoryTextUpdate()
+                                }
+                            }}
                             />
                             <button className="btn-edit" onClick={categoryTextUpdate}>수정</button>
                         </div>
@@ -91,6 +96,11 @@ const AdminCategoryModal = ({
                                         value={categoryMinorText}
                                         onChange={(e)=>{
                                             dispatch({type:"categoryMinorTextCreate",payload : e.target.value})
+                                        }}
+                                        onKeyDown={(e)=>{
+                                            if(e.key == "Enter"){
+                                                categoryMinorCreate(    )
+                                            }
                                         }}
                                     />
                                     <button className="btn-delete-icon"
@@ -149,6 +159,11 @@ const AdminCategoryModal = ({
                                         value={categoryMinorListText}
                                         onChange={(e)=>{
                                             dispatch({type:"categoryMinorListTextCreate",payload : e.target.value})
+                                        }}
+                                        onKeyDown={(e)=>{
+                                            if(e.key == "Enter"){
+                                                categoryMinorListCreate()
+                                            }
                                         }}
                                     />
                                     <button className="btn-delete-icon"
