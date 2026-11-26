@@ -10,6 +10,7 @@ import {
   subscribeNoticeDeleteAPI,
 } from "../../page/product/api/productAPI";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const MainNotice = ({
   list,
@@ -21,63 +22,85 @@ const MainNotice = ({
 }) => {
     const navigate = useNavigate();
 
-
-    console.log()
+    const [loading,setLoading] = useState(false)
   // 좋아요 누르기 버튼
   const noticeLike = async () => {
-    if(sessionStorage.getItem("token") == null || sessionStorage.getItem("token") == undefined){
-      alert("로그인을 해주세요.")
-      navigate("/login")
-      return
-    }
-    const data = {
-      noticeCode: list.jgnoticeCode,
-      userCode: sessionStorage.getItem("userCode"),
-      whoUserCode : list.userCode,
-    };
-    await subscribeNoticeCreateAPI(data);
+    if(loading) return;
 
-    
-    if (typeof userAddressSelect === "function") {
-        await userAddressSelect();
+    try{
+      setLoading(true)
+      if(sessionStorage.getItem("token") == null || sessionStorage.getItem("token") == undefined){
+        alert("로그인을 해주세요.")
+        navigate("/login")
+        return
+      }
+      const data = {
+        noticeCode: list.jgnoticeCode,
+        userCode: sessionStorage.getItem("userCode"),
+        whoUserCode : list.userCode,
+      };
+      await subscribeNoticeCreateAPI(data);
+
+      
+      if (typeof userAddressSelect === "function") {
+          await userAddressSelect();
+      }
+
+      if (typeof newNotificationSelect === "function") {
+          await newNotificationSelect();
+      }
+
+      if(pageNum != null){
+        // 이건 페이징 
+        await searchNoticeSelect(pageNum);
+      }
+    }catch{
+
+    }finally{
+      setLoading(false)
     }
 
-    if (typeof newNotificationSelect === "function") {
-        await newNotificationSelect();
-    }
 
-    if(pageNum != null){
-      // 이건 페이징 
-      await searchNoticeSelect(pageNum);
-    }
 
 
   };
   // 좋아요 삭제
   const noticeLikeFalse = async () => {
-    if(sessionStorage.getItem("token") == null || sessionStorage.getItem("token") == undefined){
-      alert("로그인을 해주세요.")
-      navigate("/login")
-      return
-    }
-    const data = {
-      jGNoticeCode: list.jgnoticeCode,
-      userCode: sessionStorage.getItem("userCode"),
-    };
-    await subscribeNoticeDeleteAPI(data);
+
+    if(loading) return;
+      if(sessionStorage.getItem("token") == null || sessionStorage.getItem("token") == undefined){
+        alert("로그인을 해주세요.")
+        navigate("/login")
+        return
+      }
+      const data = {
+        jGNoticeCode: list.jgnoticeCode,
+        userCode: sessionStorage.getItem("userCode"),
+      };
+      await subscribeNoticeDeleteAPI(data);
 
 
-    if (typeof userAddressSelect === "function") {
-        await userAddressSelect();
+      if (typeof userAddressSelect === "function") {
+          await userAddressSelect();
+      }
+
+      if (typeof newNotificationSelect === "function") {
+          await newNotificationSelect();
+      }
+      
+      if(pageNum != null){
+        await searchNoticeSelect(pageNum);
+      }
+    try{
+      setLoading(true)
+
+    }catch{
+
+    }finally{
+      setLoading(false)
     }
 
-    if (typeof newNotificationSelect === "function") {
-        await newNotificationSelect();
-    }
-    
-    if(pageNum != null){
-      await searchNoticeSelect(pageNum);
-    }
+
 
   };
   
