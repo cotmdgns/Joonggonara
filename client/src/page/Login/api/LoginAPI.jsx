@@ -32,7 +32,11 @@ export const userLoginAPI = async (data) => {
   return await instance.post("/userLogin",data);
 };
 
-
-export const naverLoginButtonAPI = async () =>{
-  return await instanceAPI.get("/naver/login")
-}
+// 네이버 로그인용도
+export const naverLoginAPI = async (code) => {
+    return await instanceAPI.post(
+        `/naverLogin/${code}`,
+        null,
+        { withCredentials: true }
+    );
+};

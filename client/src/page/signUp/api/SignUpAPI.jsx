@@ -32,7 +32,11 @@ export const addressDetailAPI = async (name) => {
 
 // 회원가입 API [ 정상 작동]
 export const userIdCreateAPI = async (data) => {
-  return await instance.post("/userIdCreate",data)
+  return await instance.post("/userIdCreate",
+    data,
+    {
+      withCredentials: true
+    })
 }
 
 // 아이디 체크 API [ 정상작동 ]

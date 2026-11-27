@@ -57,4 +57,10 @@ public class UserService {
         return userMapper.selectUserInfo(code);
     }
 
+
+
+    // 네이버 영역
+    public JGUserInfo selectNaverId(String str){
+        return userMapper.selectNaverId(str);
+    };
 }

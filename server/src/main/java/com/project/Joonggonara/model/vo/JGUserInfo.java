@@ -33,7 +33,8 @@ public class JGUserInfo {
     private String userInfo; // 사용자 자기소개                       [ 2026-10-19 이후로 추가 됨 ]
 
     // 연동
-    private String naverAPI;            // 네이버 연동
-    private String kakaoAPI;            // 카카오 연동
-    private String googleAPI;           // 구글 연동
+    private String token;            // 토큰값
+    private boolean naverApiCode;            // 네이버 code
+    private String naverApiId;            // 카카오 연동
+
 }

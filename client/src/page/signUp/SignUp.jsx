@@ -69,7 +69,6 @@ const SignUp = () =>{
 
     // 아이디 중복체크  [ 정상 작동 ]
     const IdCheckButtonAPI = async () =>{
-        
    
         // console.log(userIdBoo)
         if(userIdBoo == null || !userIdBoo){
@@ -99,6 +98,12 @@ const SignUp = () =>{
 
     // 회원가입하기 [ 정상 작동 ]
     const createUser = async () =>{
+        // 여기서 네이버에 관한 코드를 받고 들어가자
+        const params = new URLSearchParams(window.location.search);
+        const token = params.get("token");
+
+        console.log("token 값 확인하기  : " + token)
+
         if(loading) return;
 
         try{
@@ -113,8 +118,10 @@ const SignUp = () =>{
             "userAddressDetail" : userAddressDetail,     
             "userAddress" : userAddress,  
             "addressData" : addressData,
-            "addressDetailData" : addressDetailData,           
+            "addressDetailData" : addressDetailData,       
+            "token" : token == null ? "notToken" : token    
             }
+
             // boo 조건 관리
             const dataBoo = {
                 "userIdBoo" : userIdBoo,               

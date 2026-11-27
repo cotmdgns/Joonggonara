@@ -16,7 +16,7 @@ import { useReducer } from "react";
 // 컴포넌트
 import InputTag from "../../component/inputTag/InputTag";
 import { initiaLoginReduser, LoginReduser } from "../Login/reduser/LoginReduser";
-import { naverLoginButtonAPI, userLoginAPI } from "../Login/api/LoginAPI";
+import { userLoginAPI } from "../Login/api/LoginAPI";
 import { jwtDecode } from "jwt-decode";
 
 const Login = () => {
@@ -61,12 +61,12 @@ const Login = () => {
     }
   };
 
-  // 카카오 로그인
   // 네이버 로그인
   const naverLoginButton = () => {
     window.location.href = "http://localhost:8080/api/login/naver/login";
   };
-  // 구글 로그인
+
+
   return (
     <>
       <div id="loginImgBox">
@@ -109,12 +109,12 @@ const Login = () => {
           <div></div>
           <div id="socialBox">Social Login</div>
           <div id="loginFooter">
-            <div>
+            {/* <div>
               <RiKakaoTalkFill />
             </div>
             <div>
               <FaGoogle />
-            </div>
+            </div> */}
             <div>
               <SiNaver onClick={naverLoginButton} />
             </div>

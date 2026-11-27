@@ -3,12 +3,14 @@ package com.project.Joonggonara.controller;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.project.Joonggonara.jwt.JwtUtil;
+import com.project.Joonggonara.model.dto.NaverProfileDTO;
 import com.project.Joonggonara.model.dto.UserProfileDTO;
 import com.project.Joonggonara.model.vo.AddressInfo;
 import com.project.Joonggonara.model.vo.AddressInfoDetail;
 import com.project.Joonggonara.model.vo.JGUserInfo;
 import com.project.Joonggonara.service.AddressService;
 import com.project.Joonggonara.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,12 +70,25 @@ public class UserController {
     // 사용자 회원가입 [ 정상 작동 ]
     @ResponseBody
     @PostMapping("userIdCreate")
-    public boolean UserIdCreate(@RequestBody JGUserInfo jgUserInfo){
+    public boolean UserIdCreate(@RequestBody JGUserInfo jgUserInfo, HttpSession session){
 
         // 여기서 아이디 체크하고 있으면 닉네임 바꾸게 변경 고고뚠
         String result =userService.nicknameCheck(jgUserInfo.getUserNickname());
         if(result == null || result.isEmpty()){
             try {
+                // 네이버 로그인 사용자만 허용되는 로직
+                String saveCode = (String) session.getAttribute("signUpState");
+                log.info("데이터 확인하기 업데이트 전: " + saveCode);
+                if(saveCode != null){
+                    if(saveCode.equals(jgUserInfo.getToken())){
+                        NaverProfileDTO profile = (NaverProfileDTO) session.getAttribute("profile");
+                        if(profile != null){
+                            jgUserInfo.setNaverApiCode(true);
+                            jgUserInfo.setNaverApiId(profile.getResponse().getId());
+                        }
+                        }
+                }
+
                 // 1. 첫번 쨰 사용자 아이디를 만들고
                 //    PK코드를 받은 다음 클라우드에 전달해줘서 사용자 폴더를 만들어 줘야 함
                 // 비밀번호 암호화
@@ -100,11 +115,17 @@ public class UserController {
                         )
                 );
 
+                log.info("업로드 결과: " + uploadResult);
+                log.info("이미지 public_id: " + uploadResult.get("public_id"));
+                log.info("이미지 asset_folder: " + uploadResult.get("asset_folder"));
+
                 // 3. 생성 후 리턴값으로 받은 데이터로 따로 사용자 코드로 이미지 변경해야 함
                 //    여기까지 하면 끝~
                 // 업로드된 이미지 URL 가져오기
                 String imageUrl = (String) uploadResult.get("secure_url");
                 jgUserInfo.setUserImg(imageUrl);
+                log.info("데이터 확인하기 업데이트 전: " + imageUrl);
+
                 log.info("데이터 확인하기 업데이트 전: " + jgUserInfo);
                 userService.userImgUpdate(jgUserInfo);
 

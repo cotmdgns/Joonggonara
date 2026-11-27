@@ -17,6 +17,7 @@ import Notification from "./page/notification/Notification.jsx";
 import NotificationDetail from "./page/notification/compoenet/NotificationDetail";
 import PrivateRoute from "./PrivateRoute";
 import Alram from "./page/alram/Alram";
+import LoginNaver from "./page/Login/LoingNaver.jsx";
 
 const router = createBrowserRouter([
   {
@@ -87,6 +88,11 @@ const router = createBrowserRouter([
     path: "login",
     element: <Login />,
   },
+  {
+    path: "login/naver",
+    element: <LoginNaver />,
+  },
+
   {
     path: "signUp",
     element: <SignUp />,
